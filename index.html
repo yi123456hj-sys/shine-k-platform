@@ -672,8 +672,9 @@ footer{padding:60px 0 36px;text-align:center;background:#fff;border-top:1px soli
 .intro-bar-fill{height:100%;background:rgba(255,255,255,.9);border-radius:2px;animation:barFill 1.9s cubic-bezier(.4,0,.2,1) .5s forwards}
 @keyframes introUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 @keyframes barFill{from{width:0}to{width:100%}}
-.intro-skip{position:absolute;top:20px;right:20px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:rgba(255,255,255,.9);padding:7px 18px;border-radius:50px;font-size:.74rem;font-weight:700;cursor:pointer;font-family:inherit;transition:.2s;letter-spacing:.04em}
-.intro-skip:hover{background:rgba(255,255,255,.28)}
+.intro-skip{position:absolute;top:20px;right:20px;background:rgba(255,255,255,.25);border:2px solid rgba(255,255,255,.7);color:#fff;padding:9px 22px;border-radius:50px;font-size:.82rem;font-weight:800;cursor:pointer;font-family:inherit;transition:.2s;letter-spacing:.04em;box-shadow:0 2px 16px rgba(0,0,0,.18)}
+.intro-skip:hover{background:rgba(255,255,255,.45);transform:scale(1.05)}
+.intro-click-hint{position:absolute;bottom:32px;color:rgba(255,255,255,.55);font-size:.72rem;letter-spacing:.08em;animation:introUp .5s ease 1.4s both}
 .intro-badges{display:flex;gap:8px;opacity:0;animation:introUp .5s ease 1.2s forwards;flex-wrap:wrap;justify-content:center}
 .intro-badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.85);padding:4px 12px;border-radius:50px;font-size:.65rem;font-weight:700;letter-spacing:.03em;font-family:var(--mono)}
 
@@ -720,6 +721,7 @@ footer{padding:60px 0 36px;text-align:center;background:#fff;border-top:1px soli
   <div class="intro-logo">SHine-K<span>Platform</span></div>
   <div class="intro-tagline" id="introTagline">세계 최초 7-Tech 융합 산업안전·건강 플랫폼</div>
   <div class="intro-bar-wrap"><div class="intro-bar-fill"></div></div>
+  <div class="intro-click-hint">点击任意处继续 · CLICK ANYWHERE</div>
   <div class="intro-badges">
     <span class="intro-badge">CES 2027</span>
     <span class="intro-badge">RISE 2025-2029</span>
@@ -2213,19 +2215,22 @@ setLang(currentLang);
 (function initIntro(){
   const screen = document.getElementById('introScreen');
   if (!screen) return;
-  // Block scroll during intro
   document.body.style.overflow = 'hidden';
-  // Auto-dismiss after 2.8s
-  const timer = setTimeout(dismissIntro, 2800);
-  window.__introTimer = timer;
+  let dismissed = false;
   function dismissIntro(){
+    if (dismissed) return;
+    dismissed = true;
     clearTimeout(window.__introTimer);
     screen.classList.add('fade-out');
     document.body.style.overflow = '';
-    setTimeout(() => { if (screen.parentNode) screen.parentNode.removeChild(screen); }, 820);
+    setTimeout(() => { try { screen.parentNode.removeChild(screen); } catch(e){} }, 820);
   }
+  // Auto-dismiss after 2.5s
+  window.__introTimer = setTimeout(dismissIntro, 2500);
   window.skipIntro = dismissIntro;
-  // Also dismiss on any click of the main content area
+  // Click anywhere on intro to skip
+  screen.addEventListener('click', dismissIntro);
+  // Keyboard skip
   document.addEventListener('keydown', function onKey(e){
     if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') { dismissIntro(); document.removeEventListener('keydown', onKey); }
   });
