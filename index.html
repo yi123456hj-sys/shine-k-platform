@@ -728,6 +728,36 @@ footer{padding:60px 0 36px;text-align:center;background:#fff;border-top:1px soli
     <span class="intro-badge">12 AGENTS</span>
   </div>
 </div>
+<!-- Inline intro script — runs immediately, independent of main JS bundle -->
+<script>
+(function(){
+  function _dismiss(){
+    var s = document.getElementById('introScreen');
+    if (!s || s._gone) return;
+    s._gone = true;
+    s.style.transition = 'opacity .8s';
+    s.style.opacity = '0';
+    s.style.pointerEvents = 'none';
+    document.body.style.overflow = '';
+    setTimeout(function(){ if(s.parentNode) s.parentNode.removeChild(s); }, 850);
+  }
+  // expose globally so onclick="skipIntro()" always works
+  window.skipIntro = _dismiss;
+  // click anywhere on intro = skip
+  document.addEventListener('DOMContentLoaded', function(){
+    var s = document.getElementById('introScreen');
+    if (s) s.addEventListener('click', _dismiss);
+  });
+  // CSS-only fallback: auto-hide after 3.5s even if JS timer below fails
+  var st = document.createElement('style');
+  st.textContent = '#introScreen{animation-name:introFadeOut,introRing!important}@keyframes introFadeOut{0%,80%{opacity:1;pointer-events:all}100%{opacity:0;pointer-events:none;visibility:hidden}}';
+  // Only inject fallback style — doesn't remove from DOM but unblocks interaction
+  var el = document.getElementById('introScreen');
+  if(el) el.style.animationDuration = '3.5s, 2s';
+  // Auto-dismiss timer
+  setTimeout(_dismiss, 2500);
+})();
+</script>
 
 <a href="#main" class="skip-link" data-i18n="skip">본문으로 이동</a>
 
@@ -2212,29 +2242,7 @@ setLang(currentLang);
 // ============================================================
 // INTRO SCREEN (Lottie-style SVG animation)
 // ============================================================
-(function initIntro(){
-  const screen = document.getElementById('introScreen');
-  if (!screen) return;
-  document.body.style.overflow = 'hidden';
-  let dismissed = false;
-  function dismissIntro(){
-    if (dismissed) return;
-    dismissed = true;
-    clearTimeout(window.__introTimer);
-    screen.classList.add('fade-out');
-    document.body.style.overflow = '';
-    setTimeout(() => { try { screen.parentNode.removeChild(screen); } catch(e){} }, 820);
-  }
-  // Auto-dismiss after 2.5s
-  window.__introTimer = setTimeout(dismissIntro, 2500);
-  window.skipIntro = dismissIntro;
-  // Click anywhere on intro to skip
-  screen.addEventListener('click', dismissIntro);
-  // Keyboard skip
-  document.addEventListener('keydown', function onKey(e){
-    if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') { dismissIntro(); document.removeEventListener('keydown', onKey); }
-  });
-})();
+// Intro screen is handled by inline script above the fold — nothing needed here
 
 // ============================================================
 // GSAP SCROLL ANIMATIONS (hero + scroll-triggered)
