@@ -735,26 +735,22 @@ footer{padding:60px 0 36px;text-align:center;background:#fff;border-top:1px soli
     var s = document.getElementById('introScreen');
     if (!s || s._gone) return;
     s._gone = true;
-    s.style.transition = 'opacity .8s';
+    // Cancel ALL running animations first, then fade out
+    s.style.animation = 'none';
+    s.style.webkitAnimation = 'none';
+    s.style.transition = 'opacity 0.7s ease';
     s.style.opacity = '0';
     s.style.pointerEvents = 'none';
     document.body.style.overflow = '';
-    setTimeout(function(){ if(s.parentNode) s.parentNode.removeChild(s); }, 850);
+    setTimeout(function(){ if(s && s.parentNode) s.parentNode.removeChild(s); }, 750);
   }
-  // expose globally so onclick="skipIntro()" always works
   window.skipIntro = _dismiss;
-  // click anywhere on intro = skip
-  document.addEventListener('DOMContentLoaded', function(){
+  // Click anywhere on intro screen = skip
+  window.addEventListener('DOMContentLoaded', function(){
     var s = document.getElementById('introScreen');
     if (s) s.addEventListener('click', _dismiss);
   });
-  // CSS-only fallback: auto-hide after 3.5s even if JS timer below fails
-  var st = document.createElement('style');
-  st.textContent = '#introScreen{animation-name:introFadeOut,introRing!important}@keyframes introFadeOut{0%,80%{opacity:1;pointer-events:all}100%{opacity:0;pointer-events:none;visibility:hidden}}';
-  // Only inject fallback style — doesn't remove from DOM but unblocks interaction
-  var el = document.getElementById('introScreen');
-  if(el) el.style.animationDuration = '3.5s, 2s';
-  // Auto-dismiss timer
+  // Auto-dismiss after 2.5s
   setTimeout(_dismiss, 2500);
 })();
 </script>
