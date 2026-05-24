@@ -1,0 +1,2665 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover,maximum-scale=5">
+<meta name="theme-color" content="#3182F6">
+<meta name="color-scheme" content="light">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="SHine-K">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="SHine-K Insights">
+<meta name="MobileOptimized" content="width">
+<meta name="HandheldFriendly" content="true">
+<meta name="renderer" content="webkit">
+<meta name="force-rendering" content="webkit">
+<meta name="x5-orientation" content="portrait">
+<meta name="x5-fullscreen" content="true">
+<meta name="x5-page-mode" content="app">
+<meta name="screen-orientation" content="portrait">
+<meta name="full-screen" content="yes">
+<meta name="browsermode" content="application">
+<meta name="msapplication-tap-highlight" content="no">
+
+<title>SHine-K Platform — 세계 최초 7-Tech 융합 산업안전·건강 통합 플랫폼 | CES 2027</title>
+<meta name="description" content="MediaPipe BlazePose · mmWave Radar · Wearable · Thermal · Blockchain · 119 자동연계 · 3D 디지털 트윈 — 12 에이전트가 Sense→Judge→Act→Connect를 자율 수행. 50,195명 근로자 데이터 + 5대 사고 시나리오 + 관제센터 + 헬스 프로모션 통합. 경운대 RISE 2025-2029.">
+<meta name="keywords" content="SHine-K, 산업안전 AI, 근로자 건강증진, MediaPipe, YOLOv11, mmWave Radar, Wearable, Thermal IR, Blockchain, Digital Twin, 12 Agent Harness, 119 자동연계, 관제센터, REBA, MSK 예측, 경운대 RISE, CES 2027, Industrial Safety AI, Worker Health Promotion">
+<meta name="author" content="경운대학교 보건대학 · SHine-K Platform Initiative">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:locale:alternate" content="zh_CN">
+<meta property="og:site_name" content="SHine-K Platform">
+<meta property="og:title" content="SHine-K Platform — 세계 최초 7-Tech 융합 산업안전·건강 통합 플랫폼">
+<meta property="og:description" content="MediaPipe + Radar + Wearable + Thermal + Blockchain + 119 + Twin. 12 에이전트 Sense→Judge→Act→Connect. CES 2027 출품작.">
+<meta property="og:image" content="icon-512.png">
+<meta property="og:image:width" content="512">
+<meta property="og:image:height" content="512">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="mask-icon" href="icon-512.png" color="#3182F6">
+
+<link rel="alternate" hreflang="ko" href="./?lang=ko">
+<link rel="alternate" hreflang="en" href="./?lang=en">
+<link rel="alternate" hreflang="zh" href="./?lang=zh">
+<link rel="alternate" hreflang="ja" href="./?lang=ja">
+<link rel="alternate" hreflang="x-default" href="./">
+
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org","@type":"ResearchProject",
+  "name":"SHine-K Platform — 중소제조기업 자율안전관리체계",
+  "description":"경북 중소제조기업 대상 AX 기반 산업안전·근로자 건강증진 통합 플랫폼 R&D",
+  "url":"https://shine-k-insights.vercel.app",
+  "funder":{"@type":"GovernmentOrganization","name":"경상북도 RISE"},
+  "member":{"@type":"CollegeOrUniversity","name":"경운대학교 보건대학"},
+  "startDate":"2025-09-22","endDate":"2029-12-31"
+}
+</script>
+
+<style>
+/* ============================================================
+   TOSS-STYLE DESIGN TOKENS (light, projector-friendly)
+   ============================================================ */
+:root{
+  /* Toss-inspired palette */
+  --bg:#F9FAFB;          /* main background */
+  --bg-2:#F2F4F6;        /* section alt */
+  --bg-3:#EEF0F2;        /* deeper alt */
+  --card:#FFFFFF;
+  --bdr:#E5E8EB;
+  --bdr-strong:#D1D6DB;
+
+  --ink:#191F28;         /* primary text */
+  --ink-2:#333D4B;       /* secondary */
+  --ink-3:#4E5968;       /* muted */
+  --ink-4:#8B95A1;       /* very muted */
+  --ink-5:#B0B8C1;       /* placeholder */
+
+  /* Toss-style accent colors (more saturated, single-tone) */
+  --a:#3182F6;           /* Toss blue */
+  --a-light:#4DABF7;
+  --a-dark:#1B64DA;
+  --a-bg:#E8F2FF;        /* blue 50 */
+
+  --g:#16C68C;           /* Toss green */
+  --g-bg:#E1F8EF;
+  --w:#FF9F2D;           /* Toss orange */
+  --w-bg:#FFF4E5;
+  --r:#F04452;           /* Toss red */
+  --r-bg:#FFE9EB;
+  --p:#8B5CF6;           /* purple */
+  --p-bg:#F1EBFD;
+  --teal:#0FA8B8;
+  --teal-bg:#E0F7FA;
+
+  /* Effects (very subtle, Toss-like) */
+  --shadow-sm:0 1px 3px rgba(15,23,42,.04);
+  --shadow:0 4px 14px rgba(15,23,42,.06);
+  --shadow-lg:0 12px 32px rgba(15,23,42,.08);
+  --shadow-xl:0 24px 56px rgba(15,23,42,.10);
+
+  /* Typography — Pretendard system fallback chain */
+  --sans:'Pretendard Variable','Pretendard',-apple-system,BlinkMacSystemFont,system-ui,'Segoe UI',
+         'Apple SD Gothic Neo','Malgun Gothic','Microsoft YaHei UI','PingFang SC',
+         'Hiragino Sans GB','WenQuanYi Micro Hei','Noto Sans CJK KR','Noto Sans CJK SC',
+         Roboto,'Helvetica Neue',Arial,sans-serif;
+  --mono:'SF Mono','JetBrains Mono',Consolas,'Liberation Mono',Menlo,monospace;
+
+  --ease:cubic-bezier(.16,1,.3,1);
+  --ease-io:cubic-bezier(.4,0,.2,1);
+
+  --radius-sm:8px;
+  --radius:14px;
+  --radius-lg:20px;
+  --radius-xl:24px;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.55;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden;
+  font-feature-settings:"ss01","ss02","cv01","cv02","tnum";letter-spacing:-.01em}
+::selection{background:var(--a);color:#fff}
+img,svg,canvas,video{max-width:100%;height:auto;display:block}
+a{color:var(--a);text-decoration:none;-webkit-tap-highlight-color:transparent}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;-webkit-tap-highlight-color:transparent}
+button:focus-visible,a:focus-visible{outline:2px solid var(--a);outline-offset:2px;border-radius:6px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+.container{max-width:1200px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+@media(max-width:600px){.container{padding:0 18px}}
+
+/* ===== TOP BAR ===== */
+.topbar{position:fixed;top:14px;right:14px;z-index:120;display:flex;gap:8px}
+.pill{background:#fff;border:1px solid var(--bdr);border-radius:50px;padding:3px;box-shadow:var(--shadow-sm);display:inline-flex}
+.pill button{padding:6px 14px;border-radius:50px;font-size:12px;font-weight:700;color:var(--ink-3);transition:.2s var(--ease);font-family:inherit}
+.pill button.active{background:var(--a);color:#fff}
+
+/* ===== NAV ===== */
+nav{position:fixed;top:0;left:0;right:0;z-index:90;padding:14px 0;transition:.3s var(--ease);background:rgba(249,250,251,.7);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px)}
+nav.scrolled{background:rgba(255,255,255,.92);border-bottom:1px solid var(--bdr);padding:10px 0}
+nav .container{display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.05rem;color:var(--ink);letter-spacing:-.02em}
+.logo-mark{width:36px;height:36px;background:var(--a);border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:.64rem;letter-spacing:.5px;position:relative;overflow:hidden;box-shadow:0 4px 12px rgba(49,130,246,.3)}
+.logo-mark::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.3),transparent 60%)}
+.logo small{font-size:.72rem;color:var(--ink-4);font-weight:500;margin-left:2px;display:none}
+@media(min-width:480px){.logo small{display:inline}}
+.nav-links{display:none;gap:24px;list-style:none}
+@media(min-width:1120px){.nav-links{display:flex}}
+.nav-links a{color:var(--ink-3);font-size:.86rem;font-weight:600;transition:color .2s;letter-spacing:-.01em}
+.nav-links a:hover{color:var(--a)}
+.nav-cta{padding:10px 20px;background:var(--a);color:#fff;border-radius:10px;font-size:.84rem;font-weight:700;transition:.2s var(--ease);letter-spacing:-.01em}
+.nav-cta:hover{background:var(--a-dark);transform:translateY(-1px);box-shadow:0 8px 20px rgba(49,130,246,.3)}
+.menu-toggle{display:flex;flex-direction:column;gap:4px;width:40px;height:40px;justify-content:center;align-items:center;border-radius:10px}
+.menu-toggle span{width:18px;height:2px;background:var(--ink);border-radius:2px;transition:.25s}
+@media(min-width:1120px){.menu-toggle{display:none}}
+
+.drawer{position:fixed;inset:0;background:var(--card);z-index:100;padding:80px 24px 24px;display:flex;flex-direction:column;gap:8px;transform:translateY(-100%);transition:transform .35s var(--ease);overflow-y:auto}
+.drawer.open{transform:translateY(0)}
+.drawer a{color:var(--ink);font-size:1.05rem;font-weight:700;padding:14px 16px;border-radius:12px;transition:.2s}
+.drawer a:hover{background:var(--bg-2)}
+
+/* ===== HERO (Toss style) ===== */
+.hero{min-height:100vh;min-height:100dvh;display:flex;align-items:center;position:relative;overflow:hidden;padding:120px 0 80px;
+  background:
+    radial-gradient(900px circle at 80% 10%,rgba(49,130,246,.06),transparent 50%),
+    radial-gradient(700px circle at 10% 90%,rgba(139,92,246,.04),transparent 50%),
+    var(--bg)}
+.hero-canvas-wrap{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.55}
+.hero-canvas-wrap canvas{position:absolute;inset:0;width:100%;height:100%}
+.hero-content{position:relative;z-index:2;max-width:780px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--bdr);border-radius:50px;padding:6px 18px 6px 6px;font-size:.78rem;margin-bottom:24px;color:var(--ink-3);box-shadow:var(--shadow-sm);font-weight:600}
+.hero-eyebrow .badge{background:var(--a);color:#fff;font-weight:800;font-size:.66rem;padding:4px 12px;border-radius:50px;letter-spacing:.4px}
+.hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--g);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(22,198,140,.5)}50%{box-shadow:0 0 0 8px rgba(22,198,140,0)}}
+
+.hero h1{font-size:clamp(2.4rem,6vw,4.4rem);font-weight:900;line-height:1.05;letter-spacing:-3px;margin-bottom:24px;color:var(--ink)}
+.hero h1 .grad{color:var(--a)}
+.hero-sub{font-size:clamp(1.05rem,2vw,1.22rem);color:var(--ink-3);line-height:1.7;margin-bottom:40px;max-width:620px;letter-spacing:-.005em}
+.hero-btns{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:56px}
+.btn{padding:15px 28px;border-radius:12px;font-size:.96rem;font-weight:700;display:inline-flex;align-items:center;gap:8px;transition:.25s var(--ease);font-family:inherit;letter-spacing:-.01em;white-space:nowrap}
+.btn-fill{background:var(--ink);color:#fff}
+.btn-fill:hover{transform:translateY(-2px);box-shadow:0 14px 28px rgba(25,31,40,.2)}
+.btn-primary{background:var(--a);color:#fff}
+.btn-primary:hover{background:var(--a-dark);transform:translateY(-2px);box-shadow:0 14px 28px rgba(49,130,246,.3)}
+.btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--bdr-strong)}
+.btn-ghost:hover{border-color:var(--ink);background:var(--bg-2)}
+
+.hero-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;max-width:740px}
+@media(min-width:720px){.hero-stats{grid-template-columns:repeat(4,1fr)}}
+.hero-stat{padding:20px 22px;background:#fff;border:1px solid var(--bdr);border-radius:16px;transition:.3s var(--ease)}
+.hero-stat:hover{border-color:var(--a-light);transform:translateY(-3px);box-shadow:var(--shadow)}
+.hero-stat .num{font-size:clamp(1.6rem,3.2vw,2.4rem);font-weight:900;color:var(--ink);line-height:1.1;letter-spacing:-1.5px;font-variant-numeric:tabular-nums}
+.hero-stat .lbl{font-size:.74rem;color:var(--ink-3);margin-top:6px;font-weight:600;line-height:1.4;letter-spacing:-.01em}
+.hero-stat .sub{font-size:.66rem;color:var(--ink-4);margin-top:2px;font-family:var(--mono)}
+
+.hero-scroll{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);z-index:3;font-size:.7rem;color:var(--ink-4);font-family:var(--mono);letter-spacing:1.5px;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:.7}
+.hero-scroll i{width:1px;height:32px;background:var(--ink-5);position:relative;overflow:hidden}
+.hero-scroll i::after{content:"";position:absolute;top:-100%;left:0;width:1px;height:100%;background:var(--a);animation:scrollDown 2s var(--ease-io) infinite}
+@keyframes scrollDown{0%{top:-100%}100%{top:100%}}
+
+/* ===== TICKER ===== */
+.ticker{border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);padding:16px 0;overflow:hidden;white-space:nowrap;background:#fff}
+.ticker-inner{display:inline-flex;gap:48px;animation:scroll 50s linear infinite;padding-left:48px}
+@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ticker-item{display:inline-flex;align-items:center;gap:8px;font-size:.88rem;color:var(--ink-3);font-weight:500}
+.ticker-item b{font-weight:800;color:var(--a);font-family:var(--mono);letter-spacing:-.02em}
+.ticker-item .tr{color:var(--r)}.ticker-item .tg{color:var(--g)}.ticker-item .tw{color:var(--w)}
+
+/* ===== SECTION ===== */
+section{padding:96px 0;position:relative}
+@media(min-width:1024px){section{padding:120px 0}}
+.sec-label{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:2.5px;color:var(--a);margin-bottom:14px;display:inline-flex;align-items:center;gap:10px}
+.sec-label::before{content:"";display:inline-block;width:24px;height:1px;background:var(--a)}
+.sec-title{font-size:clamp(2rem,4.2vw,3.2rem);font-weight:900;line-height:1.12;letter-spacing:-1.8px;margin-bottom:16px;max-width:920px;color:var(--ink)}
+.sec-title .accent{color:var(--a)}
+.sec-desc{font-size:1.04rem;color:var(--ink-3);max-width:720px;line-height:1.75;letter-spacing:-.005em}
+.sec-header{margin-bottom:56px}
+
+/* ===== CARDS ===== */
+.card{background:#fff;border:1px solid var(--bdr);border-radius:var(--radius-lg);padding:28px;transition:.3s var(--ease);position:relative;overflow:hidden}
+.card:hover{border-color:var(--bdr-strong);box-shadow:var(--shadow);transform:translateY(-3px)}
+
+/* ===== CRISIS ===== */
+.crisis-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:56px}
+@media(min-width:640px){.crisis-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1024px){.crisis-grid{grid-template-columns:repeat(4,1fr)}}
+.crisis-card{padding:28px;background:#fff;border:1px solid var(--bdr);border-radius:var(--radius-lg);transition:.3s var(--ease);position:relative}
+.crisis-card:hover{border-color:var(--r);transform:translateY(-4px);box-shadow:var(--shadow)}
+.crisis-card .stat{font-size:2.6rem;font-weight:900;color:var(--r);line-height:1;margin-bottom:10px;letter-spacing:-2px;font-variant-numeric:tabular-nums}
+.crisis-card .stat small{font-size:1.1rem;font-weight:700;color:var(--r);opacity:.75;margin-left:2px}
+.crisis-card .title{font-size:.98rem;font-weight:800;margin-bottom:6px;color:var(--ink);letter-spacing:-.02em}
+.crisis-card .desc{font-size:.84rem;color:var(--ink-3);line-height:1.65}
+.crisis-card .src{font-size:.66rem;color:var(--ink-4);font-family:var(--mono);margin-top:14px;padding-top:12px;border-top:1px dashed var(--bdr)}
+
+/* ===== CHARTS ===== */
+.chart-wrap{position:relative;padding:32px}
+.chart-title{font-size:1.06rem;font-weight:800;margin-bottom:4px;color:var(--ink);letter-spacing:-.02em}
+.chart-sub{font-size:.82rem;color:var(--ink-3);margin-bottom:20px;line-height:1.55}
+.chart-canvas{position:relative;height:340px}
+.chart-grid{display:grid;grid-template-columns:1fr;gap:18px;margin-top:8px}
+@media(min-width:900px){.chart-grid{grid-template-columns:1fr 1fr}.chart-grid.three{grid-template-columns:repeat(3,1fr)}}
+
+/* ===== COMPARE STAT ===== */
+.compare-stat{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:36px}
+@media(min-width:900px){.compare-stat{grid-template-columns:repeat(4,1fr)}}
+.compare-item{padding:24px}
+.compare-item .lbl{font-size:.8rem;color:var(--ink-3);font-weight:600;margin-bottom:10px;letter-spacing:-.01em}
+.compare-item .row{display:flex;align-items:baseline;gap:10px;margin-bottom:6px;flex-wrap:wrap}
+.compare-item .reg{font-size:1.9rem;font-weight:900;color:var(--a);letter-spacing:-1px;font-variant-numeric:tabular-nums}
+.compare-item .nat{font-size:.78rem;color:var(--ink-4);font-family:var(--mono)}
+.compare-item .delta{font-size:.74rem;font-weight:800;padding:3px 10px;border-radius:50px;display:inline-block;margin-top:6px;letter-spacing:-.01em}
+.compare-item .delta.up{background:var(--r-bg);color:var(--r)}
+.compare-item .delta.dn{background:var(--g-bg);color:var(--g)}
+.compare-item .src{font-size:.66rem;color:var(--ink-4);margin-top:14px;font-family:var(--mono);padding-top:12px;border-top:1px dashed var(--bdr)}
+
+/* ===== MC ===== */
+.mc-tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}
+.mc-tab{padding:11px 20px;background:#fff;border:1px solid var(--bdr);border-radius:12px;font-size:.85rem;font-weight:700;transition:.25s var(--ease);color:var(--ink-2);white-space:nowrap;letter-spacing:-.01em}
+.mc-tab:hover{border-color:var(--a-light);color:var(--a)}
+.mc-tab.active{background:var(--a);color:#fff;border-color:var(--a);box-shadow:0 8px 20px rgba(49,130,246,.25)}
+.mc-detail{padding:36px}
+.mc-detail h3{font-size:clamp(1.3rem,2.6vw,1.6rem);font-weight:900;margin-bottom:10px;letter-spacing:-.04em}
+.mc-meta{font-size:.86rem;color:var(--ink-3);margin-bottom:26px;display:flex;gap:14px;flex-wrap:wrap}
+.mc-meta span:not(:first-child)::before{content:"·";margin-right:10px;color:var(--ink-5)}
+.mc-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:26px}
+@media(min-width:720px){.mc-stats{grid-template-columns:repeat(4,1fr)}}
+.mc-stat-card{padding:20px;background:var(--bg-2);border-radius:12px}
+.mc-stat-card .v{font-size:clamp(1.4rem,2.6vw,1.8rem);font-weight:900;color:var(--ink);line-height:1;letter-spacing:-1px;font-variant-numeric:tabular-nums}
+.mc-stat-card .v small{font-size:.72rem;color:var(--ink-4);font-weight:500;margin-left:4px}
+.mc-stat-card .l{font-size:.74rem;color:var(--ink-3);margin-top:10px;font-weight:600;line-height:1.4;letter-spacing:-.01em}
+.mc-stat-card.warn .v{color:var(--w)}
+.mc-stat-card.risk .v{color:var(--r)}
+.mc-stat-card.good .v{color:var(--g)}
+.mc-narrative{padding:20px 22px;background:var(--a-bg);border-radius:14px;font-size:.94rem;color:var(--ink-2);line-height:1.75;letter-spacing:-.01em}
+.mc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chip{font-size:.74rem;padding:6px 14px;background:var(--bg-2);color:var(--ink-2);border-radius:50px;font-weight:700;letter-spacing:-.01em}
+
+/* ===== 7-TECH FUSION ===== */
+.tech-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:720px){.tech-grid{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:1024px){.tech-grid{grid-template-columns:repeat(7,1fr);gap:10px}}
+.tech-cell{padding:24px 18px;background:#fff;border:1px solid var(--bdr);border-radius:18px;text-align:center;transition:.3s var(--ease);position:relative;overflow:hidden}
+.tech-cell::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;opacity:0;transition:.3s}
+.tech-cell:hover{transform:translateY(-6px);border-color:var(--bdr-strong);box-shadow:var(--shadow)}
+.tech-cell:hover::before{opacity:1}
+.tech-cell:nth-child(1)::before{background:var(--p)}.tech-cell:nth-child(2)::before{background:var(--g)}.tech-cell:nth-child(3)::before{background:var(--a)}.tech-cell:nth-child(4)::before{background:var(--w)}.tech-cell:nth-child(5)::before{background:var(--r)}.tech-cell:nth-child(6)::before{background:var(--teal)}.tech-cell:nth-child(7)::before{background:#FF6B9D}
+.tech-cell .ico{font-size:2rem;margin-bottom:10px;display:block}
+.tech-cell h5{font-size:.84rem;font-weight:800;margin-bottom:4px;color:var(--ink);letter-spacing:-.02em}
+.tech-cell .spec{font-size:.68rem;color:var(--ink-4);font-family:var(--mono);font-weight:700;margin-bottom:6px}
+.tech-cell p{font-size:.7rem;color:var(--ink-3);line-height:1.5}
+
+/* ===== 12 AGENTS ===== */
+.agent-phases{display:grid;grid-template-columns:1fr;gap:16px;margin-top:24px}
+@media(min-width:768px){.agent-phases{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1280px){.agent-phases{grid-template-columns:repeat(4,1fr)}}
+.phase{padding:24px;background:#fff;border:1px solid var(--bdr);border-radius:18px;position:relative}
+.phase-head{display:flex;align-items:center;gap:12px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--bdr)}
+.phase-num{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:.84rem;letter-spacing:-.02em;font-family:var(--mono)}
+.phase.sense .phase-num{background:var(--p)}
+.phase.judge .phase-num{background:var(--w)}
+.phase.act .phase-num{background:var(--g)}
+.phase.connect .phase-num{background:var(--r)}
+.phase-name{font-size:.96rem;font-weight:800;letter-spacing:-.02em}
+.phase-count{margin-left:auto;font-size:.74rem;color:var(--ink-4);font-family:var(--mono);font-weight:700}
+.agents{display:flex;flex-direction:column;gap:10px}
+.agent{padding:12px 14px;background:var(--bg-2);border-radius:10px;display:flex;align-items:center;gap:10px;transition:.2s}
+.agent:hover{background:var(--bg-3)}
+.agent-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.phase.sense .agent-dot{background:var(--p)}
+.phase.judge .agent-dot{background:var(--w)}
+.phase.act .agent-dot{background:var(--g)}
+.phase.connect .agent-dot{background:var(--r)}
+.agent-info{flex:1;min-width:0}
+.agent-name{font-size:.82rem;font-weight:800;color:var(--ink);letter-spacing:-.01em}
+.agent-spec{font-size:.7rem;color:var(--ink-4);font-family:var(--mono);margin-top:2px}
+
+/* ===== ACCIDENT SCENARIOS ===== */
+.scenario-grid{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:640px){.scenario-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1100px){.scenario-grid{grid-template-columns:repeat(5,1fr)}}
+.scenario{padding:24px;background:#fff;border:1px solid var(--bdr);border-radius:18px;transition:.3s var(--ease);position:relative;overflow:hidden}
+.scenario:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:var(--bdr-strong)}
+.scenario .num{position:absolute;top:18px;right:18px;font-size:2rem;font-weight:900;color:var(--bg-3);letter-spacing:-2px;font-variant-numeric:tabular-nums}
+.scenario .icon{font-size:2.2rem;margin-bottom:14px;display:block}
+.scenario h4{font-size:1rem;font-weight:800;margin-bottom:8px;color:var(--ink);letter-spacing:-.02em}
+.scenario .who{font-size:.76rem;color:var(--ink-4);font-family:var(--mono);margin-bottom:10px;font-weight:700}
+.scenario .resp{font-size:.78rem;color:var(--ink-2);line-height:1.55;padding:10px 12px;background:var(--bg-2);border-radius:10px;border-left:3px solid var(--a)}
+.scenario.s1 .icon{filter:none}.scenario.s2 .icon{filter:none}
+
+/* ===== HEALTH PROMOTION ===== */
+.health-flow{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:32px}
+@media(min-width:720px){.health-flow{grid-template-columns:repeat(3,1fr)}}
+.health-card{padding:28px;background:#fff;border:1px solid var(--bdr);border-radius:18px;text-align:center;transition:.3s var(--ease)}
+.health-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:var(--g)}
+.health-card .ico-circle{width:64px;height:64px;border-radius:18px;display:inline-flex;align-items:center;justify-content:center;font-size:1.8rem;margin-bottom:14px;background:var(--g-bg);color:var(--g)}
+.health-card h4{font-size:1.04rem;font-weight:800;margin-bottom:6px;color:var(--ink);letter-spacing:-.02em}
+.health-card .sub{font-size:.78rem;color:var(--ink-4);font-family:var(--mono);font-weight:700;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px}
+.health-card p{font-size:.86rem;color:var(--ink-3);line-height:1.65}
+
+.killer-use{padding:36px;background:linear-gradient(135deg,var(--a-bg),var(--p-bg));border-radius:20px;border:1px solid var(--bdr);position:relative;overflow:hidden}
+.killer-use h3{font-size:1.3rem;font-weight:900;margin-bottom:8px;letter-spacing:-.03em;color:var(--ink)}
+.killer-use .killer-sub{font-size:.84rem;color:var(--ink-3);margin-bottom:24px;font-weight:600}
+.killer-quote{padding:24px;background:#fff;border-radius:14px;font-size:1.05rem;font-weight:600;color:var(--ink);line-height:1.6;letter-spacing:-.02em;border-left:4px solid var(--a)}
+.killer-quote b{color:var(--a);font-weight:900}
+.killer-meta{display:flex;gap:14px;margin-top:20px;flex-wrap:wrap;font-size:.78rem;color:var(--ink-3);font-weight:600}
+.killer-meta span{background:#fff;padding:6px 14px;border-radius:50px;border:1px solid var(--bdr);letter-spacing:-.01em}
+
+.game-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:24px}
+@media(min-width:720px){.game-grid{grid-template-columns:repeat(4,1fr)}}
+.game-card{padding:20px;background:#fff;border:1px solid var(--bdr);border-radius:14px;text-align:center}
+.game-card .v{font-size:1.7rem;font-weight:900;color:var(--ink);line-height:1.1;letter-spacing:-1px;font-variant-numeric:tabular-nums}
+.game-card .l{font-size:.74rem;color:var(--ink-3);margin-top:8px;font-weight:600;letter-spacing:-.01em}
+.game-card.score .v{color:var(--g)}
+.game-card.rank .v{color:var(--a)}
+.game-card.pts .v{color:var(--p)}
+.game-card.streak .v{color:var(--w)}
+
+/* ===== CONTROL CENTER ===== */
+.cc-grid{display:grid;grid-template-columns:1fr;gap:24px}
+@media(min-width:1024px){.cc-grid{grid-template-columns:5fr 7fr}}
+.cc-side{padding:28px;background:#fff;border:1px solid var(--bdr);border-radius:20px}
+.cc-side h4{font-size:1rem;font-weight:800;margin-bottom:16px;letter-spacing:-.02em}
+.cc-tier{display:flex;align-items:center;gap:14px;padding:12px 16px;background:var(--bg-2);border-radius:12px;margin-bottom:8px}
+.cc-tier .tier-num{width:24px;height:24px;border-radius:8px;background:var(--a);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.74rem;font-weight:800;flex-shrink:0;font-family:var(--mono)}
+.cc-tier .tier-name{font-size:.84rem;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+.cc-tier .tier-desc{font-size:.72rem;color:var(--ink-4);margin-left:auto;font-family:var(--mono)}
+
+.dispatch-timeline{padding:28px;background:#fff;border:1px solid var(--bdr);border-radius:20px;position:relative}
+.dispatch-timeline h4{font-size:1rem;font-weight:800;margin-bottom:20px;letter-spacing:-.02em}
+.timeline-step{display:flex;align-items:flex-start;gap:14px;padding:14px 0;position:relative}
+.timeline-step:not(:last-child)::before{content:"";position:absolute;left:23px;top:42px;bottom:-14px;width:2px;background:var(--bdr)}
+.timeline-time{flex-shrink:0;width:48px;height:48px;border-radius:50%;background:var(--a-bg);color:var(--a);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;font-family:var(--mono);letter-spacing:-.02em;border:2px solid #fff;box-shadow:0 0 0 2px var(--a-bg)}
+.timeline-step.tier-emerg .timeline-time{background:var(--r-bg);color:var(--r);box-shadow:0 0 0 2px var(--r-bg)}
+.timeline-content{flex:1;padding-top:6px}
+.timeline-content h5{font-size:.92rem;font-weight:800;margin-bottom:4px;color:var(--ink);letter-spacing:-.01em}
+.timeline-content p{font-size:.8rem;color:var(--ink-3);line-height:1.55}
+
+.dashboard-preview{padding:28px;background:linear-gradient(135deg,#FAFBFC,#FFFFFF);border:1px solid var(--bdr);border-radius:20px;margin-top:24px}
+.dashboard-preview .preview-head{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--g);animation:pulse 2s infinite}
+.preview-head h4{font-size:1rem;font-weight:800;letter-spacing:-.02em}
+.preview-head .meta{font-size:.74rem;color:var(--ink-4);margin-left:auto;font-family:var(--mono)}
+.preview-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:720px){.preview-grid{grid-template-columns:repeat(4,1fr)}}
+.preview-stat{padding:16px;background:#fff;border:1px solid var(--bdr);border-radius:12px;text-align:left}
+.preview-stat .v{font-size:1.4rem;font-weight:900;color:var(--ink);letter-spacing:-1px;font-variant-numeric:tabular-nums;line-height:1.1}
+.preview-stat .l{font-size:.7rem;color:var(--ink-3);margin-top:6px;font-weight:600}
+.preview-stat.green .v{color:var(--g)}.preview-stat.blue .v{color:var(--a)}.preview-stat.red .v{color:var(--r)}.preview-stat.orange .v{color:var(--w)}
+
+/* ===== LIVE AI ===== */
+.liveai-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:24px}
+@media(min-width:768px){.liveai-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1280px){.liveai-grid{grid-template-columns:repeat(4,1fr)}}
+.liveai-card{padding:24px;background:#fff;border:1px solid var(--bdr);border-radius:18px;transition:.3s var(--ease);text-align:center}
+.liveai-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:var(--a)}
+.liveai-card .ico{font-size:2.4rem;margin-bottom:10px}
+.liveai-card h4{font-size:.95rem;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.liveai-card .v{font-size:1.4rem;font-weight:900;color:var(--a);font-family:var(--mono);letter-spacing:-1px;line-height:1.1;margin-bottom:4px}
+.liveai-card p{font-size:.75rem;color:var(--ink-3);line-height:1.55}
+
+/* ===== COMPETITIVE ===== */
+.compete-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:20px;border:1px solid var(--bdr);background:#fff;box-shadow:var(--shadow-sm)}
+.compete-table{width:100%;border-collapse:collapse;min-width:820px}
+.compete-table thead th{background:var(--bg-2);font-size:.78rem;font-weight:800;text-align:center;padding:18px 14px;color:var(--ink);border-bottom:2px solid var(--bdr);text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+.compete-table thead th:first-child{text-align:left;background:#fff}
+.compete-table thead th.us{background:var(--a);color:#fff;position:relative}
+.compete-table thead th.us::after{content:"★";position:absolute;top:8px;right:10px;font-size:.7rem;color:#FFD700}
+.compete-table tbody tr{border-bottom:1px solid var(--bdr);transition:.2s}
+.compete-table tbody tr:hover{background:var(--bg-2)}
+.compete-table tbody tr:last-child{border-bottom:none}
+.compete-table td{padding:14px;font-size:.84rem;text-align:center;color:var(--ink-3)}
+.compete-table td:first-child{text-align:left;font-weight:700;color:var(--ink);padding-left:20px;letter-spacing:-.01em}
+.compete-table td.us{background:var(--a-bg);font-weight:700;color:var(--ink)}
+.compete-table .yes{color:var(--g);font-weight:900;font-size:1.1rem}
+.compete-table .no{color:var(--ink-5);font-weight:400}
+.compete-table .partial{color:var(--w);font-weight:800}
+.compete-table .badge-cell{display:inline-block;padding:3px 9px;border-radius:6px;font-size:.72rem;font-weight:800;font-family:var(--mono);margin-top:2px}
+
+/* ===== STRATEGY ===== */
+.strategy-grid{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:900px){.strategy-grid{grid-template-columns:repeat(3,1fr)}}
+.strategy-card{padding:32px}
+.strategy-card .icon{width:56px;height:56px;border-radius:16px;background:var(--a);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.6rem;font-weight:900;margin-bottom:22px;font-family:var(--mono);letter-spacing:-.04em;box-shadow:0 8px 20px rgba(49,130,246,.2)}
+.strategy-card:nth-child(2) .icon{background:var(--g);box-shadow:0 8px 20px rgba(22,198,140,.2)}
+.strategy-card:nth-child(3) .icon{background:var(--w);box-shadow:0 8px 20px rgba(255,159,45,.2)}
+.strategy-card h4{font-size:1.15rem;font-weight:900;margin-bottom:6px;letter-spacing:-.03em}
+.strategy-card .strat-sub{font-size:.78rem;color:var(--ink-4);font-family:var(--mono);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;font-weight:700}
+.strategy-card .strat-desc{font-size:.9rem;color:var(--ink-3);line-height:1.7;margin-bottom:18px}
+.strategy-card .strat-list{list-style:none;font-size:.84rem;color:var(--ink-2);line-height:1.95}
+.strategy-card .strat-list li{padding-left:18px;position:relative}
+.strategy-card .strat-list li::before{content:"→";position:absolute;left:0;color:var(--a);font-weight:800}
+
+/* ===== ROADMAP ===== */
+.roadmap{margin-top:32px;position:relative}
+.roadmap::before{content:"";position:absolute;top:52px;left:5%;right:5%;height:2px;background:linear-gradient(90deg,var(--a),var(--p),var(--r));z-index:0;border-radius:2px}
+@media(max-width:900px){.roadmap::before{display:none}}
+.roadmap-grid{display:grid;grid-template-columns:1fr;gap:14px;position:relative;z-index:1}
+@media(min-width:640px){.roadmap-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1024px){.roadmap-grid{grid-template-columns:repeat(5,1fr)}}
+.roadmap-step{background:#fff;border:1px solid var(--bdr);border-radius:16px;padding:24px;text-align:center;transition:.3s var(--ease)}
+.roadmap-step:hover{transform:translateY(-6px);border-color:var(--a-light);box-shadow:var(--shadow)}
+.roadmap-step .yr{font-size:.78rem;font-weight:900;font-family:var(--mono);color:var(--a);display:inline-block;padding:4px 14px;background:var(--a-bg);border-radius:50px;margin-bottom:14px;letter-spacing:-.02em}
+.roadmap-step h5{font-size:.94rem;font-weight:800;margin-bottom:8px;letter-spacing:-.02em}
+.roadmap-step p{font-size:.78rem;color:var(--ink-3);line-height:1.6}
+
+/* ===== IMPACT ===== */
+.impact-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(min-width:720px){.impact-grid{grid-template-columns:repeat(4,1fr)}}
+.impact-card{padding:26px;text-align:center;background:#fff;border:1px solid var(--bdr);border-radius:16px;transition:.3s}
+.impact-card:hover{border-color:var(--a);transform:translateY(-3px);box-shadow:var(--shadow)}
+.impact-card .v{font-size:clamp(1.7rem,3.2vw,2.3rem);font-weight:900;color:var(--a);line-height:1.1;letter-spacing:-1.5px;font-variant-numeric:tabular-nums}
+.impact-card .l{font-size:.78rem;color:var(--ink-3);margin-top:10px;font-weight:600;line-height:1.5;letter-spacing:-.01em}
+
+/* ===== ALLIANCE ===== */
+.alliance{margin-top:40px;padding:36px}
+.alliance h4{font-size:.78rem;font-weight:800;color:var(--a);text-transform:uppercase;letter-spacing:2px;margin-bottom:20px}
+.alliance-rows{display:grid;grid-template-columns:1fr;gap:18px}
+@media(min-width:720px){.alliance-rows{grid-template-columns:1fr 1fr}}
+.alliance-row{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.alliance-row .label{font-size:.8rem;font-weight:800;color:var(--ink);min-width:100px;padding-top:6px;letter-spacing:-.01em}
+.alliance-row .members{display:flex;flex-wrap:wrap;gap:8px;flex:1}
+
+/* ===== METHODOLOGY ===== */
+.method-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:32px}
+@media(min-width:900px){.method-grid{grid-template-columns:repeat(3,1fr)}}
+.method-card{padding:28px}
+.src-name{font-size:.72rem;font-weight:800;color:var(--a);text-transform:uppercase;letter-spacing:1.8px;margin-bottom:12px;font-family:var(--mono)}
+.src-title{font-size:1rem;font-weight:800;margin-bottom:8px;color:var(--ink);letter-spacing:-.02em}
+.src-meta{font-size:.8rem;color:var(--ink-3);line-height:1.65;margin-bottom:14px}
+.src-sample{font-size:1.6rem;font-weight:900;color:var(--ink);letter-spacing:-1.2px;font-variant-numeric:tabular-nums}
+.src-sample small{font-size:.7rem;color:var(--ink-4);font-weight:500;margin-left:4px}
+
+/* ===== APP ===== */
+.app-showcase{display:grid;grid-template-columns:1fr;gap:24px;align-items:center;margin-top:36px}
+@media(min-width:900px){.app-showcase{grid-template-columns:5fr 7fr}}
+.app-info h3{font-size:1.5rem;font-weight:900;margin-bottom:12px;letter-spacing:-.03em}
+.app-info p{font-size:.94rem;color:var(--ink-3);line-height:1.7;margin-bottom:20px}
+.app-features{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;font-size:.84rem;color:var(--ink-2);line-height:1.7}
+.app-features li{padding-left:22px;position:relative;list-style:none}
+.app-features li::before{content:"✓";position:absolute;left:0;color:var(--g);font-weight:800}
+.app-badges{display:flex;gap:10px;flex-wrap:wrap}
+.app-badge{display:flex;align-items:center;gap:10px;padding:12px 18px;background:var(--ink);color:#fff;border-radius:12px;font-weight:700;letter-spacing:-.01em;font-size:.84rem}
+.app-badge small{display:block;font-size:.6rem;opacity:.7;font-weight:500;letter-spacing:.5px}
+
+.phone-mock{background:linear-gradient(135deg,var(--bg-2),#fff);border:1px solid var(--bdr);border-radius:24px;padding:36px;text-align:center;position:relative;overflow:hidden}
+.phone-mock::before{content:"";position:absolute;width:300px;height:300px;background:radial-gradient(circle,rgba(49,130,246,.08),transparent 70%);top:-100px;right:-100px;border-radius:50%}
+.phone-screen{width:240px;height:480px;background:#fff;border:8px solid var(--ink);border-radius:36px;margin:0 auto;padding:24px 18px;box-shadow:0 30px 60px rgba(0,0,0,.15);position:relative;display:flex;flex-direction:column;gap:14px}
+.phone-screen::before{content:"";position:absolute;top:8px;left:50%;transform:translateX(-50%);width:60px;height:5px;background:var(--ink);border-radius:50px}
+.ph-stat-row{display:flex;gap:8px}
+.ph-stat{flex:1;padding:12px 10px;background:var(--a-bg);border-radius:10px;text-align:left}
+.ph-stat .v{font-size:1rem;font-weight:900;color:var(--a);letter-spacing:-.02em}
+.ph-stat .l{font-size:.58rem;color:var(--ink-3);margin-top:2px;font-weight:600}
+.ph-stat.g{background:var(--g-bg)}.ph-stat.g .v{color:var(--g)}
+.ph-stat.r{background:var(--r-bg)}.ph-stat.r .v{color:var(--r)}
+.ph-alert{padding:10px 12px;background:var(--r-bg);border-radius:10px;border-left:3px solid var(--r);font-size:.7rem;color:var(--ink);font-weight:700;line-height:1.4;letter-spacing:-.01em;text-align:left}
+.ph-alert small{display:block;font-size:.58rem;color:var(--ink-3);font-weight:500;margin-top:3px}
+.ph-section{background:var(--bg-2);border-radius:10px;padding:10px 12px;text-align:left}
+.ph-section h6{font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--ink-4);margin-bottom:6px}
+.ph-section .row{display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--ink);font-weight:700}
+
+/* ===== CTA ===== */
+.cta{text-align:center;padding:120px 0;background:linear-gradient(135deg,var(--a-bg),var(--p-bg));position:relative;overflow:hidden}
+.cta::before{content:"";position:absolute;top:-50%;left:50%;width:700px;height:700px;background:radial-gradient(circle,rgba(49,130,246,.08),transparent 70%);transform:translateX(-50%);border-radius:50%;animation:float 8s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-30px)}}
+.cta .container{position:relative;z-index:1}
+.cta h2{font-size:clamp(1.9rem,4vw,2.8rem);font-weight:900;letter-spacing:-2px;margin-bottom:18px;line-height:1.2;color:var(--ink)}
+.cta p{font-size:1.04rem;color:var(--ink-3);margin-bottom:32px;max-width:640px;margin-left:auto;margin-right:auto;line-height:1.7}
+.cta-links{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
+/* ===== HEATMAP ===== */
+.heatmap-wrap{padding:28px}
+.heatmap-grid{display:grid;grid-template-columns:140px repeat(15,1fr);gap:5px;align-items:center;font-family:var(--mono);font-size:.6rem}
+@media(max-width:900px){.heatmap-grid{grid-template-columns:100px repeat(15,1fr)}}
+.heatmap-grid .row-label{font-size:.78rem;font-weight:800;color:var(--ink);font-family:var(--sans);line-height:1.3;letter-spacing:-.01em}
+.heatmap-grid .row-label small{font-size:.66rem;color:var(--ink-4);font-weight:500;font-family:var(--mono);display:block;margin-top:2px}
+.heatmap-grid .col-header{writing-mode:vertical-rl;transform:rotate(180deg);height:84px;display:flex;align-items:flex-end;justify-content:center;color:var(--ink-4);font-size:.66rem;line-height:1.2}
+.heatmap-cell{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-family:var(--mono);font-size:.6rem;transition:.2s;cursor:help}
+.heatmap-cell:hover{transform:scale(1.2);z-index:5;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.heatmap-legend{display:flex;gap:8px;align-items:center;margin:14px 0;font-size:.74rem;color:var(--ink-3);justify-content:flex-end;flex-wrap:wrap;font-weight:600}
+.heatmap-legend i{width:14px;height:14px;border-radius:3px;display:inline-block}
+
+/* ===== BLINDSPOT ===== */
+.bs-wrap{padding:32px;position:relative}
+.bs-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.78rem;color:var(--ink-3);margin-bottom:18px;align-items:center;font-weight:600}
+.bs-legend span{display:inline-flex;align-items:center;gap:6px}
+.bs-legend i{width:10px;height:10px;border-radius:50%;display:inline-block}
+
+/* ===== FOOTER ===== */
+footer{padding:60px 0 36px;text-align:center;background:#fff;border-top:1px solid var(--bdr)}
+.footer-grid{display:grid;grid-template-columns:1fr;gap:32px;max-width:1100px;margin:0 auto 36px;text-align:left}
+@media(min-width:720px){.footer-grid{grid-template-columns:repeat(3,1fr)}}
+.footer-grid h5{font-size:.74rem;font-weight:800;color:var(--ink);text-transform:uppercase;letter-spacing:1.8px;margin-bottom:14px}
+.footer-grid ul{list-style:none}
+.footer-grid li{padding:5px 0;font-size:.84rem;color:var(--ink-3)}
+.footer-grid a{color:var(--ink-3)}
+.footer-grid a:hover{color:var(--a)}
+.copyright{padding-top:28px;border-top:1px solid var(--bdr);max-width:1100px;margin:0 auto;font-size:.78rem;color:var(--ink-4)}
+
+/* ===== AOS ===== */
+.aos{opacity:0;transform:translateY(30px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.aos.visible{opacity:1;transform:translateY(0)}
+.aos.delay-1{transition-delay:.08s}.aos.delay-2{transition-delay:.16s}.aos.delay-3{transition-delay:.24s}.aos.delay-4{transition-delay:.32s}
+
+.counter{display:inline-block;font-variant-numeric:tabular-nums}
+
+[data-tip]{position:relative}
+[data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:.74rem;padding:6px 10px;border-radius:6px;white-space:nowrap;z-index:60;font-family:var(--mono);pointer-events:none}
+
+@media print{
+  .topbar,nav,.hero-canvas-wrap,.menu-toggle,.btn,.cta-links{display:none!important}
+  section{padding:30px 0;page-break-inside:avoid}
+  body{background:#fff;color:#000}
+  .card,.crisis-card,.mc-stat-card,.scenario,.tech-cell,.phase,.health-card,.killer-use,.cc-side,.dispatch-timeline,.dashboard-preview,.liveai-card,.strategy-card,.roadmap-step,.impact-card,.alliance,.method-card{box-shadow:none;border:1px solid #ccc}
+}
+
+.skip-link{position:absolute;top:-40px;left:8px;background:var(--a);color:#fff;padding:8px 16px;border-radius:8px;z-index:200;text-decoration:none;font-weight:700}
+.skip-link:focus{top:8px}
+
+/* ===== SCROLL PROGRESS ===== */
+#progressBar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--a),var(--p),#FF6B9D);width:0%;z-index:300;pointer-events:none;border-radius:0 3px 3px 0;transition:width .12s linear}
+
+/* ===== BACK TO TOP ===== */
+#backToTop{position:fixed;bottom:32px;right:28px;width:44px;height:44px;background:var(--a);color:#fff;border-radius:12px;font-size:1.1rem;font-weight:900;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(16px);transition:.3s var(--ease);pointer-events:none;z-index:110;box-shadow:0 8px 24px rgba(49,130,246,.35);border:none;cursor:pointer;line-height:1}
+#backToTop.show{opacity:1;transform:translateY(0);pointer-events:auto}
+#backToTop:hover{background:var(--a-dark);transform:translateY(-2px) !important;box-shadow:0 12px 32px rgba(49,130,246,.45)}
+
+/* ===== ACTIVE NAV ===== */
+.nav-links a.active-nav{color:var(--a) !important}
+
+/* ===== THEME TOGGLE ===== */
+.theme-btn{padding:6px 10px;border-radius:50px;font-size:13px;transition:.2s var(--ease);background:none;border:none;cursor:pointer;color:var(--ink-3);font-family:inherit}
+.theme-btn:hover{color:var(--ink)}
+
+/* ===== MINI PROGRESS BAR (MC stats) ===== */
+.mini-prog{margin-top:7px;height:3px;background:var(--bdr);border-radius:3px;overflow:hidden}
+.mini-prog-fill{height:100%;border-radius:3px;transition:width .9s var(--ease)}
+
+/* ===== LIVE EVENT STREAM ===== */
+.event-log-item{display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--bg-2);border-radius:8px;font-size:.76rem;animation:slideInEv .4s var(--ease) both}
+@keyframes slideInEv{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.event-time{font-family:var(--mono);color:var(--ink-4);font-size:.66rem;min-width:56px;flex-shrink:0;letter-spacing:.5px}
+.event-badge{padding:3px 10px;border-radius:6px;font-size:.65rem;font-weight:800;font-family:var(--mono);white-space:nowrap;flex-shrink:0;letter-spacing:-.01em}
+.event-desc{flex:1;color:var(--ink-2);line-height:1.35;letter-spacing:-.01em}
+
+/* ===== DARK MODE ===== */
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0D1117; --bg-2:#161B27; --bg-3:#1C2333;
+  --card:#1A2035; --bdr:#2D3748; --bdr-strong:#3D4E6A;
+  --ink:#E2E8F0; --ink-2:#CBD5E0; --ink-3:#A0AEC0;
+  --ink-4:#718096; --ink-5:#4A5568;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.4);
+  --shadow:0 4px 16px rgba(0,0,0,.5);
+  --shadow-lg:0 12px 32px rgba(0,0,0,.6);
+  --shadow-xl:0 24px 56px rgba(0,0,0,.7);
+}
+[data-theme="dark"] nav{background:rgba(13,17,23,.85) !important}
+[data-theme="dark"] nav.scrolled{background:rgba(26,32,53,.96) !important;border-bottom-color:var(--bdr)}
+[data-theme="dark"] .hero{background:radial-gradient(900px circle at 80% 10%,rgba(49,130,246,.14),transparent 50%),radial-gradient(700px circle at 10% 90%,rgba(139,92,246,.1),transparent 50%),var(--bg)}
+[data-theme="dark"] .hero-eyebrow{background:var(--card)}
+[data-theme="dark"] .pill{background:var(--card);border-color:var(--bdr)}
+[data-theme="dark"] .ticker{background:var(--bg-2);border-color:var(--bdr)}
+[data-theme="dark"] .drawer{background:var(--card)}
+[data-theme="dark"] footer{background:var(--card);border-top-color:var(--bdr)}
+[data-theme="dark"] .card,
+[data-theme="dark"] .crisis-card,
+[data-theme="dark"] .tech-cell,
+[data-theme="dark"] .phase,
+[data-theme="dark"] .scenario,
+[data-theme="dark"] .health-card,
+[data-theme="dark"] .roadmap-step,
+[data-theme="dark"] .impact-card,
+[data-theme="dark"] .liveai-card,
+[data-theme="dark"] .game-card,
+[data-theme="dark"] .hero-stat,
+[data-theme="dark"] .preview-stat{background:var(--card) !important}
+[data-theme="dark"] .mc-stat-card{background:var(--bg-3) !important}
+[data-theme="dark"] .agent{background:var(--bg-3) !important}
+[data-theme="dark"] .agent:hover{background:var(--bdr) !important}
+[data-theme="dark"] .mc-tab{background:var(--card) !important;border-color:var(--bdr)}
+[data-theme="dark"] .compete-table thead th:first-child{background:var(--card) !important}
+[data-theme="dark"] .compete-table td.us{background:rgba(49,130,246,.15) !important}
+[data-theme="dark"] .compete-table tbody tr:hover{background:var(--bg-2)}
+[data-theme="dark"] .phone-screen{background:var(--bg-2) !important;border-color:var(--ink-4)}
+[data-theme="dark"] .phone-mock{background:linear-gradient(135deg,var(--bg-3),var(--bg-2))}
+[data-theme="dark"] .dashboard-preview{background:var(--bg-3) !important}
+[data-theme="dark"] .cta{background:linear-gradient(135deg,rgba(49,130,246,.08),rgba(139,92,246,.06))}
+[data-theme="dark"] .killer-use{background:linear-gradient(135deg,rgba(49,130,246,.1),rgba(139,92,246,.08))}
+[data-theme="dark"] .timeline-time{border-color:var(--bg-2)}
+[data-theme="dark"] .dispatch-timeline{background:var(--card)}
+[data-theme="dark"] .cc-side{background:var(--card)}
+[data-theme="dark"] .cc-tier{background:var(--bg-3)}
+[data-theme="dark"] .ph-stat{background:rgba(49,130,246,.15)}
+[data-theme="dark"] .ph-section{background:var(--bg-3)}
+[data-theme="dark"] .ph-stat.g{background:rgba(22,198,140,.15)}
+[data-theme="dark"] .ph-stat.r{background:rgba(240,68,82,.15)}
+[data-theme="dark"] .ph-alert{background:rgba(240,68,82,.15)}
+[data-theme="dark"] .bs-wrap{background:var(--card)}
+[data-theme="dark"] .heatmap-wrap{background:var(--card)}
+[data-theme="dark"] .compete-wrap{background:var(--card);border-color:var(--bdr)}
+[data-theme="dark"] .mc-narrative{background:rgba(49,130,246,.1)}
+[data-theme="dark"] .event-log-item{background:var(--bg-3)}
+
+/* ===== INTRO SCREEN (Lottie-style SVG animation) ===== */
+#introScreen{position:fixed;inset:0;background:linear-gradient(135deg,#1B64DA 0%,#8B5CF6 60%,#FF6B9D 100%);z-index:600;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;transition:opacity .8s cubic-bezier(.4,0,.2,1);pointer-events:all}
+#introScreen.fade-out{opacity:0;pointer-events:none}
+.intro-shield-wrap{position:relative;width:110px;height:110px}
+.intro-shield-bg{position:absolute;inset:0;border-radius:50%;background:rgba(255,255,255,.08);animation:introRing 2s ease-in-out infinite}
+@keyframes introRing{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.15);opacity:.2}}
+.intro-shield-svg{width:110px;height:110px}
+.shield-path{fill:none;stroke:rgba(255,255,255,.9);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:420;stroke-dashoffset:420;animation:drawPath 1.3s cubic-bezier(.4,0,.2,1) .3s forwards}
+.check-path{fill:none;stroke:#fff;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100;stroke-dashoffset:100;animation:drawPath .55s ease .95s forwards}
+.inner-dot{fill:none;stroke:rgba(255,255,255,.4);stroke-width:2;stroke-dasharray:6 4;animation:rotateDot 4s linear infinite}
+@keyframes drawPath{to{stroke-dashoffset:0}}
+@keyframes rotateDot{to{transform:rotate(360deg);transform-origin:55px 55px}}
+.intro-logo{color:#fff;font-weight:900;font-size:2rem;letter-spacing:-.06em;opacity:0;animation:introUp .6s cubic-bezier(.16,1,.3,1) .85s forwards;text-shadow:0 2px 20px rgba(0,0,0,.2)}
+.intro-logo span{opacity:.75;font-weight:400;font-size:1rem;letter-spacing:-.01em;margin-left:4px}
+.intro-tagline{color:rgba(255,255,255,.78);font-size:.8rem;font-weight:500;letter-spacing:.02em;opacity:0;animation:introUp .5s cubic-bezier(.16,1,.3,1) 1.1s forwards;text-align:center;max-width:280px;line-height:1.5}
+.intro-bar-wrap{width:160px;height:2px;background:rgba(255,255,255,.2);border-radius:2px;overflow:hidden;opacity:0;animation:introUp .4s ease 1.15s forwards;margin-top:4px}
+.intro-bar-fill{height:100%;background:rgba(255,255,255,.9);border-radius:2px;animation:barFill 1.9s cubic-bezier(.4,0,.2,1) .5s forwards}
+@keyframes introUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes barFill{from{width:0}to{width:100%}}
+.intro-skip{position:absolute;top:20px;right:20px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:rgba(255,255,255,.9);padding:7px 18px;border-radius:50px;font-size:.74rem;font-weight:700;cursor:pointer;font-family:inherit;transition:.2s;letter-spacing:.04em}
+.intro-skip:hover{background:rgba(255,255,255,.28)}
+.intro-badges{display:flex;gap:8px;opacity:0;animation:introUp .5s ease 1.2s forwards;flex-wrap:wrap;justify-content:center}
+.intro-badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.85);padding:4px 12px;border-radius:50px;font-size:.65rem;font-weight:700;letter-spacing:.03em;font-family:var(--mono)}
+
+/* ===== GSAP ENHANCED HERO ===== */
+.hero-content-gsap-init .hero h1,.hero-content-gsap-init .hero-eyebrow,.hero-content-gsap-init .hero-sub,.hero-content-gsap-init .hero-btns,.hero-content-gsap-init .hero-stats{opacity:0}
+
+/* ===== FACTORY XR SECTION ===== */
+.factory-canvas-wrap{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--bdr);box-shadow:var(--shadow-xl)}
+#factoryCanvas{display:block;width:100%;height:480px}
+@media(max-width:600px){#factoryCanvas{height:300px}}
+.xr-hud{position:absolute;top:14px;left:14px;display:flex;gap:8px;flex-wrap:wrap;pointer-events:none}
+.xr-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:50px;font-size:.68rem;font-weight:800;font-family:var(--mono);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);letter-spacing:.03em}
+.xr-badge.ok{background:rgba(22,198,140,.22);color:#4ade80;border:1px solid rgba(22,198,140,.35)}
+.xr-badge.warn{background:rgba(255,159,45,.2);color:#fbbf24;border:1px solid rgba(255,159,45,.3);animation:xrBlink 2s infinite}
+.xr-badge.alert{background:rgba(240,68,82,.25);color:#f87171;border:1px solid rgba(240,68,82,.35);animation:xrBlink 1.2s infinite}
+@keyframes xrBlink{0%,100%{opacity:1}50%{opacity:.55}}
+.xr-foot{position:absolute;bottom:14px;left:16px;font-size:.65rem;color:rgba(200,220,255,.5);font-family:var(--mono);pointer-events:none}
+.xr-enter{position:absolute;bottom:16px;right:16px}
+.xr-enter button{background:linear-gradient(135deg,var(--a),var(--p));color:#fff;border:none;padding:11px 22px;border-radius:12px;font-weight:700;cursor:pointer;font-size:.84rem;font-family:inherit;letter-spacing:-.01em;box-shadow:0 8px 24px rgba(49,130,246,.45);transition:.25s var(--ease)}
+.xr-enter button:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(49,130,246,.55)}
+.xr-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+@media(max-width:600px){.xr-stats{grid-template-columns:repeat(3,1fr);gap:8px}}
+.xr-stat{padding:18px;background:#fff;border:1px solid var(--bdr);border-radius:14px;text-align:center}
+.xr-stat .v{font-size:1.5rem;font-weight:900;letter-spacing:-1px;font-variant-numeric:tabular-nums;line-height:1}
+.xr-stat .l{font-size:.7rem;color:var(--ink-3);margin-top:8px;font-weight:600;letter-spacing:-.01em}
+[data-theme="dark"] .xr-stat{background:var(--card)}
+</style>
+</head>
+<body>
+
+<div id="progressBar" aria-hidden="true" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+
+<!-- ===== LOTTIE-STYLE INTRO SCREEN ===== -->
+<div id="introScreen" role="dialog" aria-label="SHine-K 로딩 화면">
+  <button class="intro-skip" onclick="skipIntro()" aria-label="스킵">SKIP ✕</button>
+  <div class="intro-shield-wrap">
+    <div class="intro-shield-bg"></div>
+    <svg class="intro-shield-svg" viewBox="0 0 110 110" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle class="inner-dot" cx="55" cy="55" r="42" />
+      <path class="shield-path" d="M55,14 L88,28 L88,62 C88,82 55,96 55,96 C55,96 22,82 22,62 L22,28 Z"/>
+      <path class="check-path" d="M38,55 L50,67 L72,43"/>
+    </svg>
+  </div>
+  <div class="intro-logo">SHine-K<span>Platform</span></div>
+  <div class="intro-tagline" id="introTagline">세계 최초 7-Tech 융합 산업안전·건강 플랫폼</div>
+  <div class="intro-bar-wrap"><div class="intro-bar-fill"></div></div>
+  <div class="intro-badges">
+    <span class="intro-badge">CES 2027</span>
+    <span class="intro-badge">RISE 2025-2029</span>
+    <span class="intro-badge">12 AGENTS</span>
+  </div>
+</div>
+
+<a href="#main" class="skip-link" data-i18n="skip">본문으로 이동</a>
+
+<div class="topbar">
+  <div class="pill" role="group" aria-label="언어 선택">
+    <button id="lang-ko" class="active" onclick="setLang('ko')" aria-label="한국어">KO</button>
+    <button id="lang-en" onclick="setLang('en')" aria-label="English">EN</button>
+    <button id="lang-zh" onclick="setLang('zh')" aria-label="中文">中</button>
+    <button id="lang-ja" onclick="setLang('ja')" aria-label="日本語">JA</button>
+    <button id="themeToggle" class="theme-btn" onclick="toggleTheme()" aria-label="다크/라이트 테마 전환">🌙</button>
+  </div>
+</div>
+
+<nav id="nav" aria-label="주요 네비게이션">
+  <div class="container">
+    <a href="#" class="logo">
+      <span class="logo-mark">SHK</span>
+      <span>SHine-K<small data-i18n="logoSub"> · Insights</small></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#crisis" data-i18n="navCrisis">현실</a></li>
+      <li><a href="#gyeongbuk" data-i18n="navGB">경북</a></li>
+      <li><a href="#clusters" data-i18n="navMC">클러스터</a></li>
+      <li><a href="#platform" data-i18n="navPlat">플랫폼</a></li>
+      <li><a href="#agents" data-i18n="navAgents">12 에이전트</a></li>
+      <li><a href="#scenarios" data-i18n="navScen">5대 시나리오</a></li>
+      <li><a href="#health" data-i18n="navHealth">헬스 프로모션</a></li>
+      <li><a href="#center" data-i18n="navCenter">관제센터</a></li>
+      <li><a href="#compete" data-i18n="navCompete">경쟁분석</a></li>
+    </ul>
+    <a href="https://shine-k-wansuk-choi-ces2027.vercel.app" target="_blank" rel="noopener" class="nav-cta" data-i18n="navCES">CES 2027 →</a>
+    <button class="menu-toggle" id="menuBtn" onclick="toggleMenu()" aria-label="메뉴 열기" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="drawer" id="drawer">
+  <a href="#crisis" onclick="toggleMenu()">📊 현실</a>
+  <a href="#gyeongbuk" onclick="toggleMenu()">🗺️ 경북 데이터</a>
+  <a href="#clusters" onclick="toggleMenu()">🏭 4대 미니클러스터</a>
+  <a href="#blindspot" onclick="toggleMenu()">⚠️ 사각지대</a>
+  <a href="#platform" onclick="toggleMenu()">🌐 7-Tech 플랫폼</a>
+  <a href="#agents" onclick="toggleMenu()">🧠 12 에이전트</a>
+  <a href="#scenarios" onclick="toggleMenu()">🚨 5대 사고 시나리오</a>
+  <a href="#liveai" onclick="toggleMenu()">📷 Live AI</a>
+  <a href="#health" onclick="toggleMenu()">💪 헬스 프로모션</a>
+  <a href="#center" onclick="toggleMenu()">🖥️ 관제센터</a>
+  <a href="#app" onclick="toggleMenu()">📱 모바일 앱</a>
+  <a href="#strategy" onclick="toggleMenu()">🎯 SHine-K 전략</a>
+  <a href="#compete" onclick="toggleMenu()">🏆 경쟁사 비교</a>
+  <a href="#roadmap" onclick="toggleMenu()">📅 5년 로드맵</a>
+  <a href="#methodology" onclick="toggleMenu()">📚 데이터 출처</a>
+  <a href="#factory-xr" onclick="toggleMenu()">🏭 3D 가상 공장 XR</a>
+  <a href="https://shine-k-wansuk-choi-ces2027.vercel.app" target="_blank" rel="noopener">CES 2027 메인 →</a>
+</div>
+
+<main id="main">
+
+<!-- ============== HERO ============== -->
+<section class="hero" role="banner">
+  <div class="hero-canvas-wrap" aria-hidden="true">
+    <canvas id="heroCanvas"></canvas>
+  </div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="badge">CES 2027 · RISE 2025-2029</span>
+        <span class="dot"></span>
+        <span data-i18n="heroEyebrow">세계 최초 7-Tech 융합 산업안전·건강 플랫폼</span>
+      </div>
+      <h1>
+        <span data-i18n="heroH1a">아프기 전에</span><br>
+        <span class="grad" data-i18n="heroH1b">근로자를 지킵니다</span>
+      </h1>
+      <p class="hero-sub" data-i18n="heroSub">
+        MediaPipe BlazePose · mmWave Radar · 웨어러블 · 열화상 · 블록체인 · 119 자동연계 · 3D 디지털 트윈. 12 에이전트가 Sense → Judge → Act → Connect를 자율 수행하는 Agentic AI 통합 플랫폼.
+      </p>
+      <div class="hero-btns">
+        <a href="https://shine-k-wansuk-choi-ces2027.vercel.app/center.html" target="_blank" rel="noopener" class="btn btn-primary" style="background:linear-gradient(135deg,#3182F6,#8B5CF6)">🏛️ <span data-i18n="ctaCenter">근로자안전센터 LIVE</span></a>
+        <a href="#platform" class="btn btn-fill"><span data-i18n="ctaPlat">플랫폼 살펴보기</span> ↓</a>
+        <a href="https://shine-k-wansuk-choi-ces2027.vercel.app/twin.html" target="_blank" rel="noopener" class="btn btn-ghost">🏭 <span data-i18n="ctaTwin">3D 디지털 트윈</span></a>
+        <a href="https://shine-k-wansuk-choi-ces2027.vercel.app/live-demo.html" target="_blank" rel="noopener" class="btn btn-ghost">📷 <span data-i18n="ctaLive">Live AI 체험</span></a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="num"><span class="counter" data-target="97.8" data-suffix="%">0</span></div>
+          <div class="lbl" data-i18n="stat1">AI 감지 정확도</div>
+          <div class="sub">MediaPipe + YOLO</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">&lt;10<span style="font-size:1.3rem">s</span></div>
+          <div class="lbl" data-i18n="stat2">낙상 → 119 연계</div>
+          <div class="sub">e-Gen API</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">12</div>
+          <div class="lbl" data-i18n="stat3">자율 에이전트</div>
+          <div class="sub">Sense·Judge·Act·Connect</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">340<span style="font-size:1.3rem">%</span></div>
+          <div class="lbl" data-i18n="stat4">입증된 ROI</div>
+          <div class="sub">5-year forecast</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll"><span data-i18n="scrollHint">SCROLL</span><i></i></div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-inner">
+    <span class="ticker-item"><b>50,195</b> 명 KWCS-7 응답자</span>
+    <span class="ticker-item"><b>19,956</b> 개 제조 사업장</span>
+    <span class="ticker-item"><b class="tr">38조원</b> 2023 산재 사회적 손실</span>
+    <span class="ticker-item"><b class="tr">80%</b> 50인 미만 사업장 산재사망</span>
+    <span class="ticker-item"><b>34/38위</b> OECD 산재</span>
+    <span class="ticker-item"><b class="tr">62.1%</b> 근골격계 만성질환</span>
+    <span class="ticker-item"><b class="tg">25.6%↓</b> 중대재해 감축 목표</span>
+    <span class="ticker-item"><b>60%</b> CES 2026 한국 수상</span>
+    <span class="ticker-item"><b>50,195</b> 명 KWCS-7 응답자</span>
+    <span class="ticker-item"><b>19,956</b> 개 제조 사업장</span>
+    <span class="ticker-item"><b class="tr">38조원</b> 2023 산재 사회적 손실</span>
+    <span class="ticker-item"><b class="tr">80%</b> 50인 미만 사업장 산재사망</span>
+  </div>
+</div>
+
+<!-- ============== 01. CRISIS ============== -->
+<section id="crisis">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">01 · <span data-i18n="secCrisisLabel">불편한 진실</span></span>
+      <h2 class="sec-title" data-i18n="secCrisisTitle">한국 산업안전의 <span class="accent">불편한 진실</span></h2>
+      <p class="sec-desc" data-i18n="secCrisisDesc">OECD 38개국 중 34위 — '산재 공화국'이라는 오명. 정부 5개년 계획은 2030년 OECD 평균 산재율을 목표로 하지만, 현장은 다릅니다.</p>
+    </div>
+    <div class="crisis-grid">
+      <div class="crisis-card aos"><div class="stat">38<small>조원</small></div><div class="title" data-i18n="crisis1Title">2023 산재 사회적 손실</div><div class="desc" data-i18n="crisis1Desc">2020년 대비 27.3% 급증. 산재는 '비용'이 아닌 '사회적 타살'(대통령, '25.08).</div><div class="src">고용노동부 재해조사 · 2024</div></div>
+      <div class="crisis-card aos delay-1"><div class="stat">80<small>%</small></div><div class="title" data-i18n="crisis2Title">50인 미만 사업장 산재사망</div><div class="desc" data-i18n="crisis2Desc">중소사업장 자원 제약 · 사후대응 중심 · 통합 예방 플랫폼 부재.</div><div class="src">국정운영 5개년 계획 · 2025</div></div>
+      <div class="crisis-card aos delay-2"><div class="stat">62.1<small>%</small></div><div class="title" data-i18n="crisis3Title">근골격계 만성질환 비중</div><div class="desc" data-i18n="crisis3Desc">제조업 40%+가 반복작업. 자각증상 호소 50%+. 직업성 질환 절대 다수.</div><div class="src">KWCS-7 · 노동부 종합대책 2025</div></div>
+      <div class="crisis-card aos delay-3"><div class="stat">34<small>/38</small></div><div class="title" data-i18n="crisis4Title">OECD 산재 순위</div><div class="desc" data-i18n="crisis4Desc">선진국 지위와 불일치. 사망률 0.39%(2024) → 0.29%(2026 목표).</div><div class="src">OECD 산업재해통계</div></div>
+    </div>
+    <div class="chart-grid">
+      <div class="chart-wrap card aos"><div class="chart-title" data-i18n="chart1Title">제조업 위험요인 노출도 (KWCS 7차, 2023)</div><div class="chart-sub" data-i18n="chart1Sub">응답자 50,195명 중 노출 비율</div><div class="chart-canvas"><canvas id="chartHazardErg" role="img" aria-label="제조업 위험요인 노출률"></canvas></div></div>
+      <div class="chart-wrap card aos delay-1"><div class="chart-title" data-i18n="chart2Title">제조업 사망자 사고 유형 (2023)</div><div class="chart-sub" data-i18n="chart2Sub">끼임·추락·화학물질 사고 약 60%</div><div class="chart-canvas"><canvas id="chartFatality" role="img"></canvas></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 02. GYEONGBUK ============== -->
+<section id="gyeongbuk" style="background:var(--bg-2)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">02 · <span data-i18n="secGBLabel">경북 데이터</span></span>
+      <h2 class="sec-title" data-i18n="secGBTitle">경북은 <span class="accent">왜 다른가</span></h2>
+      <p class="sec-desc" data-i18n="secGBDesc">전국 평균과 다른 4가지 핵심 격차. KWCS 7차 경북 응답자 2,924명의 실측 데이터.</p>
+    </div>
+    <div class="compare-stat">
+      <div class="compare-item card aos"><div class="lbl" data-i18n="gb1">60대+ 근로자 비중</div><div class="row"><span class="reg">48.8%</span><span class="nat">vs 33.4% 전국</span></div><span class="delta up">+15.4%p</span><div class="src">KWCS-7 · n=2,924</div></div>
+      <div class="compare-item card aos delay-1"><div class="lbl" data-i18n="gb2">자각 건강위험 인식</div><div class="row"><span class="reg">13.5%</span><span class="nat">vs 11.0%</span></div><span class="delta up">+2.5%p</span><div class="src">heal_risk var</div></div>
+      <div class="compare-item card aos delay-2"><div class="lbl" data-i18n="gb3">화학물질 접촉 노출</div><div class="row"><span class="reg">6.5%</span><span class="nat">vs 3.8%</span></div><span class="delta up">+1.7×</span><div class="src">hazard_phy7</div></div>
+      <div class="compare-item card aos delay-3"><div class="lbl" data-i18n="gb4">고온 작업환경 노출</div><div class="row"><span class="reg">17.6%</span><span class="nat">vs 13.1%</span></div><span class="delta up">+4.5%p</span><div class="src">hazard_phy3</div></div>
+    </div>
+    <div class="chart-grid" style="margin-top:36px">
+      <div class="chart-wrap card aos"><div class="chart-title" data-i18n="chart3Title">연령별 분포 · 경북 vs 전국</div><div class="chart-sub" data-i18n="chart3Sub">고령화가 Health Promotion 전략의 핵심 동인</div><div class="chart-canvas"><canvas id="chartAge" role="img"></canvas></div></div>
+      <div class="chart-wrap card aos delay-1"><div class="chart-title" data-i18n="chart4Title">물리적 위험요인 · 경북 vs 전국</div><div class="chart-sub" data-i18n="chart4Sub">고온·화학물질·저온이 전국 대비 높음</div><div class="chart-canvas"><canvas id="chartRadar" role="img"></canvas></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 03. CLUSTERS ============== -->
+<section id="clusters">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">03 · <span data-i18n="secMCLabel">4대 미니클러스터</span></span>
+      <h2 class="sec-title" data-i18n="secMCTitle"><span class="accent">4대 미니클러스터</span>로 본 경북 제조업</h2>
+      <p class="sec-desc" data-i18n="secMCDesc">구미 전자/포항·경주 철강/안동 식품·목재/경산 기계·자동차 — 작업환경실태조사 7차 19,956개 사업장 분석.</p>
+    </div>
+    <div class="mc-tabs aos" role="tablist">
+      <button class="mc-tab active" data-mc="gumi" role="tab">🔌 <span data-i18n="mcGumi">구미 (전자/반도체)</span></button>
+      <button class="mc-tab" data-mc="pohang" role="tab">⚙️ <span data-i18n="mcPohang">포항·경주 (철강)</span></button>
+      <button class="mc-tab" data-mc="andong" role="tab">🌾 <span data-i18n="mcAndong">안동 (식품/목재)</span></button>
+      <button class="mc-tab" data-mc="gyeongsan" role="tab">🚗 <span data-i18n="mcGS">경산 (기계/자동차)</span></button>
+    </div>
+    <div class="mc-detail card aos" id="mcDetail" role="tabpanel"></div>
+  </div>
+</section>
+
+<!-- ============== 04. BLINDSPOT ============== -->
+<section id="blindspot" style="background:var(--bg-2)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">04 · <span data-i18n="secBSLabel">사각지대</span></span>
+      <h2 class="sec-title" data-i18n="secBSTitle">제조업 23개 업종 — <span class="accent">누가 가장 취약한가?</span></h2>
+      <p class="sec-desc" data-i18n="secBSDesc">자동차·의약·전자/반도체는 잘 관리. 가구·목재·기타제조는 36~46%. SHine-K의 표적 시장.</p>
+    </div>
+    <div class="bs-wrap card aos">
+      <div class="bs-legend">
+        <strong style="color:var(--ink);letter-spacing:-.01em">색상 코드:</strong>
+        <span><i style="background:var(--g)"></i> 80%+ 우수</span>
+        <span><i style="background:var(--w)"></i> 60-80% 보통</span>
+        <span><i style="background:var(--r)"></i> &lt;60% 사각지대</span>
+      </div>
+      <div class="chart-title" data-i18n="chart5Title">안전관리자 선임율 · 23개 제조업종</div>
+      <div class="chart-sub" data-i18n="chart5Sub">가구(36.0%)·기타제조(46.4%)·목재(44.8%) — 4대 사각지대</div>
+      <div class="chart-canvas" style="height:520px"><canvas id="chartIndustry" role="img"></canvas></div>
+    </div>
+    <div class="chart-grid" style="margin-top:24px">
+      <div class="chart-wrap card aos"><div class="chart-title" data-i18n="chart6Title">위험성평가 실시율 vs 안전관리자 선임율</div><div class="chart-sub" data-i18n="chart6Sub">관리자가 있어도 평가를 안 하는 업종</div><div class="chart-canvas"><canvas id="chartScatter" role="img"></canvas></div></div>
+      <div class="chart-wrap card aos delay-1"><div class="chart-title" data-i18n="chart7Title">교대근무 비율 · 상위 10업종</div><div class="chart-sub" data-i18n="chart7Sub">자동차·1차금속·고무플라스틱</div><div class="chart-canvas"><canvas id="chartShift" role="img"></canvas></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 05. PLATFORM: 7-TECH FUSION ============== -->
+<section id="platform">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">05 · <span data-i18n="secPlatLabel">7-Tech 융합 플랫폼</span></span>
+      <h2 class="sec-title" data-i18n="secPlatTitle">세계 최초 <span class="accent">7-Tech 융합</span> 아키텍처</h2>
+      <p class="sec-desc" data-i18n="secPlatDesc">컴퓨터 비전 + 60GHz 레이더 + 웨어러블 + 열화상 + 블록체인 + 자동 119 + 3D 트윈. 경쟁사가 1~2개만 가질 때 SHine-K는 7개 기술을 단일 플랫폼에 융합.</p>
+    </div>
+    <div class="tech-grid aos">
+      <div class="tech-cell"><span class="ico">👁️</span><h5>MediaPipe</h5><div class="spec">30+ FPS · 33 keypoints</div><p>BlazePose GPU on Jetson Nano</p></div>
+      <div class="tech-cell"><span class="ico">📡</span><h5>YOLOv11</h5><div class="spec">130+ FPS · v11n</div><p>PPE·낙상·이상행동 감지</p></div>
+      <div class="tech-cell"><span class="ico">🛰️</span><h5>mmWave Radar</h5><div class="spec">60GHz · 사생활 보호</div><p>골격만 추출 · 어둠 OK</p></div>
+      <div class="tech-cell"><span class="ico">⌚</span><h5>Wearable</h5><div class="spec">BLE 5.0 · &lt;50ms</div><p>HR·SpO2·체온·스트레스</p></div>
+      <div class="tech-cell"><span class="ico">🌡️</span><h5>Thermal IR</h5><div class="spec">CORE ±0.21°C</div><p>열사병·고온 감지</p></div>
+      <div class="tech-cell"><span class="ico">🔗</span><h5>Blockchain</h5><div class="spec">DLT · ZK-Proof</div><p>가명처리·무결성 보장</p></div>
+      <div class="tech-cell"><span class="ico">🚨</span><h5>119 Auto-Dispatch</h5><div class="spec">e-Gen API · &lt;10s</div><p>GPS·영상·병상 자동조회</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 06. 12-AGENT HARNESS ============== -->
+<section id="agents" style="background:var(--bg-2)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">06 · <span data-i18n="secAgentLabel">에이전트 하네스</span></span>
+      <h2 class="sec-title" data-i18n="secAgentTitle"><span class="accent">12 에이전트</span>가 자율 판단합니다</h2>
+      <p class="sec-desc" data-i18n="secAgentDesc">단일 룰베이스 알람을 넘어선 Agentic AI. Sense(5) → Judge(3) → Act(3) → Connect(1)의 4단계 사이클을 Supabase 실시간 동기화로 실행. Triple verification + Multimodal fusion.</p>
+    </div>
+    <div class="agent-phases aos">
+      <div class="phase sense">
+        <div class="phase-head">
+          <div class="phase-num">S1</div>
+          <div class="phase-name">SENSE</div>
+          <div class="phase-count">5 agents</div>
+        </div>
+        <div class="agents">
+          <div class="agent"><div class="agent-dot"></div><div class="agent-info"><div class="agent-name">vision_agent</div><div class="agent-spec">MediaPipe + YOLOv11n</div></div></div>
+          <div class="agent"><div class="agent-dot"></div><div class="agent-info"><div class="agent-name">radar_agent</div><div class="agent-spec">mmWave 60GHz</div></div></div>
+          <div class="agent"><div class="agent-dot"></div><div class="agent-info"><div class="agent-name">wearable_agent</div><div class="agent-spec">Watch / Band BLE</div></div></div>
+          <div class="agent"><div class="agent-dot"></div><div class="agent-info"><div class="agent-name">thermal_agent</div><div class="agent-spec">FLIR / CORE Sensor</div></div></div>
+          <div class="agent"><div class="agent-dot"></div><div class="agent-info"><div class="agent-name">env_agent</div><div class="agent-spec">IoT (온습도·소음·가스)</div></div></div>
+        </div>
+      </div>
+      <div class="phase judge">
+        <div class="phase-head">
+          <div class="phase-num">J2</div>
+          <div class="phase-name">JUDGE</div>
+          <div class="phase-count">3 agents</div>
+        </div>
+        <div class="agents">
+          <div class="agent"><div class="agent-dot"></div><div class="agent-info"><div class="agent-name">fusion_ai</div><div class="agent-spec">Multimodal Fusion</div></div></div>
+          <div class="agent"><div class="agent-dot"></div><div class="agent-info"><div class="agent-name">risk_predictor</div><div class="agent-spec">LSTM 시계열 예측</div></div></div>
+          <div class="agent"><div class="agent-dot"></div><div class="agent-info"><div class="agent-name">reba_scorer</div><div class="agent-spec">33 keypoints · r=0.89</div></div></div>
+        </div>
+      </div>
+      <div class="phase act">
+        <div class="phase-head">
+          <div class="phase-num">A3</div>
+          <div class="phase-name">ACT</div>
+          <div class="phase-count">3 agents</div>
+        </div>
+        <div class="agents">
+          <div class="agent"><div class="agent-dot"></div><div class="agent-info"><div class="agent-name">nudge_agent</div><div class="agent-spec">Watch 진동 알림</div></div></div>
+          <div class="agent"><div class="agent-dot"></div><div class="agent-info"><div class="agent-name">feedback_agent</div><div class="agent-spec">AI Health 코칭</div></div></div>
+          <div class="agent"><div class="agent-dot"></div><div class="agent-info"><div class="agent-name">task_agent</div><div class="agent-spec">자동 인원 로테이션</div></div></div>
+        </div>
+      </div>
+      <div class="phase connect">
+        <div class="phase-head">
+          <div class="phase-num">C4</div>
+          <div class="phase-name">CONNECT</div>
+          <div class="phase-count">1 agent</div>
+        </div>
+        <div class="agents">
+          <div class="agent"><div class="agent-dot"></div><div class="agent-info"><div class="agent-name">emergency_agent</div><div class="agent-spec">119 + SMS + ER 조회</div></div></div>
+        </div>
+        <div style="margin-top:14px;padding:14px;background:var(--r-bg);border-radius:12px;font-size:.8rem;color:var(--r);font-weight:700;line-height:1.5;letter-spacing:-.01em">
+          🚨 응답 ~10s · Triple verified · GPS + 영상 + 병상 자동조회
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 07. 5 ACCIDENT SCENARIOS ============== -->
+<section id="scenarios">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">07 · <span data-i18n="secScenLabel">5대 사고 시나리오</span></span>
+      <h2 class="sec-title" data-i18n="secScenTitle">2023 제조업 사망 60%를 <span class="accent">5개 시나리오로</span> 집중</h2>
+      <p class="sec-desc" data-i18n="secScenDesc">3D 디지털 트윈에서 자동 재생되는 실제 시나리오. 각 시나리오마다 다른 에이전트 조합이 자율 개입합니다.</p>
+    </div>
+    <div class="scenario-grid aos">
+      <div class="scenario s1">
+        <div class="num">01</div>
+        <div class="icon">🪜</div>
+        <h4 data-i18n="scen1Title">Fall from Height</h4>
+        <div class="who">Worker Jung · 3.5m platform</div>
+        <div class="resp" data-i18n="scen1Resp">vision + radar 낙상 감지 → 1.2초 내 emergency_agent 발동 → 119 자동 호출</div>
+      </div>
+      <div class="scenario s2">
+        <div class="num">02</div>
+        <div class="icon">🤖</div>
+        <h4 data-i18n="scen2Title">Caught in Machine</h4>
+        <div class="who">Worker Kim · 프레스 라인</div>
+        <div class="resp" data-i18n="scen2Resp">vision agent 손 인식 → 비상정지 신호 자동 송신 → SMS 5-tier 동시 발송</div>
+      </div>
+      <div class="scenario s3">
+        <div class="num">03</div>
+        <div class="icon">💧</div>
+        <h4 data-i18n="scen3Title">Slip &amp; Fall</h4>
+        <div class="who">Worker Choi · Zone C 젖은 바닥</div>
+        <div class="resp" data-i18n="scen3Resp">reba_scorer 점수 12 (위험) → nudge 즉시 알림 + 작업환경 자동 보고</div>
+      </div>
+      <div class="scenario s4">
+        <div class="num">04</div>
+        <div class="icon">🔥</div>
+        <h4 data-i18n="scen4Title">Heat Stroke</h4>
+        <div class="who">Worker Park · 노 근처 39.2°C</div>
+        <div class="resp" data-i18n="scen4Resp">thermal + wearable 융합 → 핵심체온 임계치 → 강제 대피 + 응급실 사전 알림</div>
+      </div>
+      <div class="scenario s5">
+        <div class="num">05</div>
+        <div class="icon">🚛</div>
+        <h4 data-i18n="scen5Title">Forklift Collision</h4>
+        <div class="who">Worker Kang · 지게차 경로 진입</div>
+        <div class="resp" data-i18n="scen5Resp">radar 거리 측정 + vision 경로 예측 → 지게차 자동 브레이크 신호 전송</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:32px">
+      <a href="https://shine-k-wansuk-choi-ces2027.vercel.app/twin.html" target="_blank" rel="noopener" class="btn btn-primary">
+        🏭 3D 디지털 트윈에서 모든 시나리오 보기 →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 08. LIVE AI ============== -->
+<section id="liveai" style="background:var(--bg-2)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">08 · <span data-i18n="secLiveLabel">Live AI 사양</span></span>
+      <h2 class="sec-title" data-i18n="secLiveTitle">브라우저에서 바로 작동하는 <span class="accent">실시간 AI</span></h2>
+      <p class="sec-desc" data-i18n="secLiveDesc">서버 설치 없이 노트북·휴대폰 브라우저만으로 MediaPipe BlazePose + REBA 점수 + 마이크 dB + 가속도계 낙상감지가 즉시 동작. 7-Tech 융합의 실증.</p>
+    </div>
+    <div class="liveai-grid aos">
+      <div class="liveai-card"><div class="ico">🦴</div><h4>BlazePose 33pt</h4><div class="v">30+ FPS</div><p data-i18n="lai1">실시간 33개 관절점 추적. REBA Neck/Trunk/Legs/Upper Arm/Forearm/Wrist 자동 산출.</p></div>
+      <div class="liveai-card"><div class="ico">📐</div><h4>REBA Score</h4><div class="v">r=0.89</div><p data-i18n="lai2">전문가 평가와 0.89 상관계수. 1~15 점수로 근골격계 위험 즉시 판정.</p></div>
+      <div class="liveai-card"><div class="ico">🎤</div><h4>Mic dB Meter</h4><div class="v">&gt;70dB</div><p data-i18n="lai3">마이크로 작업장 소음 측정. 70dB 이상이면 LOUD 경고 자동 발동.</p></div>
+      <div class="liveai-card"><div class="ico">📳</div><h4>Fall Detect</h4><div class="v">&gt;2.5g</div><p data-i18n="lai4">DeviceMotion 가속도 분석. 2.5g 이상 충격 시 자동 119 워크플로우 트리거.</p></div>
+    </div>
+    <div style="margin-top:24px;text-align:center">
+      <a href="https://shine-k-wansuk-choi-ces2027.vercel.app/live-demo.html" target="_blank" rel="noopener" class="btn btn-primary">📷 카메라 켜고 직접 체험 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 09. HEALTH PROMOTION ============== -->
+<section id="health">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">09 · <span data-i18n="secHealthLabel">헬스 프로모션</span></span>
+      <h2 class="sec-title" data-i18n="secHealthTitle">Safety를 넘어 <span class="accent">Health Promotion</span>까지</h2>
+      <p class="sec-desc" data-i18n="secHealthDesc">경쟁사는 사고 감지(Safety)만 한다. SHine-K는 만성 질환 예측(Health) + 위험요인 빅데이터(Sensing)까지. 작업환경 + 생체데이터를 실시간 통합 분석해 직업성 질환을 사전 예방.</p>
+    </div>
+
+    <div class="health-flow aos">
+      <div class="health-card">
+        <div class="ico-circle">⌚</div>
+        <h4 data-i18n="hc1Title">웨어러블 통합</h4>
+        <div class="sub">Wearable Integration</div>
+        <p data-i18n="hc1Desc">Apple Watch · Galaxy Watch · 산업용 밴드. HR·SpO2·ECG·체온·스트레스 인덱스를 BLE 5.0 &lt;50ms로 클라우드 연동.</p>
+      </div>
+      <div class="health-card">
+        <div class="ico-circle" style="background:var(--p-bg);color:var(--p)">🧠</div>
+        <h4 data-i18n="hc2Title">AI 질환 예측</h4>
+        <div class="sub">Disease Prediction</div>
+        <p data-i18n="hc2Desc">LSTM 시계열 + 의료데이터(건강검진·MSK 진단) + 라이프로그(걸음·수면·식이)로 근골격계·만성질환 발생을 사전 예측.</p>
+      </div>
+      <div class="health-card">
+        <div class="ico-circle" style="background:var(--w-bg);color:var(--w)">🎮</div>
+        <h4 data-i18n="hc3Title">게이미피케이션</h4>
+        <div class="sub">Gamification</div>
+        <p data-i18n="hc3Desc">일일 안전점수·팀 랭킹·포인트·연속 무사고 일수. 동기부여 기반 양방향 피드백으로 자발 참여 유도.</p>
+      </div>
+    </div>
+
+    <div class="killer-use aos">
+      <h3 data-i18n="killerTitle">🎯 Killer Use Case · AI 위험 예측</h3>
+      <p class="killer-sub" data-i18n="killerSub">정량적 위험 예측. 사후 대응이 아닌 사전 개입.</p>
+      <div class="killer-quote" data-i18n="killerQuote">
+        "Worker <b>Kim</b> on Line 3 has <b>73%</b> probability of <b>MSK injury</b> in the next <b>2 hours</b> — recommend rotation now."
+      </div>
+      <div class="killer-meta">
+        <span>📊 위험확률 99% / 73% / 8%</span>
+        <span>⏱️ 2시간 윈도우</span>
+        <span>🦴 REBA 12 → 7 → 3 자동 개선 추천</span>
+        <span>🔄 task_agent 자율 인력 로테이션</span>
+      </div>
+    </div>
+
+    <div style="margin-top:36px">
+      <h3 style="font-size:1.2rem;font-weight:800;margin-bottom:8px;letter-spacing:-.03em" data-i18n="gameTitle">🏆 Safety Gamification — 28일 무사고 연속 도전</h3>
+      <p style="font-size:.86rem;color:var(--ink-3);max-width:640px" data-i18n="gameDesc">근로자 개인별 대시보드. 자발적 안전 참여를 일상화하는 행동 디자인.</p>
+      <div class="game-grid aos">
+        <div class="game-card score"><div class="v">94<small style="font-size:.8rem;color:var(--ink-4)">/100</small></div><div class="l" data-i18n="gameL1">일일 안전점수</div></div>
+        <div class="game-card rank"><div class="v">#3</div><div class="l" data-i18n="gameL2">팀 랭킹</div></div>
+        <div class="game-card pts"><div class="v">2,450</div><div class="l" data-i18n="gameL3">누적 안전 포인트</div></div>
+        <div class="game-card streak"><div class="v">28<small style="font-size:.8rem;color:var(--ink-4)">일</small></div><div class="l" data-i18n="gameL4">무사고 연속 일수</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 10. CONTROL CENTER ============== -->
+<section id="center" style="background:var(--bg-2)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">10 · <span data-i18n="secCCLabel">통합 관제센터</span></span>
+      <h2 class="sec-title" data-i18n="secCCTitle">경운대 <span class="accent">통합 관제센터</span>가 24/7 모니터링</h2>
+      <p class="sec-desc" data-i18n="secCCDesc">실시간 대시보드 + SMS 5-tier 자동 발송 + 119 자동연계(GPS·영상). 사고 발생 시 1.2초 감지 → 10초 내 응급실 병상 조회까지 완전 자동.</p>
+    </div>
+
+    <div class="cc-grid">
+      <div class="cc-side aos">
+        <h4 data-i18n="ccSMSTitle">📱 SMS 5-Tier 자동 발송</h4>
+        <div class="cc-tier"><div class="tier-num">1</div><div class="tier-name" data-i18n="ccT1">근로자 본인</div><div class="tier-desc">self</div></div>
+        <div class="cc-tier"><div class="tier-num">2</div><div class="tier-name" data-i18n="ccT2">안전관리자</div><div class="tier-desc">safety_manager</div></div>
+        <div class="cc-tier"><div class="tier-num">3</div><div class="tier-name" data-i18n="ccT3">대표자</div><div class="tier-desc">supervisor</div></div>
+        <div class="cc-tier"><div class="tier-num">4</div><div class="tier-name" data-i18n="ccT4">가족·비상연락</div><div class="tier-desc">family</div></div>
+        <div class="cc-tier"><div class="tier-num">5</div><div class="tier-name" data-i18n="ccT5">경운대 관제센터</div><div class="tier-desc">054-479-1121</div></div>
+        <div style="margin-top:18px;padding:14px;background:var(--bg-2);border-radius:12px;font-size:.78rem;color:var(--ink-3);line-height:1.6">
+          📍 <b>GPS</b>: 36.1195, 128.3447 (구미 산동면 공단로)<br>
+          🏥 <b>최근접 응급실</b>: 순천향대학교 구미병원 (1.2km, 15 ER beds)
+        </div>
+      </div>
+
+      <div class="dispatch-timeline aos delay-1">
+        <h4 data-i18n="ccDispTitle">🚨 119 자동연계 5단계 타임라인</h4>
+        <div class="timeline-step">
+          <div class="timeline-time">1.2s</div>
+          <div class="timeline-content">
+            <h5 data-i18n="ccD1Title">AI 감지</h5>
+            <p data-i18n="ccD1Desc">MediaPipe + 레이더 융합 — 낙상 confidence 98.1% / Triple verified</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-time">2s</div>
+          <div class="timeline-content">
+            <h5 data-i18n="ccD2Title">현장 경보</h5>
+            <p data-i18n="ccD2Desc">사이렌 + LED 점등 · 관제센터 대시보드 빨간 알림 표시</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-time">3s</div>
+          <div class="timeline-content">
+            <h5 data-i18n="ccD3Title">SMS 발송</h5>
+            <p data-i18n="ccD3Desc">5-tier 동시 발송 (본인 + 안전관리자 + 대표 + 가족 + 관제)</p>
+          </div>
+        </div>
+        <div class="timeline-step tier-emerg">
+          <div class="timeline-time">8s</div>
+          <div class="timeline-content">
+            <h5 data-i18n="ccD4Title">119 신고</h5>
+            <p data-i18n="ccD4Desc">Smart 119 API · GPS 위치 + 사고 영상 + 근로자 정보 자동 전송</p>
+          </div>
+        </div>
+        <div class="timeline-step tier-emerg">
+          <div class="timeline-time">10s</div>
+          <div class="timeline-content">
+            <h5 data-i18n="ccD5Title">병상 조회</h5>
+            <p data-i18n="ccD5Desc">e-Gen API · 구미시 응급의료센터 가용 병상 2/15 · 출동 차량 자동 배차</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dashboard-preview aos">
+      <div class="preview-head">
+        <span class="live-dot"></span>
+        <h4 data-i18n="ccDashTitle">실시간 관제 대시보드 · LIVE</h4>
+        <span class="meta">Supabase ap-northeast-2 (Seoul) · refresh 1s</span>
+      </div>
+      <div class="preview-grid">
+        <div class="preview-stat blue"><div class="v">47<small style="font-size:.7rem;color:var(--ink-4)">개사</small></div><div class="l" data-i18n="dpL1">가입 기업</div></div>
+        <div class="preview-stat green"><div class="v" id="liveWorkers">1,284</div><div class="l" data-i18n="dpL2">등록 근로자</div></div>
+        <div class="preview-stat orange"><div class="v" id="liveVitals">12.4M</div><div class="l" data-i18n="dpL3">바이탈 데이터 (일)</div></div>
+        <div class="preview-stat red"><div class="v" id="liveEvents">3<small style="font-size:.7rem;color:var(--ink-4)">건/일</small></div><div class="l" data-i18n="dpL4">AI 이벤트 평균</div></div>
+      </div>
+      <div style="margin-top:16px;padding:14px;background:#fff;border:1px solid var(--bdr);border-radius:12px;font-size:.78rem;color:var(--ink-3);line-height:1.6">
+        <b style="color:var(--ink)">이벤트 분류 (6종)</b>: fall_detected · ppe_violation · zone_intrusion · abnormal_behavior · health_alert · equipment_anomaly
+      </div>
+    </div>
+
+    <!-- LIVE EVENT STREAM -->
+    <div class="card aos" style="margin-top:20px;padding:24px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+        <span class="live-dot"></span>
+        <h4 style="font-size:.96rem;font-weight:800;letter-spacing:-.02em">실시간 AI 이벤트 로그</h4>
+        <span id="eventCountLabel" style="font-size:.72rem;color:var(--ink-4);margin-left:auto;font-family:var(--mono)">연결 중…</span>
+      </div>
+      <div id="eventLog" style="display:flex;flex-direction:column;gap:6px;min-height:130px"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============== 11. MOBILE APP ============== -->
+<section id="app">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">11 · <span data-i18n="secAppLabel">모바일 앱</span></span>
+      <h2 class="sec-title" data-i18n="secAppTitle">근로자가 들고 다니는 <span class="accent">안전 동반자</span></h2>
+      <p class="sec-desc" data-i18n="secAppDesc">Android · iOS 네이티브. 웨어러블 자동 페어링 + 실시간 안전점수 + 음성 호출 응급 신고. 화웨이 HMS·샤오미 MIUI 전부 지원.</p>
+    </div>
+    <div class="app-showcase">
+      <div class="phone-mock aos">
+        <div class="phone-screen">
+          <div class="ph-stat-row">
+            <div class="ph-stat g"><div class="v">94</div><div class="l">안전점수</div></div>
+            <div class="ph-stat"><div class="v">72</div><div class="l">HR bpm</div></div>
+            <div class="ph-stat r"><div class="v">38°</div><div class="l">고온</div></div>
+          </div>
+          <div class="ph-alert">
+            🚨 위험 신호 감지<small>2시간 내 근골격계 부상 73% — 인원 교대 권장</small>
+          </div>
+          <div class="ph-section">
+            <h6>오늘의 미션</h6>
+            <div class="row">🦴 REBA &lt;7 유지</div>
+            <div class="row" style="margin-top:4px">💧 물 2L 섭취</div>
+            <div class="row" style="margin-top:4px">😴 6h 수면</div>
+          </div>
+          <div class="ph-section">
+            <h6>팀 랭킹</h6>
+            <div class="row">🥉 3위 · 2,450 pt</div>
+          </div>
+          <div class="ph-section" style="background:var(--r-bg)">
+            <h6 style="color:var(--r)">긴급 SOS</h6>
+            <div class="row" style="color:var(--r)">📞 음성 한 마디로 119</div>
+          </div>
+        </div>
+      </div>
+      <div class="app-info aos delay-1">
+        <h3 data-i18n="appH3">근로자 중심 UX, 관리자 중심 권한</h3>
+        <p data-i18n="appP">웨어러블 데이터 자동 동기화 + 6종 이벤트 알림 + 미션·랭킹·포인트 게이미피케이션. 음성 인식("도와줘") 한 마디로 119 자동 호출. 60대+ 근로자도 한 손으로 조작 가능한 큰 터치 UI.</p>
+        <ul class="app-features">
+          <li data-i18n="appF1">웨어러블 자동 페어링</li>
+          <li data-i18n="appF2">실시간 안전점수</li>
+          <li data-i18n="appF3">팀 랭킹 · 포인트</li>
+          <li data-i18n="appF4">REBA 자가 진단</li>
+          <li data-i18n="appF5">음성 SOS</li>
+          <li data-i18n="appF6">GPS 출퇴근 자동</li>
+          <li data-i18n="appF7">SMS 5-tier 비상</li>
+          <li data-i18n="appF8">한·영·중 3개 언어</li>
+        </ul>
+        <div class="app-badges">
+          <div class="app-badge">🤖 <span><small>GET IT ON</small>Google Play</span></div>
+          <div class="app-badge">🍎 <span><small>DOWNLOAD ON</small>App Store</span></div>
+          <div class="app-badge" style="background:#FF6900">🇨🇳 <span><small>화웨이 HMS</small>AppGallery</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 12. STRATEGY S/H/E ============== -->
+<section id="strategy" style="background:var(--bg-2)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">12 · <span data-i18n="secStratLabel">SHine-K 전략</span></span>
+      <h2 class="sec-title" data-i18n="secStratTitle">데이터에서 도출된 <span class="accent">3대 전략</span></h2>
+      <p class="sec-desc" data-i18n="secStratDesc">Safety + Health + Enterprise Sensing — 경쟁사 어디에도 없는 3축 통합 R&amp;D.</p>
+    </div>
+    <div class="strategy-grid">
+      <div class="strategy-card card aos">
+        <div class="icon">S</div>
+        <h4>Safety Environment</h4>
+        <div class="strat-sub" data-i18n="strat1Sub">스마트 작업장 안전관제</div>
+        <p class="strat-desc" data-i18n="strat1Desc">IoT·CCTV·웨어러블 기반 근로자·장비 실시간 모니터링. 5G-IoT 저지연.</p>
+        <ul class="strat-list">
+          <li data-i18n="strat1L1">저비용 IoT 위험탐지</li>
+          <li data-i18n="strat1L2">AI 비전 작업자·장비 감지</li>
+          <li data-i18n="strat1L3">위험구역 매핑·접근통제</li>
+        </ul>
+      </div>
+      <div class="strategy-card card aos delay-1">
+        <div class="icon">H</div>
+        <h4>Health Promotion</h4>
+        <div class="strat-sub" data-i18n="strat2Sub">AI 기반 맞춤형 헬스 프로모션</div>
+        <p class="strat-desc" data-i18n="strat2Desc">웨어러블·IoT로 작업환경·생체 통합. 근골격계·만성질환 예측 + 게이미피케이션.</p>
+        <ul class="strat-list">
+          <li data-i18n="strat2L1">저비용 웨어러블 통합 모니터링</li>
+          <li data-i18n="strat2L2">개인별 직업성 질환 예측</li>
+          <li data-i18n="strat2L3">동기부여 게이미피케이션</li>
+        </ul>
+      </div>
+      <div class="strategy-card card aos delay-2">
+        <div class="icon">E</div>
+        <h4>Enterprise Sensing</h4>
+        <div class="strat-sub" data-i18n="strat3Sub">위험요인 빅데이터 플랫폼</div>
+        <p class="strat-desc" data-i18n="strat3Desc">비정형(영상·음성·센서) 수집·정형화·표준 스키마. 블록체인 가명처리.</p>
+        <ul class="strat-list">
+          <li data-i18n="strat3L1">저비용 데이터 파이프라인</li>
+          <li data-i18n="strat3L2">AI 시뮬레이션 예방 알고리즘</li>
+          <li data-i18n="strat3L3">실시간 ROI 자동 보고</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 13. HAZARD HEATMAP ============== -->
+<section>
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">13 · <span data-i18n="secHmLabel">위험요인 매트릭스</span></span>
+      <h2 class="sec-title" data-i18n="secHmTitle"><span class="accent">15가지 위험요인</span> × 4개 집단</h2>
+      <p class="sec-desc" data-i18n="secHmDesc">물리(9) + 인간공학(6) = 15개 위험요인을 전국/경북/전국제조/경북제조에서 비교.</p>
+    </div>
+    <div class="heatmap-wrap card aos" id="heatmapWrap"></div>
+  </div>
+</section>
+
+<!-- ============== 14. COMPETITIVE ============== -->
+<section id="compete" style="background:var(--bg-2)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">14 · <span data-i18n="secCompLabel">경쟁분석</span></span>
+      <h2 class="sec-title" data-i18n="secCompTitle">세계 최고와 비교 · <span class="accent">SHine-K가 더 깊은 이유</span></h2>
+      <p class="sec-desc" data-i18n="secCompDesc">Intenseye(미국·튀르키예)·Protex AI(아일랜드)·viAct(홍콩)·TuMeke(미국)·Strongarm(미국) 등 글로벌 산업안전 AI 강자와 SHine-K 비교.</p>
+    </div>
+    <div class="compete-wrap aos">
+      <table class="compete-table" aria-label="경쟁사 비교 표">
+        <thead>
+          <tr>
+            <th>카테고리</th>
+            <th class="us">SHine-K</th>
+            <th>Intenseye</th>
+            <th>Protex AI</th>
+            <th>viAct</th>
+            <th>TuMeke</th>
+            <th>Strongarm</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>본사 / 출시</td><td class="us">🇰🇷 2025</td><td>🇺🇸/🇹🇷 2018</td><td>🇮🇪 2019</td><td>🇭🇰 2017</td><td>🇺🇸 2019</td><td>🇺🇸 2014</td></tr>
+          <tr><td>AI 컴퓨터비전 안전</td><td class="us"><span class="yes">●</span></td><td><span class="yes">●</span></td><td><span class="yes">●</span></td><td><span class="yes">●</span></td><td class="partial">▲</td><td class="no">—</td></tr>
+          <tr><td>근골격계·인간공학 AI</td><td class="us"><span class="yes">●</span></td><td class="partial">▲</td><td><span class="yes">●</span></td><td><span class="yes">●</span></td><td><span class="yes">●</span></td><td><span class="yes">●</span></td></tr>
+          <tr><td>웨어러블 생체 통합</td><td class="us"><span class="yes">●</span></td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td><span class="yes">●</span></td></tr>
+          <tr><td>mmWave 레이더 융합</td><td class="us"><span class="yes">●</span></td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+          <tr><td>열화상·열사병 감지</td><td class="us"><span class="yes">●</span></td><td class="no">—</td><td class="no">—</td><td class="partial">▲</td><td class="no">—</td><td class="no">—</td></tr>
+          <tr><td>블록체인 가명처리</td><td class="us"><span class="yes">●</span></td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+          <tr><td>자동 119 응급 연결</td><td class="us"><span class="yes">●</span><br><span class="badge-cell" style="background:var(--r-bg);color:var(--r)">&lt;10s</span></td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+          <tr><td>3D 디지털 트윈</td><td class="us"><span class="yes">●</span></td><td class="no">—</td><td class="no">—</td><td class="partial">▲</td><td class="no">—</td><td class="no">—</td></tr>
+          <tr><td>Agentic AI Harness</td><td class="us"><span class="yes">●</span><br><span class="badge-cell" style="background:var(--a-bg);color:var(--a)">12 agents</span></td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+          <tr><td>건강증진 (질환 예측)</td><td class="us"><span class="yes">●</span></td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="partial">▲</td><td class="partial">▲</td></tr>
+          <tr><td>관제센터 · SMS 5-tier</td><td class="us"><span class="yes">●</span></td><td class="partial">▲</td><td class="partial">▲</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+          <tr><td>한국어 네이티브</td><td class="us"><span class="yes">●</span></td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+          <tr><td>정부 R&amp;D 정렬 (RISE)</td><td class="us"><span class="yes">●</span><br><span class="badge-cell" style="background:var(--p-bg);color:var(--p)">5y · 정부공인</span></td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+          <tr><td>표적 시장</td><td class="us">경북 중소제조 (50인 미만)</td><td>대기업 글로벌</td><td>제조·물류 대기업</td><td>건설·제조</td><td>제조·물류</td><td>물류·창고</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card aos" style="margin-top:24px;padding:32px;background:linear-gradient(135deg,var(--a-bg),var(--p-bg))">
+      <h3 style="font-size:1.2rem;font-weight:800;margin-bottom:16px;letter-spacing:-.03em" data-i18n="diffTitle">⚡ SHine-K만의 5가지 차별점</h3>
+      <ol style="padding-left:28px;font-size:.94rem;color:var(--ink);line-height:1.9;letter-spacing:-.01em">
+        <li data-i18n="diff1"><strong>7-Tech 융합 깊이</strong> — Vision + Radar + Wearable + Thermal + Blockchain + 119 + Twin을 단일 플랫폼에 통합.</li>
+        <li data-i18n="diff2"><strong>10초 내 119 자동 응급</strong> — 사고 감지 → 응급실 자동 연결. 글로벌 어디에도 없음.</li>
+        <li data-i18n="diff3"><strong>12-Agent Harness</strong> — Agentic AI 자율 판단·개입. 경쟁사는 단일 룰베이스 알람.</li>
+        <li data-i18n="diff4"><strong>Health Promotion 통합</strong> — Safety + Health + Sensing 3축. 경쟁사는 Safety만.</li>
+        <li data-i18n="diff5"><strong>로컬 R&amp;D 검증</strong> — 경북 RISE 사업 5년 정부 지원. 50인 미만 영세 사업장 저비용 보급형.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 15. ROADMAP ============== -->
+<section id="roadmap">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">15 · <span data-i18n="secRMLabel">R&D 로드맵</span></span>
+      <h2 class="sec-title" data-i18n="secRMTitle"><span class="accent">5년</span> 단계별 추진 계획</h2>
+      <p class="sec-desc" data-i18n="secRMDesc">2025년 기반 연구 → 2029년 상용화·창업. KW 산업안전기술지원센터 운영.</p>
+    </div>
+    <div class="roadmap aos">
+      <div class="roadmap-grid">
+        <div class="roadmap-step"><div class="yr">2025</div><h5 data-i18n="rm1Title">기반 연구</h5><p data-i18n="rm1Desc">저비용 IoT·위험요인 분석·정형화 모델·실시간 대시보드</p></div>
+        <div class="roadmap-step"><div class="yr">2026</div><h5 data-i18n="rm2Title">핵심 기술</h5><p data-i18n="rm2Desc">AI 비전·예측 모델·근골격계 예방·ROI 분석</p></div>
+        <div class="roadmap-step"><div class="yr">2027</div><h5 data-i18n="rm3Title">현장 적용</h5><p data-i18n="rm3Desc">표준 스키마·블록체인 보안·교육콘텐츠 · CES 2027</p></div>
+        <div class="roadmap-step"><div class="yr">2028</div><h5 data-i18n="rm4Title">고도화</h5><p data-i18n="rm4Desc">시뮬레이션 안전관리·디지털 인증·VR/AR 훈련</p></div>
+        <div class="roadmap-step"><div class="yr">2029</div><h5 data-i18n="rm5Title">상용화·창업</h5><p data-i18n="rm5Desc">기술이전·스핀오프·KC 인증·일자리 창출</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 16. IMPACT ============== -->
+<section style="background:var(--bg-2)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">16 · <span data-i18n="secIMLabel">기대효과</span></span>
+      <h2 class="sec-title" data-i18n="secIMTitle"><span class="accent">정량 목표</span> · 정부 계획 정렬</h2>
+      <p class="sec-desc" data-i18n="secIMDesc">국정운영 5개년 — 중대재해 25.6% 감축·OECD 평균 사고사망률 0.29% 달성. R&amp;D: 특허 118 · 학술 50 · 기술이전 30.</p>
+    </div>
+    <div class="impact-grid">
+      <div class="impact-card aos"><div class="v">25.6%↓</div><div class="l" data-i18n="im1">중대재해 감축 (2026)</div></div>
+      <div class="impact-card aos delay-1"><div class="v">0.18%</div><div class="l" data-i18n="im2">제조 사고사망률 (2030)</div></div>
+      <div class="impact-card aos delay-2"><div class="v">150</div><div class="l" data-i18n="im3">관제 얼라이언스 사업장</div></div>
+      <div class="impact-card aos delay-3"><div class="v">1,000</div><div class="l" data-i18n="im4">헬스프로모션 참여 근로자</div></div>
+      <div class="impact-card aos"><div class="v">118</div><div class="l" data-i18n="im5">목표 IP 권리 (5년)</div></div>
+      <div class="impact-card aos delay-1"><div class="v">50</div><div class="l" data-i18n="im6">공동 R&amp;D 과제</div></div>
+      <div class="impact-card aos delay-2"><div class="v">30</div><div class="l" data-i18n="im7">기술이전 (5년)</div></div>
+      <div class="impact-card aos delay-3"><div class="v">10</div><div class="l" data-i18n="im8">기술사업화 창업</div></div>
+    </div>
+    <div class="alliance card aos">
+      <h4 data-i18n="allianceTitle">산학연 얼라이언스</h4>
+      <div class="alliance-rows">
+        <div class="alliance-row"><div class="label">R&amp;D 파트너</div><div class="members"><span class="chip">GERI</span><span class="chip">KETI</span><span class="chip">KIRO</span><span class="chip">HEXAGON</span></div></div>
+        <div class="alliance-row"><div class="label">생태계</div><div class="members"><span class="chip">안전보건공단</span><span class="chip">한국산업단지공단</span><span class="chip">경상북도</span><span class="chip">YesGumi</span></div></div>
+        <div class="alliance-row"><div class="label">허브대학</div><div class="members"><span class="chip">경운대 보건대학</span><span class="chip">소프트웨어학부</span><span class="chip">지역산업학부</span><span class="chip">재난안전전략학과</span><span class="chip">물리·작업치료학과</span><span class="chip">간호·치위생학과</span></div></div>
+        <div class="alliance-row"><div class="label">MC 협력기업</div><div class="members"><span class="chip">POSCO</span><span class="chip">삼성SDI</span><span class="chip">현대자동차</span><span class="chip">76개사 (4 MC)</span><span class="chip">95+ 확산</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 17. METHODOLOGY ============== -->
+<section id="methodology">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">17 · <span data-i18n="secMTLabel">데이터 출처</span></span>
+      <h2 class="sec-title" data-i18n="secMTTitle">모든 수치는 <span class="accent">정부 공인 조사</span>에서</h2>
+      <p class="sec-desc" data-i18n="secMTDesc">안전보건공단 산업안전보건연구원의 3개 공식 조사 데이터를 직접 파싱.</p>
+    </div>
+    <div class="method-grid">
+      <div class="method-card card aos">
+        <div class="src-name">KWCS-7</div>
+        <div class="src-title">제7차 근로환경조사 (2023)</div>
+        <div class="src-meta">안전보건공단 산업안전보건연구원. 15세 이상 취업자 면접조사. 700여 변수.</div>
+        <div class="src-sample">50,195<small>명 응답</small></div>
+      </div>
+      <div class="method-card card aos delay-1">
+        <div class="src-name">KOSHS-10</div>
+        <div class="src-title">제10차 산업안전보건 실태조사 (2023)</div>
+        <div class="src-meta">제조·건설·서비스 사업장 단위. 안전보건체계·위험성평가·관리자 선임.</div>
+        <div class="src-sample">3,255<small>개 제조업체</small></div>
+      </div>
+      <div class="method-card card aos delay-2">
+        <div class="src-name">WES-7</div>
+        <div class="src-title">제7차 작업환경실태조사</div>
+        <div class="src-meta">사업체 단위 작업환경·근로자 구성·관리지표 80여 변수.</div>
+        <div class="src-sample">19,956<small>개 제조 사업장</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============== 18. FACTORY XR ============== -->
+<section id="factory-xr">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">18 · <span data-i18n="secXRLabel">3D 가상 공장 XR</span></span>
+      <h2 class="sec-title" data-i18n="secXRTitle">실시간 <span class="accent">3D 가상 공장</span> · WebXR 프리뷰</h2>
+      <p class="sec-desc" data-i18n="secXRDesc">Three.js 기반 가상 공장 바닥. 근로자 위치·위험구역·AI 감지 이벤트를 3D로 실시간 시각화. WebXR 지원 기기에서 VR 모드로 입장 가능.</p>
+    </div>
+    <div class="factory-canvas-wrap aos">
+      <canvas id="factoryCanvas" aria-label="3D 가상 공장 시뮬레이션"></canvas>
+      <div class="xr-hud">
+        <span class="xr-badge ok">● SYSTEM ONLINE</span>
+        <span class="xr-badge warn" id="xrWarnBadge">⚠ 1 CAUTION ZONE</span>
+        <span class="xr-badge alert" id="xrAlertBadge" style="display:none">🚨 ALERT</span>
+        <span class="xr-badge info" style="background:rgba(49,130,246,.2);color:#60a5fa;border:1px solid rgba(49,130,246,.3)">👁 6 WORKERS TRACKED</span>
+      </div>
+      <div class="xr-foot" id="xrFoot">SHine-K Digital Twin · Three.js r160 · WebXR Ready · 실시간 시뮬레이션</div>
+      <div class="xr-enter" id="xrEnterBtn" style="display:none">
+        <button onclick="enterXR()">🥽 Enter VR Mode</button>
+      </div>
+    </div>
+    <div class="xr-stats">
+      <div class="xr-stat"><div class="v" id="xrWorkers" style="color:var(--a)">6</div><div class="l" data-i18n="xrL1">모니터링 중 근로자</div></div>
+      <div class="xr-stat"><div class="v" id="xrSafe" style="color:var(--g)">4</div><div class="l" data-i18n="xrL2">안전 구역 근로자</div></div>
+      <div class="xr-stat"><div class="v" id="xrRisk" style="color:var(--r)">2</div><div class="l" data-i18n="xrL3">위험 구역 근로자</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="container">
+    <h2><span data-i18n="ctaH1">데이터는 충분합니다.<br></span><span class="accent" data-i18n="ctaH2">이제 SHine-K가 행동합니다.</span></h2>
+    <p data-i18n="ctaSub">3D 디지털 트윈 · 12 에이전트 하네스 · 실시간 카메라 AI · 119 자동연결 — 모두 작동하는 데모.</p>
+    <div class="cta-links">
+      <a href="https://shine-k-wansuk-choi-ces2027.vercel.app" target="_blank" rel="noopener" class="btn btn-primary">🏆 CES 2027 메인 →</a>
+      <a href="https://shine-k-wansuk-choi-ces2027.vercel.app/twin.html" target="_blank" rel="noopener" class="btn btn-ghost">🏭 3D 디지털 트윈</a>
+      <a href="https://shine-k-wansuk-choi-ces2027.vercel.app/harness.html" target="_blank" rel="noopener" class="btn btn-ghost">🧠 12 Agent Harness</a>
+      <a href="https://shine-k-wansuk-choi-ces2027.vercel.app/live-demo.html" target="_blank" rel="noopener" class="btn btn-ghost">📷 Live Camera AI</a>
+      <a href="https://shine-k-wansuk-choi-ces2027.vercel.app/demo.html" target="_blank" rel="noopener" class="btn btn-ghost">🖥️ 관제센터 데모</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h5>SHine-K Platform</h5>
+        <ul>
+          <li><a href="https://shine-k-demo.vercel.app" target="_blank" rel="noopener">시연/발표용 (Demo)</a></li>
+          <li><a href="https://shine-k.vercel.app" target="_blank" rel="noopener">상용 서비스 (DB)</a></li>
+          <li><a href="https://shine-k-wansuk-choi-ces2027.vercel.app" target="_blank" rel="noopener">CES 2027 (3D + Agent)</a></li>
+          <li><a href="https://shine-k-insights.vercel.app" target="_blank" rel="noopener">Insights (이 사이트)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5 data-i18n="footDataTitle">데이터 출처</h5>
+        <ul>
+          <li>KWCS 제7차 근로환경조사 (2023, n=50,195)</li>
+          <li>KOSHS 제10차 산업안전보건 실태조사</li>
+          <li>제7차 작업환경실태조사 (n=19,956)</li>
+          <li>국정운영 5개년 계획 (2025)</li>
+        </ul>
+      </div>
+      <div>
+        <h5 data-i18n="footProjTitle">과제 정보</h5>
+        <ul>
+          <li>경상북도 RISE (추가) 공모사업</li>
+          <li>로컬 맞춤형 R&amp;D · 대학자율</li>
+          <li>2025~2029 (5개년)</li>
+          <li>경운대학교 보건대학</li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      © 2025-2029 경운대학교 보건대학 · 신형수 학장 / 구미란 교수 / 최완석 · SHine-K Platform Initiative · RISE 사업단 · v3.0 (Toss-style integrated)
+    </div>
+  </div>
+</footer>
+
+<button id="backToTop" aria-label="맨 위로 이동" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// ============================================================
+// SERVICE WORKER
+// ============================================================
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+}
+
+// ============================================================
+// I18N (compact — full translations preserved from v2)
+// ============================================================
+const I18N = {
+  ko: {
+    skip:"본문으로 이동",logoSub:" · Insights",
+    navCrisis:"현실",navGB:"경북",navMC:"클러스터",navPlat:"플랫폼",navAgents:"12 에이전트",navScen:"5대 시나리오",navHealth:"헬스 프로모션",navCenter:"관제센터",navCompete:"경쟁분석",navCES:"CES 2027 →",
+    heroEyebrow:"세계 최초 7-Tech 융합 산업안전·건강 플랫폼",heroH1a:"아프기 전에",heroH1b:"근로자를 지킵니다",
+    heroSub:"MediaPipe BlazePose · mmWave Radar · 웨어러블 · 열화상 · 블록체인 · 119 자동연계 · 3D 디지털 트윈. 12 에이전트가 Sense → Judge → Act → Connect를 자율 수행하는 Agentic AI 통합 플랫폼.",
+    ctaCenter:"근로자안전센터 LIVE",ctaPlat:"플랫폼 살펴보기",ctaTwin:"3D 디지털 트윈",ctaLive:"Live AI 체험",
+    stat1:"AI 감지 정확도",stat2:"낙상 → 119 연계",stat3:"자율 에이전트",stat4:"입증된 ROI",scrollHint:"SCROLL",
+    secCrisisLabel:"불편한 진실",secCrisisTitle:"한국 산업안전의 <span class='accent'>불편한 진실</span>",secCrisisDesc:"OECD 38개국 중 34위 — '산재 공화국'이라는 오명. 정부 5개년 계획은 2030년 OECD 평균 산재율을 목표로 하지만, 현장은 다릅니다.",
+    crisis1Title:"2023 산재 사회적 손실",crisis1Desc:"2020년 대비 27.3% 급증. 산재는 '비용'이 아닌 '사회적 타살'(대통령, '25.08).",
+    crisis2Title:"50인 미만 사업장 산재사망",crisis2Desc:"중소사업장 자원 제약 · 사후대응 중심 · 통합 예방 플랫폼 부재.",
+    crisis3Title:"근골격계 만성질환 비중",crisis3Desc:"제조업 40%+가 반복작업. 자각증상 호소 50%+. 직업성 질환 절대 다수.",
+    crisis4Title:"OECD 산재 순위",crisis4Desc:"선진국 지위와 불일치. 사망률 0.39%(2024) → 0.29%(2026 목표).",
+    chart1Title:"제조업 위험요인 노출도 (KWCS 7차, 2023)",chart1Sub:"응답자 50,195명 중 노출 비율",
+    chart2Title:"제조업 사망자 사고 유형 (2023)",chart2Sub:"끼임·추락·화학물질 사고 약 60%",
+    secGBLabel:"경북 데이터",secGBTitle:"경북은 <span class='accent'>왜 다른가</span>",secGBDesc:"전국 평균과 다른 4가지 핵심 격차. KWCS 7차 경북 응답자 2,924명의 실측 데이터.",
+    gb1:"60대+ 근로자 비중",gb2:"자각 건강위험 인식",gb3:"화학물질 접촉 노출",gb4:"고온 작업환경 노출",
+    chart3Title:"연령별 분포 · 경북 vs 전국",chart3Sub:"고령화가 Health Promotion 전략의 핵심 동인",
+    chart4Title:"물리적 위험요인 · 경북 vs 전국",chart4Sub:"고온·화학물질·저온이 전국 대비 높음",
+    secMCLabel:"4대 미니클러스터",secMCTitle:"<span class='accent'>4대 미니클러스터</span>로 본 경북 제조업",secMCDesc:"구미 전자/포항·경주 철강/안동 식품·목재/경산 기계·자동차 — 작업환경실태조사 7차 19,956개 사업장 분석.",
+    mcGumi:"구미 (전자/반도체)",mcPohang:"포항·경주 (철강)",mcAndong:"안동 (식품/목재)",mcGS:"경산 (기계/자동차)",
+    secBSLabel:"사각지대",secBSTitle:"제조업 23개 업종 — <span class='accent'>누가 가장 취약한가?</span>",secBSDesc:"자동차·의약·전자/반도체는 잘 관리. 가구·목재·기타제조는 36~46%. SHine-K의 표적 시장.",
+    chart5Title:"안전관리자 선임율 · 23개 제조업종",chart5Sub:"가구(36.0%)·기타제조(46.4%)·목재(44.8%) — 4대 사각지대",
+    chart6Title:"위험성평가 실시율 vs 안전관리자 선임율",chart6Sub:"관리자가 있어도 평가를 안 하는 업종",
+    chart7Title:"교대근무 비율 · 상위 10업종",chart7Sub:"자동차·1차금속·고무플라스틱",
+    secPlatLabel:"7-Tech 융합 플랫폼",secPlatTitle:"세계 최초 <span class='accent'>7-Tech 융합</span> 아키텍처",secPlatDesc:"컴퓨터 비전 + 60GHz 레이더 + 웨어러블 + 열화상 + 블록체인 + 자동 119 + 3D 트윈. 경쟁사가 1~2개만 가질 때 SHine-K는 7개를 단일 플랫폼에 융합.",
+    secAgentLabel:"에이전트 하네스",secAgentTitle:"<span class='accent'>12 에이전트</span>가 자율 판단합니다",secAgentDesc:"단일 룰베이스 알람을 넘어선 Agentic AI. Sense(5) → Judge(3) → Act(3) → Connect(1)의 4단계 사이클을 Supabase 실시간 동기화로 실행. Triple verification + Multimodal fusion.",
+    secScenLabel:"5대 사고 시나리오",secScenTitle:"2023 제조업 사망 60%를 <span class='accent'>5개 시나리오로</span> 집중",secScenDesc:"3D 디지털 트윈에서 자동 재생되는 실제 시나리오. 각 시나리오마다 다른 에이전트 조합이 자율 개입합니다.",
+    scen1Title:"Fall from Height",scen1Resp:"vision + radar 낙상 감지 → 1.2초 내 emergency_agent 발동 → 119 자동 호출",
+    scen2Title:"Caught in Machine",scen2Resp:"vision agent 손 인식 → 비상정지 신호 자동 송신 → SMS 5-tier 동시 발송",
+    scen3Title:"Slip &amp; Fall",scen3Resp:"reba_scorer 점수 12 (위험) → nudge 즉시 알림 + 작업환경 자동 보고",
+    scen4Title:"Heat Stroke",scen4Resp:"thermal + wearable 융합 → 핵심체온 임계치 → 강제 대피 + 응급실 사전 알림",
+    scen5Title:"Forklift Collision",scen5Resp:"radar 거리 측정 + vision 경로 예측 → 지게차 자동 브레이크 신호 전송",
+    secLiveLabel:"Live AI 사양",secLiveTitle:"브라우저에서 바로 작동하는 <span class='accent'>실시간 AI</span>",secLiveDesc:"서버 설치 없이 노트북·휴대폰 브라우저만으로 MediaPipe BlazePose + REBA 점수 + 마이크 dB + 가속도계 낙상감지가 즉시 동작.",
+    lai1:"실시간 33개 관절점 추적. REBA Neck/Trunk/Legs/Upper Arm/Forearm/Wrist 자동 산출.",lai2:"전문가 평가와 0.89 상관계수. 1~15 점수로 근골격계 위험 즉시 판정.",lai3:"마이크로 작업장 소음 측정. 70dB 이상이면 LOUD 경고 자동 발동.",lai4:"DeviceMotion 가속도 분석. 2.5g 이상 충격 시 자동 119 워크플로우 트리거.",
+    secHealthLabel:"헬스 프로모션",secHealthTitle:"Safety를 넘어 <span class='accent'>Health Promotion</span>까지",secHealthDesc:"경쟁사는 사고 감지(Safety)만 한다. SHine-K는 만성 질환 예측(Health) + 위험요인 빅데이터(Sensing)까지. 작업환경 + 생체데이터를 실시간 통합 분석해 직업성 질환을 사전 예방.",
+    hc1Title:"웨어러블 통합",hc1Desc:"Apple Watch · Galaxy Watch · 산업용 밴드. HR·SpO2·ECG·체온·스트레스 인덱스를 BLE 5.0 &lt;50ms로 클라우드 연동.",
+    hc2Title:"AI 질환 예측",hc2Desc:"LSTM 시계열 + 의료데이터(건강검진·MSK 진단) + 라이프로그(걸음·수면·식이)로 근골격계·만성질환 발생을 사전 예측.",
+    hc3Title:"게이미피케이션",hc3Desc:"일일 안전점수·팀 랭킹·포인트·연속 무사고 일수. 동기부여 기반 양방향 피드백으로 자발 참여 유도.",
+    killerTitle:"🎯 Killer Use Case · AI 위험 예측",killerSub:"정량적 위험 예측. 사후 대응이 아닌 사전 개입.",killerQuote:"\"Worker <b>Kim</b> on Line 3 has <b>73%</b> probability of <b>MSK injury</b> in the next <b>2 hours</b> — recommend rotation now.\"",
+    gameTitle:"🏆 Safety Gamification — 28일 무사고 연속 도전",gameDesc:"근로자 개인별 대시보드. 자발적 안전 참여를 일상화하는 행동 디자인.",
+    gameL1:"일일 안전점수",gameL2:"팀 랭킹",gameL3:"누적 안전 포인트",gameL4:"무사고 연속 일수",
+    secCCLabel:"통합 관제센터",secCCTitle:"경운대 <span class='accent'>통합 관제센터</span>가 24/7 모니터링",secCCDesc:"실시간 대시보드 + SMS 5-tier 자동 발송 + 119 자동연계(GPS·영상). 사고 발생 시 1.2초 감지 → 10초 내 응급실 병상 조회까지 완전 자동.",
+    ccSMSTitle:"📱 SMS 5-Tier 자동 발송",ccT1:"근로자 본인",ccT2:"안전관리자",ccT3:"대표자",ccT4:"가족·비상연락",ccT5:"경운대 관제센터",
+    ccDispTitle:"🚨 119 자동연계 5단계 타임라인",
+    ccD1Title:"AI 감지",ccD1Desc:"MediaPipe + 레이더 융합 — 낙상 confidence 98.1% / Triple verified",
+    ccD2Title:"현장 경보",ccD2Desc:"사이렌 + LED 점등 · 관제센터 대시보드 빨간 알림 표시",
+    ccD3Title:"SMS 발송",ccD3Desc:"5-tier 동시 발송 (본인 + 안전관리자 + 대표 + 가족 + 관제)",
+    ccD4Title:"119 신고",ccD4Desc:"Smart 119 API · GPS 위치 + 사고 영상 + 근로자 정보 자동 전송",
+    ccD5Title:"병상 조회",ccD5Desc:"e-Gen API · 구미시 응급의료센터 가용 병상 2/15 · 출동 차량 자동 배차",
+    ccDashTitle:"실시간 관제 대시보드 · LIVE",dpL1:"가입 기업",dpL2:"등록 근로자",dpL3:"바이탈 데이터 (일)",dpL4:"AI 이벤트 평균",
+    secAppLabel:"모바일 앱",secAppTitle:"근로자가 들고 다니는 <span class='accent'>안전 동반자</span>",secAppDesc:"Android · iOS 네이티브. 웨어러블 자동 페어링 + 실시간 안전점수 + 음성 호출 응급 신고.",
+    appH3:"근로자 중심 UX, 관리자 중심 권한",appP:"웨어러블 데이터 자동 동기화 + 6종 이벤트 알림 + 미션·랭킹·포인트 게이미피케이션. 음성 인식("도와줘") 한 마디로 119 자동 호출.",
+    appF1:"웨어러블 자동 페어링",appF2:"실시간 안전점수",appF3:"팀 랭킹 · 포인트",appF4:"REBA 자가 진단",appF5:"음성 SOS",appF6:"GPS 출퇴근 자동",appF7:"SMS 5-tier 비상",appF8:"한·영·중 3개 언어",
+    secStratLabel:"SHine-K 전략",secStratTitle:"데이터에서 도출된 <span class='accent'>3대 전략</span>",secStratDesc:"Safety + Health + Enterprise Sensing — 경쟁사 어디에도 없는 3축 통합 R&amp;D.",
+    strat1Sub:"스마트 작업장 안전관제",strat1Desc:"IoT·CCTV·웨어러블 기반 근로자·장비 실시간 모니터링. 5G-IoT 저지연.",strat1L1:"저비용 IoT 위험탐지",strat1L2:"AI 비전 작업자·장비 감지",strat1L3:"위험구역 매핑·접근통제",
+    strat2Sub:"AI 기반 맞춤형 헬스 프로모션",strat2Desc:"웨어러블·IoT로 작업환경·생체 통합. 근골격계·만성질환 예측 + 게이미피케이션.",strat2L1:"저비용 웨어러블 통합 모니터링",strat2L2:"개인별 직업성 질환 예측",strat2L3:"동기부여 게이미피케이션",
+    strat3Sub:"위험요인 빅데이터 플랫폼",strat3Desc:"비정형(영상·음성·센서) 수집·정형화·표준 스키마. 블록체인 가명처리.",strat3L1:"저비용 데이터 파이프라인",strat3L2:"AI 시뮬레이션 예방 알고리즘",strat3L3:"실시간 ROI 자동 보고",
+    secHmLabel:"위험요인 매트릭스",secHmTitle:"<span class='accent'>15가지 위험요인</span> × 4개 집단",secHmDesc:"물리(9) + 인간공학(6) = 15개 위험요인을 전국/경북/전국제조/경북제조에서 비교.",
+    secCompLabel:"경쟁분석",secCompTitle:"세계 최고와 비교 · <span class='accent'>SHine-K가 더 깊은 이유</span>",secCompDesc:"Intenseye·Protex AI·viAct·TuMeke·Strongarm 등 글로벌 산업안전 AI 강자와 SHine-K 비교.",
+    diffTitle:"⚡ SHine-K만의 5가지 차별점",
+    diff1:"<strong>7-Tech 융합 깊이</strong> — Vision + Radar + Wearable + Thermal + Blockchain + 119 + Twin을 단일 플랫폼에 통합.",
+    diff2:"<strong>10초 내 119 자동 응급</strong> — 사고 감지 → 응급실 자동 연결. 글로벌 어디에도 없음.",
+    diff3:"<strong>12-Agent Harness</strong> — Agentic AI 자율 판단·개입. 경쟁사는 단일 룰베이스 알람.",
+    diff4:"<strong>Health Promotion 통합</strong> — Safety + Health + Sensing 3축. 경쟁사는 Safety만.",
+    diff5:"<strong>로컬 R&amp;D 검증</strong> — 경북 RISE 사업 5년 정부 지원. 50인 미만 영세 사업장 저비용 보급형.",
+    secRMLabel:"R&D 로드맵",secRMTitle:"<span class='accent'>5년</span> 단계별 추진 계획",secRMDesc:"2025년 기반 연구 → 2029년 상용화·창업. KW 산업안전기술지원센터 운영.",
+    rm1Title:"기반 연구",rm1Desc:"저비용 IoT·위험요인 분석·정형화 모델·실시간 대시보드",
+    rm2Title:"핵심 기술",rm2Desc:"AI 비전·예측 모델·근골격계 예방·ROI 분석",
+    rm3Title:"현장 적용",rm3Desc:"표준 스키마·블록체인 보안·교육콘텐츠 · CES 2027",
+    rm4Title:"고도화",rm4Desc:"시뮬레이션 안전관리·디지털 인증·VR/AR 훈련",
+    rm5Title:"상용화·창업",rm5Desc:"기술이전·스핀오프·KC 인증·일자리 창출",
+    secIMLabel:"기대효과",secIMTitle:"<span class='accent'>정량 목표</span> · 정부 계획 정렬",secIMDesc:"국정운영 5개년 — 중대재해 25.6% 감축·OECD 평균 사고사망률 0.29% 달성. R&amp;D: 특허 118 · 학술 50 · 기술이전 30.",
+    im1:"중대재해 감축 (2026)",im2:"제조 사고사망률 (2030)",im3:"관제 얼라이언스 사업장",im4:"헬스프로모션 참여 근로자",im5:"목표 IP 권리 (5년)",im6:"공동 R&amp;D 과제",im7:"기술이전 (5년)",im8:"기술사업화 창업",
+    allianceTitle:"산학연 얼라이언스",
+    secMTLabel:"데이터 출처",secMTTitle:"모든 수치는 <span class='accent'>정부 공인 조사</span>에서",secMTDesc:"안전보건공단 산업안전보건연구원의 3개 공식 조사 데이터를 직접 파싱.",
+    secXRLabel:"3D 가상 공장 XR",secXRTitle:"실시간 <span class='accent'>3D 가상 공장</span> · WebXR 프리뷰",secXRDesc:"Three.js 기반 가상 공장 바닥. 근로자 위치·위험구역·AI 감지 이벤트를 3D로 실시간 시각화. WebXR 지원 기기에서 VR 모드로 입장 가능.",
+    xrL1:"모니터링 중 근로자",xrL2:"안전 구역 근로자",xrL3:"위험 구역 근로자",
+    ctaH1:"데이터는 충분합니다.<br>",ctaH2:"이제 SHine-K가 행동합니다.",ctaSub:"3D 디지털 트윈 · 12 에이전트 하네스 · 실시간 카메라 AI · 119 자동연결 — 모두 작동하는 데모.",
+    footDataTitle:"데이터 출처",footProjTitle:"과제 정보"
+  },
+  en: {
+    skip:"Skip to main",logoSub:" · Insights",
+    navCrisis:"Reality",navGB:"Gyeongbuk",navMC:"Clusters",navPlat:"Platform",navAgents:"12 Agents",navScen:"5 Scenarios",navHealth:"Health",navCenter:"Control Center",navCompete:"Compete",navCES:"CES 2027 →",
+    heroEyebrow:"World-First 7-Tech Fusion Safety & Health Platform",heroH1a:"Protecting Workers",heroH1b:"Before They Get Hurt",
+    heroSub:"MediaPipe BlazePose · mmWave Radar · Wearables · Thermal · Blockchain · Auto 119 Dispatch · 3D Twin. 12 agents autonomously execute Sense → Judge → Act → Connect.",
+    ctaCenter:"Worker Safety Center LIVE",ctaPlat:"Explore Platform",ctaTwin:"3D Digital Twin",ctaLive:"Live AI Demo",
+    stat1:"AI Detection Accuracy",stat2:"Fall → 119 Emergency",stat3:"Autonomous Agents",stat4:"Proven ROI",scrollHint:"SCROLL",
+    secCrisisLabel:"Uncomfortable Truth",secCrisisTitle:"Korea's <span class='accent'>Uncomfortable Truth</span> in Industrial Safety",secCrisisDesc:"Ranked 34th out of 38 OECD countries — stigmatized as an 'industrial accident republic'. The government's 5-year plan targets OECD-average injury rates by 2030, but the field tells a different story.",
+    crisis1Title:"2023 Industrial Accident Social Cost",crisis1Desc:"Up 27.3% vs 2020. Accidents are 'social murder', not just 'costs' (President, Aug '25).",
+    crisis2Title:"Fatalities at Sub-50 Employee Sites",crisis2Desc:"SME resource constraints · reactive-response focus · no integrated prevention platform.",
+    crisis3Title:"Musculoskeletal Chronic Disease Rate",crisis3Desc:"40%+ of manufacturing workers do repetitive tasks. 50%+ report symptoms. Majority of occupational diseases.",
+    crisis4Title:"OECD Industrial Accident Ranking",crisis4Desc:"Mismatched with developed-nation status. Fatality rate 0.39% (2024) → 0.29% (2026 target).",
+    chart1Title:"Manufacturing Hazard Exposure (KWCS-7, 2023)",chart1Sub:"Exposure rates among 50,195 respondents",
+    chart2Title:"Manufacturing Fatalities by Accident Type (2023)",chart2Sub:"Entrapment · Falls · Chemical incidents ≈ 60%",
+    secGBLabel:"Gyeongbuk Data",secGBTitle:"Why <span class='accent'>Gyeongbuk Is Different</span>",secGBDesc:"4 key gaps from the national average. Real-world data from 2,924 Gyeongbuk respondents in KWCS-7.",
+    gb1:"Workers aged 60+",gb2:"Self-reported Health Risk Awareness",gb3:"Chemical Contact Exposure",gb4:"High-temperature Work Exposure",
+    chart3Title:"Age Distribution · Gyeongbuk vs National",chart3Sub:"Aging workforce is the key driver of Health Promotion strategy",
+    chart4Title:"Physical Hazards · Gyeongbuk vs National",chart4Sub:"High-temp · chemicals · low-temp higher than national average",
+    secMCLabel:"4 Mini-Clusters",secMCTitle:"Gyeongbuk Manufacturing through <span class='accent'>4 Mini-Clusters</span>",secMCDesc:"Gumi Electronics / Pohang-Gyeongju Steel / Andong Food-Wood / Gyeongsan Machinery-Auto — analysis of 19,956 workplaces from WES-7.",
+    mcGumi:"Gumi (Electronics/Semiconductor)",mcPohang:"Pohang·Gyeongju (Steel)",mcAndong:"Andong (Food/Wood)",mcGS:"Gyeongsan (Machinery/Auto)",
+    secBSLabel:"Blind Spots",secBSTitle:"23 Manufacturing Sectors — <span class='accent'>Who Is Most Vulnerable?</span>",secBSDesc:"Auto · pharma · electronics are well-managed. Furniture · wood · other manufacturing: 36–46%. SHine-K's target market.",
+    chart5Title:"Safety Manager Appointment Rate · 23 Manufacturing Sectors",chart5Sub:"Furniture(36%) · Other Mfg(46.4%) · Wood(44.8%) — 4 major blind spots",
+    chart6Title:"Risk Assessment Rate vs Safety Manager Rate",chart6Sub:"Sectors that have managers but skip risk assessments",
+    chart7Title:"Shift Work Rate · Top 10 Sectors",chart7Sub:"Auto · primary metals · rubber / plastics",
+    secPlatLabel:"7-Tech Fusion Platform",secPlatTitle:"World-First <span class='accent'>7-Tech Fusion</span> Architecture",secPlatDesc:"Computer Vision + 60GHz Radar + Wearables + Thermal + Blockchain + Auto 119 + 3D Twin. When competitors have 1–2 technologies, SHine-K fuses 7 in a single platform.",
+    secAgentLabel:"Agent Harness",secAgentTitle:"<span class='accent'>12 Agents</span> Make Autonomous Decisions",secAgentDesc:"Beyond single rule-based alerts. Agentic AI executes the 4-phase Sense→Judge→Act→Connect cycle with Supabase real-time sync. Triple verification + Multimodal fusion.",
+    secScenLabel:"5 Accident Scenarios",secScenTitle:"60% of 2023 Manufacturing Deaths in <span class='accent'>5 Scenarios</span>",secScenDesc:"Auto-replayed in the 3D Digital Twin. Each scenario triggers a different agent combination autonomously.",
+    scen1Title:"Fall from Height",scen1Resp:"vision + radar detect fall → emergency_agent triggers within 1.2 s → 119 auto-dispatch",
+    scen2Title:"Caught in Machine",scen2Resp:"vision agent detects hand → auto emergency-stop signal → SMS 5-tier simultaneous dispatch",
+    scen3Title:"Slip &amp; Fall",scen3Resp:"reba_scorer score 12 (danger) → instant nudge alert + auto work-environment report",
+    scen4Title:"Heat Stroke",scen4Resp:"thermal + wearable fusion → core-temp threshold → forced evacuation + ER pre-alert",
+    scen5Title:"Forklift Collision",scen5Resp:"radar distance + vision path prediction → auto brake signal to forklift",
+    secLiveLabel:"Live AI Specs",secLiveTitle:"<span class='accent'>Real-time AI</span> Running Directly in Browser",secLiveDesc:"No server needed — MediaPipe BlazePose + REBA score + Mic dB + accelerometer fall detection runs instantly on any laptop or phone browser.",
+    lai1:"Real-time 33 keypoint tracking. REBA Neck/Trunk/Legs/Upper Arm/Forearm/Wrist auto-calculated.",lai2:"r=0.89 correlation with expert assessment. Score 1–15 for instant MSK risk judgment.",lai3:"Workplace noise measurement via microphone. LOUD alert auto-triggers above 70 dB.",lai4:"DeviceMotion acceleration analysis. Impacts above 2.5 g auto-trigger 119 workflow.",
+    secHealthLabel:"Health Promotion",secHealthTitle:"Beyond Safety to <span class='accent'>Health Promotion</span>",secHealthDesc:"Competitors only do accident detection (Safety). SHine-K adds chronic disease prediction (Health) + hazard factor big data (Sensing). Real-time integrated analysis of work environment + biometrics for preventive care.",
+    hc1Title:"Wearable Integration",hc1Desc:"Apple Watch · Galaxy Watch · Industrial Band. HR · SpO2 · ECG · temp · stress index via BLE 5.0 &lt;50 ms cloud sync.",
+    hc2Title:"AI Disease Prediction",hc2Desc:"LSTM time-series + medical data (health check · MSK diagnosis) + lifelog (steps · sleep · diet) to predict MSK and chronic disease onset.",
+    hc3Title:"Gamification",hc3Desc:"Daily safety score · team ranking · points · consecutive accident-free days. Motivation-driven bidirectional feedback for voluntary participation.",
+    killerTitle:"🎯 Killer Use Case · AI Risk Prediction",killerSub:"Quantitative risk prediction. Pre-emptive intervention, not reactive response.",killerQuote:"\"Worker <b>Kim</b> on Line 3 has <b>73%</b> probability of <b>MSK injury</b> in the next <b>2 hours</b> — recommend rotation now.\"",
+    gameTitle:"🏆 Safety Gamification — 28-Day Accident-Free Challenge",gameDesc:"Individual worker dashboard. Behavioral design to normalize voluntary safety participation.",
+    gameL1:"Daily Safety Score",gameL2:"Team Ranking",gameL3:"Accumulated Safety Points",gameL4:"Consecutive Accident-Free Days",
+    secCCLabel:"Integrated Control Center",secCCTitle:"Kyungwoon University <span class='accent'>Integrated Control Center</span> — 24/7 Monitoring",secCCDesc:"Real-time dashboard + SMS 5-tier auto-dispatch + 119 auto-link (GPS · video). Fully automated: 1.2 s detection → ER bed inquiry within 10 s.",
+    ccSMSTitle:"📱 SMS 5-Tier Auto-Dispatch",ccT1:"Worker Themselves",ccT2:"Safety Manager",ccT3:"Representative / Supervisor",ccT4:"Family / Emergency Contact",ccT5:"Kyungwoon Control Center",
+    ccDispTitle:"🚨 119 Auto-Link 5-Stage Timeline",
+    ccD1Title:"AI Detection",ccD1Desc:"MediaPipe + radar fusion — fall confidence 98.1% / Triple verified",
+    ccD2Title:"On-site Alert",ccD2Desc:"Siren + LED activation · Control center dashboard shows red alert",
+    ccD3Title:"SMS Dispatch",ccD3Desc:"5-tier simultaneous (worker + safety manager + supervisor + family + control center)",
+    ccD4Title:"119 Report",ccD4Desc:"Smart 119 API · GPS location + accident video + worker info auto-transmitted",
+    ccD5Title:"Bed Inquiry",ccD5Desc:"e-Gen API · Gumi City ER available beds 2/15 · auto vehicle dispatch",
+    ccDashTitle:"Real-time Control Dashboard · LIVE",dpL1:"Member Companies",dpL2:"Registered Workers",dpL3:"Vital Data (daily)",dpL4:"AI Events (avg / day)",
+    secAppLabel:"Mobile App",secAppTitle:"The <span class='accent'>Safety Companion</span> Workers Carry",secAppDesc:"Native Android & iOS. Auto-pair wearables + real-time safety score + voice-activated emergency call. Supports Huawei HMS · Xiaomi MIUI.",
+    appH3:"Worker-Centric UX, Manager-Centric Permissions",appP:"Wearable data auto-sync + 6-type event alerts + mission · ranking · points gamification. One-word voice ('help') auto-dials 119. Large-touch UI operable one-handed by 60+ workers.",
+    appF1:"Auto wearable pairing",appF2:"Real-time safety score",appF3:"Team ranking · points",appF4:"REBA self-assessment",appF5:"Voice SOS",appF6:"GPS auto commute tracking",appF7:"SMS 5-tier emergency",appF8:"3 languages: KO / EN / ZH",
+    secStratLabel:"SHine-K Strategy",secStratTitle:"<span class='accent'>3 Core Strategies</span> Derived from Data",secStratDesc:"Safety + Health + Enterprise Sensing — 3-axis integrated R&D found nowhere in competition.",
+    strat1Sub:"Smart Workplace Safety Control",strat1Desc:"IoT · CCTV · wearable-based real-time monitoring of workers and equipment. 5G-IoT low latency.",strat1L1:"Low-cost IoT hazard detection",strat1L2:"AI vision worker · equipment detection",strat1L3:"Hazard zone mapping · access control",
+    strat2Sub:"AI-based Personalized Health Promotion",strat2Desc:"Wearable · IoT integrated work environment and biometrics. MSK · chronic disease prediction + gamification.",strat2L1:"Low-cost wearable integrated monitoring",strat2L2:"Individual occupational disease prediction",strat2L3:"Motivational gamification",
+    strat3Sub:"Hazard Factor Big Data Platform",strat3Desc:"Collect unstructured (video · audio · sensor) data, normalize, standard schema. Blockchain pseudonymization.",strat3L1:"Low-cost data pipeline",strat3L2:"AI simulation preventive algorithms",strat3L3:"Real-time ROI auto-reporting",
+    secHmLabel:"Hazard Factor Matrix",secHmTitle:"<span class='accent'>15 Hazard Factors</span> × 4 Groups",secHmDesc:"Physical (9) + Ergonomic (6) = 15 hazard factors compared across national / Gyeongbuk / national manufacturing / Gyeongbuk manufacturing.",
+    secCompLabel:"Competitive Analysis",secCompTitle:"Compared to World's Best · <span class='accent'>Why SHine-K Goes Deeper</span>",secCompDesc:"Comparing SHine-K to Intenseye (USA/Turkey) · Protex AI (Ireland) · viAct (HK) · TuMeke (USA) · Strongarm (USA).",
+    diffTitle:"⚡ SHine-K's 5 Differentiators",
+    diff1:"<strong>7-Tech Fusion Depth</strong> — Vision + Radar + Wearable + Thermal + Blockchain + 119 + Twin unified in one platform.",
+    diff2:"<strong>119 Auto Emergency in 10 s</strong> — Accident detection → auto-link to ER. Unmatched globally.",
+    diff3:"<strong>12-Agent Harness</strong> — Agentic AI autonomous judgment and intervention. Competitors use single rule-based alerts.",
+    diff4:"<strong>Health Promotion Integration</strong> — Safety + Health + Sensing 3-axis. Competitors do Safety only.",
+    diff5:"<strong>Local R&D Validation</strong> — Gyeongbuk RISE 5-year government support. Low-cost for sub-50-employee SMEs.",
+    secRMLabel:"R&D Roadmap",secRMTitle:"<span class='accent'>5-Year</span> Phase-by-Phase Plan",secRMDesc:"2025 Foundation Research → 2029 Commercialization & Startup. KW Industrial Safety Support Center operation.",
+    rm1Title:"Foundation Research",rm1Desc:"Low-cost IoT · hazard analysis · normalization model · real-time dashboard",
+    rm2Title:"Core Technology",rm2Desc:"AI vision · predictive model · MSK prevention · ROI analysis",
+    rm3Title:"Field Application",rm3Desc:"Standard schema · blockchain security · education content · CES 2027",
+    rm4Title:"Enhancement",rm4Desc:"Simulation safety management · digital certification · VR/AR training",
+    rm5Title:"Commercialization & Startup",rm5Desc:"Tech transfer · spinoff · KC certification · job creation",
+    secIMLabel:"Expected Impact",secIMTitle:"<span class='accent'>Quantitative Targets</span> · Aligned with Government Plan",secIMDesc:"5-Year National Plan — 25.6% reduction in serious accidents · OECD-average fatality rate 0.29%. R&D: 118 patents · 50 papers · 30 tech transfers.",
+    im1:"Serious Accident Reduction (2026)",im2:"Mfg Fatality Rate (2030)",im3:"Control Alliance Workplaces",im4:"Health Promotion Workers",im5:"Target IP Rights (5-year)",im6:"Joint R&D Projects",im7:"Tech Transfers (5-year)",im8:"Tech Commercialization Startups",
+    allianceTitle:"Industry–Academia–Research Alliance",
+    secMTLabel:"Data Sources",secMTTitle:"All Figures from <span class='accent'>Government-Certified Surveys</span>",secMTDesc:"Direct parsing of 3 official surveys from KOSHA's Industrial Safety & Health Research Institute.",
+    secXRLabel:"3D Virtual Factory XR",secXRTitle:"Real-time <span class='accent'>3D Virtual Factory</span> · WebXR Preview",secXRDesc:"Three.js-powered virtual factory floor. Real-time 3D visualization of worker positions, hazard zones, and AI detection events. VR mode available on WebXR-capable devices.",
+    xrL1:"Workers Being Monitored",xrL2:"Workers in Safe Zone",xrL3:"Workers in Danger Zone",
+    ctaH1:"The data is clear.<br>",ctaH2:"Now SHine-K takes action.",ctaSub:"3D Digital Twin · 12 Agent Harness · Real-time Camera AI · 119 Auto-connect — all working demos.",
+    footDataTitle:"Data Sources",footProjTitle:"Project Info"
+  },
+  zh: {
+    skip:"跳到正文",logoSub:" · 洞察",
+    navCrisis:"现状",navGB:"庆北",navMC:"集群",navPlat:"平台",navAgents:"12智能体",navScen:"5大场景",navHealth:"健康促进",navCenter:"管制中心",navCompete:"竞品",navCES:"CES 2027 →",
+    heroEyebrow:"全球首创 7-Tech 融合安全健康平台",heroH1a:"在受伤之前",heroH1b:"守护工人",
+    heroSub:"MediaPipe + 毫米波雷达 + 可穿戴 + 热成像 + 区块链 + 119自动派遣 + 3D数字孪生。12智能体自主执行 Sense→Judge→Act→Connect。",
+    ctaCenter:"工人安全中心 LIVE",ctaPlat:"探索平台",ctaTwin:"3D数字孪生",ctaLive:"实时AI体验",
+    stat1:"AI检测精度",stat2:"坠落→119",stat3:"自主智能体",stat4:"已验证ROI",scrollHint:"滚动",
+    secCrisisLabel:"令人不安的真相",secCrisisTitle:"韩国工业安全的<span class='accent'>令人不安的真相</span>",secCrisisDesc:"在38个OECD国家中排名第34位——被称为'工伤共和国'。政府5年计划以2030年达到OECD平均工伤率为目标，但现场情况并非如此。",
+    crisis1Title:"2023年工伤社会成本",crisis1Desc:"与2020年相比增长27.3%。工伤不是'成本'，而是'社会谋杀'（总统，2025年8月）。",
+    crisis2Title:"50人以下工作场所工伤死亡",crisis2Desc:"中小企业资源受限·以事后处理为中心·缺乏综合预防平台。",
+    crisis3Title:"肌肉骨骼慢性病比例",crisis3Desc:"制造业40%+从事重复性工作。50%+有自觉症状。职业病中的绝对多数。",
+    crisis4Title:"OECD工伤排名",crisis4Desc:"与发达国家地位不符。死亡率0.39%(2024)→0.29%(2026目标)。",
+    chart1Title:"制造业危险因素暴露率（KWCS-7，2023）",chart1Sub:"50,195名受访者中的暴露比例",
+    chart2Title:"2023年制造业死亡事故类型",chart2Sub:"夹入·坠落·化学物质事故约60%",
+    secGBLabel:"庆北数据",secGBTitle:"庆北<span class='accent'>为何与众不同</span>",secGBDesc:"与全国平均水平的4个核心差距。KWCS-7庆北2,924名受访者的实测数据。",
+    gb1:"60岁以上工人比例",gb2:"自觉健康风险认知",gb3:"化学物质接触暴露",gb4:"高温作业环境暴露",
+    chart3Title:"年龄分布·庆北 vs 全国",chart3Sub:"人口老龄化是健康促进战略的核心驱动力",
+    chart4Title:"物理危险因素·庆北 vs 全国",chart4Sub:"高温·化学物质·低温高于全国水平",
+    secMCLabel:"4大微型产业集群",secMCTitle:"透过<span class='accent'>4大微型集群</span>看庆北制造业",secMCDesc:"龟尾电子/浦项·庆州钢铁/安东食品·木材/庆山机械·汽车——WES-7调查19,956个工作场所分析。",
+    mcGumi:"龟尾（电子/半导体）",mcPohang:"浦项·庆州（钢铁）",mcAndong:"安东（食品/木材）",mcGS:"庆山（机械/汽车）",
+    secBSLabel:"安全盲区",secBSTitle:"制造业23个行业——<span class='accent'>谁最脆弱？</span>",secBSDesc:"汽车·医药·电子管理较好。家具·木材·其他制造业：36~46%。SHine-K的目标市场。",
+    chart5Title:"安全管理者任命率·23个制造业行业",chart5Sub:"家具(36%)·其他制造(46.4%)·木材(44.8%)——4大盲区",
+    chart6Title:"风险评估实施率 vs 安全管理者任命率",chart6Sub:"有管理者但不进行风险评估的行业",
+    chart7Title:"轮班工作率·前10行业",chart7Sub:"汽车·初级金属·橡胶塑料",
+    secPlatLabel:"7-Tech融合平台",secPlatTitle:"全球首创<span class='accent'>7-Tech融合</span>架构",secPlatDesc:"计算机视觉+60GHz雷达+可穿戴+热成像+区块链+119自动+3D孪生。竞争对手只有1~2个技术时，SHine-K将7个融合为单一平台。",
+    secAgentLabel:"智能体管理器",secAgentTitle:"<span class='accent'>12个智能体</span>自主判断",secAgentDesc:"超越单一规则告警。Agentic AI通过Supabase实时同步执行Sense→Judge→Act→Connect四阶段循环。三重验证+多模态融合。",
+    secScenLabel:"5大事故场景",secScenTitle:"2023年制造业死亡60%集中于<span class='accent'>5个场景</span>",secScenDesc:"在3D数字孪生中自动重放。每个场景触发不同的智能体组合。",
+    scen1Title:"高处坠落",scen1Resp:"视觉+雷达检测坠落→1.2秒内emergency_agent启动→119自动呼叫",
+    scen2Title:"机械夹入",scen2Resp:"视觉智能体识别手部→自动发送紧急停止信号→SMS五级同时发送",
+    scen3Title:"滑倒跌落",scen3Resp:"reba_scorer评分12（危险）→立即nudge通知+自动工作环境报告",
+    scen4Title:"中暑",scen4Resp:"热成像+可穿戴融合→核心体温临界→强制撤离+急诊室预警",
+    scen5Title:"叉车碰撞",scen5Resp:"雷达测距+视觉路径预测→自动发送叉车刹车信号",
+    secLiveLabel:"实时AI规格",secLiveTitle:"直接在浏览器中运行的<span class='accent'>实时AI</span>",secLiveDesc:"无需服务器安装——MediaPipe BlazePose+REBA评分+麦克风dB+加速度计跌倒检测可在笔记本或手机浏览器即时运行。",
+    lai1:"实时33个关节点追踪。REBA颈部/躯干/腿部/上臂/前臂/手腕自动计算。",lai2:"与专家评估的相关系数0.89。1~15分即时判定肌肉骨骼风险。",lai3:"通过麦克风测量工作场所噪音。超过70dB时自动触发LOUD警告。",lai4:"DeviceMotion加速度分析。超过2.5g冲击时自动触发119流程。",
+    secHealthLabel:"健康促进",secHealthTitle:"超越安全走向<span class='accent'>健康促进</span>",secHealthDesc:"竞争对手只做事故检测（Safety）。SHine-K增加慢性病预测（Health）+危险因素大数据（Sensing）。实时整合分析工作环境+生物数据，实现预防性护理。",
+    hc1Title:"可穿戴设备集成",hc1Desc:"Apple Watch·Galaxy Watch·工业手环。HR·SpO2·ECG·体温·压力指数通过BLE 5.0 &lt;50ms云同步。",
+    hc2Title:"AI疾病预测",hc2Desc:"LSTM时间序列+医疗数据（健康检查·肌骨诊断）+生活记录（步数·睡眠·饮食）预测肌肉骨骼和慢性病发生。",
+    hc3Title:"游戏化",hc3Desc:"日常安全评分·团队排名·积分·连续无事故天数。基于激励的双向反馈促进自愿参与。",
+    killerTitle:"🎯 杀手级应用·AI风险预测",killerSub:"定量风险预测。事前干预而非事后响应。",killerQuote:"\"3号线工人<b>金</b>在接下来<b>2小时</b>内发生<b>肌肉骨骼损伤</b>的概率为<b>73%</b>——建议立即轮岗。\"",
+    gameTitle:"🏆 安全游戏化——28天连续无事故挑战",gameDesc:"工人个人仪表板。将自愿安全参与日常化的行为设计。",
+    gameL1:"日常安全评分",gameL2:"团队排名",gameL3:"累计安全积分",gameL4:"连续无事故天数",
+    secCCLabel:"综合管制中心",secCCTitle:"庆运大学<span class='accent'>综合管制中心</span>24/7监控",secCCDesc:"实时仪表板+SMS五级自动发送+119自动连接（GPS·视频）。从1.2秒检测到10秒内急诊室床位查询完全自动化。",
+    ccSMSTitle:"📱 SMS五级自动发送",ccT1:"工人本人",ccT2:"安全管理者",ccT3:"代表/主管",ccT4:"家人/紧急联系人",ccT5:"庆运大管制中心",
+    ccDispTitle:"🚨 119自动连接五阶段时间线",
+    ccD1Title:"AI检测",ccD1Desc:"MediaPipe+雷达融合——坠落置信度98.1%/三重验证",
+    ccD2Title:"现场警报",ccD2Desc:"警报器+LED点亮·管制中心仪表板显示红色警报",
+    ccD3Title:"SMS发送",ccD3Desc:"五级同时发送（工人+安全管理者+主管+家人+管制中心）",
+    ccD4Title:"119报告",ccD4Desc:"Smart 119 API·GPS位置+事故视频+工人信息自动传输",
+    ccD5Title:"床位查询",ccD5Desc:"e-Gen API·龟尾市急救医疗中心可用床位2/15·自动调度车辆",
+    ccDashTitle:"实时管制仪表板·LIVE",dpL1:"加入企业",dpL2:"注册工人",dpL3:"生命体征数据（日）",dpL4:"AI事件平均（日）",
+    secAppLabel:"移动应用",secAppTitle:"工人随身携带的<span class='accent'>安全伴侣</span>",secAppDesc:"原生Android和iOS。可穿戴设备自动配对+实时安全评分+语音激活紧急呼叫。支持华为HMS·小米MIUI。",
+    appH3:"以工人为中心的UX，以管理者为中心的权限",appP:"可穿戴数据自动同步+6种事件通知+任务·排名·积分游戏化。语音识别（'帮助'）一词自动拨打119。60岁以上工人也可单手操作的大触控UI。",
+    appF1:"可穿戴设备自动配对",appF2:"实时安全评分",appF3:"团队排名·积分",appF4:"REBA自我评估",appF5:"语音SOS",appF6:"GPS自动通勤追踪",appF7:"SMS五级紧急",appF8:"韩/英/中三种语言",
+    secStratLabel:"SHine-K战略",secStratTitle:"数据驱动的<span class='accent'>三大核心战略</span>",secStratDesc:"Safety+Health+Enterprise Sensing——竞争对手没有的三轴整合R&D。",
+    strat1Sub:"智能工作场所安全管控",strat1Desc:"基于IoT·CCTV·可穿戴设备的工人和设备实时监控。5G-IoT低延迟。",strat1L1:"低成本IoT危险检测",strat1L2:"AI视觉工人·设备检测",strat1L3:"危险区域映射·访问控制",
+    strat2Sub:"基于AI的个性化健康促进",strat2Desc:"可穿戴·IoT整合工作环境和生物数据。肌骨·慢性病预测+游戏化。",strat2L1:"低成本可穿戴整合监控",strat2L2:"个人职业病预测",strat2L3:"激励性游戏化",
+    strat3Sub:"危险因素大数据平台",strat3Desc:"采集非结构化（视频·音频·传感器）数据，规范化，标准模式。区块链假名处理。",strat3L1:"低成本数据管道",strat3L2:"AI仿真预防算法",strat3L3:"实时ROI自动报告",
+    secHmLabel:"危险因素矩阵",secHmTitle:"<span class='accent'>15种危险因素</span>×4个群体",secHmDesc:"物理（9）+人体工程学（6）=15个危险因素在全国/庆北/全国制造/庆北制造中比较。",
+    secCompLabel:"竞争分析",secCompTitle:"与全球最强对比·<span class='accent'>SHine-K更深入的原因</span>",secCompDesc:"将SHine-K与Intenseye（美国/土耳其）·Protex AI（爱尔兰）·viAct（香港）·TuMeke（美国）·Strongarm（美国）对比。",
+    diffTitle:"⚡ SHine-K的5大差异化优势",
+    diff1:"<strong>7-Tech融合深度</strong>——视觉+雷达+可穿戴+热成像+区块链+119+孪生统一在单一平台中。",
+    diff2:"<strong>10秒内119自动急救</strong>——事故检测→自动连接急诊室。全球独一无二。",
+    diff3:"<strong>12智能体管理器</strong>——Agentic AI自主判断和干预。竞争对手使用单一规则告警。",
+    diff4:"<strong>健康促进整合</strong>——Safety+Health+Sensing三轴。竞争对手只做Safety。",
+    diff5:"<strong>本地R&D验证</strong>——庆北RISE项目5年政府支持。50人以下小企业低成本推广型。",
+    secRMLabel:"R&D路线图",secRMTitle:"<span class='accent'>5年</span>分阶段推进计划",secRMDesc:"2025年基础研究→2029年商业化·创业。KW产业安全技术支持中心运营。",
+    rm1Title:"基础研究",rm1Desc:"低成本IoT·危险因素分析·规范化模型·实时仪表板",
+    rm2Title:"核心技术",rm2Desc:"AI视觉·预测模型·肌骨预防·ROI分析",
+    rm3Title:"现场应用",rm3Desc:"标准模式·区块链安全·教育内容·CES 2027",
+    rm4Title:"高度化",rm4Desc:"仿真安全管理·数字认证·VR/AR培训",
+    rm5Title:"商业化·创业",rm5Desc:"技术转让·分拆·KC认证·就业创造",
+    secIMLabel:"预期效果",secIMTitle:"<span class='accent'>量化目标</span>·与政府计划对齐",secIMDesc:"国政运营5年计划——重大灾害减少25.6%·达成OECD平均事故死亡率0.29%。R&D：118项专利·50篇学术·30项技术转让。",
+    im1:"重大灾害减少（2026）",im2:"制造业事故死亡率（2030）",im3:"管制联盟工作场所",im4:"参与健康促进工人",im5:"目标知识产权（5年）",im6:"联合R&D项目",im7:"技术转让（5年）",im8:"技术商业化创业",
+    allianceTitle:"产学研联盟",
+    secMTLabel:"数据来源",secMTTitle:"所有数据来自<span class='accent'>政府认证调查</span>",secMTDesc:"直接解析安全保健公团产业安全保健研究院的3个官方调查数据。",
+    secXRLabel:"3D虚拟工厂XR",secXRTitle:"实时<span class='accent'>3D虚拟工厂</span>·WebXR预览",secXRDesc:"基于Three.js的虚拟工厂地图，实时3D可视化工人位置、危险区域和AI检测事件。支持WebXR设备VR模式。",
+    xrL1:"监控中工人",xrL2:"安全区域工人",xrL3:"危险区域工人",
+    ctaH1:"数据已经很清楚了。<br>",ctaH2:"现在SHine-K付诸行动。",ctaSub:"3D数字孪生·12智能体管理器·实时摄像头AI·119自动连接——全部可运行演示。",
+    footDataTitle:"数据来源",footProjTitle:"项目信息"
+  },
+  ja: {
+    skip:"メインへスキップ", logoSub:" · インサイト",
+    navCrisis:"現状",navGB:"慶北",navMC:"クラスター",navPlat:"プラットフォーム",navAgents:"12エージェント",navScen:"5大シナリオ",navHealth:"健康増進",navCenter:"管制センター",navCompete:"競合分析",navCES:"CES 2027 →",
+    heroEyebrow:"世界初 7-Tech 融合 産業安全・健康プラットフォーム",heroH1a:"怪我をする前に",heroH1b:"労働者を守ります",
+    heroSub:"MediaPipe BlazePose · mmWave レーダー · ウェアラブル · サーマルカメラ · ブロックチェーン · 119自動連携 · 3Dデジタルツイン。12エージェントが Sense→Judge→Act→Connect を自律実行する Agentic AI 統合プラットフォーム。",
+    ctaCenter:"労働者安全センター LIVE",ctaPlat:"プラットフォームを見る",ctaTwin:"3Dデジタルツイン",ctaLive:"ライブAI体験",
+    stat1:"AI検知精度",stat2:"転倒→119連携",stat3:"自律エージェント",stat4:"実証済みROI",scrollHint:"スクロール",
+    secCrisisLabel:"不都合な真実",secCrisisTitle:"韓国産業安全の<span class='accent'>不都合な真実</span>",secCrisisDesc:"OECD38カ国中34位——「産業災害共和国」と批判。政府の5カ年計画は2030年にOECD平均達成を目標とするが、現場の実態は異なる。",
+    crisis1Title:"2023年 産業災害社会的損失",crisis1Desc:"2020年比27.3%増。事故は「コスト」ではなく「社会的殺人」（大統領、2025年8月）。",
+    crisis2Title:"50人未満事業場 産業災害死亡",crisis2Desc:"中小企業のリソース制約・事後対応中心・統合予防プラットフォームの不在。",
+    crisis3Title:"筋骨格系慢性疾患の割合",crisis3Desc:"製造業の40%以上が反復作業に従事。50%以上が自覚症状あり。職業性疾患の大多数。",
+    crisis4Title:"OECD産業災害順位",crisis4Desc:"先進国の地位と不釣り合い。死亡率0.39%（2024）→0.29%（2026目標）。",
+    chart1Title:"製造業 危険要因 暴露率（KWCS-7、2023）",chart1Sub:"50,195人の回答者における暴露割合",
+    chart2Title:"2023年 製造業 死亡事故種類",chart2Sub:"挟まれ・墜落・化学物質事故 約60%",
+    secGBLabel:"慶北データ",secGBTitle:"慶北が<span class='accent'>特別な理由</span>",secGBDesc:"全国平均との4つの主要なギャップ。KWCS-7慶北2,924人の実測データ。",
+    gb1:"60歳以上の労働者",gb2:"自覚的健康リスク認知",gb3:"化学物質接触暴露",gb4:"高温作業環境暴露",
+    chart3Title:"年齢分布・慶北 vs 全国",chart3Sub:"高齢化が健康増進戦略の主要な推進力",
+    chart4Title:"物理的危険要因・慶北 vs 全国",chart4Sub:"高温・化学物質・低温が全国平均より高い",
+    secMCLabel:"4大ミニクラスター",secMCTitle:"<span class='accent'>4大ミニクラスター</span>から見る慶北製造業",secMCDesc:"亀尾電子/浦項・慶州鉄鋼/安東食品・木材/慶山機械・自動車——WES-7調査19,956事業場の分析。",
+    mcGumi:"亀尾（電子/半導体）",mcPohang:"浦項・慶州（鉄鋼）",mcAndong:"安東（食品/木材）",mcGS:"慶山（機械/自動車）",
+    secBSLabel:"安全死角地帯",secBSTitle:"製造業23業種——<span class='accent'>最も脆弱なのは誰か？</span>",secBSDesc:"自動車・医薬品・電子は管理が行き届いている。家具・木材・その他製造業：36〜46%。SHine-Kのターゲット市場。",
+    chart5Title:"安全管理者選任率・製造業23業種",chart5Sub:"家具(36%)・その他製造(46.4%)・木材(44.8%)——4大死角",
+    chart6Title:"危険性評価実施率 vs 安全管理者選任率",chart6Sub:"管理者はいるが評価を実施しない業種",
+    chart7Title:"交代勤務率・上位10業種",chart7Sub:"自動車・一次金属・ゴム・プラスチック",
+    secPlatLabel:"7-Tech融合プラットフォーム",secPlatTitle:"世界初<span class='accent'>7-Tech融合</span>アーキテクチャ",secPlatDesc:"コンピュータビジョン+60GHzレーダー+ウェアラブル+サーマル+ブロックチェーン+119自動+3Dツイン。競合他社が1〜2つの技術しか持たない時、SHine-Kは7つを単一プラットフォームに融合。",
+    secAgentLabel:"エージェントハーネス",secAgentTitle:"<span class='accent'>12エージェント</span>が自律判断",secAgentDesc:"単一ルールベースのアラームを超えたAgentic AI。Supabaseリアルタイム同期でSense→Judge→Act→Connectの4段階サイクルを実行。トリプル検証+マルチモーダル融合。",
+    secScenLabel:"5大事故シナリオ",secScenTitle:"2023年製造業死亡60%を<span class='accent'>5シナリオに</span>集中",secScenDesc:"3Dデジタルツインで自動再生されるリアルなシナリオ。各シナリオで異なるエージェントの組み合わせが自律介入。",
+    scen1Title:"高所からの墜落",scen1Resp:"ビジョン+レーダーで墜落検知→1.2秒以内にemergency_agent発動→119自動通報",
+    scen2Title:"機械への挟まれ",scen2Resp:"ビジョンエージェントが手を認識→自動緊急停止信号送信→SMS 5-tier同時発送",
+    scen3Title:"スリップ＆フォール",scen3Resp:"reba_scorerスコア12（危険）→即時nudge通知+作業環境自動レポート",
+    scen4Title:"熱中症",scen4Resp:"サーマル+ウェアラブル融合→深部体温閾値→強制避難+救急病院事前通知",
+    scen5Title:"フォークリフト衝突",scen5Resp:"レーダー距離測定+ビジョン経路予測→フォークリフト自動ブレーキ信号送信",
+    secLiveLabel:"ライブAI仕様",secLiveTitle:"ブラウザで直接動作する<span class='accent'>リアルタイムAI</span>",secLiveDesc:"サーバー不要——MediaPipe BlazePose+REBAスコア+マイクdB+加速度計転倒検知がノートPC・スマートフォンのブラウザで即座に動作。",
+    lai1:"リアルタイム33関節点追跡。REBA 首/体幹/脚/上腕/前腕/手首を自動算出。",lai2:"専門家評価と相関係数0.89。1〜15点で筋骨格系リスクを即時判定。",lai3:"マイクで作業場の騒音を測定。70dB以上でLOUD警告を自動発動。",lai4:"DeviceMotion加速度分析。2.5g以上の衝撃で119ワークフローを自動トリガー。",
+    secHealthLabel:"健康増進",secHealthTitle:"安全を超えた<span class='accent'>健康増進</span>へ",secHealthDesc:"競合他社は事故検知（Safety）のみ。SHine-Kは慢性疾患予測（Health）+危険要因ビッグデータ（Sensing）を追加。作業環境+生体データをリアルタイム統合分析し、予防的ケアを実現。",
+    hc1Title:"ウェアラブル統合",hc1Desc:"Apple Watch・Galaxy Watch・産業用バンド。HR・SpO2・ECG・体温・ストレス指数をBLE 5.0 &lt;50msでクラウド連携。",
+    hc2Title:"AI疾患予測",hc2Desc:"LSTM時系列+医療データ（健康診断・筋骨診断）+ライフログ（歩数・睡眠・食事）で筋骨格系・慢性疾患発症を事前予測。",
+    hc3Title:"ゲーミフィケーション",hc3Desc:"日々の安全スコア・チームランキング・ポイント・連続無事故日数。動機付けベースの双方向フィードバックで自発参加を促進。",
+    killerTitle:"🎯 キラーユースケース・AIリスク予測",killerSub:"定量的リスク予測。事後対応ではなく事前介入。",killerQuote:"\"3番ラインの作業者<b>キム</b>は次の<b>2時間</b>で<b>筋骨格系損傷</b>を起こす確率が<b>73%</b>——今すぐローテーションを推奨。\"",
+    gameTitle:"🏆 安全ゲーミフィケーション——28日間無事故連続チャレンジ",gameDesc:"労働者個人ダッシュボード。自発的な安全参加を日常化する行動デザイン。",
+    gameL1:"日々の安全スコア",gameL2:"チームランキング",gameL3:"累積安全ポイント",gameL4:"連続無事故日数",
+    secCCLabel:"統合管制センター",secCCTitle:"慶運大学<span class='accent'>統合管制センター</span> 24/7モニタリング",secCCDesc:"リアルタイムダッシュボード+SMS 5-tier自動発送+119自動連携（GPS・映像）。1.2秒検知→10秒以内に救急病院ベッド照会まで完全自動。",
+    ccSMSTitle:"📱 SMS 5-Tier 自動発送",ccT1:"労働者本人",ccT2:"安全管理者",ccT3:"代表者/上司",ccT4:"家族/緊急連絡先",ccT5:"慶運大管制センター",
+    ccDispTitle:"🚨 119自動連携 5段階タイムライン",
+    ccD1Title:"AI検知",ccD1Desc:"MediaPipe+レーダー融合——転倒信頼度98.1% / トリプル検証済み",
+    ccD2Title:"現場警報",ccD2Desc:"サイレン+LED点灯・管制センターダッシュボードに赤色アラート表示",
+    ccD3Title:"SMS発送",ccD3Desc:"5-tier同時発送（本人+安全管理者+代表+家族+管制センター）",
+    ccD4Title:"119通報",ccD4Desc:"Smart 119 API・GPS位置+事故映像+労働者情報を自動送信",
+    ccD5Title:"病床照会",ccD5Desc:"e-Gen API・亀尾市救急医療センター空き病床2/15・出動車両自動手配",
+    ccDashTitle:"リアルタイム管制ダッシュボード・LIVE",dpL1:"加盟企業",dpL2:"登録労働者",dpL3:"バイタルデータ（日）",dpL4:"AIイベント平均（日）",
+    secAppLabel:"モバイルアプリ",secAppTitle:"労働者が携帯する<span class='accent'>安全の相棒</span>",secAppDesc:"Android・iOSネイティブ。ウェアラブル自動ペアリング+リアルタイム安全スコア+音声起動緊急通報。Huawei HMS・Xiaomi MIUI対応。",
+    appH3:"労働者中心UX、管理者中心権限",appP:"ウェアラブルデータ自動同期+6種イベント通知+ミッション・ランキング・ポイントゲーミフィケーション。音声認識（「助けて」）一言で119自動通報。60歳以上の労働者も片手操作できる大型タッチUI。",
+    appF1:"ウェアラブル自動ペアリング",appF2:"リアルタイム安全スコア",appF3:"チームランキング・ポイント",appF4:"REBA自己診断",appF5:"音声SOS",appF6:"GPS出退勤自動記録",appF7:"SMS 5-tier緊急",appF8:"韓・英・中・日 4言語",
+    secStratLabel:"SHine-K戦略",secStratTitle:"データから導出した<span class='accent'>3大戦略</span>",secStratDesc:"Safety + Health + Enterprise Sensing——競合他社にはない3軸統合R&amp;D。",
+    strat1Sub:"スマート作業場安全管制",strat1Desc:"IoT・CCTV・ウェアラブルベースの労働者・設備リアルタイムモニタリング。5G-IoT低遅延。",strat1L1:"低コストIoT危険検知",strat1L2:"AIビジョン労働者・設備検知",strat1L3:"危険区域マッピング・入室制御",
+    strat2Sub:"AIベースの個別化健康増進",strat2Desc:"ウェアラブル・IoTで作業環境・生体データを統合。筋骨格系・慢性疾患予測+ゲーミフィケーション。",strat2L1:"低コストウェアラブル統合モニタリング",strat2L2:"個別職業性疾患予測",strat2L3:"動機付けゲーミフィケーション",
+    strat3Sub:"危険要因ビッグデータプラットフォーム",strat3Desc:"非構造化（映像・音声・センサー）収集・正規化・標準スキーマ。ブロックチェーン仮名処理。",strat3L1:"低コストデータパイプライン",strat3L2:"AIシミュレーション予防アルゴリズム",strat3L3:"リアルタイムROI自動レポート",
+    secHmLabel:"危険要因マトリックス",secHmTitle:"<span class='accent'>15の危険要因</span>×4グループ",secHmDesc:"物理的(9)+人間工学的(6)=15の危険要因を全国/慶北/全国製造/慶北製造で比較。",
+    secCompLabel:"競合分析",secCompTitle:"世界最高と比較・<span class='accent'>SHine-Kが優れている理由</span>",secCompDesc:"SHine-KとIntenseye（米国/トルコ）・Protex AI（アイルランド）・viAct（香港）・TuMeke（米国）・Strongarm（米国）を比較。",
+    diffTitle:"⚡ SHine-Kだけの5つの差別化ポイント",
+    diff1:"<strong>7-Tech融合の深さ</strong>——ビジョン+レーダー+ウェアラブル+サーマル+ブロックチェーン+119+ツインを単一プラットフォームに統合。",
+    diff2:"<strong>10秒以内119自動救急</strong>——事故検知→救急病院自動連携。世界に類例なし。",
+    diff3:"<strong>12エージェントハーネス</strong>——Agentic AI自律判断・介入。競合他社は単一ルールベースアラーム。",
+    diff4:"<strong>健康増進統合</strong>——Safety+Health+Sensing 3軸。競合他社はSafetyのみ。",
+    diff5:"<strong>ローカルR&amp;D検証</strong>——慶北RISE事業5年政府支援。50人未満零細事業場向け低コスト普及型。",
+    secRMLabel:"R&amp;Dロードマップ",secRMTitle:"<span class='accent'>5年間</span>の段階的推進計画",secRMDesc:"2025年基盤研究→2029年商業化・創業。KW産業安全技術支援センター運営。",
+    rm1Title:"基盤研究",rm1Desc:"低コストIoT・危険要因分析・正規化モデル・リアルタイムダッシュボード",
+    rm2Title:"コア技術",rm2Desc:"AIビジョン・予測モデル・筋骨格系予防・ROI分析",
+    rm3Title:"現場適用",rm3Desc:"標準スキーマ・ブロックチェーンセキュリティ・教育コンテンツ・CES 2027",
+    rm4Title:"高度化",rm4Desc:"シミュレーション安全管理・デジタル認証・VR/ARトレーニング",
+    rm5Title:"商業化・創業",rm5Desc:"技術移転・スピンオフ・KC認証・雇用創出",
+    secIMLabel:"期待効果",secIMTitle:"<span class='accent'>定量目標</span>・政府計画との整合",secIMDesc:"国政運営5カ年——重大災害25.6%削減・OECD平均事故死亡率0.29%達成。R&amp;D：特許118件・学術論文50件・技術移転30件。",
+    im1:"重大災害削減（2026）",im2:"製造業事故死亡率（2030）",im3:"管制アライアンス事業場",im4:"健康増進参加労働者",im5:"目標IP権利（5年）",im6:"共同R&amp;D課題",im7:"技術移転（5年）",im8:"技術事業化創業",
+    allianceTitle:"産学研アライアンス",
+    secMTLabel:"データ出典",secMTTitle:"すべての数値は<span class='accent'>政府公認調査</span>から",secMTDesc:"安全保健公団産業安全保健研究院の3つの公式調査データを直接パース。",
+    secXRLabel:"3D仮想工場XR",secXRTitle:"リアルタイム<span class='accent'>3D仮想工場</span> · WebXRプレビュー",secXRDesc:"Three.jsベースの仮想工場フロア。労働者位置・危険ゾーン・AI検知イベントを3Dでリアルタイム可視化。WebXR対応デバイスでVRモード入場可能。",
+    xrL1:"監視中の労働者",xrL2:"安全ゾーン労働者",xrL3:"危険ゾーン労働者",
+    ctaH1:"データは十分です。<br>",ctaH2:"今こそSHine-Kが行動します。",ctaSub:"3Dデジタルツイン・12エージェントハーネス・リアルタイムカメラAI・119自動連携——すべて動作するデモ。",
+    footDataTitle:"データ出典",footProjTitle:"プロジェクト情報"
+  }
+};
+
+let currentLang = (new URLSearchParams(location.search).get('lang')) || localStorage.getItem('shk-lang') || (navigator.language||'ko').slice(0,2);
+if (!I18N[currentLang]) currentLang = 'ko';
+function setLang(lang){
+  if (!I18N[lang]) lang = 'ko';
+  currentLang = lang;
+  localStorage.setItem('shk-lang', lang);
+  document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (I18N[lang][key] !== undefined) el.innerHTML = I18N[lang][key];
+  });
+  ['ko','en','zh','ja'].forEach(l => {
+    const btn = document.getElementById('lang-'+l);
+    if (btn) btn.classList.toggle('active', l===lang);
+  });
+  // Update intro tagline language
+  const it = document.getElementById('introTagline');
+  if (it) {
+    const tags = {ko:'세계 최초 7-Tech 융합 산업안전·건강 플랫폼', en:'World-First 7-Tech Fusion Safety & Health Platform', zh:'全球首创 7-Tech 融合安全健康平台', ja:'世界初 7-Tech 融合 産業安全・健康プラットフォーム'};
+    it.textContent = tags[lang] || tags.ko;
+  }
+  if (window.__renderMC) window.__renderMC(window.__currentMC || 'gumi');
+  if (window.__renderHeatmap) window.__renderHeatmap();
+}
+
+// ============================================================
+// MOBILE MENU
+// ============================================================
+function toggleMenu(){
+  const d = document.getElementById('drawer'), b = document.getElementById('menuBtn');
+  const open = d.classList.toggle('open');
+  b.setAttribute('aria-expanded', open?'true':'false');
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+
+// ============================================================
+// NAV SCROLL
+// ============================================================
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 30);
+  const pct = window.scrollY / Math.max(1, document.documentElement.scrollHeight - window.innerHeight) * 100;
+  const pb = document.getElementById('progressBar');
+  if (pb) pb.style.width = Math.min(pct, 100) + '%';
+  const btt = document.getElementById('backToTop');
+  if (btt) btt.classList.toggle('show', window.scrollY > 500);
+}, {passive:true});
+
+// ============================================================
+// AOS
+// ============================================================
+const aosObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); aosObserver.unobserve(e.target); } });
+}, {threshold:0.08, rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('.aos').forEach(el => aosObserver.observe(el));
+
+// ============================================================
+// COUNTER
+// ============================================================
+const counterObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    const target = parseFloat(el.getAttribute('data-target'));
+    const suffix = el.getAttribute('data-suffix') || '';
+    const isFloat = target % 1 !== 0;
+    const dur = 1800, t0 = performance.now();
+    function tick(now){
+      const t = Math.min(1, (now-t0)/dur);
+      const eased = 1 - Math.pow(1-t, 3);
+      const val = target * eased;
+      el.textContent = (isFloat ? val.toFixed(1) : Math.floor(val).toLocaleString()) + suffix;
+      if (t < 1) requestAnimationFrame(tick);
+      else el.textContent = (isFloat ? target.toFixed(1) : target.toLocaleString()) + suffix;
+    }
+    requestAnimationFrame(tick);
+    counterObserver.unobserve(el);
+  });
+}, {threshold:0.4});
+document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
+
+// ============================================================
+// HERO PARTICLES (light theme, soft, projector-friendly)
+// ============================================================
+(function heroVisual(){
+  const canvas = document.getElementById('heroCanvas');
+  if (!canvas) return;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) { canvas.style.opacity='.2'; return; }
+
+  let useWebGL = false;
+  try { const test = document.createElement('canvas'); useWebGL = !!(test.getContext('webgl') || test.getContext('experimental-webgl')); } catch(e){}
+
+  if (useWebGL && window.innerWidth >= 720) {
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js';
+    s.onload = initThree; s.onerror = init2D;
+    document.head.appendChild(s);
+  } else { init2D(); }
+
+  function initThree(){
+    if (!window.THREE) return init2D();
+    const THREE = window.THREE;
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, canvas.offsetWidth/canvas.offsetHeight, 0.1, 1000);
+    camera.position.z = 12;
+    const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    function resize(){ renderer.setSize(canvas.offsetWidth, canvas.offsetHeight, false); camera.aspect = canvas.offsetWidth/canvas.offsetHeight; camera.updateProjectionMatrix(); }
+    resize(); window.addEventListener('resize', resize);
+
+    const count = Math.min(2800, Math.floor(window.innerWidth/2.5));
+    const geo = new THREE.BufferGeometry();
+    const positions = new Float32Array(count*3), colors = new Float32Array(count*3), sizes = new Float32Array(count);
+    for (let i=0;i<count;i++){
+      const i3 = i*3, theta = Math.random()*Math.PI*2, phi = Math.acos(2*Math.random()-1), r = 6+Math.random()*4;
+      positions[i3]   = r*Math.sin(phi)*Math.cos(theta);
+      positions[i3+1] = r*Math.sin(phi)*Math.sin(theta)*.6;
+      positions[i3+2] = r*Math.cos(phi)*.7;
+      // light-theme friendly: deeper colors that show on white
+      const rand = Math.random();
+      if (rand < 0.65) { colors[i3]=.19; colors[i3+1]=.51; colors[i3+2]=.96; }       // toss blue
+      else if (rand < 0.9) { colors[i3]=.55; colors[i3+1]=.36; colors[i3+2]=.96; }   // purple
+      else { colors[i3]=.94; colors[i3+1]=.27; colors[i3+2]=.32; }                    // red accent
+      sizes[i] = Math.random()*.08+.04;
+    }
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    const mat = new THREE.PointsMaterial({size:.065, vertexColors:true, transparent:true, opacity:.55, sizeAttenuation:true, depthWrite:false});
+    const points = new THREE.Points(geo, mat);
+    scene.add(points);
+    const wireSphere = new THREE.Mesh(new THREE.SphereGeometry(5.5, 24, 16), new THREE.MeshBasicMaterial({color:0x3182F6, wireframe:true, transparent:true, opacity:.05}));
+    scene.add(wireSphere);
+
+    let mx=0, my=0;
+    document.addEventListener('mousemove', e => { mx = (e.clientX/window.innerWidth-.5)*.5; my = (e.clientY/window.innerHeight-.5)*.35; }, {passive:true});
+    function animate(){
+      points.rotation.y += .001; points.rotation.x += .0005;
+      wireSphere.rotation.y -= .0006;
+      camera.position.x += (mx*2 - camera.position.x)*.04;
+      camera.position.y += (-my*2 - camera.position.y)*.04;
+      camera.lookAt(scene.position);
+      renderer.render(scene, camera);
+      requestAnimationFrame(animate);
+    }
+    animate();
+  }
+
+  function init2D(){
+    const ctx = canvas.getContext('2d');
+    function resize(){ canvas.width=canvas.offsetWidth*devicePixelRatio; canvas.height=canvas.offsetHeight*devicePixelRatio; ctx.setTransform(1,0,0,1,0,0); ctx.scale(devicePixelRatio,devicePixelRatio); }
+    resize(); window.addEventListener('resize', resize);
+    const W=()=>canvas.offsetWidth, H=()=>canvas.offsetHeight;
+    const N = Math.min(70, Math.floor(window.innerWidth/18)), pts = [];
+    for (let i=0;i<N;i++) pts.push({x:Math.random()*W(),y:Math.random()*H(),vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,r:Math.random()*2+1.2});
+    function tick(){
+      ctx.clearRect(0,0,W(),H());
+      pts.forEach(p => { p.x+=p.vx; p.y+=p.vy; if(p.x<0||p.x>W()) p.vx*=-1; if(p.y<0||p.y>H()) p.vy*=-1; });
+      for(let i=0;i<pts.length;i++) for(let j=i+1;j<pts.length;j++){
+        const dx=pts[i].x-pts[j].x, dy=pts[i].y-pts[j].y, d=Math.hypot(dx,dy);
+        if(d<140){ ctx.strokeStyle=`rgba(49,130,246,${.15*(1-d/140)})`; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(pts[i].x,pts[i].y); ctx.lineTo(pts[j].x,pts[j].y); ctx.stroke(); }
+      }
+      pts.forEach(p => { ctx.fillStyle='rgba(49,130,246,.6)'; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); });
+      requestAnimationFrame(tick);
+    }
+    tick();
+  }
+})();
+
+// ============================================================
+// DATA (kept from v2)
+// ============================================================
+const DATA = {
+  national:{n:50195,erg:{'반복동작':59.4,'전신진동':55.8,'사람들이동':41.6,'피로/통증유발자세':27.9,'기립근무':15.0,'무거운물건운반':5.9},phy:{'고온':13.1,'소음':11.8,'저온':8.4,'진동':7.8,'분진/흄':6.6,'화학물질접촉':3.8,'유기용제':3.2,'담배연기':2.8,'감염성물질':2.3},age:{'<30':3593,'30대':7474,'40대':9078,'50대':13301,'60대+':16749}},
+  gyeongbuk:{n:2924,erg:{'반복동작':60.6,'사람들이동':49.2,'전신진동':49.2,'피로/통증유발자세':34.4,'기립근무':13.8,'무거운물건운반':6.7},phy:{'고온':17.6,'저온':10.5,'소음':9.4,'화학물질접촉':6.5,'진동':5.9,'분진/흄':5.5,'유기용제':2.9,'담배연기':2.8,'감염성물질':2.6},age:{'<30':212,'30대':278,'40대':385,'50대':622,'60대+':1427}},
+  mfg_national:{n:4158,erg:{'반복동작':57.2,'전신진동':56.3,'사람들이동':38.5,'피로/통증유발자세':21.2,'기립근무':6.3,'무거운물건운반':4.1},phy:{'고온':11.0,'저온':7.8,'분진/흄':5.5,'소음':4.1,'진동':4.1,'담배연기':1.5,'화학물질접촉':1.4,'감염성물질':1.4,'유기용제':1.1}},
+  mfg_gb:{n:186,erg:{'전신진동':50.5,'사람들이동':47.8,'반복동작':46.8,'피로/통증유발자세':19.4,'기립근무':5.4,'무거운물건운반':1.6},phy:{'고온':16.1,'저온':12.4,'분진/흄':3.2,'진동':1.6,'소음':1.1,'담배연기':0.5,'화학물질접촉':0,'유기용제':0,'감염성물질':0}},
+  mc:{
+    gumi:{name:{ko:'구미 (전자/전기/반도체)',en:'Gumi (Electronics)',zh:'龟尾 (电子)'},icon:'🔌',sectors:'KSIC 26·27·28',n_sites:3120,stats:{safety_mgr:78.2,health_mgr:76.8,risk_assess:66.0,work_env_meas:60.9,spec_health_exam:63.0,shift:13.1,night:13.1,avg_workers:2.3,avg_foreign:3.9,avg_elderly:18.1},companies:['삼성SDI 구미','LG디스플레이','LG이노텍','LS전선','SK실트론','한화토탈','구미산단 95개사'],narrative:{ko:'안전관리자 선임률 78.2%로 4대 MC 중 양호. 외국인 비중 낮음(평균 3.9명). 위험성평가(66%)·작업환경측정(60.9%) 개선 여지. 전자제조 특유 미세먼지 노출 관리가 핵심.',en:'78.2% safety manager appointment — strong. Low foreigner ratio. Room in risk assessment and environment measurement.',zh:'安全管理者任命78.2%,在4个MC中良好。'}},
+    pohang:{name:{ko:'포항·경주 (철강/금속)',en:'Pohang·Gyeongju (Steel)',zh:'浦项·庆州 (钢铁)'},icon:'⚙️',sectors:'KSIC 24·25·23·29',n_sites:6417,stats:{safety_mgr:71.8,health_mgr:67.8,risk_assess:67.9,work_env_meas:70.2,spec_health_exam:67.1,shift:10.1,night:10.7,avg_workers:2.1,avg_foreign:10.4,avg_elderly:24.7},companies:['POSCO','현대제철','동국제강','세아제강','한국하이스코','포항·경주 6천여 금속가공'],narrative:{ko:'4대 MC 중 최대 규모(6,417개). 외국인 평균 10.4명 — 다문화 안전 가이드 시급. 1차금속(철강) 32.4% 야간/교대 → 수면·고온환경 융합 관리 필요.',en:'Largest cluster. 10.4 avg foreign workers — urgent multicultural guidance.',zh:'最大集群,外国人平均10.4人。'}},
+    andong:{name:{ko:'안동권 (식품/목재/섬유)',en:'Andong (Food/Wood/Textile)',zh:'安东 (食品/木材)'},icon:'🌾',sectors:'KSIC 10·11·13·14·15·16·17',n_sites:4086,stats:{safety_mgr:74.8,health_mgr:70.8,risk_assess:65.5,work_env_meas:56.8,spec_health_exam:52.7,shift:12.4,night:13.4,avg_workers:2.1,avg_foreign:8.7,avg_elderly:30.0},companies:['풍산','안동소주','대구섬유','경북섬유','중소 식품·목재 4천여 사업장'],narrative:{ko:'⚠️ 작업환경측정(56.8%)·특수건강진단(52.7%) 4대 MC 중 최저. 고령자 평균 30.0명(최고). SHine-K 1순위 표적 클러스터.',en:'⚠️ Lowest in environment measurement and special health exam. SHine-K #1 target.',zh:'⚠️作业环境测定最低。SHine-K首要目标。'}},
+    gyeongsan:{name:{ko:'경산 (기계/자동차부품)',en:'Gyeongsan (Machinery/Auto)',zh:'庆山 (机械/汽车)'},icon:'🚗',sectors:'KSIC 29·30·31·22',n_sites:5863,stats:{safety_mgr:80.0,health_mgr:77.7,risk_assess:70.4,work_env_meas:72.6,spec_health_exam:71.2,shift:18.5,night:17.7,avg_workers:2.3,avg_foreign:11.3,avg_elderly:22.8},companies:['현대자동차','기아','현대모비스','만도','대구·경산 자동차부품 5천여사'],narrative:{ko:'4대 MC 중 안전관리 1위. 자동차업종 야간근로 39.6%·고무플라스틱 29.6% — 야간 관리 핵심. 외국인 평균 11.3명 최고.',en:'#1 in safety management. Auto 39.6% night, rubber 29.6% — night management critical.',zh:'安全管理第1。汽车39.6%夜班。'}}
+  },
+  industries:{'식품제조':{safety_mgr:85.1,risk_assess:73.0,shift:10.8,n:1547},'음료':{safety_mgr:76.9,risk_assess:75.4,shift:28.2,n:181},'섬유':{safety_mgr:75.6,risk_assess:59.7,shift:23.6,n:760},'의복':{safety_mgr:54.4,risk_assess:51.2,shift:2.8,n:504},'가죽/신발':{safety_mgr:60.0,risk_assess:66.1,shift:2.5,n:238},'목재':{safety_mgr:44.8,risk_assess:55.1,shift:4.8,n:372},'펄프/종이':{safety_mgr:68.5,risk_assess:61.1,shift:15.1,n:484},'인쇄':{safety_mgr:57.3,risk_assess:58.5,shift:9.8,n:660},'코크스/석유':{safety_mgr:72.2,risk_assess:78.6,shift:18.8,n:170},'화학':{safety_mgr:77.2,risk_assess:77.0,shift:27.7,n:826},'의약':{safety_mgr:88.1,risk_assess:83.3,shift:18.9,n:222},'고무/플라스틱':{safety_mgr:65.7,risk_assess:65.6,shift:29.6,n:1347},'비금속광물':{safety_mgr:69.1,risk_assess:74.7,shift:12.5,n:609},'1차금속(철강)':{safety_mgr:82.4,risk_assess:79.6,shift:32.4,n:376},'금속가공':{safety_mgr:63.7,risk_assess:66.2,shift:9.7,n:2675},'전자/반도체':{safety_mgr:86.4,risk_assess:68.0,shift:23.1,n:942},'의료/정밀':{safety_mgr:71.8,risk_assess:62.5,shift:4.7,n:791},'전기장비':{safety_mgr:74.2,risk_assess:66.3,shift:11.1,n:1387},'기계':{safety_mgr:76.9,risk_assess:66.0,shift:7.0,n:2757},'자동차':{safety_mgr:89.1,risk_assess:80.6,shift:39.6,n:1128},'기타운송장비':{safety_mgr:90.0,risk_assess:78.5,shift:7.3,n:631},'가구':{safety_mgr:36.0,risk_assess:53.7,shift:1.2,n:507},'기타제조':{safety_mgr:46.4,risk_assess:53.2,shift:3.4,n:842}},
+  fatality:{'끼임':22,'추락':21,'화학물질관련':17,'깔림/뒤집힘':12,'기타':28}
+};
+
+// ============================================================
+// CHART.JS (lazy)
+// ============================================================
+const C = {a:'#3182F6',g:'#16C68C',r:'#F04452',p:'#8B5CF6',w:'#FF9F2D',gray:'#B0B8C1'};
+let charts = {};
+function loadChart(){ return new Promise((res, rej) => { if (window.Chart) return res(window.Chart); const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js'; s.onload = () => res(window.Chart); s.onerror = rej; document.head.appendChild(s); }); }
+function buildCharts(){
+  const darkMode = document.documentElement.dataset.theme === 'dark';
+  Chart.defaults.color = darkMode ? '#A0AEC0' : '#4E5968';
+  Chart.defaults.font.family = getComputedStyle(document.body).fontFamily;
+  Chart.defaults.font.size = 12;
+  Chart.defaults.scale.grid.color = darkMode ? 'rgba(255,255,255,.06)' : 'rgba(0,0,0,.05)';
+  Chart.defaults.scale.border.color = darkMode ? 'rgba(255,255,255,.1)' : 'rgba(0,0,0,.08)';
+  Object.values(charts).forEach(c => { try{c.destroy()}catch(e){} });
+  charts = {};
+  charts.erg = new Chart(document.getElementById('chartHazardErg'), {type:'bar',data:{labels:Object.keys(DATA.national.erg),datasets:[{label:'전국 노출률 (%)',data:Object.values(DATA.national.erg),backgroundColor:ctx=>{const v=ctx.parsed?.y??0; return v>=50?C.r:v>=30?C.w:v>=15?C.a:C.gray;},borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.parsed.y}%`}}},scales:{y:{beginAtZero:true,max:70,ticks:{callback:v=>v+'%'}}}}});
+  charts.fat = new Chart(document.getElementById('chartFatality'), {type:'doughnut',data:{labels:Object.keys(DATA.fatality),datasets:[{data:Object.values(DATA.fatality),backgroundColor:['#F04452','#FF6B35','#FF9F2D','#8B5CF6','#B0B8C1'],borderColor:'#fff',borderWidth:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{boxWidth:14}},tooltip:{callbacks:{label:c=>` ${c.label}: ${c.parsed}%`}}},cutout:'58%'}});
+  const ageL = ['<30','30대','40대','50대','60대+'];
+  const toP = o => {const t=Object.values(o).reduce((a,b)=>a+b,0); return ageL.map(k=>+(o[k]/t*100).toFixed(1));};
+  charts.age = new Chart(document.getElementById('chartAge'), {type:'bar',data:{labels:ageL,datasets:[{label:'전국 (%)',data:toP(DATA.national.age),backgroundColor:C.gray,borderRadius:5},{label:'경북 (%)',data:toP(DATA.gyeongbuk.age),backgroundColor:C.a,borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',align:'end'}},scales:{y:{beginAtZero:true,max:55,ticks:{callback:v=>v+'%'}}}}});
+  const phyK = ['고온','소음','저온','화학물질접촉','분진/흄','진동','유기용제'];
+  charts.radar = new Chart(document.getElementById('chartRadar'), {type:'radar',data:{labels:phyK,datasets:[{label:'전국 (%)',data:phyK.map(k=>DATA.national.phy[k]),borderColor:C.gray,backgroundColor:'rgba(176,184,193,.15)'},{label:'경북 (%)',data:phyK.map(k=>DATA.gyeongbuk.phy[k]),borderColor:C.a,backgroundColor:'rgba(49,130,246,.18)',borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',align:'end'}},scales:{r:{beginAtZero:true,suggestedMax:20,ticks:{callback:v=>v+'%',backdropColor:'transparent'},pointLabels:{font:{size:11}}}}}});
+  const indS = Object.entries(DATA.industries).sort((a,b)=>b[1].safety_mgr-a[1].safety_mgr);
+  charts.ind = new Chart(document.getElementById('chartIndustry'), {type:'bar',data:{labels:indS.map(x=>x[0]),datasets:[{label:'안전관리자 선임율 (%)',data:indS.map(x=>x[1].safety_mgr),backgroundColor:indS.map(x=>{const v=x[1].safety_mgr; return v>=80?C.g:v>=60?C.w:C.r;}),borderRadius:4}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{const it=DATA.industries[c.label]; return [` 안전관리자: ${it.safety_mgr}%`,` 위험성평가: ${it.risk_assess}%`,` 사업장: ${it.n.toLocaleString()}개`];}}}},scales:{x:{beginAtZero:true,max:100,ticks:{callback:v=>v+'%'}},y:{ticks:{font:{size:11}}}}}});
+  charts.scatter = new Chart(document.getElementById('chartScatter'), {type:'scatter',data:{datasets:[{label:'제조업 23개 업종',data:Object.entries(DATA.industries).map(([k,v])=>({x:v.safety_mgr,y:v.risk_assess,label:k,n:v.n})),backgroundColor:c=>{const d=c.raw; if(!d) return C.a; if(d.x>=80&&d.y>=70) return C.g; if(d.x<60||d.y<60) return C.r; return C.w;},pointRadius:c=>{const d=c.raw; return d?Math.max(5,Math.min(18,Math.sqrt(d.n)/3)):6;}}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{const d=c.raw; return [` ${d.label}`,` 안전관리자: ${d.x}%`,` 위험성평가: ${d.y}%`,` 사업장: ${d.n.toLocaleString()}개`];}}}},scales:{x:{title:{display:true,text:'안전관리자 선임율 (%)'},min:30,max:95,ticks:{callback:v=>v+'%'}},y:{title:{display:true,text:'위험성평가 실시율 (%)'},min:45,max:90,ticks:{callback:v=>v+'%'}}}}});
+  const topS = Object.entries(DATA.industries).sort((a,b)=>b[1].shift-a[1].shift).slice(0,10);
+  charts.shift = new Chart(document.getElementById('chartShift'), {type:'bar',data:{labels:topS.map(x=>x[0]),datasets:[{label:'교대근무 (%)',data:topS.map(x=>x[1].shift),backgroundColor:C.p,borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.parsed.y}%`}}},scales:{y:{beginAtZero:true,max:45,ticks:{callback:v=>v+'%'}}}}});
+}
+const chartObs = new IntersectionObserver((es, o) => { if (es.some(e=>e.isIntersecting)) { o.disconnect(); loadChart().then(buildCharts).catch(e=>console.warn(e)); } }, {rootMargin:'200px'});
+chartObs.observe(document.getElementById('chartHazardErg'));
+
+// ============================================================
+// MC TABS
+// ============================================================
+window.__currentMC = 'gumi';
+function renderMC(key){
+  window.__currentMC = key;
+  const m = DATA.mc[key], lang = currentLang, s = m.stats;
+  const L = {
+    ko:{sm:'안전관리자 선임율',ra:'위험성평가 실시율',we:'작업환경측정',he:'특수건강진단',aw:'사업장 평균 근로자',af:'평균 외국인',ae:'평균 고령(55+)',sn:'교대/야간 비율',sites:'개 사업장 (WES-7)',per:'명/사업장'},
+    en:{sm:'Safety Manager',ra:'Risk Assessment',we:'Env Measurement',he:'Special Exam',aw:'Avg Workers/Site',af:'Avg Foreign',ae:'Avg Elderly',sn:'Shift/Night',sites:' sites (WES-7)',per:'/site'},
+    zh:{sm:'安全管理者',ra:'风险评估',we:'环境测定',he:'特殊健检',aw:'平均工人',af:'外国工人',ae:'老年工人',sn:'轮班/夜班',sites:'家事业场',per:'/事业场'}
+  }[lang]||L.ko;
+  document.getElementById('mcDetail').innerHTML = `
+    <h3>${m.icon} ${m.name[lang]||m.name.ko}</h3>
+    <div class="mc-meta"><span><b>${m.n_sites.toLocaleString()}</b>${L.sites}</span><span>${m.sectors}</span></div>
+    <div class="mc-stats">
+      <div class="mc-stat-card ${s.safety_mgr>=80?'good':s.safety_mgr>=70?'':'warn'}"><div class="v">${s.safety_mgr}%</div><div class="mini-prog"><div class="mini-prog-fill" style="width:${s.safety_mgr}%;background:${s.safety_mgr>=80?'var(--g)':s.safety_mgr>=70?'var(--w)':'var(--r)'}"></div></div><div class="l">${L.sm}</div></div>
+      <div class="mc-stat-card ${s.risk_assess>=70?'good':s.risk_assess>=60?'':'warn'}"><div class="v">${s.risk_assess}%</div><div class="mini-prog"><div class="mini-prog-fill" style="width:${s.risk_assess}%;background:${s.risk_assess>=70?'var(--g)':s.risk_assess>=60?'var(--w)':'var(--r)'}"></div></div><div class="l">${L.ra}</div></div>
+      <div class="mc-stat-card ${s.work_env_meas>=70?'good':s.work_env_meas>=60?'':'risk'}"><div class="v">${s.work_env_meas}%</div><div class="mini-prog"><div class="mini-prog-fill" style="width:${s.work_env_meas}%;background:${s.work_env_meas>=70?'var(--g)':s.work_env_meas>=60?'var(--w)':'var(--r)'}"></div></div><div class="l">${L.we}</div></div>
+      <div class="mc-stat-card ${s.spec_health_exam>=70?'good':s.spec_health_exam>=60?'':'risk'}"><div class="v">${s.spec_health_exam}%</div><div class="mini-prog"><div class="mini-prog-fill" style="width:${s.spec_health_exam}%;background:${s.spec_health_exam>=70?'var(--g)':s.spec_health_exam>=60?'var(--w)':'var(--r)'}"></div></div><div class="l">${L.he}</div></div>
+      <div class="mc-stat-card"><div class="v">${s.avg_workers}</div><div class="l">${L.aw}</div></div>
+      <div class="mc-stat-card"><div class="v">${s.avg_foreign}<small>${L.per}</small></div><div class="l">${L.af}</div></div>
+      <div class="mc-stat-card"><div class="v">${s.avg_elderly}<small>${L.per}</small></div><div class="l">${L.ae}</div></div>
+      <div class="mc-stat-card ${s.shift>15?'warn':''}"><div class="v">${s.shift}%<small>/${s.night}%</small></div><div class="l">${L.sn}</div></div>
+    </div>
+    <div class="mc-narrative">${m.narrative[lang]||m.narrative.ko}</div>
+    <div class="mc-chips">${m.companies.map(c=>`<span class="chip">${c}</span>`).join('')}</div>`;
+  document.querySelectorAll('.mc-tab').forEach(t => t.classList.toggle('active', t.dataset.mc===key));
+}
+window.__renderMC = renderMC;
+renderMC('gumi');
+document.querySelectorAll('.mc-tab').forEach(t => t.addEventListener('click', () => renderMC(t.dataset.mc)));
+
+// ============================================================
+// HEATMAP
+// ============================================================
+function renderHeatmap(){
+  const lang = currentLang;
+  const ergK = ['반복동작','전신진동','사람들이동','피로/통증유발자세','기립근무','무거운물건운반'];
+  const phyK = ['고온','소음','저온','진동','분진/흄','화학물질접촉','유기용제','담배연기','감염성물질'];
+  const all = [...ergK,...phyK];
+  const segs = [
+    {name:{ko:'전국 전체',en:'National',zh:'全国'},data:DATA.national},
+    {name:{ko:'경북 전체',en:'Gyeongbuk',zh:'庆北'},data:DATA.gyeongbuk},
+    {name:{ko:'전국 제조업',en:"Nat'l Mfg",zh:'全国制造'},data:DATA.mfg_national},
+    {name:{ko:'경북 제조업',en:'GB Mfg',zh:'庆北制造'},data:DATA.mfg_gb}
+  ];
+  const cf = v => v>=50?'#F04452':v>=30?'#FF6B35':v>=15?'#FF9F2D':v>=5?'#65A30D':'#16C68C';
+  let html = '';
+  html += `<div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:14px;font-size:.8rem;color:var(--ink-3);font-weight:600">`;
+  html += `<div><b style="color:var(--ink)">행</b> = 4 집단 · <b style="color:var(--ink)">열</b> = 15 위험요인</div>`;
+  html += `<div class="heatmap-legend"><span>0%</span><i style="background:#16C68C"></i><i style="background:#65A30D"></i><i style="background:#FF9F2D"></i><i style="background:#FF6B35"></i><i style="background:#F04452"></i><span>60%+</span></div>`;
+  html += `</div>`;
+  html += `<div class="heatmap-grid"><div></div>`;
+  all.forEach(h => html += `<div class="col-header">${h}</div>`);
+  html += `</div>`;
+  segs.forEach(s => {
+    html += `<div class="heatmap-grid" style="margin-bottom:5px"><div class="row-label">${s.name[lang]||s.name.ko}<small>n=${s.data.n.toLocaleString()}</small></div>`;
+    all.forEach(h => {
+      const v = ergK.includes(h) ? (s.data.erg[h]??0) : (s.data.phy[h]??0);
+      html += `<div class="heatmap-cell" style="background:${cf(v)}" data-tip="${s.name[lang]||s.name.ko} · ${h}: ${v}%">${v.toFixed(1)}</div>`;
+    });
+    html += `</div>`;
+  });
+  html += `<div style="margin-top:18px;padding:16px;background:var(--bg-2);border-radius:12px;font-size:.86rem;color:var(--ink-2);line-height:1.7;border-left:3px solid var(--a);letter-spacing:-.01em"><b style="color:var(--ink)">관전 포인트:</b> 경북 제조업(맨 아래)은 일반 위험요인보다 <b style="color:var(--r)">고온(16.1%)·저온(12.4%)·전신진동(50.5%)·사람들이동(47.8%)</b>이 높음. SHine-K의 7-Tech 융합 + Health Promotion이 이 격차를 메웁니다.</div>`;
+  document.getElementById('heatmapWrap').innerHTML = html;
+}
+window.__renderHeatmap = renderHeatmap;
+renderHeatmap();
+
+setLang(currentLang);
+
+// ============================================================
+// INTRO SCREEN (Lottie-style SVG animation)
+// ============================================================
+(function initIntro(){
+  const screen = document.getElementById('introScreen');
+  if (!screen) return;
+  // Block scroll during intro
+  document.body.style.overflow = 'hidden';
+  // Auto-dismiss after 2.8s
+  const timer = setTimeout(dismissIntro, 2800);
+  window.__introTimer = timer;
+  function dismissIntro(){
+    clearTimeout(window.__introTimer);
+    screen.classList.add('fade-out');
+    document.body.style.overflow = '';
+    setTimeout(() => { if (screen.parentNode) screen.parentNode.removeChild(screen); }, 820);
+  }
+  window.skipIntro = dismissIntro;
+  // Also dismiss on any click of the main content area
+  document.addEventListener('keydown', function onKey(e){
+    if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') { dismissIntro(); document.removeEventListener('keydown', onKey); }
+  });
+})();
+
+// ============================================================
+// GSAP SCROLL ANIMATIONS (hero + scroll-triggered)
+// ============================================================
+(function initGSAP(){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  function loadScript(src){ return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);}); }
+  // Set hero elements invisible before GSAP loads
+  const heroTargets = ['.hero-eyebrow','.hero h1','.hero-sub','.hero-btns','.hero-scroll'];
+  heroTargets.forEach(sel=>{ const el=document.querySelector(sel); if(el) el.style.opacity='0'; });
+  const heroStats = document.querySelectorAll('.hero-stat');
+  heroStats.forEach(el=>el.style.opacity='0');
+
+  const gsapCDN = 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js';
+  const stCDN   = 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js';
+
+  loadScript(gsapCDN).then(()=>loadScript(stCDN)).then(()=>{
+    const gsap = window.gsap;
+    gsap.registerPlugin(window.ScrollTrigger);
+
+    // ── Hero entrance (staggered, waits for intro to finish) ──
+    const introDelay = 2.0;
+    gsap.fromTo('.hero-eyebrow',  {opacity:0,y:22},  {opacity:1,y:0,duration:.8,ease:'power3.out',delay:introDelay});
+    gsap.fromTo('.hero h1',       {opacity:0,y:64,skewY:1.8},{opacity:1,y:0,skewY:0,duration:1.25,ease:'expo.out',delay:introDelay+.3});
+    gsap.fromTo('.hero-sub',      {opacity:0,y:36},  {opacity:1,y:0,duration:1,ease:'power3.out',delay:introDelay+.7});
+    gsap.fromTo('.hero-btns',     {opacity:0,y:26},  {opacity:1,y:0,duration:.8,ease:'power3.out',delay:introDelay+1.05});
+    gsap.fromTo(heroStats,        {opacity:0,y:28,scale:.95},{opacity:1,y:0,scale:1,duration:.65,stagger:.1,ease:'power2.out',delay:introDelay+1.25});
+    gsap.fromTo('.hero-scroll',   {opacity:0},       {opacity:.7,duration:.6,delay:introDelay+1.8});
+
+    // ── ScrollTrigger: section labels slide from left ──
+    document.querySelectorAll('.sec-label').forEach(el=>{
+      gsap.fromTo(el,{opacity:0,x:-28},{opacity:1,x:0,duration:.7,ease:'power2.out',
+        scrollTrigger:{trigger:el,start:'top 88%',toggleActions:'play none none none'}});
+    });
+
+    // ── ScrollTrigger: sec-desc fade up ──
+    document.querySelectorAll('.sec-desc').forEach(el=>{
+      gsap.fromTo(el,{opacity:0,y:18},{opacity:1,y:0,duration:.8,ease:'power2.out',
+        scrollTrigger:{trigger:el,start:'top 85%',toggleActions:'play none none none'}});
+    });
+
+    // ── ScrollTrigger: roadmap steps stagger ──
+    const rmGrid = document.querySelector('.roadmap-grid');
+    if(rmGrid){
+      gsap.fromTo(rmGrid.querySelectorAll('.roadmap-step'),
+        {opacity:0,y:36,scale:.96},
+        {opacity:1,y:0,scale:1,duration:.6,stagger:.12,ease:'power2.out',
+          scrollTrigger:{trigger:rmGrid,start:'top 78%',toggleActions:'play none none none'}});
+    }
+
+    // ── ScrollTrigger: impact cards fan in ──
+    const impGrid = document.querySelector('.impact-grid');
+    if(impGrid){
+      gsap.fromTo(impGrid.querySelectorAll('.impact-card'),
+        {opacity:0,y:30,scale:.94},
+        {opacity:1,y:0,scale:1,duration:.55,stagger:.07,ease:'back.out(1.4)',
+          scrollTrigger:{trigger:impGrid,start:'top 80%',toggleActions:'play none none none'}});
+    }
+
+    // ── ScrollTrigger: tech cells flip in ──
+    const techGrid = document.querySelector('.tech-grid');
+    if(techGrid){
+      gsap.fromTo(techGrid.querySelectorAll('.tech-cell'),
+        {opacity:0,rotationY:35,transformOrigin:'center center'},
+        {opacity:1,rotationY:0,duration:.7,stagger:.08,ease:'power3.out',
+          scrollTrigger:{trigger:techGrid,start:'top 78%',toggleActions:'play none none none'}});
+    }
+  }).catch(()=>{
+    // GSAP failed – restore visibility
+    heroTargets.forEach(sel=>{ const el=document.querySelector(sel); if(el) el.style.opacity=''; });
+    heroStats.forEach(el=>el.style.opacity='');
+  });
+})();
+
+// ============================================================
+// FACTORY XR — Three.js 3D Virtual Factory + WebXR
+// ============================================================
+(function initFactory(){
+  const canvas = document.getElementById('factoryCanvas');
+  if (!canvas) return;
+
+  // Lazy-init when section near viewport
+  const observer = new IntersectionObserver(entries=>{
+    if (!entries.some(e=>e.isIntersecting)) return;
+    observer.disconnect();
+    loadFactory();
+  },{rootMargin:'200px'});
+  observer.observe(canvas);
+
+  function loadFactory(){
+    const src = 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js';
+    if (window.THREE) { buildScene(); return; }
+    const s = document.createElement('script');
+    s.src = src;
+    s.onload = buildScene;
+    s.onerror = ()=>{ canvas.style.background='#161B27'; };
+    document.head.appendChild(s);
+  }
+
+  function buildScene(){
+    const THREE = window.THREE;
+    const W = ()=>canvas.clientWidth, H = ()=>canvas.clientHeight;
+    const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:false});
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    const scene = new THREE.Scene();
+    const isDark = document.documentElement.dataset.theme === 'dark';
+    scene.background = new THREE.Color(isDark ? 0x0D1117 : 0x111827);
+    scene.fog = new THREE.Fog(isDark ? 0x0D1117 : 0x111827, 28, 60);
+
+    const camera = new THREE.PerspectiveCamera(42, W()/H(), 0.1, 100);
+    camera.position.set(0, 18, 26);
+    camera.lookAt(0, 0, 0);
+
+    function resize(){
+      renderer.setSize(W(), H(), false);
+      camera.aspect = W()/H();
+      camera.updateProjectionMatrix();
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    // ── Lighting ──
+    scene.add(new THREE.AmbientLight(0x334466, 1.2));
+    const sun = new THREE.DirectionalLight(0x8899ff, 1.4);
+    sun.position.set(8, 20, 10);
+    sun.castShadow = true;
+    sun.shadow.mapSize.set(1024,1024);
+    scene.add(sun);
+    scene.add(new THREE.PointLight(0x3182F6, 2, 20));
+
+    // ── Floor ──
+    const floorGeo = new THREE.PlaneGeometry(40, 28);
+    const floorMat = new THREE.MeshStandardMaterial({color:0x161B27, roughness:.95, metalness:.05});
+    const floor = new THREE.Mesh(floorGeo, floorMat);
+    floor.rotation.x = -Math.PI/2;
+    floor.receiveShadow = true;
+    scene.add(floor);
+
+    // Grid lines
+    const grid = new THREE.GridHelper(40, 20, 0x2D3748, 0x1E293B);
+    grid.position.y = 0.01;
+    scene.add(grid);
+
+    // ── Risk Zones ──
+    function addZone(x,z,w,d,color,opacity){
+      const geo = new THREE.PlaneGeometry(w,d);
+      const mat = new THREE.MeshBasicMaterial({color,transparent:true,opacity,side:THREE.DoubleSide,depthWrite:false});
+      const m = new THREE.Mesh(geo, mat);
+      m.rotation.x = -Math.PI/2;
+      m.position.set(x, 0.02, z);
+      scene.add(m);
+      return m;
+    }
+    const dangerZone  = addZone(-10, 2, 8, 7, 0xF04452, 0.25);
+    const cautionZone = addZone(4, -5, 7, 6, 0xFF9F2D, 0.18);
+    addZone(10, 4, 10, 8, 0x16C68C, 0.12);  // safe zone
+
+    // Zone labels (sprites)
+    function makeLabel(text, color){
+      const c2 = document.createElement('canvas'); c2.width=256; c2.height=64;
+      const ctx = c2.getContext('2d');
+      ctx.fillStyle = color+'44';
+      ctx.roundRect(4,4,248,56,12);
+      ctx.fill();
+      ctx.strokeStyle = color;
+      ctx.lineWidth=2;
+      ctx.roundRect(4,4,248,56,12);
+      ctx.stroke();
+      ctx.fillStyle=color;
+      ctx.font='bold 22px monospace';
+      ctx.textAlign='center';
+      ctx.textBaseline='middle';
+      ctx.fillText(text,128,32);
+      const tex = new THREE.CanvasTexture(c2);
+      const mat = new THREE.SpriteMaterial({map:tex,transparent:true,depthTest:false});
+      return new THREE.Sprite(mat);
+    }
+    const lDanger = makeLabel('⚠ DANGER ZONE','#F04452');
+    lDanger.position.set(-10,1.2,2); lDanger.scale.set(4,1,1); scene.add(lDanger);
+    const lCaution = makeLabel('! CAUTION','#FF9F2D');
+    lCaution.position.set(4,1.2,-5); lCaution.scale.set(3,0.75,1); scene.add(lCaution);
+
+    // ── Machines ──
+    function addMachine(x,z,w,d,h,color){
+      const geo = new THREE.BoxGeometry(w,h,d);
+      const mat = new THREE.MeshStandardMaterial({color,roughness:.6,metalness:.4});
+      const mesh = new THREE.Mesh(geo,mat);
+      mesh.position.set(x,h/2,z);
+      mesh.castShadow=true; mesh.receiveShadow=true;
+      scene.add(mesh);
+      // Glow light
+      const light = new THREE.PointLight(color,1.5,4);
+      light.position.set(x,h+0.5,z);
+      scene.add(light);
+      return mesh;
+    }
+    addMachine(-13,-6,3,2,2.5,0x3D4E6A);
+    addMachine(-13,4,2,3,3.2,0x3D4E6A);
+    addMachine(13,0,2.5,4,2,0x4A5568);
+    addMachine(13,-6,2,2,1.8,0x4A5568);
+    addMachine(0,-8,12,1.5,1,0x2D3748);  // conveyor
+
+    // ── Workers ──
+    const WORKER_COLORS = [0x3182F6,0x16C68C,0xF04452,0x8B5CF6,0xFF9F2D,0x0FA8B8];
+    const workers = WORKER_COLORS.map((color,i)=>{
+      const body = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.35,0.35,1.5,8),
+        new THREE.MeshStandardMaterial({color,roughness:.5,emissive:color,emissiveIntensity:.25})
+      );
+      const head = new THREE.Mesh(
+        new THREE.SphereGeometry(0.28,8,6),
+        new THREE.MeshStandardMaterial({color,roughness:.5,emissive:color,emissiveIntensity:.3})
+      );
+      head.position.y = 1.05;
+      const hat = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.32,0.32,0.18,8),
+        new THREE.MeshStandardMaterial({color:0xFFD700,roughness:.4})
+      );
+      hat.position.y = 1.25;
+      const group = new THREE.Group();
+      group.add(body,head,hat);
+      // Glow
+      const glow = new THREE.PointLight(color, 1.8, 2.5);
+      glow.position.y = 0.75;
+      group.add(glow);
+      // Start positions spread across factory
+      group.position.set((i-2.5)*4.5, 0.75, (Math.random()-.5)*8);
+      group.castShadow=true;
+      scene.add(group);
+      return {
+        mesh:group, glow,
+        vx:(Math.random()-.5)*.04,
+        vz:(Math.random()-.5)*.04,
+        phase:Math.random()*Math.PI*2,
+        inDanger:false
+      };
+    });
+
+    // ── Status update for HUD ──
+    let alertTimer=0;
+    function updateHUD(){
+      let danger=0,safe=0;
+      workers.forEach(w=>{
+        const p=w.mesh.position;
+        const inD = p.x>-14&&p.x<-6&&p.z>-1.5&&p.z<5.5;
+        w.inDanger=inD;
+        inD ? danger++ : safe++;
+        w.glow.intensity = inD ? 3.5 : 1.8;
+      });
+      const el1=document.getElementById('xrSafe');
+      const el2=document.getElementById('xrRisk');
+      const alertBadge=document.getElementById('xrAlertBadge');
+      const warnBadge=document.getElementById('xrWarnBadge');
+      if(el1) el1.textContent=safe;
+      if(el2) el2.textContent=danger;
+      if(danger>0){
+        if(alertBadge) alertBadge.style.display='inline-flex';
+        if(warnBadge) warnBadge.style.display='none';
+      } else {
+        if(alertBadge) alertBadge.style.display='none';
+        if(warnBadge) warnBadge.style.display='inline-flex';
+      }
+    }
+
+    // ── Mouse orbit ──
+    let mx=0,my=0;
+    canvas.addEventListener('mousemove',e=>{
+      const r=canvas.getBoundingClientRect();
+      mx=(e.clientX-r.left)/r.width-.5;
+      my=(e.clientY-r.top)/r.height-.5;
+    },{passive:true});
+
+    // ── WebXR Support ──
+    if(navigator.xr){
+      navigator.xr.isSessionSupported('immersive-vr').then(ok=>{
+        if(ok){ const btn=document.getElementById('xrEnterBtn'); if(btn) btn.style.display='block'; }
+      }).catch(()=>{});
+    }
+    window.enterXR = async function(){
+      if(!navigator.xr) return;
+      renderer.xr.enabled=true;
+      try{
+        const session=await navigator.xr.requestSession('immersive-vr',{requiredFeatures:['local']});
+        renderer.xr.setSession(session);
+      }catch(e){ alert('VR 세션을 시작할 수 없습니다: '+e.message); }
+    };
+
+    // ── Animate ──
+    let t=0;
+    function animate(){
+      requestAnimationFrame(animate);
+      t+=0.012;
+      // Worker movement
+      workers.forEach((w,i)=>{
+        w.mesh.position.x += w.vx + Math.sin(t+w.phase)*.008;
+        w.mesh.position.z += w.vz + Math.cos(t*1.3+w.phase)*.007;
+        if(w.mesh.position.x<-16||w.mesh.position.x>16) w.vx*=-1;
+        if(w.mesh.position.z<-10||w.mesh.position.z>10) w.vz*=-1;
+        // Idle bob
+        w.mesh.position.y = 0.75 + Math.sin(t*2+w.phase)*.04;
+      });
+      alertTimer+=0.012;
+      if(alertTimer>2){ updateHUD(); alertTimer=0; }
+      // Zone pulse
+      dangerZone.material.opacity  = 0.2+Math.sin(t*2)*.08;
+      cautionZone.material.opacity = 0.14+Math.sin(t*1.5+1)*.05;
+      // Camera orbit
+      camera.position.x += (mx*6-camera.position.x)*.04;
+      camera.position.y = 18+my*4;
+      camera.position.z = 26+Math.sin(t*.18)*2;
+      camera.lookAt(0,0,0);
+      renderer.render(scene, camera);
+    }
+    animate();
+  }
+})();
+
+// ============================================================
+// THEME TOGGLE (dark mode)
+// ============================================================
+function toggleTheme(){
+  const wasDark = document.documentElement.dataset.theme === 'dark';
+  document.documentElement.dataset.theme = wasDark ? '' : 'dark';
+  localStorage.setItem('shk-theme', wasDark ? '' : 'dark');
+  const btn = document.getElementById('themeToggle');
+  if (btn) btn.textContent = wasDark ? '🌙' : '☀️';
+  if (window.Chart && Object.keys(charts).length > 0) {
+    const nowDark = !wasDark;
+    Chart.defaults.color = nowDark ? '#A0AEC0' : '#4E5968';
+    Chart.defaults.scale.grid.color = nowDark ? 'rgba(255,255,255,.06)' : 'rgba(0,0,0,.05)';
+    Chart.defaults.scale.border.color = nowDark ? 'rgba(255,255,255,.1)' : 'rgba(0,0,0,.08)';
+    buildCharts();
+  }
+}
+(function initTheme(){
+  const saved = localStorage.getItem('shk-theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (saved === 'dark' || (!saved && prefersDark)) {
+    document.documentElement.dataset.theme = 'dark';
+    const btn = document.getElementById('themeToggle');
+    if (btn) btn.textContent = '☀️';
+  }
+})();
+
+// ============================================================
+// ACTIVE NAV SECTION HIGHLIGHTING
+// ============================================================
+(function initActiveNav(){
+  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+  if (!navLinks.length) return;
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(a => a.classList.toggle('active-nav', a.getAttribute('href') === '#' + e.target.id));
+      }
+    });
+  }, {rootMargin:'-35% 0px -35% 0px', threshold:0});
+  document.querySelectorAll('section[id]').forEach(s => obs.observe(s));
+})();
+
+// ============================================================
+// ESC KEY — CLOSE MOBILE MENU
+// ============================================================
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    const d = document.getElementById('drawer');
+    if (d && d.classList.contains('open')) toggleMenu();
+  }
+});
+
+// ============================================================
+// LIVE DASHBOARD SIMULATION
+// ============================================================
+(function liveSimulation(){
+  const base = {workers:1284, vitals:12.4, events:3};
+  let tick = 0;
+  function update(){
+    tick++;
+    const workers = base.workers + Math.round(Math.sin(tick * 0.27) * 13 + (Math.random() - 0.5) * 7);
+    const vitals = (base.vitals + Math.sin(tick * 0.19) * 0.42 + (Math.random() - 0.5) * 0.15).toFixed(1);
+    const events = Math.max(1, Math.round(base.events + Math.sin(tick * 0.48) * 1.9 + (Math.random() - 0.5)));
+    const wEl = document.getElementById('liveWorkers');
+    const vEl = document.getElementById('liveVitals');
+    const eEl = document.getElementById('liveEvents');
+    if (wEl) wEl.textContent = workers.toLocaleString();
+    if (vEl) vEl.textContent = vitals + 'M';
+    if (eEl) eEl.innerHTML = events + '<small style="font-size:.7rem;color:var(--ink-4)">건/일</small>';
+  }
+  setInterval(update, 2800);
+})();
+
+// ============================================================
+// REAL-TIME AI EVENT STREAM
+// ============================================================
+(function eventStream(){
+  const log = document.getElementById('eventLog');
+  if (!log) return;
+  const EVENTS = [
+    {badge:'낙상감지', color:'var(--r)', bg:'var(--r-bg)', msgs:['Worker-A · Line-3 · 낙상 conf 98.3% → emergency_agent 발동','Worker-C · Zone-B 3.2m 낙상 감지 · 119 연계 진행 중']},
+    {badge:'PPE위반', color:'var(--w)', bg:'var(--w-bg)', msgs:['Worker-D · 구역-4 안전모 미착용 확인됨','Worker-F · 안전화 미착용 · nudge_agent 진동 알림 발송']},
+    {badge:'구역침입', color:'var(--p)', bg:'var(--p-bg)', msgs:['지게차 동선 Zone-A 근로자 진입 감지 · 자동 브레이크','접근금지구역 Worker-K 침입 · 경보 발령 + SMS']},
+    {badge:'건강알림', color:'var(--a)', bg:'var(--a-bg)', msgs:['Worker-B · HR 143bpm 과부하 · 열사병 위험 ⚠️','Worker-E · SpO2 94% 저하 · 즉시 측정 권고']},
+    {badge:'REBA경보', color:'#0FA8B8', bg:'var(--teal-bg)', msgs:['Worker-G · REBA Score 13 → 즉시 교대 권장','3번 라인 반복작업 4.5h 초과 · 로테이션 자동 적용']},
+    {badge:'장비이상', color:'var(--g)', bg:'var(--g-bg)', msgs:['프레스-2 진동 이상 패턴 감지 · 점검 요청','컨베이어 Zone-C 온도 72°C 임계치 초과']}
+  ];
+  let total = 0;
+  function addEvent(){
+    const ev = EVENTS[Math.floor(Math.random() * EVENTS.length)];
+    const msg = ev.msgs[Math.floor(Math.random() * ev.msgs.length)];
+    const now = new Date();
+    const t = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}:${now.getSeconds().toString().padStart(2,'0')}`;
+    const item = document.createElement('div');
+    item.className = 'event-log-item';
+    item.innerHTML = `<span class="event-time">${t}</span><span class="event-badge" style="background:${ev.bg};color:${ev.color}">${ev.badge}</span><span class="event-desc">${msg}</span>`;
+    log.insertBefore(item, log.firstChild);
+    while (log.children.length > 5) log.removeChild(log.lastChild);
+    total++;
+    const lbl = document.getElementById('eventCountLabel');
+    if (lbl) lbl.textContent = `오늘 ${total} events`;
+  }
+  [700, 1500, 2400].forEach(d => setTimeout(addEvent, d));
+  function scheduleNext(){
+    setTimeout(() => { addEvent(); scheduleNext(); }, 2800 + Math.random() * 4500);
+  }
+  scheduleNext();
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+{
+  "name": "SHine-K Insights — 데이터로 보는 경북 중소제조 산업안전",
+  "short_name": "SHine-K",
+  "description": "KWCS 50,195명 + 작업환경 19,956개사 + KOSHS 3,255개사 기반 산업안전·근로자 건강 인사이트 포털 (CES 2027)",
+  "id": "/shine-k-insights/",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui", "browser"],
+  "orientation": "any",
+  "background_color": "#0B1020",
+  "theme_color": "#2563EB",
+  "lang": "ko-KR",
+  "dir": "ltr",
+  "categories": ["business", "education", "government", "productivity", "health"],
+  "iarc_rating_id": "",
+  "prefer_related_applications": false,
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ],
+  "shortcuts": [
+    {
+      "name": "경쟁사 비교",
+      "short_name": "Compete",
+      "description": "글로벌 산업안전 AI 강자와 SHine-K 비교",
+      "url": "./?section=compete#compete",
+      "icons": [{"src": "icon-192.png", "sizes": "192x192"}]
+    },
+    {
+      "name": "4대 미니클러스터",
+      "short_name": "Clusters",
+      "description": "구미·포항·안동·경산 클러스터 분석",
+      "url": "./?section=clusters#clusters",
+      "icons": [{"src": "icon-192.png", "sizes": "192x192"}]
+    },
+    {
+      "name": "CES 2027 메인",
+      "short_name": "CES 2027",
+      "description": "3D 디지털 트윈 + Agent Harness",
+      "url": "https://shine-k-wansuk-choi-ces2027.vercel.app",
+      "icons": [{"src": "icon-192.png", "sizes": "192x192"}]
+    }
+  ]
+}

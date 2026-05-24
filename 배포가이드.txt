@@ -1,0 +1,154 @@
+================================================================
+SHine-K Insights v2 — 배포 가이드
+================================================================
+
+[버전]
+  v2.0 · CES 2027 출품 사양
+  (이전 v1: /홈페이지,앱/INSIGHTS/)
+
+[주요 업그레이드]
+  ✅ Three.js 3D 입자 시각화 (5만 근로자 표상, WebGL+2D 폴백)
+  ✅ 다국어 3개: 한국어 / English / 中文
+  ✅ 다크모드 자동/수동 토글
+  ✅ PWA + Service Worker (오프라인 지원)
+  ✅ 경쟁사 비교표 (Intenseye·Protex AI·viAct·TuMeke·Strongarm)
+  ✅ 7-Tech 융합 아키텍처 시각화
+  ✅ WCAG 2.1 AA 접근성 (skip link, ARIA, 모션 감소)
+  ✅ SEO 강화 (OG, JSON-LD, hreflang, sitemap)
+  ✅ 글로벌 디바이스 호환 (화웨이·샤오미·HarmonyOS·UC Browser)
+
+================================================================
+파일 구조
+================================================================
+
+  website/
+  ├── index.html              메인 (단일 페이지, 122KB)
+  ├── sw.js                   Service Worker (오프라인 PWA)
+  ├── manifest.json           PWA 매니페스트 + 단축키
+  ├── vercel.json             Vercel 헤더 + 캐시 정책
+  ├── .htaccess               Apache 서버용 (Cafe24 등)
+  ├── robots.txt              크롤러 정책
+  ├── sitemap.xml             검색엔진 사이트맵
+  ├── icon-192.png            앱 아이콘
+  ├── icon-512.png            앱 아이콘 (고해상도)
+  ├── shin.png                심볼 (예비)
+  ├── REVIEW.md               이 비교 검토 보고서
+  └── 배포가이드.txt          이 파일
+
+================================================================
+배포 방법 ① — Vercel (권장, 1분 완료)
+================================================================
+
+A) CLI 방식:
+   cd "이 폴더"
+   npx vercel --prod
+   → Project Name: shine-k-insights
+   → Deploy
+
+B) 드래그&드롭 방식 (CLI 불필요):
+   1. https://vercel.com/new
+   2. website/ 폴더 전체를 브라우저에 드래그
+   3. Project Name: shine-k-insights
+   4. Deploy 클릭
+
+  → 완료: https://shine-k-insights.vercel.app
+
+================================================================
+배포 방법 ② — 카페24·후이즈 등 호스팅
+================================================================
+
+  1. FTP/SFTP로 모든 파일을 public_html/ 에 업로드
+  2. .htaccess 가 적용되는지 확인 (.htaccess Override 옵션)
+  3. HTTPS 인증서 활성화 (Let's Encrypt 무료)
+  4. PWA·Service Worker는 HTTPS에서만 작동
+
+================================================================
+배포 방법 ③ — GitHub Pages
+================================================================
+
+  1. GitHub 저장소 생성: shine-k-insights
+  2. website/ 폴더 전체를 main 브랜치에 푸시
+  3. Settings → Pages → Source: main / root
+  4. 완료: https://[username].github.io/shine-k-insights
+
+================================================================
+글로벌 호환 검증 체크리스트
+================================================================
+
+  □ Chrome (Windows/Mac/Linux/Android)
+  □ Safari (Mac/iOS)
+  □ Firefox (모든 OS)
+  □ Edge (Windows/Mac)
+  □ Samsung Internet (갤럭시)
+  □ MIUI Browser (샤오미)
+  □ Petal Browser (화웨이)
+  □ HarmonyOS 기본 브라우저
+  □ UC Browser (인도·동남아)
+  □ 360 / QQ Browser (중국)
+
+  ✅ 모두 단일 시스템 폰트 체인 + jsdelivr CDN 으로 작동
+  ✅ Google Fonts·Google CDN 의존성 0개 (중국 호환)
+  ✅ WebGL 미지원 시 2D Canvas 자동 폴백
+
+================================================================
+PWA 설치 안내 (사용자에게 제공)
+================================================================
+
+iOS (Safari):
+  공유 버튼 → "홈 화면에 추가"
+
+Android (Chrome / Samsung / 화웨이 / 샤오미):
+  주소창 옆 ⋮ 메뉴 → "앱 설치" / "홈 화면에 추가"
+
+데스크톱 (Chrome / Edge):
+  주소창 우측 ⊕ 아이콘 클릭 → "설치"
+
+설치 후 기능:
+  - 오프라인 작동 (한 번 로드 후 인터넷 없이도 열림)
+  - 풀스크린 (브라우저 UI 숨김)
+  - 홈화면 단축키: "경쟁사 비교" / "4대 클러스터" / "CES 2027"
+
+================================================================
+SEO·검색 등록
+================================================================
+
+  □ Google Search Console: 사이트 등록 + sitemap.xml 제출
+  □ Naver Search Advisor: 사이트 등록 + sitemap.xml 제출
+  □ Bing Webmaster Tools: 사이트 등록
+  □ Baidu (중국): 사이트 등록 (선택)
+
+================================================================
+도메인 권장 (선택)
+================================================================
+
+  Vercel 기본: shine-k-insights.vercel.app
+  커스텀 도메인: insights.shine-k.com
+   ├ Vercel → Settings → Domains → Add
+   ├ DNS: CNAME → cname.vercel-dns.com
+   └ 자동 HTTPS (Let's Encrypt)
+
+================================================================
+4개 사이트 통합 구조
+================================================================
+
+  ① https://shine-k-demo.vercel.app
+     → 시연·발표용
+
+  ② https://shine-k.vercel.app
+     → 상용 서비스 (DB 연결)
+
+  ③ https://shine-k-wansuk-choi-ces2027.vercel.app  ★ CES 메인
+     ├ / 랜딩
+     ├ /twin.html  (3D 디지털 트윈)
+     ├ /harness.html (12 Agent Harness)
+     ├ /live-demo.html (카메라 AI)
+     ├ /demo.html (대시보드)
+     └ /video.html (영상)
+
+  ④ https://shine-k-insights.vercel.app  ★★ 신규 — 데이터·R&D·경쟁분석
+     └ /  (단일 페이지 스크롤 스토리)
+
+================================================================
+경운대학교 보건대학 · 신형수 학장 / 구미란 교수 / 최완석
+SHine-K Platform · v2.0 · 2026.05
+================================================================
