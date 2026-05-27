@@ -4714,5 +4714,625 @@ window.downloadReport=function(){
 
 })();
 </script>
+
+<!-- QR lib from CDN -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+
+<!-- ═══════════════ ADVANCED TECH v2 ═══════════════════════ -->
+<style>
+/* ── Scroll Progress Bar ── */
+#scrollBar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#3182F6,#16C68C,#8B5CF6);z-index:9999;width:0%;transition:width .05s linear;pointer-events:none;}
+
+/* ── ⌘K Command Palette ── */
+#cmdOverlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:99990;display:none;align-items:flex-start;justify-content:center;padding-top:14vh;backdrop-filter:blur(4px);}
+#cmdOverlay.open{display:flex;}
+#cmdBox{background:var(--card,#fff);border-radius:16px;width:min(600px,92vw);box-shadow:0 24px 64px rgba(0,0,0,.22);overflow:hidden;border:1px solid var(--bdr,#E5E8EB);}
+#cmdInput{width:100%;padding:16px 20px;font-size:16px;border:none;outline:none;background:transparent;color:var(--ink,#191F28);font-family:inherit;border-bottom:1px solid var(--bdr,#E5E8EB);}
+#cmdHint{padding:6px 20px 4px;font-size:11px;color:var(--ink-4,#8B95A1);}
+#cmdList{max-height:360px;overflow-y:auto;padding:6px 0;}
+.cmd-group{padding:6px 20px 4px;font-size:10px;font-weight:700;color:var(--ink-4,#8B95A1);text-transform:uppercase;letter-spacing:.08em;}
+.cmd-item{display:flex;align-items:center;gap:12px;padding:10px 20px;cursor:pointer;transition:background .12s;}
+.cmd-item:hover,.cmd-item.active{background:var(--a-bg,#E8F2FF);}
+.cmd-item-icon{font-size:16px;width:26px;text-align:center;flex-shrink:0;}
+.cmd-item-label{flex:1;font-size:14px;color:var(--ink,#191F28);}
+.cmd-item-kbd{font-size:10px;color:var(--ink-4,#8B95A1);background:var(--bg-2,#F2F4F6);border-radius:4px;padding:2px 6px;font-family:var(--mono,monospace);}
+#cmdShortcut{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:9991;background:rgba(0,0,0,.6);color:#fff;font-size:11px;border-radius:20px;padding:5px 14px;pointer-events:none;backdrop-filter:blur(6px);opacity:0;transition:opacity .3s;}
+#cmdShortcut.show{opacity:1;}
+
+/* ── Voice HUD ── */
+#voiceHud{position:fixed;top:70px;left:50%;transform:translateX(-50%);z-index:9990;background:rgba(22,198,140,.1);border:1.5px solid rgba(22,198,140,.5);border-radius:40px;padding:8px 20px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;color:#16C68C;pointer-events:none;opacity:0;transition:opacity .3s;}
+#voiceHud.show{opacity:1;}
+.voice-dot{width:8px;height:8px;border-radius:50%;background:#16C68C;animation:voicePulse 1s ease-in-out infinite;}
+@keyframes voicePulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.5}}
+#voiceBtn{position:fixed;bottom:130px;right:22px;z-index:9990;width:42px;height:42px;border-radius:50%;background:rgba(10,10,18,.85);border:1px solid rgba(22,198,140,.45);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:transform .2s,box-shadow .2s;}
+#voiceBtn:hover{transform:scale(1.12);}
+#voiceBtn.listening{background:rgba(22,198,140,.2);border-color:#16C68C;box-shadow:0 0 0 8px rgba(22,198,140,.15);}
+
+/* ── QR Badge Modal ── */
+#qrModal{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:99990;display:none;align-items:center;justify-content:center;}
+#qrModal.open{display:flex;}
+#qrBox{background:var(--card,#fff);border-radius:20px;padding:28px 32px;width:min(440px,92vw);box-shadow:0 24px 64px rgba(0,0,0,.2);}
+#qrBox h4{font-size:16px;font-weight:700;margin-bottom:16px;color:var(--ink,#191F28);}
+.qr-field{margin-bottom:12px;}
+.qr-field label{display:block;font-size:11px;font-weight:600;color:var(--ink-4,#8B95A1);margin-bottom:4px;}
+.qr-field input{width:100%;padding:9px 12px;border:1.5px solid var(--bdr,#E5E8EB);border-radius:10px;font-size:13px;background:var(--bg,#F9FAFB);color:var(--ink,#191F28);outline:none;box-sizing:border-box;}
+#qrPreview{margin:16px auto 0;text-align:center;}
+#qrPreview canvas{margin:0 auto;border-radius:8px;}
+.qr-btns{display:flex;gap:10px;margin-top:16px;}
+.qr-btn{flex:1;padding:11px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:opacity .2s;}
+.qr-gen-btn{background:var(--a,#3182F6);color:#fff;border:none;}
+.qr-dl-btn{background:var(--bg-2,#F2F4F6);color:var(--ink,#191F28);border:1px solid var(--bdr,#E5E8EB);}
+.qr-close-btn{background:none;border:none;font-size:20px;color:var(--ink-4,#8B95A1);cursor:pointer;float:right;margin-top:-4px;}
+
+/* ── Camera Modal ── */
+#camModal{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:99990;display:none;align-items:center;justify-content:center;}
+#camModal.open{display:flex;}
+#camBox{background:#0D1117;border-radius:16px;overflow:hidden;width:min(640px,95vw);box-shadow:0 24px 64px rgba(0,0,0,.4);}
+#camBox header{padding:12px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.1);}
+#camBox header span{color:#16C68C;font-size:13px;font-weight:700;}
+#camBox .cam-close{background:none;border:none;color:#888;font-size:18px;cursor:pointer;}
+#camWrap{position:relative;background:#000;}
+#camVideo{width:100%;display:block;transform:scaleX(-1);}
+#camCanvas{position:absolute;inset:0;width:100%;transform:scaleX(-1);}
+#camHud{padding:12px 20px;display:flex;align-items:center;justify-content:space-between;}
+#camReba{font-size:12px;font-weight:700;color:#16C68C;}
+#camStatus{font-size:11px;color:#666;}
+
+/* ── CSV section additions ── */
+.csv-bar{display:flex;gap:10px;margin-top:16px;padding-top:14px;border-top:1px solid var(--border,#E5E8EB);}
+.csv-btn{padding:9px 16px;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;transition:opacity .2s;}
+.csv-export{background:var(--primary,#3182F6);color:#fff;border:none;}
+.csv-import-lbl{display:inline-block;padding:9px 16px;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;background:var(--bg-2,#F2F4F6);color:var(--ink,#191F28);border:1px solid var(--bdr,#E5E8EB);}
+
+/* ── Notification Banner ── */
+#notifBanner{position:fixed;top:70px;right:20px;z-index:99998;display:flex;flex-direction:column;gap:8px;pointer-events:none;}
+.notif-card{background:var(--card,#fff);border:1px solid var(--bdr,#E5E8EB);border-radius:12px;padding:12px 16px;min-width:260px;max-width:320px;box-shadow:0 8px 24px rgba(0,0,0,.12);pointer-events:all;transform:translateX(360px);transition:transform .4s cubic-bezier(.34,1.56,.64,1);display:flex;gap:10px;align-items:flex-start;}
+.notif-card.show{transform:translateX(0);}
+.notif-icon{font-size:20px;flex-shrink:0;}
+.notif-body{flex:1;}
+.notif-title{font-size:13px;font-weight:700;color:var(--ink,#191F28);}
+.notif-msg{font-size:11px;color:var(--ink-4,#8B95A1);margin-top:2px;}
+.notif-close{background:none;border:none;color:var(--ink-4,#8B95A1);cursor:pointer;font-size:14px;flex-shrink:0;}
+
+/* ── Regression chart overlay ── */
+.db-chart-card .db-pred-note{font-size:10px;color:#8B95A1;text-align:right;margin-top:4px;}
+
+/* ── QR & Cam launch buttons ── */
+#qrLaunchBtn,#camLaunchBtn{position:fixed;z-index:9990;width:42px;height:42px;border-radius:50%;background:rgba(10,10,18,.85);border:1px solid rgba(49,130,246,.45);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:transform .2s;right:22px;}
+#qrLaunchBtn{bottom:178px;}
+#camLaunchBtn{bottom:226px;}
+#qrLaunchBtn:hover,#camLaunchBtn:hover{transform:scale(1.12);}
+
+/* ── Sync indicator ── */
+#syncBadge{position:fixed;top:56px;left:50%;transform:translateX(-50%);z-index:9992;background:rgba(49,130,246,.12);border:1px solid rgba(49,130,246,.35);border-radius:20px;padding:4px 14px;font-size:11px;color:#3182F6;font-weight:600;opacity:0;transition:opacity .4s;pointer-events:none;}
+#syncBadge.show{opacity:1;}
+</style>
+
+<!-- Modals & overlays HTML -->
+<div id="scrollBar"></div>
+<div id="notifBanner"></div>
+<div id="voiceHud"><div class="voice-dot"></div><span id="voiceText">듣는 중...</span></div>
+<div id="syncBadge">🔄 다른 탭과 동기화됨</div>
+
+<!-- ⌘K Command Palette -->
+<div id="cmdOverlay" role="dialog" aria-modal="true" aria-label="명령 팔레트">
+  <div id="cmdBox">
+    <input id="cmdInput" placeholder="명령을 검색하세요... (예: 대시보드, AI 예측, QR)" autocomplete="off">
+    <div id="cmdHint">↑↓ 이동 · Enter 실행 · Esc 닫기</div>
+    <div id="cmdList"></div>
+  </div>
+</div>
+<div id="cmdShortcut">⌘K 명령 팔레트</div>
+
+<!-- QR Badge Modal -->
+<div id="qrModal" role="dialog" aria-modal="true" aria-label="QR 공원 증 생성">
+  <div id="qrBox">
+    <button class="qr-close-btn" onclick="document.getElementById('qrModal').classList.remove('open')">✕</button>
+    <h4>🪪 QR 근로자 배지 생성</h4>
+    <div class="qr-field"><label>근로자 이름</label><input id="qrName" value="홍길동" placeholder="이름 입력"></div>
+    <div class="qr-field"><label>근로자 ID</label><input id="qrId" value="W-2025-0042" placeholder="W-YYYY-XXXX"></div>
+    <div class="qr-field"><label>부서</label><input id="qrDept" value="용접팀" placeholder="부서명"></div>
+    <div id="qrPreview"></div>
+    <div class="qr-btns">
+      <button class="qr-btn qr-gen-btn" onclick="genQR()">🔲 QR 생성</button>
+      <button class="qr-btn qr-dl-btn" onclick="dlQR()">📥 다운로드</button>
+    </div>
+  </div>
+</div>
+
+<!-- Camera Modal -->
+<div id="camModal" role="dialog" aria-modal="true" aria-label="카메라 자세 분석">
+  <div id="camBox">
+    <header>
+      <span>📷 실시간 자세 분석 (REBA 시뮬레이션)</span>
+      <button class="cam-close" onclick="stopCamera()">✕</button>
+    </header>
+    <div id="camWrap">
+      <video id="camVideo" autoplay muted playsinline></video>
+      <canvas id="camCanvas"></canvas>
+    </div>
+    <div id="camHud">
+      <span id="camReba">REBA 점수: 분석 중...</span>
+      <span id="camStatus">카메라 준비 중</span>
+    </div>
+  </div>
+</div>
+
+<!-- Fixed launch buttons -->
+<button id="voiceBtn" title="음성 제어">🎙</button>
+<button id="qrLaunchBtn" title="QR 배지 생성" onclick="document.getElementById('qrModal').classList.add('open');genQR()">🪪</button>
+<button id="camLaunchBtn" title="카메라 자세 분석" onclick="startCamera()">📷</button>
+
+<!-- Hidden CSV file input -->
+<input type="file" id="csvFileInput" accept=".csv" style="display:none" onchange="importCSV(event)">
+
+<script>
+(function(){
+'use strict';
+
+/* ══ SCROLL PROGRESS BAR ══════════════════════════════════ */
+window.addEventListener('scroll',()=>{
+  const b=document.body,d=document.documentElement;
+  const pct=(d.scrollTop||b.scrollTop)/(d.scrollHeight-d.clientHeight||1)*100;
+  const bar=document.getElementById('scrollBar');
+  if(bar) bar.style.width=pct.toFixed(1)+'%';
+},{passive:true});
+
+/* ══ ⌘K COMMAND PALETTE ═══════════════════════════════════ */
+const COMMANDS=[
+  {g:'🧭 이동',icon:'🛡',label:'안전 대시보드',kbd:'',fn:()=>scroll('#dashboard')},
+  {g:'🧭 이동',icon:'🤖',label:'AI 위험 예측',kbd:'',fn:()=>scroll('#predict')},
+  {g:'🧭 이동',icon:'🚨',label:'사고 속보 시스템',kbd:'',fn:()=>scroll('#incident')},
+  {g:'🧭 이동',icon:'📄',label:'PDF 보고서 생성',kbd:'',fn:()=>scroll('#report')},
+  {g:'🧭 이동',icon:'🌐',label:'3D 가상 공장',kbd:'',fn:()=>scroll('#factory-xr')},
+  {g:'🧭 이동',icon:'🤝',label:'플랫폼 소개',kbd:'',fn:()=>scroll('#platform')},
+  {g:'⚡ 액션',icon:'🤖',label:'AI 분석 실행',kbd:'',fn:()=>{scroll('#predict');setTimeout(()=>window.runAIPred&&runAIPred(),600);}},
+  {g:'⚡ 액션',icon:'📥',label:'보고서 다운로드',kbd:'',fn:()=>window.downloadReport&&downloadReport()},
+  {g:'⚡ 액션',icon:'🪪',label:'QR 배지 생성',kbd:'',fn:()=>{document.getElementById('qrModal').classList.add('open');genQR();}},
+  {g:'⚡ 액션',icon:'📷',label:'카메라 자세 분석',kbd:'',fn:()=>startCamera()},
+  {g:'⚡ 액션',icon:'📊',label:'CSV 내보내기',kbd:'',fn:()=>exportCSV()},
+  {g:'⚡ 액션',icon:'📂',label:'CSV 가져오기',kbd:'',fn:()=>document.getElementById('csvFileInput').click()},
+  {g:'⚡ 액션',icon:'🔔',label:'테스트 알림 전송',kbd:'',fn:()=>showNotif('🛡 안전 경고','위험 지수가 임계값을 초과했습니다!')},
+  {g:'🔧 설정',icon:'🌙',label:'다크/라이트 모드 전환',kbd:'T',fn:()=>window.toggleTheme&&toggleTheme()},
+  {g:'🔧 설정',icon:'🎙',label:'음성 제어 켜기/끄기',kbd:'V',fn:()=>toggleVoice()},
+  {g:'🔧 설정',icon:'🔊',label:'회귀 예측 새로고침',kbd:'R',fn:()=>drawRegressionOverlay()},
+];
+
+function scroll(hash){
+  const el=document.querySelector(hash);
+  if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+let cmdActive=-1, filteredCmds=COMMANDS;
+
+function openCmd(){
+  const ov=document.getElementById('cmdOverlay');
+  ov.classList.add('open');
+  document.getElementById('cmdInput').value='';
+  renderCmd(COMMANDS);
+  setTimeout(()=>document.getElementById('cmdInput').focus(),50);
+}
+function closeCmd(){
+  document.getElementById('cmdOverlay').classList.remove('open');
+  cmdActive=-1;
+}
+function renderCmd(cmds){
+  filteredCmds=cmds;
+  cmdActive=-1;
+  const list=document.getElementById('cmdList');
+  const groups={};
+  cmds.forEach(c=>{(groups[c.g]||(groups[c.g]=[])).push(c);});
+  list.innerHTML=Object.entries(groups).map(([g,items])=>
+    `<div class="cmd-group">${g}</div>`+
+    items.map((c,i)=>`<div class="cmd-item" data-idx="${cmds.indexOf(c)}" onclick="executeCmdIdx(${cmds.indexOf(c)})">
+      <span class="cmd-item-icon">${c.icon}</span>
+      <span class="cmd-item-label">${c.label}</span>
+      ${c.kbd?`<span class="cmd-item-kbd">${c.kbd}</span>`:''}
+    </div>`).join('')
+  ).join('');
+}
+
+window.executeCmdIdx=function(i){
+  filteredCmds[i]?.fn(); closeCmd();
+};
+
+document.getElementById('cmdInput').addEventListener('input',e=>{
+  const q=e.target.value.toLowerCase();
+  const res=q?COMMANDS.filter(c=>c.label.toLowerCase().includes(q)):COMMANDS;
+  renderCmd(res);
+});
+
+document.getElementById('cmdInput').addEventListener('keydown',e=>{
+  const items=document.querySelectorAll('.cmd-item');
+  if(e.key==='ArrowDown'){e.preventDefault();cmdActive=Math.min(cmdActive+1,items.length-1);}
+  if(e.key==='ArrowUp'){e.preventDefault();cmdActive=Math.max(cmdActive-1,0);}
+  items.forEach((el,i)=>el.classList.toggle('active',i===cmdActive));
+  if(cmdActive>=0) items[cmdActive]?.scrollIntoView({block:'nearest'});
+  if(e.key==='Enter'){e.preventDefault();if(cmdActive>=0){const idx=+items[cmdActive].dataset.idx;executeCmdIdx(idx);}else if(filteredCmds.length){filteredCmds[0].fn();closeCmd();}}
+  if(e.key==='Escape') closeCmd();
+});
+
+document.getElementById('cmdOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeCmd();});
+
+document.addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();
+    document.getElementById('cmdOverlay').classList.contains('open')?closeCmd():openCmd();}
+  if(e.key==='Escape') closeCmd();
+});
+
+// Show shortcut hint on load
+setTimeout(()=>{const s=document.getElementById('cmdShortcut');if(s){s.classList.add('show');setTimeout(()=>s.classList.remove('show'),3000);}},2000);
+
+/* ══ VOICE CONTROL ════════════════════════════════════════ */
+let recognition=null, voiceActive=false;
+function toggleVoice(){
+  if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){
+    showNotif('⚠ 미지원','이 브라우저는 음성 인식을 지원하지 않습니다.');return;
+  }
+  if(voiceActive){stopVoice();}else{startVoice();}
+}
+
+function startVoice(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  recognition=new SR();
+  recognition.lang='ko-KR'; recognition.continuous=true; recognition.interimResults=false;
+  recognition.onresult=e=>{
+    const tx=e.results[e.results.length-1][0].transcript.trim().toLowerCase();
+    document.getElementById('voiceText').textContent='🎤 "'+tx+'"';
+    handleVoiceCmd(tx);
+  };
+  recognition.onend=()=>{if(voiceActive)recognition.start();};
+  recognition.start(); voiceActive=true;
+  document.getElementById('voiceHud').classList.add('show');
+  document.getElementById('voiceBtn').classList.add('listening');
+  showNotif('🎙 음성 제어','말씀하세요: "대시보드", "AI 예측", "보고서", "다크모드"');
+}
+function stopVoice(){
+  recognition?.stop(); voiceActive=false;
+  document.getElementById('voiceHud').classList.remove('show');
+  document.getElementById('voiceBtn').classList.remove('listening');
+}
+document.getElementById('voiceBtn').addEventListener('click',toggleVoice);
+
+function handleVoiceCmd(tx){
+  if(/대시보드|dashboard/.test(tx)) scroll('#dashboard');
+  else if(/예측|predict/.test(tx)){scroll('#predict');setTimeout(()=>runAIPred&&runAIPred(),600);}
+  else if(/보고서|report/.test(tx)){scroll('#report');setTimeout(()=>renderReport&&renderReport(),400);}
+  else if(/사고|incident/.test(tx)) scroll('#incident');
+  else if(/다크|dark|어두/.test(tx)) toggleTheme&&toggleTheme();
+  else if(/밝|light|라이트/.test(tx)) toggleTheme&&toggleTheme();
+  else if(/경보|알림|notif/.test(tx)) showNotif('🛡 음성 트리거','위험 경보 발령!');
+  else if(/공장|factory|트윈/.test(tx)) scroll('#factory-xr');
+  else if(/명령|커맨드|command/.test(tx)) openCmd();
+}
+
+/* ══ PUSH NOTIFICATIONS ════════════════════════════════════ */
+function showNotif(title,msg,icon='🔔'){
+  // In-app notification banner
+  const wrap=document.getElementById('notifBanner');
+  const card=document.createElement('div');
+  card.className='notif-card';
+  card.innerHTML=`<span class="notif-icon">${icon}</span>
+    <div class="notif-body"><div class="notif-title">${title}</div><div class="notif-msg">${msg}</div></div>
+    <button class="notif-close" onclick="this.closest('.notif-card').remove()">✕</button>`;
+  wrap.appendChild(card);
+  requestAnimationFrame(()=>card.classList.add('show'));
+  setTimeout(()=>{card.classList.remove('show');setTimeout(()=>card.remove(),400);},5000);
+  // Native notification
+  if(Notification.permission==='granted'){
+    new Notification(title,{body:msg,icon:'./icon-192.png'});
+  } else if(Notification.permission!=='denied'){
+    Notification.requestPermission().then(p=>{if(p==='granted') new Notification(title,{body:msg,icon:'./icon-192.png'});});
+  }
+}
+window.showNotif=showNotif;
+
+// Auto-trigger safety alerts every 90s
+setTimeout(()=>showNotif('⚠ 위험 감지','2공장 용접구역 REBA 점수 임계값 초과','⚠'),15000);
+setInterval(()=>{
+  const msgs=[
+    ['🌡 열 스트레스 경고','작업장 온도 38°C 초과 — 휴식 권고'],
+    ['👷 PPE 미착용','W-2025-0017 근로자 헬멧 미착용 감지'],
+    ['🔊 소음 경보','도장라인 소음 95dB 초과 — 귀마개 착용'],
+    ['💤 피로도 경고','야간 조 근무시간 10시간 초과'],
+  ];
+  const m=msgs[Math.floor(Math.random()*msgs.length)];
+  showNotif(m[0],m[1]);
+},90000);
+
+/* ══ QR BADGE GENERATOR ════════════════════════════════════ */
+window.genQR=function(){
+  const name=document.getElementById('qrName').value||'홍길동';
+  const id=document.getElementById('qrId').value||'W-2025-0042';
+  const dept=document.getElementById('qrDept').value||'미지정';
+  const data=JSON.stringify({name,id,dept,platform:'SHine-K',ts:new Date().toISOString()});
+  const prev=document.getElementById('qrPreview');
+  prev.innerHTML='';
+  if(window.QRCode){
+    const qr=new QRCode(prev,{text:data,width:160,height:160,colorDark:'#191F28',colorLight:'#fff',correctLevel:QRCode.CorrectLevel.M});
+    // After QR renders, add badge overlay
+    setTimeout(()=>{
+      const wrapper=document.createElement('div');
+      wrapper.style.cssText='display:inline-block;border:2px solid #3182F6;border-radius:12px;padding:12px;background:#fff;text-align:center;font-family:sans-serif;';
+      const qrEl=prev.querySelector('canvas')||prev.querySelector('img');
+      if(qrEl){
+        wrapper.appendChild(qrEl.cloneNode(true));
+        const info=document.createElement('div');
+        info.style.cssText='margin-top:8px;font-size:12px;';
+        info.innerHTML=`<strong>${name}</strong><br><span style="color:#3182F6">${id}</span><br><span style="color:#888">${dept} | SHine-K</span>`;
+        wrapper.appendChild(info);
+        prev.innerHTML='';
+        prev.appendChild(wrapper);
+      }
+    },300);
+  } else {
+    prev.innerHTML='<p style="color:#F04452;font-size:12px">QR 라이브러리 로딩 중... 잠시 후 다시 시도하세요.</p>';
+  }
+};
+
+window.dlQR=function(){
+  const canvas=document.querySelector('#qrPreview canvas');
+  if(!canvas){showNotif('⚠ QR 없음','먼저 QR을 생성하세요.');return;}
+  const a=document.createElement('a');
+  a.download=`SHineK_Badge_${document.getElementById('qrId').value||'worker'}.png`;
+  a.href=canvas.toDataURL('image/png');
+  a.click();
+};
+
+/* ══ CSV EXPORT / IMPORT ═══════════════════════════════════ */
+window.exportCSV=function(){
+  const arr=JSON.parse(localStorage.getItem('shk_incidents')||'[]');
+  if(!arr.length){showNotif('⚠ 데이터 없음','내보낼 사고 이력이 없습니다.');return;}
+  const hdr='ID,유형,심각도,위치,근로자ID,설명,시간\n';
+  const rows=arr.map(r=>[r.id,r.type,r.sev,`"${r.loc}"`,r.worker,`"${(r.desc||'').replace(/"/g,'""')}"`,r.time].join(',')).join('\n');
+  const blob=new Blob(['﻿'+hdr+rows],{type:'text/csv;charset=utf-8;'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`SHineK_사고이력_${new Date().toLocaleDateString('ko-KR').replace(/\./g,'')}.csv`;
+  a.click();
+  showNotif('📊 내보내기 완료',`${arr.length}건 CSV 파일이 저장되었습니다.`);
+};
+
+window.importCSV=function(e){
+  const file=e.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const lines=ev.target.result.split('\n').slice(1).filter(l=>l.trim());
+    let count=0;
+    const arr=JSON.parse(localStorage.getItem('shk_incidents')||'[]');
+    lines.forEach(line=>{
+      const cols=line.split(',');
+      if(cols.length<7) return;
+      arr.push({id:Date.now()+count,type:cols[1]||'기타',sev:+cols[2]||1,
+        loc:(cols[3]||'').replace(/"/g,''),worker:cols[4]||'',
+        desc:(cols[5]||'').replace(/"/g,''),time:cols[6]||new Date().toLocaleString('ko-KR')});
+      count++;
+    });
+    localStorage.setItem('shk_incidents',JSON.stringify(arr));
+    window.renderIncidentList&&renderIncidentList();
+    showNotif('📂 가져오기 완료',`${count}건이 추가되었습니다.`);
+  };
+  reader.readAsText(file,'UTF-8');
+  e.target.value='';
+};
+
+// Add CSV buttons to incident section
+document.addEventListener('DOMContentLoaded',()=>{
+  const card=document.querySelector('.inc-history-card');
+  if(card){
+    const bar=document.createElement('div');
+    bar.className='csv-bar';
+    bar.innerHTML=`<button class="csv-btn csv-export" onclick="exportCSV()">📊 CSV 내보내기</button>
+      <label class="csv-import-lbl" for="csvFileInput">📂 CSV 가져오기</label>`;
+    card.appendChild(bar);
+  }
+});
+
+/* ══ LINEAR REGRESSION PREDICTION ═════════════════════════ */
+function linReg(y){
+  const n=y.length, xs=y.map((_,i)=>i);
+  const mx=xs.reduce((a,b)=>a+b)/n, my=y.reduce((a,b)=>a+b)/n;
+  const num=xs.reduce((a,x,i)=>a+(x-mx)*(y[i]-my),0);
+  const den=xs.reduce((a,x)=>a+(x-mx)**2,0);
+  const m=num/den, b2=my-m*mx;
+  return {m,b:b2,pred:k=>Math.max(0,m*k+b2)};
+}
+
+window.drawRegressionOverlay=function(){
+  const cv=document.getElementById('dbLineChart'); if(!cv) return;
+  const data=[8,6,9,5,7,4,6,3,5,4,3,3]; // existing 12-week data
+  const {m,b,pred}=linReg(data);
+  const dpr=window.devicePixelRatio||1;
+  const W=cv.width/dpr, H=cv.height/dpr;
+  const ctx=cv.getContext('2d');
+  const mx2=Math.max(...data,pred(15)), mn=0;
+  const pad={t:10,r:10,b:28,l:30};
+  const cw=W-pad.l-pad.r, ch=H-pad.t-pad.b;
+  const totalPts=data.length+4; // predict 4 more weeks
+
+  // Draw regression line (dashed) + forecast area
+  ctx.save();
+  ctx.strokeStyle='rgba(240,68,82,.7)'; ctx.lineWidth=1.5; ctx.setLineDash([5,4]);
+  ctx.beginPath();
+  for(let i=0;i<totalPts;i++){
+    const x=pad.l+cw*i/(totalPts-1);
+    const y=pad.t+ch*(1-(pred(i)-mn)/(mx2-mn||1));
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+  // Confidence band
+  const se=Math.sqrt(data.reduce((a,v,i)=>{const r=v-pred(i);return a+r*r;},0)/data.length);
+  ctx.strokeStyle='transparent';
+  ctx.fillStyle='rgba(240,68,82,.07)';
+  ctx.beginPath();
+  for(let i=0;i<totalPts;i++){
+    const x=pad.l+cw*i/(totalPts-1);
+    const y=pad.t+ch*(1-(pred(i)+se-mn)/(mx2-mn||1));
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  for(let i=totalPts-1;i>=0;i--){
+    const x=pad.l+cw*i/(totalPts-1);
+    const y=pad.t+ch*(1-(pred(i)-se-mn)/(mx2-mn||1));
+    ctx.lineTo(x,y);
+  }
+  ctx.closePath(); ctx.fill();
+  // "예측" label
+  ctx.fillStyle='rgba(240,68,82,.8)';
+  ctx.font='bold 9px sans-serif'; ctx.textAlign='left'; ctx.setLineDash([]);
+  ctx.fillText('← 추세 예측 →',pad.l+cw*.65,pad.t+8);
+  ctx.restore();
+};
+setTimeout(()=>drawRegressionOverlay(),800);
+setInterval(()=>drawRegressionOverlay(),3000);
+
+/* ══ CAMERA POSE SIMULATION ════════════════════════════════ */
+let camStream=null, camAnimId=null;
+const SKELETON_EDGES=[[0,1],[1,2],[2,3],[0,4],[4,5],[5,6],[0,7],[7,8],[8,9],[8,10],[10,11],[11,12],[8,13],[13,14],[14,15]];
+
+window.startCamera=async function(){
+  const modal=document.getElementById('camModal');
+  modal.classList.add('open');
+  try{
+    camStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:false});
+    const vid=document.getElementById('camVideo');
+    vid.srcObject=camStream;
+    await vid.play();
+    document.getElementById('camStatus').textContent='● 카메라 활성';
+    startPoseOverlay();
+  }catch(err){
+    document.getElementById('camStatus').textContent='카메라 권한이 필요합니다 ('+err.message+')';
+    // Still show simulation without real camera
+    startPoseSimulation();
+  }
+};
+
+window.stopCamera=function(){
+  if(camStream){camStream.getTracks().forEach(t=>t.stop());camStream=null;}
+  cancelAnimationFrame(camAnimId);
+  document.getElementById('camModal').classList.remove('open');
+};
+
+function startPoseOverlay(){
+  const vid=document.getElementById('camVideo');
+  const cv=document.getElementById('camCanvas');
+  const ctx=cv.getContext('2d');
+  let rebaScore=2, rebaDir=1, t=0;
+
+  function frame(){
+    camAnimId=requestAnimationFrame(frame);
+    cv.width=vid.videoWidth||640; cv.height=vid.videoHeight||480;
+    t+=0.02;
+    // Simulate body pose keypoints
+    const cx=cv.width/2, cy=cv.height/2;
+    const pts=[
+      [cx,cy-110+Math.sin(t)*4],       // 0 head
+      [cx,cy-60],                        // 1 neck
+      [cx-60+Math.sin(t*.7)*5,cy-30],   // 2 l shoulder
+      [cx-80+Math.sin(t*.7)*8,cy+50],   // 3 l elbow
+      [cx+60+Math.sin(t*.7)*-5,cy-30],  // 4 r shoulder
+      [cx+80+Math.sin(t*.7)*-8,cy+50],  // 5 r elbow
+      [cx,cy+20],                        // 6 torso
+      [cx,cy+80],                        // 7 hip
+      [cx-30+Math.sin(t*.5)*3,cy+80],   // 8 l hip
+      [cx-35+Math.sin(t*.5)*5,cy+150],  // 9 l knee
+      [cx-38+Math.sin(t*.5)*4,cy+210],  // 10 l ankle
+      [cx+30+Math.sin(t*.5)*-3,cy+80],  // 11 r hip
+      [cx+35+Math.sin(t*.5)*-5,cy+150], // 12 r knee
+      [cx+38+Math.sin(t*.5)*-4,cy+210], // 13 r ankle
+      [cx-90+Math.sin(t)*10,cy+120],    // 14 l wrist
+      [cx+90+Math.sin(t)*-10,cy+120],   // 15 r wrist
+    ];
+    ctx.clearRect(0,0,cv.width,cv.height);
+    // skeleton edges
+    ctx.strokeStyle='rgba(22,198,140,.8)'; ctx.lineWidth=2.5;
+    SKELETON_EDGES.forEach(([a,b])=>{
+      if(pts[a]&&pts[b]){ctx.beginPath();ctx.moveTo(pts[a][0],pts[a][1]);ctx.lineTo(pts[b][0],pts[b][1]);ctx.stroke();}
+    });
+    // joints
+    pts.forEach((p,i)=>{
+      const g=ctx.createRadialGradient(p[0],p[1],0,p[0],p[1],i===0?10:6);
+      g.addColorStop(0,'rgba(22,198,140,1)'); g.addColorStop(1,'transparent');
+      ctx.beginPath(); ctx.arc(p[0],p[1],i===0?10:6,0,Math.PI*2);
+      ctx.fillStyle=g; ctx.fill();
+    });
+    // REBA score fluctuation
+    rebaScore=Math.max(1,Math.min(11,rebaScore+rebaDir*(Math.random()>.7?.5:0)));
+    if(rebaScore>=10) rebaDir=-1; if(rebaScore<=2) rebaDir=1;
+    const col=rebaScore<=4?'#16C68C':rebaScore<=7?'#FF9F2D':'#F04452';
+    const rebaEl=document.getElementById('camReba');
+    if(rebaEl){rebaEl.textContent=`REBA 점수: ${rebaScore.toFixed(0)} (${rebaScore<=4?'안전':rebaScore<=7?'주의':'위험'})`;rebaEl.style.color=col;}
+    // scan line effect
+    ctx.fillStyle='rgba(22,198,140,.04)';
+    const scanY=(t*60)%cv.height;
+    ctx.fillRect(0,scanY,cv.width,3);
+  }
+  frame();
+}
+
+function startPoseSimulation(){
+  document.getElementById('camStatus').textContent='시뮬레이션 모드';
+  const cv=document.getElementById('camCanvas');
+  cv.width=640; cv.height=480;
+  cv.style.position='relative';
+  cv.style.display='block';
+  document.getElementById('camVideo').style.display='none';
+  startPoseOverlay();
+}
+
+/* ══ BROADCASTCHANNEL MULTI-TAB SYNC ══════════════════════ */
+if('BroadcastChannel' in window){
+  const bc=new BroadcastChannel('shk_sync');
+  // Send on incident change
+  const origSave=window.saveIncidents;
+  window.saveIncidents=function(arr){
+    if(origSave) origSave(arr);
+    else localStorage.setItem('shk_incidents',JSON.stringify(arr));
+    bc.postMessage({type:'incidents',data:arr});
+  };
+  bc.onmessage=e=>{
+    if(e.data?.type==='incidents'){
+      localStorage.setItem('shk_incidents',JSON.stringify(e.data.data));
+      window.renderIncidentList&&renderIncidentList();
+      const badge=document.getElementById('syncBadge');
+      if(badge){badge.classList.add('show');setTimeout(()=>badge.classList.remove('show'),2000);}
+    }
+  };
+}
+
+/* ══ CSS HOUDINI PAINT WORKLET ═════════════════════════════ */
+if('paintWorklet' in CSS){
+  const workletCode=`
+    registerPaint('dangerZone',class{
+      static get inputProperties(){return['--dz-intensity','--dz-color'];}
+      paint(ctx,size,props){
+        const intensity=parseFloat(props.get('--dz-intensity')||'0.5');
+        const col=props.get('--dz-color').toString().trim()||'rgba(240,68,82,0.08)';
+        ctx.fillStyle=col;
+        const gap=20+intensity*10;
+        ctx.lineWidth=1;
+        ctx.strokeStyle=col;
+        for(let x=0;x<size.width+size.height;x+=gap){
+          ctx.beginPath();
+          ctx.moveTo(x,0);
+          ctx.lineTo(x-size.height,size.height);
+          ctx.stroke();
+        }
+      }
+    });
+  `;
+  const blob=new Blob([workletCode],{type:'application/javascript'});
+  CSS.paintWorklet.addModule(URL.createObjectURL(blob)).then(()=>{
+    // Apply to high-risk dashboard card
+    const cards=document.querySelectorAll('.db-kpi-card');
+    if(cards[2]){// alert card
+      cards[2].style.setProperty('--dz-intensity','0.8');
+      cards[2].style.setProperty('--dz-color','rgba(240,68,82,0.06)');
+      cards[2].style.backgroundImage='paint(dangerZone)';
+    }
+  }).catch(()=>{});
+}
+
+})();
+</script>
 </body>
 </html>
