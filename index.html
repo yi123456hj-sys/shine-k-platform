@@ -3258,5 +3258,270 @@ body { cursor: none !important; }
 
 })();
 </script>
+
+<!-- ============================================================
+     SHINE-K SIGNATURE EFFECTS v3 — 나만의 독창 기술 BUNDLE
+     ⑪ 실시간 ECG 심전도 웨이브폼
+     ⑫ 소나 클릭 센서 리플
+     ⑬ 열화상 마우스 트레일
+     ⑭ REBA 자세 위험 스틱 모니터
+     ⑮ 실시간 안전점수 HUD 링
+     ============================================================ -->
+<style>
+/* ⑪ ECG Canvas */
+.ecg-wrap{position:absolute;bottom:0;left:0;right:0;height:56px;pointer-events:none;z-index:2;opacity:0;transition:opacity 1.4s}
+.ecg-wrap.visible{opacity:.42}
+.ecg-wrap canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+
+/* ⑫ Sonar Ripple */
+@keyframes sonarPulse{0%{width:4px;height:4px;opacity:1}100%{width:130px;height:130px;opacity:0}}
+.s-ring{position:fixed;border-radius:50%;pointer-events:none;z-index:99997;transform:translate(-50%,-50%);border:1.5px solid;animation:sonarPulse .95s ease-out forwards}
+
+/* ⑬ Thermal Trail */
+@keyframes thmVanish{0%{opacity:.75;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) scale(.1)}}
+.thm{position:fixed;border-radius:50%;pointer-events:none;z-index:99996;transform:translate(-50%,-50%);animation:thmVanish .65s ease-out forwards}
+
+/* ⑭ REBA Figure */
+.reba-hud{position:fixed;bottom:22px;right:22px;z-index:9990;pointer-events:none;display:flex;flex-direction:column;align-items:center;gap:4px;opacity:.88}
+.reba-hud svg{width:52px;height:82px;overflow:visible}
+.reba-badge{font-size:9px;font-weight:800;letter-spacing:.6px;font-family:var(--mono);padding:2px 8px;border-radius:50px;transition:background .4s,color .4s}
+@media(max-width:860px){.reba-hud{display:none}}
+
+/* ⑮ Safety Score HUD */
+.safe-hud{position:fixed;bottom:22px;left:22px;z-index:9990;pointer-events:none;
+  background:rgba(255,255,255,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(22,198,140,.18);border-radius:14px;padding:8px 13px;
+  display:flex;align-items:center;gap:10px;box-shadow:0 2px 16px rgba(22,198,140,.1)}
+.safe-hud-ring{width:38px;height:38px;flex-shrink:0}
+.safe-hud-ring svg{width:38px;height:38px}
+.safe-hud-body{display:flex;flex-direction:column;line-height:1.25}
+.safe-hud-num{font-size:14px;font-weight:800;font-family:var(--mono);transition:color .5s}
+.safe-hud-lbl{font-size:9px;font-weight:600;color:var(--ink-4);letter-spacing:.6px;text-transform:uppercase}
+@media(max-width:600px){.safe-hud{display:none}}
+[data-theme="dark"] .safe-hud{background:rgba(18,24,48,.86);border-color:rgba(22,198,140,.22)}
+</style>
+
+<script>
+/* ─── SHine-K Signature v3 ─────────────────────── */
+(function shkSig(){
+  'use strict';
+
+  /* ══════════════════════════════════════════════
+     ⑪  ECG HEARTBEAT WAVEFORM  (canvas, hero)
+  ══════════════════════════════════════════════ */
+  (function(){
+    const hero = document.querySelector('.hero');
+    if(!hero) return;
+    const wrap = document.createElement('div');
+    wrap.className = 'ecg-wrap';
+    hero.appendChild(wrap);
+    const cv = document.createElement('canvas');
+    wrap.appendChild(cv);
+    const ctx = cv.getContext('2d');
+    let W=0, H=0, off=0;
+    const DPR = Math.min(devicePixelRatio||1, 2);
+    const SPEED=1.3, CYCLE=140;  // pixels per heartbeat
+
+    function resize(){
+      W = cv.width  = hero.clientWidth  * DPR;
+      H = cv.height = wrap.clientHeight * DPR;
+    }
+
+    // Realistic ECG function (normalised phase 0‑1 → value −1..+1)
+    function ecg(p){
+      const t = ((p % 1)+1) % 1;
+      if(t<.08) return Math.sin(t/.08*Math.PI)*.22;   // P wave
+      if(t<.24) return 0;                              // PR flat
+      if(t<.27) return -Math.sin((t-.24)/.03*Math.PI)*.14; // Q
+      if(t<.32) return  Math.sin((t-.27)/.05*Math.PI);     // R spike
+      if(t<.37) return -Math.sin((t-.32)/.05*Math.PI)*.28; // S
+      if(t<.50) return 0;                              // ST flat
+      if(t<.68) return  Math.sin((t-.50)/.18*Math.PI)*.32; // T wave
+      return 0;
+    }
+
+    function frame(){
+      if(!W) return requestAnimationFrame(frame);
+      ctx.clearRect(0,0,W,H);
+
+      // Subtle grid
+      ctx.strokeStyle = 'rgba(22,198,140,.045)';
+      ctx.lineWidth = .7;
+      for(let x=0;x<W;x+=44*DPR){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+      for(let y=0;y<H;y+=H/3){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+
+      // ECG path
+      const mid=H*.44, amp=H*.38;
+      const g=ctx.createLinearGradient(0,0,W,0);
+      g.addColorStop(0,'rgba(49,130,246,0)');
+      g.addColorStop(.2,'rgba(49,130,246,.65)');
+      g.addColorStop(.5,'rgba(22,198,140,.9)');
+      g.addColorStop(.82,'rgba(22,198,140,.55)');
+      g.addColorStop(1,'rgba(22,198,140,0)');
+      ctx.beginPath();
+      for(let x=0;x<=W;x+=DPR){
+        const y = mid - ecg((x+off*DPR)/(CYCLE*DPR))*amp;
+        x===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+      }
+      ctx.strokeStyle=g; ctx.lineWidth=1.6*DPR; ctx.stroke();
+
+      // Glowing leading dot
+      const dx=W*.6, dv=ecg((dx+off*DPR)/(CYCLE*DPR));
+      const dy=mid-dv*amp;
+      const gr=3+(dv>0.6?8:2);
+      const grd=ctx.createRadialGradient(dx,dy,0,dx,dy,gr*DPR);
+      grd.addColorStop(0,'rgba(22,198,140,.95)');
+      grd.addColorStop(1,'rgba(22,198,140,0)');
+      ctx.beginPath(); ctx.arc(dx,dy,gr*DPR,0,Math.PI*2);
+      ctx.fillStyle=grd; ctx.fill();
+
+      off+=SPEED;
+      requestAnimationFrame(frame);
+    }
+
+    window.addEventListener('resize',resize,{passive:true});
+    resize(); frame();
+    setTimeout(()=>wrap.classList.add('visible'), 600);
+  })();
+
+
+  /* ══════════════════════════════════════════════
+     ⑫  SONAR CLICK RIPPLE  (sensor-ping)
+  ══════════════════════════════════════════════ */
+  const SONAR_COLORS=['rgba(22,198,140,.75)','rgba(49,130,246,.55)','rgba(139,92,246,.40)'];
+  window.addEventListener('mousedown',e=>{
+    if(e.button!==0) return;
+    SONAR_COLORS.forEach((c,i)=>{
+      const r=document.createElement('div');
+      r.className='s-ring';
+      r.style.cssText=`left:${e.clientX}px;top:${e.clientY}px;border-color:${c};animation-delay:${i*.17}s`;
+      document.body.appendChild(r);
+      r.addEventListener('animationend',()=>r.remove(),{once:true});
+    });
+  });
+
+
+  /* ══════════════════════════════════════════════
+     ⑬  THERMAL HEAT CURSOR TRAIL
+  ══════════════════════════════════════════════ */
+  if(!window.matchMedia('(hover:none)').matches){
+    const THM=['#4575b4','#74add1','#abd9e9','#e0f3f8','#ffffbf','#fee090','#fdae61','#f46d43','#d73027'];
+    let px=0,py=0,tick=0;
+    window.addEventListener('mousemove',e=>{
+      tick++;
+      if(tick%3!==0) return; // throttle
+      const dx=e.clientX-px, dy=e.clientY-py;
+      const spd=Math.sqrt(dx*dx+dy*dy);
+      px=e.clientX; py=e.clientY;
+      if(spd<1.5) return;
+      const t=Math.min(1,spd/26);
+      const ci=Math.floor(t*(THM.length-1));
+      const size=4+t*14;
+      const d=document.createElement('div');
+      d.className='thm';
+      d.style.cssText=`left:${e.clientX}px;top:${e.clientY}px;width:${size}px;height:${size}px;background:${THM[ci]};box-shadow:0 0 ${size*1.2}px ${THM[ci]}80`;
+      document.body.appendChild(d);
+      d.addEventListener('animationend',()=>d.remove(),{once:true});
+    },{passive:true});
+  }
+
+
+  /* ══════════════════════════════════════════════
+     ⑭  REBA STICK FIGURE POSE MONITOR
+  ══════════════════════════════════════════════ */
+  (function(){
+    const NS='http://www.w3.org/2000/svg';
+    // [color, REBA label, [head cx,cy,r], ...limb polylines]
+    const POSES=[
+      {c:'#16C68C', lbl:'REBA 2 ✓ 안전',
+       head:[50,10,7], spine:[[50,17],[50,44]],
+       la:[[50,23],[32,34],[30,46]], ra:[[50,23],[68,34],[70,46]],
+       ll:[[50,44],[43,66],[40,80]], rl:[[50,44],[57,66],[60,80]]},
+      {c:'#FF9F2D', lbl:'REBA 6 ⚠ 주의',
+       head:[52,11,7], spine:[[50,17],[52,44]],
+       la:[[50,23],[26,18],[22,32]], ra:[[50,23],[74,18],[78,32]],
+       ll:[[50,44],[44,67],[40,82]], rl:[[50,44],[60,67],[65,82]]},
+      {c:'#F04452', lbl:'REBA 11 ✗ 위험',
+       head:[56,14,7], spine:[[50,18],[44,42]],
+       la:[[50,22],[24,14],[16,26]], ra:[[50,22],[76,14],[84,26]],
+       ll:[[50,44],[42,60],[36,76]], rl:[[50,44],[56,60],[60,76]]},
+    ];
+    const hud=document.createElement('div');
+    hud.className='reba-hud';
+    const svg=document.createElementNS(NS,'svg');
+    svg.setAttribute('viewBox','0 0 100 88');
+    const badge=document.createElement('div');
+    badge.className='reba-badge';
+    hud.append(svg, badge);
+    document.body.appendChild(hud);
+
+    let pi=0, dir=1;
+    function draw(p){
+      svg.innerHTML='';
+      const line=pts=>{
+        const pl=document.createElementNS(NS,'polyline');
+        pl.setAttribute('points',pts.map(pt=>pt.join(',')).join(' '));
+        pl.setAttribute('stroke',p.c); pl.setAttribute('stroke-width','3.2');
+        pl.setAttribute('fill','none'); pl.setAttribute('stroke-linecap','round');
+        pl.setAttribute('stroke-linejoin','round'); svg.appendChild(pl);
+      };
+      if(p.c==='#F04452'){
+        const g=document.createElementNS(NS,'circle');
+        g.setAttribute('cx',p.head[0]); g.setAttribute('cy',p.head[1]); g.setAttribute('r','15');
+        g.setAttribute('fill','rgba(240,68,82,.08)'); svg.appendChild(g);
+      }
+      const c=document.createElementNS(NS,'circle');
+      c.setAttribute('cx',p.head[0]); c.setAttribute('cy',p.head[1]); c.setAttribute('r',p.head[2]);
+      c.setAttribute('stroke',p.c); c.setAttribute('stroke-width','2.8'); c.setAttribute('fill','none');
+      svg.appendChild(c);
+      line(p.spine); line(p.la); line(p.ra); line(p.ll); line(p.rl);
+      badge.textContent=p.lbl;
+      badge.style.cssText=`background:${p.c}18;color:${p.c};border:1px solid ${p.c}44`;
+    }
+    draw(POSES[0]);
+    setInterval(()=>{
+      pi+=dir;
+      if(pi>=POSES.length-1||pi<=0) dir*=-1;
+      draw(POSES[pi]);
+    }, 2400);
+  })();
+
+
+  /* ══════════════════════════════════════════════
+     ⑮  REAL-TIME SAFETY SCORE HUD
+  ══════════════════════════════════════════════ */
+  (function(){
+    const R=13, C=2*Math.PI*R;
+    const hud=document.createElement('div');
+    hud.className='safe-hud';
+    hud.innerHTML=`
+      <div class="safe-hud-ring"><svg viewBox="0 0 36 36">
+        <circle cx="18" cy="18" r="${R}" fill="none" stroke="rgba(22,198,140,.1)" stroke-width="2.6"/>
+        <circle id="shkArc" cx="18" cy="18" r="${R}" fill="none" stroke="#16C68C" stroke-width="2.6"
+          stroke-linecap="round" stroke-dasharray="${C.toFixed(2)}" stroke-dashoffset="${(C*.04).toFixed(2)}"
+          transform="rotate(-90 18 18)" style="transition:stroke-dashoffset .9s ease,stroke .5s"/>
+      </svg></div>
+      <div class="safe-hud-body">
+        <span class="safe-hud-num" id="shkScore">96.8</span>
+        <span class="safe-hud-lbl">현장 안전점수</span>
+      </div>`;
+    document.body.appendChild(hud);
+
+    const arc=document.getElementById('shkArc');
+    const num=document.getElementById('shkScore');
+    let score=96.8;
+    setInterval(()=>{
+      score=Math.min(99.9,Math.max(88,score+(Math.random()-.33)*.5));
+      const pct=score/100;
+      arc.style.strokeDashoffset=(C*(1-pct)).toFixed(2);
+      const col=score>=95?'#16C68C':score>=88?'#FF9F2D':'#F04452';
+      arc.style.stroke=col;
+      num.textContent=score.toFixed(1);
+      num.style.color=col;
+    }, 3000);
+  })();
+
+})();
+</script>
 </body>
 </html>
