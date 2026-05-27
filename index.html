@@ -155,9 +155,10 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .logo-mark{width:36px;height:36px;background:var(--a);border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:.64rem;letter-spacing:.5px;position:relative;overflow:hidden;box-shadow:0 4px 12px rgba(49,130,246,.3)}
 .logo-mark::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.3),transparent 60%)}
 .logo small{font-size:.72rem;color:var(--ink-4);font-weight:500;margin-left:2px;display:none}
-.student-tag{display:flex;flex-direction:column;align-items:flex-start;margin-left:14px;padding-left:14px;border-left:1.5px solid var(--bdr);line-height:1.25;}
-.student-name{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.01em;}
-.student-id{font-size:10px;font-weight:600;color:var(--ink-4);letter-spacing:.04em;}
+.logo-group{display:flex;align-items:center;gap:0;}
+.student-tag{display:flex;flex-direction:column;align-items:flex-start;margin-left:12px;padding-left:12px;border-left:1.5px solid var(--bdr);line-height:1.3;}
+.student-name{font-size:14px;font-weight:800;color:var(--ink);letter-spacing:-.01em;}
+.student-id{font-size:10px;font-weight:600;color:var(--ink-4);letter-spacing:.03em;}
 [data-theme="dark"] .student-name{color:#E0E8F4;}
 [data-theme="dark"] .student-id{color:#6B7683;}
 @media(min-width:480px){.logo small{display:inline}}
@@ -1084,13 +1085,15 @@ footer::before{
 
 <nav id="nav" aria-label="주요 네비게이션">
   <div class="container">
-    <a href="#" class="logo">
-      <span class="logo-mark">SHK</span>
-      <span>SHine-K<small data-i18n="logoSub"> · Insights</small></span>
-    </a>
-    <div class="student-tag">
-      <span class="student-name">진일</span>
-      <span class="student-id">202317104</span>
+    <div class="logo-group">
+      <a href="#" class="logo">
+        <span class="logo-mark">SHK</span>
+        <span>SHine-K<small data-i18n="logoSub"> · Insights</small></span>
+      </a>
+      <div class="student-tag">
+        <span class="student-name">진일</span>
+        <span class="student-id">202317104</span>
+      </div>
     </div>
     <ul class="nav-links">
       <li><a href="#crisis" data-i18n="navCrisis">현실</a></li>
