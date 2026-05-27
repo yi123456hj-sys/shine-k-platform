@@ -155,6 +155,11 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .logo-mark{width:36px;height:36px;background:var(--a);border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:.64rem;letter-spacing:.5px;position:relative;overflow:hidden;box-shadow:0 4px 12px rgba(49,130,246,.3)}
 .logo-mark::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.3),transparent 60%)}
 .logo small{font-size:.72rem;color:var(--ink-4);font-weight:500;margin-left:2px;display:none}
+.student-tag{display:flex;flex-direction:column;align-items:flex-start;margin-left:14px;padding-left:14px;border-left:1.5px solid var(--bdr);line-height:1.25;}
+.student-name{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.01em;}
+.student-id{font-size:10px;font-weight:600;color:var(--ink-4);letter-spacing:.04em;}
+[data-theme="dark"] .student-name{color:#E0E8F4;}
+[data-theme="dark"] .student-id{color:#6B7683;}
 @media(min-width:480px){.logo small{display:inline}}
 .nav-links{display:none;gap:24px;list-style:none}
 @media(min-width:1120px){.nav-links{display:flex}}
@@ -1083,6 +1088,10 @@ footer::before{
       <span class="logo-mark">SHK</span>
       <span>SHine-K<small data-i18n="logoSub"> · Insights</small></span>
     </a>
+    <div class="student-tag">
+      <span class="student-name">진일</span>
+      <span class="student-id">202317104</span>
+    </div>
     <ul class="nav-links">
       <li><a href="#crisis" data-i18n="navCrisis">현실</a></li>
       <li><a href="#gyeongbuk" data-i18n="navGB">경북</a></li>
