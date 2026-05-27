@@ -1867,6 +1867,124 @@ footer::before{
   </div>
 </section>
 
+<!-- ============== 19. REAL-TIME SAFETY DASHBOARD ============== -->
+<section id="dashboard" style="background:var(--bg-2)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">19 · 실시간 안전 대시보드</span>
+      <h2 class="sec-title">실시간 <span class="accent">안전 KPI</span> · 데이터 시각화</h2>
+      <p class="sec-desc">현장 센서 데이터를 3초마다 자동 갱신하여 안전 KPI와 사고 추이를 한눈에 확인합니다.</p>
+    </div>
+    <div class="db-kpi-row">
+      <div class="db-kpi-card"><div class="db-kpi-icon">🛡️</div><div class="db-kpi-val" id="dbSafeScore">96.8</div><div class="db-kpi-lbl">종합 안전점수</div><div class="db-kpi-trend ok" id="dbSafeTrend">▲ +0.3%</div></div>
+      <div class="db-kpi-card"><div class="db-kpi-icon">👷</div><div class="db-kpi-val" id="dbWorkers">127</div><div class="db-kpi-lbl">모니터링 근로자</div><div class="db-kpi-trend ok">● 실시간</div></div>
+      <div class="db-kpi-card"><div class="db-kpi-icon">⚠️</div><div class="db-kpi-val" id="dbAlerts">3</div><div class="db-kpi-lbl">금일 경고 건수</div><div class="db-kpi-trend warn" id="dbAlertTrend">▼ 2건 감소</div></div>
+      <div class="db-kpi-card"><div class="db-kpi-icon">🏥</div><div class="db-kpi-val" id="dbNear">12</div><div class="db-kpi-lbl">아차사고 (월)</div><div class="db-kpi-trend ok">▼ 목표 달성 중</div></div>
+    </div>
+    <div class="db-charts">
+      <div class="db-chart-card"><div class="db-chart-title">📈 사고 발생 추이 (12주)</div><canvas id="dbLineChart"></canvas></div>
+      <div class="db-chart-card"><div class="db-chart-title">📊 부서별 위험 지수</div><canvas id="dbBarChart"></canvas></div>
+      <div class="db-chart-card"><div class="db-chart-title">🥧 유해요인 분포</div><canvas id="dbPieChart"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 20. AI RISK PREDICTION ENGINE ============== -->
+<section id="predict">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">20 · AI 위험 예측 엔진</span>
+      <h2 class="sec-title"><span class="accent">AI 위험 예측</span> · 실시간 분석</h2>
+      <p class="sec-desc">현장 환경 파라미터를 입력하면 AI가 위험 확률 · 신뢰구간 · 주요 위험 요인을 즉시 분석합니다.</p>
+    </div>
+    <div class="pred-wrapper">
+      <div class="pred-form-card">
+        <h4>⚙ 현장 파라미터 입력</h4>
+        <div class="pred-field"><label>작업 온도&nbsp;<span id="pTempVal" class="pred-badge">28</span>°C</label><input type="range" id="pTemp" min="10" max="45" value="28" class="pred-slider" oninput="document.getElementById('pTempVal').textContent=this.value"></div>
+        <div class="pred-field"><label>소음 수준&nbsp;<span id="pNoiseVal" class="pred-badge">75</span>dB</label><input type="range" id="pNoise" min="50" max="120" value="75" class="pred-slider" oninput="document.getElementById('pNoiseVal').textContent=this.value"></div>
+        <div class="pred-field"><label>피로도 지수&nbsp;<span id="pFatigueVal" class="pred-badge">45</span>/100</label><input type="range" id="pFatigue" min="0" max="100" value="45" class="pred-slider" oninput="document.getElementById('pFatigueVal').textContent=this.value"></div>
+        <div class="pred-field"><label>PPE 착용률&nbsp;<span id="pPPEVal" class="pred-badge">85</span>%</label><input type="range" id="pPPE" min="0" max="100" value="85" class="pred-slider" oninput="document.getElementById('pPPEVal').textContent=this.value"></div>
+        <div class="pred-field"><label>연속 작업시간&nbsp;<span id="pShiftVal" class="pred-badge">6</span>시간</label><input type="range" id="pShift" min="1" max="12" value="6" class="pred-slider" oninput="document.getElementById('pShiftVal').textContent=this.value"></div>
+        <div class="pred-field"><label>근로자 밀도&nbsp;<span id="pDensityVal" class="pred-badge">4</span>명/㎡</label><input type="range" id="pDensity" min="1" max="10" value="4" class="pred-slider" oninput="document.getElementById('pDensityVal').textContent=this.value"></div>
+        <button class="pred-btn" onclick="runAIPred()">🤖 AI 위험 분석 실행</button>
+      </div>
+      <div class="pred-result-card">
+        <div class="pred-gauge-area">
+          <svg viewBox="0 0 220 140" class="pred-gauge-svg">
+            <defs><linearGradient id="predGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#16C68C"/><stop offset="50%" stop-color="#FF9F2D"/><stop offset="100%" stop-color="#F04452"/></linearGradient></defs>
+            <path d="M20 125 A90 90 0 0 1 200 125" fill="none" stroke="#E5E8EB" stroke-width="14" stroke-linecap="round"/>
+            <path id="predArc" d="M20 125 A90 90 0 0 1 200 125" fill="none" stroke="url(#predGrad)" stroke-width="14" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="283" style="transition:stroke-dashoffset 1.2s cubic-bezier(.34,1.56,.64,1)"/>
+            <text id="predPct" x="110" y="112" text-anchor="middle" font-size="30" font-weight="700" fill="#191F28">--</text>
+            <text id="predLbl" x="110" y="130" text-anchor="middle" font-size="11" fill="#8B95A1">분석 대기 중</text>
+          </svg>
+          <div id="predCI" class="pred-ci"></div>
+        </div>
+        <div class="pred-factors" id="predFactors"><div class="pred-factor-ph">⬆ 파라미터를 입력하고 분석을 실행하세요</div></div>
+        <div class="pred-recs" id="predRecs"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 21. INCIDENT QUICK REPORT ============== -->
+<section id="incident" style="background:var(--bg-2)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">21 · 사고 속보 시스템</span>
+      <h2 class="sec-title"><span class="accent">사고 속보</span> · 즉시 보고 &amp; 이력 관리</h2>
+      <p class="sec-desc">사고·아차사고 발생 시 즉시 입력하고 이력을 체계적으로 관리합니다. (localStorage 저장)</p>
+    </div>
+    <div class="inc-wrapper">
+      <div class="inc-form-card">
+        <h4>🚨 사고 속보 입력</h4>
+        <div class="inc-field"><label>사고 유형</label><select id="incType" class="inc-select"><option>추락·전도</option><option>끼임·협착</option><option>충돌·충격</option><option>화재·폭발</option><option>유해물질 노출</option><option>근골격계 이상</option><option>아차사고</option></select></div>
+        <div class="inc-field">
+          <label>심각도 (1=경미 / 5=중대)</label>
+          <div class="inc-sev-row" id="incSevRow">
+            <button class="inc-sev-btn active" data-sev="1" onclick="setSev(1)">1</button>
+            <button class="inc-sev-btn" data-sev="2" onclick="setSev(2)">2</button>
+            <button class="inc-sev-btn" data-sev="3" onclick="setSev(3)">3</button>
+            <button class="inc-sev-btn" data-sev="4" onclick="setSev(4)">4</button>
+            <button class="inc-sev-btn sev5" data-sev="5" onclick="setSev(5)">5</button>
+          </div>
+        </div>
+        <div class="inc-field"><label>발생 위치</label><input type="text" id="incLocation" placeholder="예: 2공장 3층 용접구역" class="inc-input"></div>
+        <div class="inc-field"><label>근로자 ID</label><input type="text" id="incWorker" placeholder="예: W-2024-0042" class="inc-input"></div>
+        <div class="inc-field"><label>상황 설명</label><textarea id="incDesc" placeholder="발생 경위를 간략히 기술하세요..." class="inc-textarea" rows="3"></textarea></div>
+        <button class="inc-submit-btn" onclick="submitIncident()">📨 즉시 보고 제출</button>
+      </div>
+      <div class="inc-history-card">
+        <div class="inc-hist-header"><h4>📋 사고 이력 (<span id="incCount">0</span>건)</h4><button class="inc-clear-btn" onclick="clearIncidents()">전체 삭제</button></div>
+        <div class="inc-list" id="incList"><div class="inc-empty">아직 보고된 사고가 없습니다.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 22. PDF REPORT GENERATION ============== -->
+<section id="report">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">22 · 원클릭 보고서 생성</span>
+      <h2 class="sec-title">원클릭 <span class="accent">안전 보고서</span> PDF 생성</h2>
+      <p class="sec-desc">현재 KPI · AI 예측 · 사고 이력 데이터를 자동 집계하여 전문 안전 보고서를 생성합니다.</p>
+    </div>
+    <div class="rpt-wrapper">
+      <div class="rpt-preview-wrap"><canvas id="rptCanvas" width="595" height="842"></canvas></div>
+      <div class="rpt-ctrl-card">
+        <h4>보고서 설정</h4>
+        <div class="rpt-field"><label>회사명</label><input type="text" id="rptCompany" value="경운대학교 보건대학" class="rpt-input"></div>
+        <div class="rpt-field"><label>현장명</label><input type="text" id="rptSite" value="경북 구미 제조현장" class="rpt-input"></div>
+        <div class="rpt-field"><label>보고 기간</label><input type="text" id="rptPeriod" class="rpt-input"></div>
+        <div class="rpt-field"><label>담당자</label><input type="text" id="rptManager" value="안전관리팀장" class="rpt-input"></div>
+        <button class="rpt-preview-btn" onclick="renderReport()">👁 미리보기 갱신</button>
+        <button class="rpt-download-btn" onclick="downloadReport()">📥 PNG 다운로드</button>
+        <p class="rpt-note">* Canvas 기반 고해상도 보고서. 사고 이력 · AI 예측 데이터 자동 포함.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CTA -->
 <section class="cta">
   <div class="container">
@@ -4070,6 +4188,529 @@ body { cursor: none !important; }
   window.addEventListener('resize',()=>{buildGrid();});
   setInterval(spawnPulse,400);
 })();
+
+})();
+</script>
+
+<!-- ═══════════════ PRACTICAL FEATURES v1 ═══════════════ -->
+<style>
+/* ─── DASHBOARD ─────────────────────────────────────────── */
+.db-kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px;}
+.db-kpi-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px 16px;text-align:center;transition:box-shadow .2s;}
+.db-kpi-card:hover{box-shadow:0 4px 20px rgba(49,130,246,.12);}
+.db-kpi-icon{font-size:26px;margin-bottom:6px;}
+.db-kpi-val{font-size:28px;font-weight:800;color:var(--primary);line-height:1.1;}
+.db-kpi-lbl{font-size:11px;color:var(--sub);margin:4px 0;}
+.db-kpi-trend{font-size:11px;font-weight:600;}.db-kpi-trend.ok{color:#16C68C;}.db-kpi-trend.warn{color:#FF9F2D;}
+.db-charts{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.db-chart-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px 16px;}
+.db-chart-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px;}
+.db-chart-card canvas{width:100%!important;height:160px!important;}
+@media(max-width:900px){.db-kpi-row{grid-template-columns:repeat(2,1fr);}.db-charts{grid-template-columns:1fr;}}
+
+/* ─── AI PREDICTION ──────────────────────────────────────── */
+.pred-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.pred-form-card,.pred-result-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;}
+.pred-form-card h4,.pred-result-card h4{font-size:15px;font-weight:700;margin-bottom:18px;color:var(--text);}
+.pred-field{margin-bottom:14px;}
+.pred-field label{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--sub);margin-bottom:5px;}
+.pred-badge{background:var(--primary);color:#fff;font-size:11px;font-weight:700;padding:1px 7px;border-radius:20px;}
+.pred-slider{width:100%;accent-color:var(--primary);}
+.pred-btn{width:100%;margin-top:8px;padding:13px;background:var(--primary);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;transition:opacity .2s;}
+.pred-btn:hover{opacity:.88;}
+.pred-gauge-svg{width:100%;max-width:220px;display:block;margin:0 auto;}
+.pred-ci{text-align:center;font-size:11px;color:var(--sub);margin-top:4px;min-height:18px;}
+.pred-factors{margin-top:16px;}
+.pred-factor-ph{color:var(--sub);font-size:12px;text-align:center;padding:20px 0;}
+.pred-factor-item{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:12px;}
+.pred-factor-name{width:110px;color:var(--text);font-weight:600;flex-shrink:0;}
+.pred-factor-bar-wrap{flex:1;height:6px;background:var(--bg-2);border-radius:10px;overflow:hidden;}
+.pred-factor-bar{height:100%;border-radius:10px;transition:width 1s ease;}
+.pred-factor-val{width:34px;text-align:right;color:var(--sub);}
+.pred-recs{margin-top:14px;border-top:1px solid var(--border);padding-top:12px;}
+.pred-rec-item{font-size:11px;color:var(--sub);padding:3px 0;}
+@media(max-width:800px){.pred-wrapper{grid-template-columns:1fr;}}
+
+/* ─── INCIDENT ───────────────────────────────────────────── */
+.inc-wrapper{display:grid;grid-template-columns:1fr 1.2fr;gap:24px;}
+.inc-form-card,.inc-history-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;}
+.inc-form-card h4{font-size:15px;font-weight:700;margin-bottom:18px;color:var(--text);}
+.inc-field{margin-bottom:14px;}
+.inc-field label{display:block;font-size:12px;font-weight:600;color:var(--sub);margin-bottom:5px;}
+.inc-select,.inc-input{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--bg);color:var(--text);outline:none;transition:border-color .2s;}
+.inc-select:focus,.inc-input:focus{border-color:var(--primary);}
+.inc-textarea{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--bg);color:var(--text);outline:none;resize:vertical;transition:border-color .2s;}
+.inc-textarea:focus{border-color:var(--primary);}
+.inc-sev-row{display:flex;gap:8px;}
+.inc-sev-btn{flex:1;padding:8px 0;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;color:var(--text);}
+.inc-sev-btn.active{background:var(--primary);color:#fff;border-color:var(--primary);}
+.inc-sev-btn.sev5{border-color:#F04452;color:#F04452;}
+.inc-sev-btn.sev5.active{background:#F04452;color:#fff;}
+.inc-submit-btn{width:100%;margin-top:10px;padding:13px;background:var(--primary);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;transition:opacity .2s;}
+.inc-submit-btn:hover{opacity:.88;}
+.inc-hist-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.inc-hist-header h4{font-size:14px;font-weight:700;color:var(--text);margin:0;}
+.inc-clear-btn{font-size:11px;color:var(--sub);background:none;border:1px solid var(--border);border-radius:6px;padding:3px 10px;cursor:pointer;}
+.inc-list{max-height:380px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;}
+.inc-empty{color:var(--sub);font-size:13px;text-align:center;padding:40px 0;}
+.inc-item{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px 14px;}
+.inc-item-head{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+.inc-sev-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.inc-type-tag{font-size:12px;font-weight:700;color:var(--text);}
+.inc-time-tag{font-size:10px;color:var(--sub);margin-left:auto;}
+.inc-item-body{font-size:11px;color:var(--sub);line-height:1.5;}
+.inc-del-btn{font-size:10px;color:#F04452;background:none;border:none;cursor:pointer;margin-left:auto;padding:0;}
+@media(max-width:800px){.inc-wrapper{grid-template-columns:1fr;}}
+
+/* ─── PDF REPORT ─────────────────────────────────────────── */
+.rpt-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;}
+.rpt-preview-wrap{background:var(--bg-2);border-radius:16px;padding:20px;display:flex;justify-content:center;}
+.rpt-preview-wrap canvas{width:100%;max-width:380px;border-radius:8px;box-shadow:0 4px 24px rgba(0,0,0,.15);}
+.rpt-ctrl-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;}
+.rpt-ctrl-card h4{font-size:15px;font-weight:700;margin-bottom:18px;color:var(--text);}
+.rpt-field{margin-bottom:14px;}
+.rpt-field label{display:block;font-size:12px;font-weight:600;color:var(--sub);margin-bottom:5px;}
+.rpt-input{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--bg);color:var(--text);outline:none;transition:border-color .2s;box-sizing:border-box;}
+.rpt-input:focus{border-color:var(--primary);}
+.rpt-preview-btn{width:100%;padding:11px;background:var(--bg-2);border:1.5px solid var(--border);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:10px;color:var(--text);}
+.rpt-download-btn{width:100%;padding:13px;background:var(--primary);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;transition:opacity .2s;}
+.rpt-download-btn:hover{opacity:.88;}
+.rpt-note{font-size:11px;color:var(--sub);margin-top:12px;line-height:1.5;}
+@media(max-width:800px){.rpt-wrapper{grid-template-columns:1fr;}}
+</style>
+
+<script>
+/* ═══════════════ PRACTICAL FEATURES JS ═══════════════════ */
+(function(){
+
+/* ── ① DASHBOARD ─────────────────────────────────────────── */
+const DB={safeScore:96.8, workers:127, alerts:3, near:12};
+
+function drawLineChart(){
+  const cv=document.getElementById('dbLineChart'); if(!cv) return;
+  const dpr=window.devicePixelRatio||1;
+  cv.width=cv.offsetWidth*dpr||400*dpr; cv.height=160*dpr;
+  const ctx=cv.getContext('2d'); ctx.scale(dpr,dpr);
+  const W=cv.width/dpr, H=cv.height/dpr;
+  // data: 12 weeks accident counts
+  const data=[8,6,9,5,7,4,6,3,5,4,3,DB.alerts];
+  const mx=Math.max(...data), mn=0;
+  const pad={t:10,r:10,b:28,l:30};
+  const cw=W-pad.l-pad.r, ch=H-pad.t-pad.b;
+  // grid
+  ctx.strokeStyle='rgba(0,0,0,.06)'; ctx.lineWidth=.8;
+  for(let i=0;i<=4;i++){
+    const y=pad.t+ch*(1-i/4);
+    ctx.beginPath(); ctx.moveTo(pad.l,y); ctx.lineTo(pad.l+cw,y); ctx.stroke();
+    ctx.fillStyle='#8B95A1'; ctx.font='9px sans-serif'; ctx.textAlign='right';
+    ctx.fillText(Math.round(mx*i/4),pad.l-4,y+3);
+  }
+  // area fill
+  const grad=ctx.createLinearGradient(0,pad.t,0,pad.t+ch);
+  grad.addColorStop(0,'rgba(49,130,246,.18)'); grad.addColorStop(1,'rgba(49,130,246,0)');
+  ctx.beginPath();
+  data.forEach((v,i)=>{
+    const x=pad.l+cw*i/(data.length-1);
+    const y=pad.t+ch*(1-(v-mn)/(mx-mn));
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  });
+  ctx.lineTo(pad.l+cw,pad.t+ch); ctx.lineTo(pad.l,pad.t+ch); ctx.closePath();
+  ctx.fillStyle=grad; ctx.fill();
+  // line
+  ctx.beginPath(); ctx.strokeStyle='#3182F6'; ctx.lineWidth=2;
+  data.forEach((v,i)=>{
+    const x=pad.l+cw*i/(data.length-1);
+    const y=pad.t+ch*(1-(v-mn)/(mx-mn));
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  });
+  ctx.stroke();
+  // dots
+  data.forEach((v,i)=>{
+    const x=pad.l+cw*i/(data.length-1);
+    const y=pad.t+ch*(1-(v-mn)/(mx-mn));
+    ctx.beginPath(); ctx.arc(x,y,3,0,Math.PI*2);
+    ctx.fillStyle=i===data.length-1?'#F04452':'#3182F6'; ctx.fill();
+  });
+  // x labels
+  ctx.fillStyle='#8B95A1'; ctx.font='9px sans-serif'; ctx.textAlign='center';
+  data.forEach((_,i)=>{
+    if(i%2===0){
+      const x=pad.l+cw*i/(data.length-1);
+      ctx.fillText(`W${i+1}`,x,H-6);
+    }
+  });
+}
+
+function drawBarChart(){
+  const cv=document.getElementById('dbBarChart'); if(!cv) return;
+  const dpr=window.devicePixelRatio||1;
+  cv.width=cv.offsetWidth*dpr||400*dpr; cv.height=160*dpr;
+  const ctx=cv.getContext('2d'); ctx.scale(dpr,dpr);
+  const W=cv.width/dpr, H=cv.height/dpr;
+  const depts=['용접','도장','조립','운반','화학','전기'];
+  const vals=[78,62,45,55,82,38];
+  const colors=['#F04452','#FF9F2D','#16C68C','#FF9F2D','#F04452','#16C68C'];
+  const pad={t:10,r:10,b:32,l:36};
+  const cw=W-pad.l-pad.r, ch=H-pad.t-pad.b;
+  const bw=cw/depts.length*.6;
+  // grid
+  ctx.strokeStyle='rgba(0,0,0,.06)'; ctx.lineWidth=.8;
+  for(let i=0;i<=4;i++){
+    const y=pad.t+ch*(1-i/4);
+    ctx.beginPath(); ctx.moveTo(pad.l,y); ctx.lineTo(pad.l+cw,y); ctx.stroke();
+    ctx.fillStyle='#8B95A1'; ctx.font='9px sans-serif'; ctx.textAlign='right';
+    ctx.fillText(i*25+'%',pad.l-4,y+3);
+  }
+  // bars
+  vals.forEach((v,i)=>{
+    const x=pad.l+cw*(i+.5)/depts.length-bw/2;
+    const bh=ch*v/100;
+    const y=pad.t+ch-bh;
+    const r=ctx.createLinearGradient(0,y,0,y+bh);
+    r.addColorStop(0,colors[i]); r.addColorStop(1,colors[i]+'55');
+    ctx.fillStyle=r;
+    ctx.beginPath();
+    ctx.roundRect?ctx.roundRect(x,y,bw,bh,4):ctx.rect(x,y,bw,bh);
+    ctx.fill();
+    ctx.fillStyle='#8B95A1'; ctx.font='9px sans-serif'; ctx.textAlign='center';
+    ctx.fillText(depts[i],x+bw/2,H-8);
+    ctx.fillStyle=colors[i]; ctx.font='bold 9px sans-serif';
+    ctx.fillText(v+'%',x+bw/2,y-3);
+  });
+}
+
+function drawPieChart(){
+  const cv=document.getElementById('dbPieChart'); if(!cv) return;
+  const dpr=window.devicePixelRatio||1;
+  cv.width=cv.offsetWidth*dpr||400*dpr; cv.height=160*dpr;
+  const ctx=cv.getContext('2d'); ctx.scale(dpr,dpr);
+  const W=cv.width/dpr, H=cv.height/dpr;
+  const labels=['근골격계','추락','소음·진동','화학물질','열스트레스'];
+  const vals=[38,22,18,12,10];
+  const cols=['#3182F6','#F04452','#FF9F2D','#16C68C','#8B5CF6'];
+  const cx=W*0.36, cy=H/2, r=Math.min(cx,cy)-8;
+  let start=0;
+  const total=vals.reduce((a,b)=>a+b,0);
+  vals.forEach((v,i)=>{
+    const slice=v/total*Math.PI*2;
+    ctx.beginPath(); ctx.moveTo(cx,cy);
+    ctx.arc(cx,cy,r,start,start+slice);
+    ctx.closePath(); ctx.fillStyle=cols[i]; ctx.fill();
+    ctx.strokeStyle='#fff'; ctx.lineWidth=1.5; ctx.stroke();
+    start+=slice;
+  });
+  // legend
+  labels.forEach((l,i)=>{
+    const lx=W*0.68, ly=H/2-(labels.length-1)*10+i*20;
+    ctx.fillStyle=cols[i]; ctx.beginPath(); ctx.arc(lx,ly,5,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='#4E5968'; ctx.font='10px sans-serif'; ctx.textAlign='left';
+    ctx.fillText(`${l} ${vals[i]}%`,lx+10,ly+3.5);
+  });
+}
+
+function initDashboard(){
+  setTimeout(()=>{drawLineChart();drawBarChart();drawPieChart();},300);
+  window.addEventListener('resize',()=>{drawLineChart();drawBarChart();drawPieChart();});
+  setInterval(()=>{
+    DB.safeScore=Math.min(99.9,Math.max(88,DB.safeScore+(Math.random()-.3)*.3));
+    DB.workers=127+Math.floor((Math.random()-.5)*4);
+    const el=document.getElementById('dbSafeScore');
+    if(el) el.textContent=DB.safeScore.toFixed(1);
+    const ew=document.getElementById('dbWorkers');
+    if(ew) ew.textContent=DB.workers;
+  },3000);
+}
+initDashboard();
+
+/* ── ② AI PREDICTION ENGINE ─────────────────────────────── */
+window.runAIPred=function(){
+  const temp=+document.getElementById('pTemp').value;
+  const noise=+document.getElementById('pNoise').value;
+  const fatigue=+document.getElementById('pFatigue').value;
+  const ppe=+document.getElementById('pPPE').value;
+  const shift=+document.getElementById('pShift').value;
+  const density=+document.getElementById('pDensity').value;
+
+  // Factor scoring (0-1 each)
+  const f={
+    '온도 스트레스': Math.max(0,(temp-25)/20),
+    '소음 노출': Math.max(0,(noise-65)/55),
+    '피로 누적': fatigue/100,
+    'PPE 미착용': (100-ppe)/100,
+    '장시간 작업': Math.max(0,(shift-4)/8),
+    '밀집 근무': Math.min(1,density/8)
+  };
+  // Weighted sum
+  const weights={
+    '온도 스트레스':.14,'소음 노출':.12,'피로 누적':.24,
+    'PPE 미착용':.26,'장시간 작업':.14,'밀집 근무':.10
+  };
+  let score=0;
+  Object.keys(f).forEach(k=>score+=f[k]*weights[k]);
+  const pct=Math.min(99,Math.round(score*100));
+  const ci_lo=Math.max(0,pct-6), ci_hi=Math.min(99,pct+6);
+
+  // Update gauge
+  const arc=document.getElementById('predArc');
+  const pctEl=document.getElementById('predPct');
+  const lblEl=document.getElementById('predLbl');
+  const ciEl=document.getElementById('predCI');
+  if(arc){
+    const dashOff=283*(1-pct/99);
+    arc.style.strokeDashoffset=dashOff.toFixed(1);
+  }
+  if(pctEl) pctEl.textContent=pct+'%';
+  const cat=pct<25?['낮음','#16C68C']:pct<50?['보통','#FF9F2D']:pct<75?['높음','#F04452']:['매우 높음','#9B0000'];
+  if(lblEl){lblEl.textContent=`위험도: ${cat[0]}`;lblEl.setAttribute('fill',cat[1]);}
+  if(pctEl) pctEl.setAttribute('fill',cat[1]);
+  if(ciEl) ciEl.textContent=`95% 신뢰구간: ${ci_lo}% ~ ${ci_hi}%`;
+
+  // Factor bars
+  const sorted=Object.entries(f).sort((a,b)=>b[1]-a[1]);
+  const fc=document.getElementById('predFactors');
+  if(fc){
+    fc.innerHTML=sorted.map(([k,v])=>{
+      const pv=Math.round(v*100);
+      const col=pv>66?'#F04452':pv>33?'#FF9F2D':'#16C68C';
+      return `<div class="pred-factor-item">
+        <span class="pred-factor-name">${k}</span>
+        <div class="pred-factor-bar-wrap"><div class="pred-factor-bar" style="width:${pv}%;background:${col}"></div></div>
+        <span class="pred-factor-val" style="color:${col}">${pv}%</span>
+      </div>`;
+    }).join('');
+  }
+
+  // Recommendations
+  const recs=[];
+  if(f['PPE 미착용']>.3) recs.push('🦺 PPE 착용률 즉시 개선 필요 — 현장 관리자 순회 강화');
+  if(f['피로 누적']>.5) recs.push('😴 교대 근무 주기 조정 및 휴식시간 연장 권고');
+  if(f['온도 스트레스']>.4) recs.push('🌡 작업장 온도 관리 — 쿨링 시스템 점검');
+  if(f['소음 노출']>.4) recs.push('🔇 청력 보호구 착용 의무화 및 소음원 차단 조치');
+  if(f['장시간 작업']>.5) recs.push('⏱ 연속 작업시간 8시간 초과 — 인력 재배치 검토');
+  if(recs.length===0) recs.push('✅ 현재 위험 수준은 관리 가능 범위입니다.');
+  const rc=document.getElementById('predRecs');
+  if(rc) rc.innerHTML='<strong style="font-size:12px;color:var(--text)">📌 권고 조치</strong>'+recs.map(r=>`<div class="pred-rec-item">• ${r}</div>`).join('');
+};
+
+/* ── ③ INCIDENT QUICK REPORT ────────────────────────────── */
+let incSev=1;
+window.setSev=function(n){
+  incSev=n;
+  document.querySelectorAll('.inc-sev-btn').forEach(b=>{
+    b.classList.toggle('active',+b.dataset.sev===n);
+  });
+};
+
+function getIncidents(){return JSON.parse(localStorage.getItem('shk_incidents')||'[]');}
+function saveIncidents(arr){localStorage.setItem('shk_incidents',JSON.stringify(arr));}
+
+window.submitIncident=function(){
+  const type=document.getElementById('incType').value;
+  const loc=document.getElementById('incLocation').value.trim()||'미입력';
+  const worker=document.getElementById('incWorker').value.trim()||'미입력';
+  const desc=document.getElementById('incDesc').value.trim()||'';
+  const rec={id:Date.now(),type,sev:incSev,loc,worker,desc,time:new Date().toLocaleString('ko-KR')};
+  const arr=getIncidents(); arr.unshift(rec); saveIncidents(arr);
+  renderIncidentList();
+  document.getElementById('incLocation').value='';
+  document.getElementById('incWorker').value='';
+  document.getElementById('incDesc').value='';
+  // flash feedback
+  const btn=document.querySelector('.inc-submit-btn');
+  const orig=btn.textContent; btn.textContent='✅ 제출 완료!'; btn.style.background='#16C68C';
+  setTimeout(()=>{btn.textContent=orig;btn.style.background='';},1500);
+};
+
+window.clearIncidents=function(){if(confirm('전체 사고 이력을 삭제하시겠습니까?')){saveIncidents([]);renderIncidentList();}};
+
+window.deleteIncident=function(id){
+  saveIncidents(getIncidents().filter(r=>r.id!==id));
+  renderIncidentList();
+};
+
+function renderIncidentList(){
+  const arr=getIncidents();
+  const el=document.getElementById('incList');
+  const cnt=document.getElementById('incCount');
+  if(!el) return;
+  if(cnt) cnt.textContent=arr.length;
+  if(arr.length===0){el.innerHTML='<div class="inc-empty">아직 보고된 사고가 없습니다.</div>';return;}
+  const sevColor=[,'#16C68C','#8BC34A','#FF9F2D','#FF6B35','#F04452'];
+  el.innerHTML=arr.map(r=>`
+    <div class="inc-item">
+      <div class="inc-item-head">
+        <div class="inc-sev-dot" style="background:${sevColor[r.sev]}"></div>
+        <span class="inc-type-tag">${r.type}</span>
+        <span style="font-size:10px;background:${sevColor[r.sev]}22;color:${sevColor[r.sev]};border-radius:4px;padding:1px 6px;font-weight:700">심각도 ${r.sev}</span>
+        <span class="inc-time-tag">${r.time}</span>
+        <button class="inc-del-btn" onclick="deleteIncident(${r.id})">✕</button>
+      </div>
+      <div class="inc-item-body">📍 ${r.loc} · 👷 ${r.worker}${r.desc?'<br>'+r.desc:''}</div>
+    </div>`).join('');
+}
+renderIncidentList();
+
+/* ── ④ PDF REPORT (Canvas) ──────────────────────────────── */
+function setDefaultPeriod(){
+  const el=document.getElementById('rptPeriod');
+  if(el&&!el.value){const d=new Date();el.value=`${d.getFullYear()}년 ${d.getMonth()+1}월 안전 보고서`;}
+}
+setDefaultPeriod();
+
+window.renderReport=function(){
+  const cv=document.getElementById('rptCanvas'); if(!cv) return;
+  const ctx=cv.getContext('2d');
+  const W=595,H=842;
+  ctx.clearRect(0,0,W,H);
+
+  // Background
+  ctx.fillStyle='#FFFFFF'; ctx.fillRect(0,0,W,H);
+
+  // Header bar
+  const hg=ctx.createLinearGradient(0,0,W,0);
+  hg.addColorStop(0,'#1a56db'); hg.addColorStop(1,'#0ea5e9');
+  ctx.fillStyle=hg; ctx.fillRect(0,0,W,72);
+
+  // Logo area
+  ctx.fillStyle='#FFFFFF';
+  ctx.font='bold 22px sans-serif'; ctx.textAlign='left';
+  ctx.fillText('SHine-K',32,38);
+  ctx.font='11px sans-serif'; ctx.fillStyle='rgba(255,255,255,.8)';
+  ctx.fillText('산업안전 통합 플랫폼',32,56);
+
+  // Title
+  ctx.fillStyle='#FFFFFF'; ctx.font='bold 16px sans-serif'; ctx.textAlign='right';
+  ctx.fillText('안전 현황 보고서',W-32,38);
+  ctx.font='11px sans-serif'; ctx.fillStyle='rgba(255,255,255,.8)';
+  const period=document.getElementById('rptPeriod').value||'';
+  ctx.fillText(period,W-32,56);
+
+  // Company info box
+  ctx.fillStyle='#F8FAFC'; ctx.beginPath();
+  ctx.roundRect?ctx.roundRect(24,84,W-48,56,8):ctx.rect(24,84,W-48,56);
+  ctx.fill();
+  ctx.strokeStyle='#E5E8EB'; ctx.lineWidth=1; ctx.stroke();
+  ctx.fillStyle='#191F28'; ctx.font='bold 12px sans-serif'; ctx.textAlign='left';
+  ctx.fillText(document.getElementById('rptCompany').value,36,108);
+  ctx.font='11px sans-serif'; ctx.fillStyle='#8B95A1';
+  ctx.fillText('현장: '+document.getElementById('rptSite').value,36,126);
+  ctx.textAlign='right';
+  ctx.fillText('담당: '+document.getElementById('rptManager').value,W-36,108);
+  ctx.fillText('생성일: '+new Date().toLocaleDateString('ko-KR'),W-36,126);
+
+  // KPI section
+  ctx.fillStyle='#191F28'; ctx.font='bold 13px sans-serif'; ctx.textAlign='left';
+  ctx.fillText('■ 핵심 안전 지표 (KPI)',24,166);
+  const kpis=[
+    {l:'종합 안전점수',v:DB.safeScore.toFixed(1)+'점',c:'#16C68C'},
+    {l:'모니터링 근로자',v:DB.workers+'명',c:'#3182F6'},
+    {l:'금일 경고 건수',v:DB.alerts+'건',c:'#FF9F2D'},
+    {l:'월간 아차사고',v:DB.near+'건',c:'#8B5CF6'},
+  ];
+  kpis.forEach((k,i)=>{
+    const x=24+(i%2)*(W/2-24), y=178+(Math.floor(i/2))*52;
+    ctx.fillStyle='#F8FAFC'; ctx.beginPath();
+    ctx.roundRect?ctx.roundRect(x,y,W/2-36,44,6):ctx.rect(x,y,W/2-36,44);
+    ctx.fill(); ctx.strokeStyle='#E5E8EB'; ctx.lineWidth=.8; ctx.stroke();
+    ctx.fillStyle=k.c; ctx.font='bold 18px sans-serif'; ctx.textAlign='left';
+    ctx.fillText(k.v,x+12,y+26);
+    ctx.fillStyle='#8B95A1'; ctx.font='10px sans-serif';
+    ctx.fillText(k.l,x+12,y+39);
+  });
+
+  // Mini line chart
+  ctx.fillStyle='#191F28'; ctx.font='bold 13px sans-serif'; ctx.textAlign='left';
+  ctx.fillText('■ 사고 추이 (최근 12주)',24,298);
+  const data=[8,6,9,5,7,4,6,3,5,4,3,DB.alerts];
+  const mx=Math.max(...data);
+  const chartX=24,chartY=308,chartW=W-48,chartH=80;
+  ctx.fillStyle='#F8FAFC'; ctx.beginPath();
+  ctx.roundRect?ctx.roundRect(chartX,chartY,chartW,chartH,6):ctx.rect(chartX,chartY,chartW,chartH);
+  ctx.fill(); ctx.strokeStyle='#E5E8EB'; ctx.stroke();
+  const cg=ctx.createLinearGradient(0,chartY,0,chartY+chartH);
+  cg.addColorStop(0,'rgba(49,130,246,.2)'); cg.addColorStop(1,'transparent');
+  ctx.beginPath();
+  data.forEach((v,i)=>{
+    const x=chartX+12+chartW*.88*i/(data.length-1);
+    const y=chartY+chartH-8-((chartH-20)*(v/mx));
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  });
+  const last=data.length-1;
+  ctx.lineTo(chartX+12+chartW*.88*last/(last),chartY+chartH-8);
+  ctx.lineTo(chartX+12,chartY+chartH-8);
+  ctx.closePath(); ctx.fillStyle=cg; ctx.fill();
+  ctx.beginPath(); ctx.strokeStyle='#3182F6'; ctx.lineWidth=1.5;
+  data.forEach((v,i)=>{
+    const x=chartX+12+chartW*.88*i/(data.length-1);
+    const y=chartY+chartH-8-((chartH-20)*(v/mx));
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  });
+  ctx.stroke();
+
+  // Incident list section
+  const incidents=getIncidents().slice(0,5);
+  ctx.fillStyle='#191F28'; ctx.font='bold 13px sans-serif'; ctx.textAlign='left';
+  ctx.fillText(`■ 사고 이력 (최근 ${incidents.length}건)`,24,414);
+  if(incidents.length===0){
+    ctx.fillStyle='#8B95A1'; ctx.font='11px sans-serif';
+    ctx.fillText('보고된 사고가 없습니다.',24,434);
+  } else {
+    const sevColor=[,'#16C68C','#8BC34A','#FF9F2D','#FF6B35','#F04452'];
+    incidents.forEach((inc,i)=>{
+      const iy=422+i*30;
+      ctx.fillStyle='#F8FAFC'; ctx.fillRect(24,iy,W-48,26);
+      if(i%2===0){ctx.fillStyle='#EEF0F2'; ctx.fillRect(24,iy,W-48,26);}
+      ctx.fillStyle=sevColor[inc.sev]||'#888'; ctx.beginPath();
+      ctx.arc(36,iy+13,4,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle='#191F28'; ctx.font='bold 10px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(inc.type,46,iy+15);
+      ctx.fillStyle='#8B95A1'; ctx.font='9px sans-serif';
+      ctx.fillText(inc.loc,140,iy+15);
+      ctx.fillStyle='#8B95A1'; ctx.textAlign='right';
+      ctx.fillText(inc.time,W-36,iy+15);
+    });
+  }
+
+  // AI Prediction section
+  const yPred=422+Math.max(1,incidents.length)*30+20;
+  ctx.fillStyle='#191F28'; ctx.font='bold 13px sans-serif'; ctx.textAlign='left';
+  ctx.fillText('■ AI 위험 예측 결과',24,yPred);
+  const predEl=document.getElementById('predPct');
+  const predLbl=document.getElementById('predLbl');
+  const predTxt=predEl?predEl.textContent:'미실행';
+  const predCat=predLbl?predLbl.textContent:'--';
+  ctx.fillStyle='#F8FAFC'; ctx.beginPath();
+  ctx.roundRect?ctx.roundRect(24,yPred+10,W-48,50,6):ctx.rect(24,yPred+10,W-48,50);
+  ctx.fill(); ctx.strokeStyle='#E5E8EB'; ctx.lineWidth=.8; ctx.stroke();
+  ctx.fillStyle='#3182F6'; ctx.font='bold 22px sans-serif'; ctx.textAlign='left';
+  ctx.fillText(predTxt,40,yPred+40);
+  ctx.fillStyle='#191F28'; ctx.font='11px sans-serif';
+  ctx.fillText(predCat,90,yPred+40);
+  ctx.fillStyle='#8B95A1'; ctx.font='10px sans-serif';
+  const ciEl=document.getElementById('predCI');
+  if(ciEl) ctx.fillText(ciEl.textContent,40,yPred+54);
+
+  // Footer
+  ctx.fillStyle='#F2F4F6'; ctx.fillRect(0,H-44,W,44);
+  ctx.fillStyle='#8B95A1'; ctx.font='9px sans-serif'; ctx.textAlign='left';
+  ctx.fillText('© 2025-2029 경운대학교 보건대학 · SHine-K Platform Initiative · RISE 사업단',24,H-18);
+  ctx.textAlign='right';
+  ctx.fillText('CONFIDENTIAL — 내부 배포용',W-24,H-18);
+  ctx.fillStyle='#E5E8EB'; ctx.fillRect(0,H-44,W,1);
+};
+
+// Auto-render on load
+setTimeout(()=>renderReport(),500);
+
+window.downloadReport=function(){
+  renderReport();
+  const cv=document.getElementById('rptCanvas');
+  if(!cv) return;
+  const a=document.createElement('a');
+  a.download=`SHineK_안전보고서_${new Date().toLocaleDateString('ko-KR').replace(/\./g,'').replace(/ /g,'')}.png`;
+  a.href=cv.toDataURL('image/png',1.0);
+  a.click();
+};
 
 })();
 </script>
