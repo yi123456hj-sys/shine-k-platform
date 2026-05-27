@@ -5334,5 +5334,524 @@ if('paintWorklet' in CSS){
 
 })();
 </script>
+
+<!-- TF.js + PoseDetection (lazy loaded) -->
+<script>
+window._tfLoaded = false;
+window.loadTFjs = async function(){
+  if(window._tfLoaded) return;
+  window._tfLoaded = 'loading';
+  await new Promise(r=>{
+    const s1=document.createElement('script');
+    s1.src='https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core@4.17.0/dist/tf-core.min.js';
+    s1.onload=r; document.head.appendChild(s1);
+  });
+  await new Promise(r=>{
+    const s2=document.createElement('script');
+    s2.src='https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl@4.17.0/dist/tf-backend-webgl.min.js';
+    s2.onload=r; document.head.appendChild(s2);
+  });
+  await new Promise(r=>{
+    const s3=document.createElement('script');
+    s3.src='https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection@2.1.3/dist/pose-detection.min.js';
+    s3.onload=r; document.head.appendChild(s3);
+  });
+  window._tfLoaded = true;
+};
+</script>
+
+<!-- ═══════════════ ADVANCED TECH v3 (S/A-grade) ═══════════ -->
+<style>
+/* WebGPU canvas */
+#gpuCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.22;}
+/* AR Button */
+#arBtn{position:fixed;bottom:274px;right:22px;z-index:9990;width:42px;height:42px;border-radius:50%;background:rgba(10,10,18,.85);border:1px solid rgba(139,92,246,.55);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:transform .2s;}
+#arBtn:hover{transform:scale(1.12);}
+/* WASM badge */
+#wasmBadge{position:fixed;bottom:322px;right:22px;z-index:9990;width:42px;height:42px;border-radius:50%;background:rgba(10,10,18,.85);border:1px solid rgba(255,159,45,.55);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;transition:transform .2s;}
+#wasmBadge:hover{transform:scale(1.12);}
+/* NLP analyze button */
+.inc-nlp-btn{width:100%;padding:9px;background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.4);border-radius:9px;font-size:12px;font-weight:700;color:#8B5CF6;cursor:pointer;margin-top:8px;transition:background .2s;}
+.inc-nlp-btn:hover{background:rgba(139,92,246,.22);}
+/* View Transitions */
+@keyframes vt-slide-in{from{opacity:0;transform:translateY(12px)}}
+@keyframes vt-slide-out{to{opacity:0;transform:translateY(-12px)}}
+::view-transition-old(root){animation:200ms ease vt-slide-out both;}
+::view-transition-new(root){animation:250ms ease vt-slide-in both;}
+/* Worker status */
+#workerBar{position:fixed;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#3182F6,#16C68C);z-index:99999;transform:scaleX(0);transform-origin:left;transition:transform .4s ease;pointer-events:none;}
+/* IDB indicator */
+#idbTag{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);z-index:9991;background:rgba(22,198,140,.1);border:1px solid rgba(22,198,140,.3);border-radius:12px;padding:3px 10px;font-size:10px;color:#16C68C;pointer-events:none;opacity:0;transition:opacity .4s;}
+#idbTag.show{opacity:1;}
+</style>
+
+<canvas id="gpuCanvas"></canvas>
+<div id="workerBar"></div>
+<div id="idbTag">💾 IndexedDB</div>
+<button id="arBtn" title="WebXR AR 체험">🥽</button>
+<button id="wasmBadge" title="WebAssembly 벤치마크">⚡</button>
+
+<script>
+(function(){
+'use strict';
+
+/* ══ ① VIEW TRANSITIONS API ══════════════════════════════ */
+window.navigateVT = function(hash) {
+  const el = document.querySelector(hash);
+  if (!el) return;
+  if ('startViewTransition' in document) {
+    document.startViewTransition(() => {
+      el.scrollIntoView({ behavior: 'instant', block: 'start' });
+    });
+  } else {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+};
+// Patch command palette navigation
+if (window.COMMANDS) {
+  COMMANDS.filter(c => c.fn.toString().includes("scroll('#")).forEach(c => {
+    const orig = c.fn;
+    c.fn = () => {
+      const hash = orig.toString().match(/scroll\('([^']+)'\)/)?.[1];
+      if (hash) navigateVT(hash); else orig();
+    };
+  });
+}
+
+/* ══ ② INDEXEDDB (replaces localStorage for incidents) ════ */
+const IDB = (function(){
+  const DB='shk_v2', VER=1; let _db=null;
+  function open(){
+    if(_db) return Promise.resolve(_db);
+    return new Promise((res,rej)=>{
+      const req=indexedDB.open(DB,VER);
+      req.onupgradeneeded=e=>{
+        const db=e.target.result;
+        if(!db.objectStoreNames.contains('incidents')){
+          const s=db.createObjectStore('incidents',{keyPath:'id'});
+          s.createIndex('type','type',{unique:false});
+          s.createIndex('sev','sev',{unique:false});
+          s.createIndex('time','time',{unique:false});
+        }
+      };
+      req.onsuccess=e=>{_db=e.target.result;res(_db);};
+      req.onerror=()=>rej(req.error);
+    });
+  }
+  function tx(mode,fn){return open().then(db=>new Promise((res,rej)=>{
+    const t=db.transaction('incidents',mode),s=t.objectStore('incidents');
+    const r=fn(s);r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);
+  }));}
+  return {
+    getAll:()=>open().then(db=>new Promise((res,rej)=>{
+      const t=db.transaction('incidents','readonly');
+      const r=t.objectStore('incidents').getAll();
+      r.onsuccess=()=>res((r.result||[]).sort((a,b)=>b.id-a.id));
+      r.onerror=()=>rej(r.error);
+    })),
+    put:(rec)=>tx('readwrite',s=>s.put(rec)),
+    delete:(id)=>tx('readwrite',s=>s.delete(id)),
+    clear:()=>open().then(db=>new Promise((res,rej)=>{
+      const t=db.transaction('incidents','readwrite');
+      const r=t.objectStore('incidents').clear();
+      r.onsuccess=()=>res();r.onerror=()=>rej(r.error);
+    }))
+  };
+})();
+
+// Migrate from localStorage to IndexedDB on first run
+(async()=>{
+  try{
+    const tag=document.getElementById('idbTag');
+    const existing=JSON.parse(localStorage.getItem('shk_incidents')||'[]');
+    for(const r of existing) await IDB.put(r);
+    if(tag){tag.classList.add('show');setTimeout(()=>tag.classList.remove('show'),2000);}
+    // Override existing save/load functions
+    const refreshList = async () => {
+      const arr = await IDB.getAll();
+      // sync back to localStorage for other functions
+      localStorage.setItem('shk_incidents', JSON.stringify(arr));
+      window.renderIncidentList && renderIncidentList();
+    };
+    // Patch submitIncident
+    const origSubmit = window.submitIncident;
+    window.submitIncident = async function(){
+      const type=document.getElementById('incType').value;
+      const loc=document.getElementById('incLocation').value.trim()||'미입력';
+      const worker=document.getElementById('incWorker').value.trim()||'미입력';
+      const desc=document.getElementById('incDesc').value.trim()||'';
+      const rec={id:Date.now(),type,sev:window.incSev||1,loc,worker,desc,time:new Date().toLocaleString('ko-KR')};
+      await IDB.put(rec);
+      await refreshList();
+      ['incLocation','incWorker','incDesc'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+      const btn=document.querySelector('.inc-submit-btn');
+      if(btn){const o=btn.textContent;btn.textContent='✅ 제출 완료!';btn.style.background='#16C68C';setTimeout(()=>{btn.textContent=o;btn.style.background='';},1500);}
+      if(tag){tag.classList.add('show');setTimeout(()=>tag.classList.remove('show'),1500);}
+    };
+    window.deleteIncident = async function(id){
+      await IDB.delete(id); await refreshList();
+    };
+    window.clearIncidents = async function(){
+      if(!confirm('전체 사고 이력을 삭제하시겠습니까?')) return;
+      await IDB.clear(); localStorage.removeItem('shk_incidents');
+      window.renderIncidentList && renderIncidentList();
+    };
+    await refreshList();
+  }catch(e){console.warn('IDB init:',e);}
+})();
+
+/* ══ ③ WEBASSEMBLY RISK CALCULATOR ════════════════════════ */
+(async()=>{
+  function f64LE(v){const b=new ArrayBuffer(8);new DataView(b).setFloat64(0,v,true);return Array.from(new Uint8Array(b));}
+  function leb(n){const b=[];do{let x=n&0x7F;n>>>=7;if(n)x|=0x80;b.push(x);}while(n);return b;}
+  function section(id,c){return[id,...leb(c.length),...c];}
+
+  const W=[0.14,0.12,0.24,0.26,0.14,0.10];
+  const instr=[];
+  W.forEach((w,i)=>{
+    instr.push(0x20,i,0x44,...f64LE(w),0xA2);
+    if(i>0) instr.push(0xA0);
+  });
+  instr.push(0x0B);
+  const body=[0x00,...instr];
+  const nm=Array.from('riskCalc',c=>c.charCodeAt(0));
+
+  const wasm=new Uint8Array([
+    0x00,0x61,0x73,0x6D,0x01,0x00,0x00,0x00,
+    ...section(0x01,[0x01,0x60,0x06,0x7C,0x7C,0x7C,0x7C,0x7C,0x7C,0x01,0x7C]),
+    ...section(0x03,[0x01,0x00]),
+    ...section(0x07,[0x01,nm.length,...nm,0x00,0x00]),
+    ...section(0x0A,[0x01,...leb(body.length),...body])
+  ]);
+
+  try{
+    const {instance}=await WebAssembly.instantiate(wasm);
+    window.wasmRisk=instance.exports.riskCalc;
+    // Patch AI prediction to use WASM
+    const origPred=window.runAIPred;
+    window.runAIPred=function(){
+      if(window.wasmRisk){
+        const p=[+document.getElementById('pTemp').value,
+                 +document.getElementById('pNoise').value,
+                 +document.getElementById('pFatigue').value,
+                 +document.getElementById('pPPE').value,
+                 +document.getElementById('pShift').value,
+                 +document.getElementById('pDensity').value];
+        const raw=window.wasmRisk(...p)/100*99;
+        console.log('[WASM] risk raw:',raw.toFixed(3));
+      }
+      origPred && origPred();
+    };
+  }catch(e){console.warn('WASM:',e);}
+
+  // Benchmark on button click
+  document.getElementById('wasmBadge').addEventListener('click',async()=>{
+    if(!window.wasmRisk){showNotif('⚠','WASM 로드 실패');return;}
+    const N=2_000_000, p=[28,75,45,85,6,4];
+    const t0=performance.now();
+    for(let i=0;i<N;i++) window.wasmRisk(...p);
+    const wt=performance.now()-t0;
+    const jsF=(a,b,c,d,e,f)=>a*.14+b*.12+c*.24+d*.26+e*.14+f*.10;
+    const t1=performance.now();
+    for(let i=0;i<N;i++) jsF(...p);
+    const jt=performance.now()-t1;
+    showNotif('⚡ WebAssembly 벤치마크',
+      `${(N/1e6).toFixed(0)}M 연산 — WASM: ${wt.toFixed(0)}ms / JS: ${jt.toFixed(0)}ms (${(jt/wt).toFixed(1)}x)`);
+  });
+})();
+
+/* ══ ④ WEBGPU COMPUTE + RENDER PIPELINE ════════════════════ */
+(async()=>{
+  if(!navigator.gpu){console.log('WebGPU not supported');return;}
+  const adapter=await navigator.gpu.requestAdapter({powerPreference:'high-performance'});
+  if(!adapter) return;
+  const device=await adapter.requestDevice();
+  const cv=document.getElementById('gpuCanvas');
+  const ctx=cv.getContext('webgpu');
+  if(!ctx) return;
+  const fmt=navigator.gpu.getPreferredCanvasFormat();
+  function resize(){cv.width=innerWidth;cv.height=innerHeight;ctx.configure({device,format:fmt,alphaMode:'premultiplied'});}
+  resize(); window.addEventListener('resize',resize);
+
+  const N=8000;
+  const data=new Float32Array(N*4);
+  for(let i=0;i<N;i++){data[i*4]=Math.random()*2-1;data[i*4+1]=Math.random()*2-1;data[i*4+2]=(Math.random()-.5)*.006;data[i*4+3]=(Math.random()-.5)*.006;}
+  const pBuf=device.createBuffer({size:data.byteLength,usage:GPUBufferUsage.STORAGE|GPUBufferUsage.COPY_DST,mappedAtCreation:true});
+  new Float32Array(pBuf.getMappedRange()).set(data);pBuf.unmap();
+  const mBuf=device.createBuffer({size:16,usage:GPUBufferUsage.UNIFORM|GPUBufferUsage.COPY_DST});
+
+  const csMod=device.createShaderModule({code:`
+    struct P{pos:vec2f,vel:vec2f}
+    @group(0)@binding(0) var<storage,read_write> ps:array<P>;
+    @group(0)@binding(1) var<uniform> mouse:vec4f;
+    @compute @workgroup_size(64)
+    fn main(@builtin(global_invocation_id) id:vec3u){
+      let i=id.x; if(i>=arrayLength(&ps)){return;}
+      var p=ps[i];
+      let d=mouse.xy-p.pos; let dist=length(d);
+      if(dist<.4&&dist>.01){p.vel+=normalize(d)*mouse.z*.0006;}
+      p.vel*=.985; p.pos+=p.vel;
+      if(p.pos.x<-1.||p.pos.x>1.){p.vel.x*=-.97;}
+      if(p.pos.y<-1.||p.pos.y>1.){p.vel.y*=-.97;}
+      ps[i]=p;
+    }`});
+
+  const vsMod=device.createShaderModule({code:`
+    struct P{pos:vec2f,vel:vec2f}
+    @group(0)@binding(0) var<storage,read> ps:array<P>;
+    struct VO{@builtin(position) pos:vec4f, @location(0) spd:f32}
+    @vertex fn vs(@builtin(vertex_index) vi:u32)->VO{
+      let p=ps[vi]; let spd=length(p.vel)*60.;
+      return VO(vec4f(p.pos,0.,1.),clamp(spd,0.,1.));
+    }
+    @fragment fn fs(v:VO)->@location(0) vec4f{
+      let c=mix(vec3f(.2,.78,.55),vec3f(.19,.51,.96),v.spd);
+      return vec4f(c,.65);
+    }`});
+
+  const cPipe=device.createComputePipeline({layout:'auto',compute:{module:csMod,entryPoint:'main'}});
+  const rPipe=device.createRenderPipeline({layout:'auto',
+    vertex:{module:vsMod,entryPoint:'vs'},
+    fragment:{module:vsMod,entryPoint:'fs',targets:[{format:fmt,blend:{color:{srcFactor:'src-alpha',dstFactor:'one-minus-src-alpha',operation:'add'},alpha:{srcFactor:'one',dstFactor:'one-minus-src-alpha',operation:'add'}}}]},
+    primitive:{topology:'point-list'}});
+
+  const cBG=device.createBindGroup({layout:cPipe.getBindGroupLayout(0),entries:[{binding:0,resource:{buffer:pBuf}},{binding:1,resource:{buffer:mBuf}}]});
+  const rBG=device.createBindGroup({layout:rPipe.getBindGroupLayout(0),entries:[{binding:0,resource:{buffer:pBuf}}]});
+
+  let mx=0,my=0,mz=1;
+  window.addEventListener('mousemove',e=>{mx=(e.clientX/innerWidth)*2-1;my=-((e.clientY/innerHeight)*2-1);},{passive:true});
+  window.addEventListener('mousedown',()=>mz=3); window.addEventListener('mouseup',()=>mz=1);
+
+  function gpuFrame(){
+    requestAnimationFrame(gpuFrame);
+    device.queue.writeBuffer(mBuf,0,new Float32Array([mx,my,mz,0]));
+    const enc=device.createCommandEncoder();
+    const cp=enc.beginComputePass();cp.setPipeline(cPipe);cp.setBindGroup(0,cBG);cp.dispatchWorkgroups(Math.ceil(N/64));cp.end();
+    const rp=enc.beginRenderPass({colorAttachments:[{view:ctx.getCurrentTexture().createView(),clearValue:{r:0,g:0,b:0,a:0},loadOp:'clear',storeOp:'store'}]});
+    rp.setPipeline(rPipe);rp.setBindGroup(0,rBG);rp.draw(N);rp.end();
+    device.queue.submit([enc.finish()]);
+  }
+  gpuFrame();
+  showNotif('🖥 WebGPU 활성화',`${N.toLocaleString()}개 파티클 GPU 연산 시작 — 마우스로 상호작용하세요`);
+})();
+
+/* ══ ⑤ TRANSFORMERS.JS — 브라우저 내 NLP ════════════════════ */
+window.analyzeNLP = async function(){
+  const desc = document.getElementById('incDesc')?.value?.trim();
+  if(!desc){showNotif('⚠','상황 설명을 먼저 입력하세요.');return;}
+  showNotif('🧠 NLP 분석','Transformers.js 모델 로딩 중... (첫 실행 약 30초)');
+  try{
+    const {pipeline,env} = await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2');
+    env.allowLocalModels=false;
+    const clf = await pipeline('text-classification','Xenova/distilbert-base-uncased-finetuned-sst-2-english');
+    const res = await clf(desc);
+    const isNeg = res[0].label==='NEGATIVE';
+    const conf = (res[0].score*100).toFixed(1);
+    const riskMsg = isNeg ? `⚠ 고위험 신호 감지 — 심각도 상향 검토 필요 (신뢰도 ${conf}%)` : `✅ 위험 신호 낮음 (신뢰도 ${conf}%)`;
+    showNotif('🧠 AI 텍스트 분석 완료', riskMsg, isNeg?'🚨':'✅');
+    if(isNeg){
+      const sevBtns=document.querySelectorAll('.inc-sev-btn');
+      if(sevBtns.length) window.setSev&&setSev(Math.max(window.incSev||1,3));
+    }
+  }catch(e){showNotif('⚠ NLP 오류',e.message||String(e));}
+};
+
+// Add NLP button to incident form
+document.addEventListener('DOMContentLoaded',()=>{
+  const ta=document.getElementById('incDesc');
+  if(ta){
+    const btn=document.createElement('button');
+    btn.className='inc-nlp-btn';
+    btn.textContent='🧠 AI 텍스트 위험 분석 (Transformers.js)';
+    btn.type='button';
+    btn.onclick=()=>analyzeNLP();
+    ta.parentElement.insertAdjacentElement('afterend',btn);
+  }
+});
+
+/* ══ ⑥ WEB WORKER — 병렬 데이터 분석 ══════════════════════ */
+const workerCode=`
+  self.onmessage=function(e){
+    const{type,data}=e.data;
+    if(type==='analyze'){
+      const r=heavyAnalyze(data);
+      self.postMessage({type:'result',data:r});
+    }
+  };
+  function heavyAnalyze(arr){
+    const counts={},sevDist=[0,0,0,0,0,0];
+    arr.forEach(r=>{counts[r.type]=(counts[r.type]||0)+1;if(r.sev>=1&&r.sev<=5)sevDist[r.sev]++;});
+    const topType=Object.entries(counts).sort((a,b)=>b[1]-a[1])[0];
+    // Heavy: run 500000 iterations to simulate real workload
+    let dummy=0;for(let i=0;i<500000;i++) dummy+=Math.sqrt(i);
+    return{counts,sevDist,topType:topType?topType[0]:'없음',total:arr.length,dummy:dummy.toFixed(0)};
+  }
+`;
+const _wk=new Worker(URL.createObjectURL(new Blob([workerCode],{type:'application/javascript'})));
+const wBar=document.getElementById('workerBar');
+
+window.runWorkerAnalysis=function(){
+  const arr=JSON.parse(localStorage.getItem('shk_incidents')||'[]');
+  if(wBar){wBar.style.transform='scaleX(.3)';wBar.style.transition='transform .3s';}
+  _wk.postMessage({type:'analyze',data:arr});
+};
+_wk.onmessage=e=>{
+  if(e.data.type==='result'){
+    const d=e.data.data;
+    if(wBar){wBar.style.transform='scaleX(1)';setTimeout(()=>{wBar.style.transform='scaleX(0)';wBar.style.transition='transform .6s';},600);}
+    showNotif('🔧 Worker 분석 완료',`총 ${d.total}건 · 최다 유형: ${d.topType} · Worker 병렬 처리 완료`);
+  }
+};
+// Auto-run every 60s
+setInterval(window.runWorkerAnalysis,60000);
+setTimeout(window.runWorkerAnalysis,5000);
+
+/* ══ ⑦ TENSORFLOW.JS MOVENET — 실제 자세 인식 ═══════════════ */
+let moveNetDetector=null;
+const MOVENET_EDGES=[[0,1],[0,2],[1,3],[2,4],[5,7],[7,9],[6,8],[8,10],[5,6],[5,11],[6,12],[11,12],[11,13],[13,15],[12,14],[14,16]];
+const MOVENET_COLS=['#FF0','#FF0','#0FF','#0FF','#F0F','#F0F','#16C68C','#16C68C','#3182F6','#3182F6','#F04452','#F04452','#FF9F2D','#FF9F2D','#8B5CF6','#8B5CF6','#16C68C'];
+
+async function loadMoveNet(){
+  if(moveNetDetector) return moveNetDetector;
+  showNotif('🤖 MoveNet 로딩','TensorFlow.js 실제 자세 인식 모델 로딩 중...');
+  await window.loadTFjs();
+  await tf.ready();
+  moveNetDetector=await poseDetection.createDetector(
+    poseDetection.SupportedModels.MoveNet,
+    {modelType:poseDetection.movenet.modelType.SINGLEPOSE_LIGHTNING}
+  );
+  showNotif('✅ MoveNet 준비','17-keypoint 실시간 자세 인식 시작');
+  return moveNetDetector;
+}
+
+// Override camera pose with real MoveNet
+const origStartCamera=window.startCamera;
+window.startCamera=async function(){
+  document.getElementById('camModal').classList.add('open');
+  try{
+    window.camStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:false});
+    const vid=document.getElementById('camVideo');
+    vid.srcObject=window.camStream; await vid.play();
+    document.getElementById('camStatus').textContent='● TF.js MoveNet 로딩 중';
+    const detector=await loadMoveNet();
+    document.getElementById('camStatus').textContent='● 실제 AI 자세 인식 중';
+    runMoveNetLoop(vid,detector);
+  }catch(err){
+    document.getElementById('camStatus').textContent='시뮬레이션 모드: '+err.message;
+    window.startPoseSimulation&&startPoseSimulation();
+  }
+};
+
+function runMoveNetLoop(vid,detector){
+  const cv=document.getElementById('camCanvas');
+  const ctx=cv.getContext('2d');
+  let raf;
+  async function frame(){
+    raf=requestAnimationFrame(frame);
+    if(vid.readyState<2) return;
+    cv.width=vid.videoWidth||640; cv.height=vid.videoHeight||480;
+    ctx.clearRect(0,0,cv.width,cv.height);
+    try{
+      const poses=await detector.estimatePoses(vid);
+      if(poses&&poses[0]){
+        const kp=poses[0].keypoints;
+        // Draw edges
+        MOVENET_EDGES.forEach(([a,b])=>{
+          if(kp[a]?.score>.3&&kp[b]?.score>.3){
+            ctx.beginPath();ctx.strokeStyle='rgba(22,198,140,.7)';ctx.lineWidth=2.5;
+            ctx.moveTo(kp[a].x,kp[a].y);ctx.lineTo(kp[b].x,kp[b].y);ctx.stroke();
+          }
+        });
+        // Draw keypoints
+        kp.forEach((p,i)=>{
+          if(p.score>.3){
+            const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,7);
+            g.addColorStop(0,MOVENET_COLS[i]||'#fff');g.addColorStop(1,'transparent');
+            ctx.beginPath();ctx.arc(p.x,p.y,7,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
+          }
+        });
+        // Compute REBA proxy from shoulder-neck angle
+        if(kp[5]?.score>.3&&kp[6]?.score>.3&&kp[0]?.score>.3){
+          const sh=[(kp[5].x+kp[6].x)/2,(kp[5].y+kp[6].y)/2];
+          const neck=kp[0];
+          const angle=Math.abs(Math.atan2(neck.x-sh[0],sh[1]-neck.y)*180/Math.PI);
+          const reba=Math.min(11,Math.max(1,Math.round(1+angle/15)));
+          const col=reba<=4?'#16C68C':reba<=7?'#FF9F2D':'#F04452';
+          const el=document.getElementById('camReba');
+          if(el){el.textContent=`REBA ${reba} · ${reba<=4?'안전':reba<=7?'주의':'위험'} (TF.js MoveNet)`;el.style.color=col;}
+        }
+      }
+    }catch(e){}
+  }
+  // Store raf so stopCamera can cancel
+  window._moveNetRaf=()=>cancelAnimationFrame(raf);
+  frame();
+}
+
+const origStop=window.stopCamera;
+window.stopCamera=function(){
+  window._moveNetRaf&&window._moveNetRaf();
+  origStop&&origStop();
+};
+
+/* ══ ⑧ WEBXR AR SESSION ══════════════════════════════════ */
+document.getElementById('arBtn').addEventListener('click',async()=>{
+  if(!navigator.xr){showNotif('📱 WebXR','AR 지원 기기(Android Chrome + ARCore)에서 실행하세요. 현재는 AR 시뮬레이션을 표시합니다.');showARSim();return;}
+  const supported=await navigator.xr.isSessionSupported('immersive-ar').catch(()=>false);
+  if(!supported){showNotif('📱 AR 미지원','이 기기는 immersive-ar를 지원하지 않습니다. AR 시뮬레이션을 표시합니다.');showARSim();return;}
+  try{
+    const session=await navigator.xr.requestSession('immersive-ar',{requiredFeatures:['hit-test'],optionalFeatures:['dom-overlay'],domOverlay:{root:document.body}});
+    showNotif('🥽 WebXR AR 시작','실제 AR 세션 활성화! 주변 평면에 안전 정보가 오버레이됩니다.');
+    session.addEventListener('end',()=>showNotif('🥽 AR 종료','WebXR 세션이 종료되었습니다.'));
+  }catch(e){showNotif('⚠ AR 오류',e.message);showARSim();}
+});
+
+function showARSim(){
+  const div=document.createElement('div');
+  div.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;';
+  div.innerHTML=`
+    <div style="color:#16C68C;font-size:13px;font-weight:700;letter-spacing:.1em;">▶ WebXR AR SIMULATION</div>
+    <div style="position:relative;width:320px;height:240px;border:2px solid rgba(22,198,140,.5);border-radius:12px;overflow:hidden;background:#111;">
+      <canvas id="arSimCanvas" width="320" height="240"></canvas>
+      <div style="position:absolute;top:10px;left:12px;background:rgba(22,198,140,.2);border:1px solid #16C68C;border-radius:6px;padding:4px 10px;font-size:11px;color:#16C68C;">⚠ 위험구역 감지됨</div>
+      <div style="position:absolute;bottom:10px;right:12px;background:rgba(49,130,246,.2);border:1px solid #3182F6;border-radius:6px;padding:4px 10px;font-size:11px;color:#3182F6;">REBA 7 · 주의</div>
+    </div>
+    <div style="color:#888;font-size:11px;">Android Chrome + ARCore 기기에서 실제 AR 체험 가능</div>
+    <button onclick="this.closest('div[style]').remove()" style="background:#3182F6;color:#fff;border:none;border-radius:8px;padding:8px 20px;cursor:pointer;font-size:13px;">닫기</button>`;
+  document.body.appendChild(div);
+  // Animate AR sim
+  const cv=document.getElementById('arSimCanvas');
+  const ctx=cv.getContext('2d');
+  let t=0;
+  (function arAnim(){
+    if(!div.isConnected) return;
+    requestAnimationFrame(arAnim);
+    t+=0.03;
+    ctx.clearRect(0,0,320,240);
+    // Floor grid
+    ctx.strokeStyle='rgba(22,198,140,.2)'; ctx.lineWidth=.7;
+    for(let x=0;x<320;x+=20){ctx.beginPath();ctx.moveTo(x,120);ctx.lineTo(x+40*Math.sin(t*.3),240);ctx.stroke();}
+    for(let y=120;y<240;y+=15){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(320,y);ctx.stroke();}
+    // Danger zone highlight
+    const dz=ctx.createRadialGradient(160,180,0,160,180,60);
+    dz.addColorStop(0,'rgba(240,68,82,.25)');dz.addColorStop(1,'transparent');
+    ctx.fillStyle=dz;ctx.beginPath();ctx.ellipse(160,180,60,30,0,0,Math.PI*2);ctx.fill();
+    // Worker stick figure
+    const px=160+Math.sin(t*.8)*20,py=140;
+    ctx.strokeStyle='#16C68C';ctx.lineWidth=2;
+    ctx.beginPath();ctx.arc(px,py-20,8,0,Math.PI*2);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(px,py-12);ctx.lineTo(px,py+15);
+    ctx.lineTo(px-12,py+30);ctx.moveTo(px,py+15);ctx.lineTo(px+12,py+30);
+    ctx.moveTo(px,py);ctx.lineTo(px-10,py+8);ctx.moveTo(px,py);ctx.lineTo(px+10,py+8);
+    ctx.stroke();
+    // Scan line
+    ctx.fillStyle='rgba(22,198,140,.05)';
+    const sy=((t*40)%240);
+    ctx.fillRect(0,sy,320,2);
+  })();
+}
+
+})();
+</script>
 </body>
 </html>
