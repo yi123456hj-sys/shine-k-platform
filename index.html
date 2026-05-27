@@ -701,6 +701,316 @@ footer{padding:60px 0 36px;text-align:center;background:#fff;border-top:1px soli
 .xr-stat .v{font-size:1.5rem;font-weight:900;letter-spacing:-1px;font-variant-numeric:tabular-nums;line-height:1}
 .xr-stat .l{font-size:.7rem;color:var(--ink-3);margin-top:8px;font-weight:600;letter-spacing:-.01em}
 [data-theme="dark"] .xr-stat{background:var(--card)}
+
+/* ============================================================
+   SHINE-K UNIQUE VISUAL IDENTITY — 독특한 풍미
+   ============================================================ */
+
+/* ── Brand tokens ── */
+:root{
+  --shk-a:#3182F6;--shk-b:#16C68C;--shk-m:#00C4A7;
+  --shk-grad:linear-gradient(135deg,#3182F6 0%,#00C4A7 50%,#16C68C 100%);
+  --shk-grad-t:linear-gradient(90deg,#3182F6,#16C68C);
+  --shk-glow-a:rgba(49,130,246,.40);--shk-glow-g:rgba(22,198,140,.35);
+}
+
+/* ── Universal animated gradient text (.accent appears 17+ times) ── */
+@keyframes gradShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.accent,.hero h1 .grad,.compare-item .reg{
+  background:linear-gradient(90deg,#3182F6,#00C4A7,#16C68C,#3182F6);
+  background-size:300% 100%;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:gradShift 6s ease-in-out infinite;
+}
+
+/* ── Hero: moving aurora background ── */
+.hero{overflow:hidden}
+.hero::before{
+  content:"";position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 900px 700px at 80% -5%,rgba(49,130,246,.13),transparent 60%),
+    radial-gradient(ellipse 700px 600px at 10% 105%,rgba(22,198,140,.10),transparent 55%),
+    radial-gradient(ellipse 500px 500px at 50% 55%,rgba(139,92,246,.07),transparent 60%),
+    radial-gradient(ellipse 600px 400px at -5% 50%,rgba(0,196,167,.06),transparent 60%);
+  animation:auroraFloat 14s ease-in-out infinite alternate;
+  pointer-events:none;
+}
+@keyframes auroraFloat{
+  0%  {transform:translate(0,0)   scale(1)   rotate(0deg)}
+  33% {transform:translate(30px,-20px) scale(1.04) rotate(.5deg)}
+  66% {transform:translate(-20px,15px) scale(.97) rotate(-.3deg)}
+  100%{transform:translate(10px,-10px) scale(1.02) rotate(.2deg)}
+}
+
+/* ── Logo mark: signature gradient ── */
+.logo-mark{
+  background:linear-gradient(135deg,#3182F6,#00C4A7,#16C68C) !important;
+  background-size:200% 200% !important;
+  animation:gradShift 5s ease-in-out infinite !important;
+  box-shadow:0 4px 18px rgba(49,130,246,.40) !important;
+}
+
+/* ── Hero eyebrow: glassmorphism pill ── */
+.hero-eyebrow{
+  background:rgba(255,255,255,.82) !important;
+  backdrop-filter:blur(14px) saturate(160%);
+  -webkit-backdrop-filter:blur(14px) saturate(160%);
+  border-color:rgba(49,130,246,.18) !important;
+  box-shadow:0 2px 24px rgba(49,130,246,.13),var(--shadow-sm) !important;
+}
+.hero-eyebrow .badge{
+  background:linear-gradient(90deg,#3182F6,#16C68C) !important;
+  background-size:200% !important;
+  animation:gradShift 4s ease-in-out infinite !important;
+}
+
+/* ── Hero stats: glassmorphism ── */
+.hero-stat{
+  background:rgba(255,255,255,.72) !important;
+  backdrop-filter:blur(18px) saturate(180%);
+  -webkit-backdrop-filter:blur(18px) saturate(180%);
+  border:1px solid rgba(255,255,255,.75) !important;
+  box-shadow:0 4px 28px rgba(49,130,246,.09) !important;
+}
+.hero-stat:hover{
+  background:rgba(255,255,255,.92) !important;
+  border-color:rgba(49,130,246,.28) !important;
+  box-shadow:0 10px 36px rgba(49,130,246,.20) !important;
+}
+.hero-stat .num{
+  background:linear-gradient(90deg,#1B64DA,#16C68C);
+  background-size:200%;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:gradShift 6s ease-in-out infinite;
+}
+
+/* ── Crisis numbers: red neon glow ── */
+.crisis-card .stat{
+  text-shadow:0 0 20px rgba(240,68,82,.45),0 0 48px rgba(240,68,82,.20);
+}
+.crisis-card:hover{box-shadow:0 10px 36px rgba(240,68,82,.16) !important}
+
+/* ── Nav CTA: gradient ── */
+.nav-cta{
+  background:linear-gradient(90deg,#3182F6,#16C68C) !important;
+  background-size:200% !important;
+  animation:gradShift 5s ease-in-out infinite !important;
+  box-shadow:0 4px 16px rgba(49,130,246,.30) !important;
+}
+.nav-cta:hover{box-shadow:0 8px 28px rgba(49,130,246,.45) !important}
+
+/* ── Section label: brand line ── */
+.sec-label::before{background:linear-gradient(90deg,#3182F6,#16C68C) !important;width:28px !important;height:2px !important}
+
+/* ── Buttons ── */
+.btn-primary{
+  background:linear-gradient(90deg,#3182F6,#16C68C) !important;
+  background-size:200% !important;
+  animation:gradShift 5s ease-in-out infinite !important;
+  box-shadow:0 8px 26px rgba(49,130,246,.28) !important;
+}
+.btn-primary:hover{box-shadow:0 14px 36px rgba(49,130,246,.45) !important;transform:translateY(-2px)}
+.btn-fill{
+  background:var(--ink) !important;
+  position:relative;overflow:hidden;
+  transition:.25s var(--ease) !important;
+}
+.btn-fill::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;
+  background:linear-gradient(90deg,#3182F6,#16C68C);
+  opacity:0;transition:opacity .3s;
+}
+.btn-fill:hover::after{opacity:1}
+
+/* ── Back to top: gradient ── */
+#backToTop{
+  background:linear-gradient(135deg,#3182F6,#16C68C) !important;
+  box-shadow:0 8px 26px rgba(49,130,246,.40) !important;
+}
+
+/* ── Tech cells: vivid hover glow + per-color shadow ── */
+.tech-cell{position:relative;overflow:hidden}
+.tech-cell::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;
+  background:radial-gradient(circle at 50% 50%,rgba(49,130,246,.09),transparent 70%);
+  opacity:0;transition:opacity .3s;
+}
+.tech-cell:hover::after{opacity:1}
+.tech-cell:hover::before{opacity:1 !important}
+.tech-cell:nth-child(1):hover{box-shadow:0 10px 36px rgba(139,92,246,.22) !important}
+.tech-cell:nth-child(2):hover{box-shadow:0 10px 36px rgba(22,198,140,.22) !important}
+.tech-cell:nth-child(3):hover{box-shadow:0 10px 36px rgba(49,130,246,.22) !important}
+.tech-cell:nth-child(4):hover{box-shadow:0 10px 36px rgba(255,159,45,.22) !important}
+.tech-cell:nth-child(5):hover{box-shadow:0 10px 36px rgba(240,68,82,.22) !important}
+.tech-cell:nth-child(6):hover{box-shadow:0 10px 36px rgba(15,168,184,.22) !important}
+.tech-cell:nth-child(7):hover{box-shadow:0 10px 36px rgba(255,107,157,.22) !important}
+
+/* ── Phase cards: colored left border strip ── */
+.phase{border-left:3px solid transparent !important;transition:.3s var(--ease) !important}
+.phase.sense{border-left-color:var(--p) !important}
+.phase.judge{border-left-color:var(--w) !important}
+.phase.act  {border-left-color:var(--g) !important}
+.phase.connect{border-left-color:var(--r) !important}
+.phase:hover{box-shadow:var(--shadow) !important;transform:translateY(-3px)}
+
+/* ── Live dot: stronger neon pulse ── */
+.live-dot{
+  box-shadow:0 0 0 0 rgba(22,198,140,.7) !important;
+  animation:livePulse 1.8s ease-out infinite !important;
+}
+@keyframes livePulse{
+  0%  {box-shadow:0 0 0 0 rgba(22,198,140,.7)}
+  70% {box-shadow:0 0 0 12px rgba(22,198,140,0)}
+  100%{box-shadow:0 0 0 0 rgba(22,198,140,0)}
+}
+
+/* ── Killer quote: gradient border ── */
+.killer-use{
+  background:linear-gradient(135deg,rgba(49,130,246,.07),rgba(22,198,140,.06)) !important;
+  border:1px solid rgba(49,130,246,.16) !important;
+}
+.killer-quote{border-left:4px solid #3182F6 !important}
+.killer-quote b{
+  background:linear-gradient(90deg,#3182F6,#16C68C);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+/* ── Impact card numbers: gradient ── */
+.impact-card .v{
+  background:linear-gradient(90deg,#3182F6,#16C68C);
+  background-size:200%;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:gradShift 6s ease-in-out infinite;
+}
+
+/* ── Roadmap timeline: animated gradient line ── */
+.roadmap::before{
+  background:linear-gradient(90deg,#3182F6,#8B5CF6,#F04452,#16C68C) !important;
+  background-size:300% 100% !important;
+  animation:gradShift 4s linear infinite !important;
+}
+
+/* ── Section dot-grid background pattern ── */
+section:not(.cta){
+  position:relative;
+}
+section:nth-child(odd)::after{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:radial-gradient(circle,rgba(49,130,246,.035) 1px,transparent 1px);
+  background-size:30px 30px;
+}
+section > .container{position:relative;z-index:1}
+
+/* ── CTA section: dramatic dark gradient ── */
+section.cta{
+  background:linear-gradient(135deg,#0C1A36 0%,#0A1A14 100%) !important;
+  position:relative;overflow:hidden;
+}
+section.cta::before{
+  content:"";position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 700px 500px at 20% 50%,rgba(49,130,246,.18),transparent 65%),
+    radial-gradient(ellipse 600px 500px at 80% 50%,rgba(22,198,140,.14),transparent 65%);
+  animation:auroraFloat 10s ease-in-out infinite alternate;
+}
+section.cta > .container{position:relative;z-index:1}
+section.cta h2,section.cta p{color:rgba(255,255,255,.92) !important}
+
+/* ── Footer: brand gradient top border ── */
+footer{
+  position:relative;
+  border-top:none !important;
+}
+footer::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,#3182F6,#00C4A7,#16C68C);
+  background-size:200%;animation:gradShift 5s linear infinite;
+}
+
+/* ── Scroll progress bar: brand gradient ── */
+#progressBar{
+  background:linear-gradient(90deg,#3182F6,#00C4A7,#16C68C) !important;
+  background-size:200% !important;
+  animation:gradShift 3s linear infinite !important;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#3182F6,#16C68C);border-radius:10px}
+
+/* ── Active nav links: gradient text ── */
+.nav-links a.active-nav{
+  background:linear-gradient(90deg,#3182F6,#16C68C);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+/* ── MC tab active: gradient ── */
+.mc-tab.active{
+  background:linear-gradient(90deg,#3182F6,#16C68C) !important;
+  border-color:transparent !important;
+}
+
+/* ── Compete table "us" column: gradient header ── */
+.compete-table thead th.us{
+  background:linear-gradient(135deg,#3182F6,#16C68C) !important;
+}
+.compete-table td.us{background:rgba(22,198,140,.08) !important}
+
+/* ── XR enter button: gradient ── */
+.xr-enter button{
+  background:linear-gradient(135deg,#3182F6,#16C68C) !important;
+  box-shadow:0 8px 28px rgba(49,130,246,.40) !important;
+}
+
+/* ── Ticker bold numbers: gradient ── */
+.ticker-item b{
+  background:linear-gradient(90deg,#3182F6,#16C68C);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+/* ── Hero scroll line: gradient ── */
+.hero-scroll i::after{background:linear-gradient(180deg,#3182F6,#16C68C) !important}
+
+/* ── Card hover: subtle glow ── */
+.card:hover,.crisis-card:hover,.tech-cell:hover,.scenario:hover,
+.health-card:hover,.roadmap-step:hover,.impact-card:hover,.liveai-card:hover{
+  box-shadow:0 12px 36px rgba(49,130,246,.14) !important;
+}
+
+/* ── Dark mode overrides for gradient text ── */
+[data-theme="dark"] .accent,
+[data-theme="dark"] .hero h1 .grad{
+  background:linear-gradient(90deg,#4DABF7,#00C4A7,#16C68C,#4DABF7);
+  background-size:300% 100%;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:gradShift 6s ease-in-out infinite;
+}
+[data-theme="dark"] .hero-stat{
+  background:rgba(26,32,53,.85) !important;
+  border-color:rgba(49,130,246,.25) !important;
+}
+[data-theme="dark"] .hero-eyebrow{
+  background:rgba(26,32,53,.82) !important;
+}
+[data-theme="dark"] .hero-stat .num{
+  background:linear-gradient(90deg,#4DABF7,#16C68C);
+  background-size:200%;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:gradShift 6s ease-in-out infinite;
+}
+[data-theme="dark"] section.cta{background:linear-gradient(135deg,#0A0F1E,#080F0A) !important}
+[data-theme="dark"] .compare-item .reg{
+  background:linear-gradient(90deg,#4DABF7,#16C68C);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+[data-theme="dark"] .impact-card .v{
+  background:linear-gradient(90deg,#4DABF7,#16C68C);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
 </style>
 </head>
 <body>
