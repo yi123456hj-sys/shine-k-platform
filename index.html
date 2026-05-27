@@ -2980,5 +2980,283 @@ document.addEventListener('keydown', e => {
 })();
 </script>
 
+
+<!-- ============================================================
+     SHINE-K PREMIUM INTERACTIONS v2 — 독특한 풍미
+     ① Custom cursor  ② 3D card tilt  ③ Counter-up
+     ④ Text scramble  ⑤ Magnetic buttons  ⑥ Floating chips  ⑦ Section watermarks
+     ============================================================ -->
+<style>
+/* ── Custom cursor ── */
+body { cursor: none !important; }
+* { cursor: inherit !important; }
+.shk-cur-o,.shk-cur-i{position:fixed;pointer-events:none;border-radius:50%;transform:translate(-50%,-50%);will-change:transform,left,top;z-index:99999;opacity:0}
+.shk-cur-o{width:36px;height:36px;border:1.5px solid rgba(49,130,246,.55);transition:width .2s,height .2s,border-color .2s,background .2s,opacity .3s}
+.shk-cur-i{width:7px;height:7px;background:linear-gradient(135deg,#3182F6,#16C68C);transition:transform .12s,opacity .3s}
+.shk-cur-o.big{width:54px;height:54px;border-color:rgba(22,198,140,.5);background:rgba(22,198,140,.06)}
+.shk-cur-o.click{width:22px;height:22px;background:rgba(49,130,246,.12)}
+@media(hover:none){body{cursor:auto!important}.shk-cur-o,.shk-cur-i{display:none}}
+
+/* ── Hero grain (film texture) ── */
+.hero-grain{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.04;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px 180px}
+
+/* ── Floating hero tech chips ── */
+.hero-float-chip{position:absolute;background:rgba(255,255,255,.75);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(49,130,246,.15);border-radius:50px;padding:5px 14px;font-size:.62rem;font-weight:700;color:var(--ink-3);pointer-events:none;white-space:nowrap;font-family:var(--mono);letter-spacing:.5px;z-index:1}
+@keyframes cf1{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-13px) rotate(1.2deg)}}
+@keyframes cf2{0%,100%{transform:translateY(0) rotate(1.2deg)}50%{transform:translateY(-18px) rotate(-1deg)}}
+@keyframes cf3{0%,100%{transform:translateY(0) rotate(.5deg)}50%{transform:translateY(-9px) rotate(-1.8deg)}}
+@keyframes cf4{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-22px) rotate(.8deg)}}
+@media(max-width:900px){.hero-float-chip{display:none}}
+[data-theme="dark"] .hero-float-chip{background:rgba(26,32,53,.80);border-color:rgba(49,130,246,.25);color:var(--ink-3)}
+
+/* ── Section big number watermark ── */
+.sec-num-bg{position:absolute;top:-14px;right:0;font-size:clamp(5rem,10vw,9rem);font-weight:900;color:transparent;-webkit-text-stroke:1.5px rgba(49,130,246,.055);line-height:1;letter-spacing:-4px;pointer-events:none;font-family:var(--mono);user-select:none;z-index:0;overflow:hidden}
+[data-theme="dark"] .sec-num-bg{-webkit-text-stroke-color:rgba(77,171,247,.08)}
+
+/* ── Scramble text char ── */
+.sc-char{display:inline-block;color:inherit}
+
+/* ── Magnetic btn wrapper ── */
+.mag-wrap{display:contents}
+
+/* ── Agent phase flow: animated connecting SVG ── */
+.phase-flow{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:visible}
+.flow-path{fill:none;stroke-width:1.5;stroke-dasharray:6 4;opacity:.4;animation:dashFlow 3s linear infinite}
+@keyframes dashFlow{to{stroke-dashoffset:-100}}
+
+/* ── Typing cursor ── */
+.tw-blink{display:inline-block;width:2px;height:1.1em;background:currentColor;vertical-align:middle;margin-left:2px;animation:twBlink 1s step-end infinite;opacity:.7}
+@keyframes twBlink{0%,100%{opacity:.7}50%{opacity:0}}
+</style>
+
+<script>
+(function shkPremium(){
+  'use strict';
+  if(window.matchMedia('(hover:none)').matches) return; // skip touch devices
+
+  /* ═══════════════════════════════════════════════
+     ① CUSTOM CURSOR
+  ═══════════════════════════════════════════════ */
+  const oEl=document.createElement('div'), iEl=document.createElement('div');
+  oEl.className='shk-cur-o'; iEl.className='shk-cur-i';
+  document.body.append(oEl,iEl);
+
+  let mx=window.innerWidth/2,my=window.innerHeight/2,ox=mx,oy=my,visible=false;
+
+  window.addEventListener('mousemove',e=>{
+    mx=e.clientX; my=e.clientY;
+    if(!visible){ visible=true; oEl.style.opacity='1'; iEl.style.opacity='1'; }
+    iEl.style.left=mx+'px'; iEl.style.top=my+'px';
+  });
+  window.addEventListener('mousedown',()=>oEl.classList.add('click'));
+  window.addEventListener('mouseup',()=>oEl.classList.remove('click'));
+  document.addEventListener('mouseleave',()=>{oEl.style.opacity='0';iEl.style.opacity='0'});
+  document.addEventListener('mouseenter',()=>{if(visible){oEl.style.opacity='1';iEl.style.opacity='1'}});
+
+  (function loop(){
+    ox+=(mx-ox)*0.10; oy+=(my-oy)*0.10;
+    oEl.style.left=ox+'px'; oEl.style.top=oy+'px';
+    requestAnimationFrame(loop);
+  })();
+
+  ['a','button','.card','.tech-cell','.scenario','.crisis-card','.hero-stat','.roadmap-step','.mc-tab','.compete-table td'].forEach(s=>{
+    document.querySelectorAll(s).forEach(el=>{
+      el.addEventListener('mouseenter',()=>oEl.classList.add('big'));
+      el.addEventListener('mouseleave',()=>oEl.classList.remove('big'));
+    });
+  });
+
+  /* ═══════════════════════════════════════════════
+     ② 3D CARD TILT
+  ═══════════════════════════════════════════════ */
+  document.querySelectorAll('.hero-stat,.tech-cell,.crisis-card,.scenario,.impact-card,.liveai-card,.roadmap-step,.strategy-card').forEach(card=>{
+    card.addEventListener('mousemove',e=>{
+      const r=card.getBoundingClientRect();
+      const x=((e.clientX-r.left)/r.width -.5)*14;
+      const y=((e.clientY-r.top) /r.height-.5)*14;
+      card.style.transform=`perspective(680px) rotateY(${x}deg) rotateX(${-y}deg) translateZ(12px)`;
+      card.style.transition='transform .05s';
+    });
+    card.addEventListener('mouseleave',()=>{
+      card.style.transform='';
+      card.style.transition='transform .5s cubic-bezier(.16,1,.3,1)';
+    });
+  });
+
+  /* ═══════════════════════════════════════════════
+     ③ COUNTER-UP ANIMATION
+  ═══════════════════════════════════════════════ */
+  function animCount(el){
+    const raw=el.textContent.trim();
+    const m=raw.match(/([\d,]+\.?\d*)/);
+    if(!m) return;
+    const num=parseFloat(m[1].replace(/,/g,''));
+    const pre=raw.slice(0,raw.indexOf(m[1]));
+    const post=raw.slice(raw.indexOf(m[1])+m[1].length);
+    const dec=m[1].includes('.')?m[1].split('.')[1].length:0;
+    const dur=1500, t0=performance.now();
+    (function step(now){
+      const p=Math.min((now-t0)/dur,1);
+      const e2=1-Math.pow(1-p,3);
+      const v=num*e2;
+      el.textContent=pre+(dec>0?v.toFixed(dec):Math.round(v).toLocaleString())+post;
+      if(p<1) requestAnimationFrame(step);
+    })(t0);
+  }
+  const cObs=new IntersectionObserver((entries,obs)=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting)return;
+      obs.unobserve(e.target);
+      animCount(e.target);
+    });
+  },{threshold:.65});
+  document.querySelectorAll('.crisis-card .stat,.hero-stat .num,.impact-card .v,.preview-stat .v').forEach(el=>{
+    if(!/\d/.test(el.textContent))return;
+    cObs.observe(el);
+  });
+
+  /* ═══════════════════════════════════════════════
+     ④ TEXT SCRAMBLE — hero h1 lines
+  ═══════════════════════════════════════════════ */
+  const SCRAMBLE_CHARS='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#@$안전근로자보호경북구미';
+  function scramble(el,finalText,delay){
+    const total=32;let frame=0;
+    setTimeout(()=>{
+      const iv=setInterval(()=>{
+        el.textContent=finalText.split('').map((ch,i)=>{
+          if(ch===' ')return ' ';
+          if(frame/total>i/finalText.length*1.35)return ch;
+          return SCRAMBLE_CHARS[Math.floor(Math.random()*SCRAMBLE_CHARS.length)];
+        }).join('');
+        if(++frame>total){el.textContent=finalText;clearInterval(iv);}
+      },38);
+    },delay);
+  }
+  setTimeout(()=>{
+    document.querySelectorAll('.hero h1 [data-i18n]').forEach((el,i)=>{
+      scramble(el,el.textContent,i*350+100);
+    });
+  },2300);
+
+  /* ═══════════════════════════════════════════════
+     ⑤ MAGNETIC BUTTONS
+  ═══════════════════════════════════════════════ */
+  document.querySelectorAll('.btn-primary,.btn-fill,.nav-cta').forEach(btn=>{
+    btn.addEventListener('mousemove',e=>{
+      const r=btn.getBoundingClientRect();
+      const x=e.clientX-r.left-r.width/2;
+      const y=e.clientY-r.top-r.height/2;
+      btn.style.transform=`translate(${x*.2}px,${y*.2}px)`;
+      btn.style.transition='transform .08s';
+    });
+    btn.addEventListener('mouseleave',()=>{
+      btn.style.transform='';
+      btn.style.transition='transform .6s cubic-bezier(.16,1,.3,1)';
+    });
+  });
+
+  /* ═══════════════════════════════════════════════
+     ⑥ FLOATING TECH CHIPS in hero
+  ═══════════════════════════════════════════════ */
+  const hero=document.querySelector('.hero');
+  if(hero){
+    [
+      {t:'MediaPipe·33pts', x:'72%',y:'20%',a:'cf1',d:'0s',  dur:'7s' },
+      {t:'mmWave 60GHz',    x:'78%',y:'40%',a:'cf2',d:'.9s', dur:'9s' },
+      {t:'BLE 5.0 <50ms',  x:'64%',y:'62%',a:'cf3',d:'1.5s',dur:'8s' },
+      {t:'REBA r=0.89',    x:'82%',y:'30%',a:'cf4',d:'.4s', dur:'11s'},
+      {t:'119 Auto ⚡<10s', x:'70%',y:'76%',a:'cf1',d:'2.1s',dur:'10s'},
+      {t:'Triple Verify ✓', x:'87%',y:'56%',a:'cf2',d:'1.1s',dur:'8.5s'},
+      {t:'ZK·Blockchain',   x:'61%',y:'48%',a:'cf3',d:'1.8s',dur:'9.5s'},
+    ].forEach(c=>{
+      const el=document.createElement('div');
+      el.className='hero-float-chip';
+      el.textContent=c.t;
+      el.style.cssText=`left:${c.x};top:${c.y};animation:${c.a} ${c.dur} ease-in-out ${c.d} infinite`;
+      hero.appendChild(el);
+    });
+  }
+
+  /* ═══════════════════════════════════════════════
+     ⑦ SECTION NUMBER WATERMARKS
+  ═══════════════════════════════════════════════ */
+  document.querySelectorAll('section:not(.cta)').forEach((sec,i)=>{
+    const el=document.createElement('div');
+    el.className='sec-num-bg';
+    el.textContent=String(i+1).padStart(2,'0');
+    el.setAttribute('aria-hidden','true');
+    if(!sec.style.position||sec.style.position==='static') sec.style.position='relative';
+    sec.insertBefore(el,sec.firstChild);
+  });
+
+  /* ═══════════════════════════════════════════════
+     ⑧ HERO FILM GRAIN overlay
+  ═══════════════════════════════════════════════ */
+  if(hero){
+    const g=document.createElement('div');
+    g.className='hero-grain';g.setAttribute('aria-hidden','true');
+    hero.appendChild(g);
+  }
+
+  /* ═══════════════════════════════════════════════
+     ⑨ KILLER QUOTE TYPEWRITER (on scroll into view)
+  ═══════════════════════════════════════════════ */
+  const kq=document.querySelector('.killer-quote');
+  if(kq){
+    const orig=kq.innerHTML;
+    let played=false;
+    new IntersectionObserver(([e],obs)=>{
+      if(!e.isIntersecting||played)return;
+      played=true;obs.disconnect();
+      kq.innerHTML='';
+      const temp=document.createElement('div');
+      temp.innerHTML=orig;
+      const text=temp.textContent;
+      let i=0;
+      const cur=document.createElement('span');
+      cur.className='tw-blink';
+      kq.appendChild(cur);
+      const iv=setInterval(()=>{
+        const ch=text[i++];
+        if(ch===undefined){clearInterval(iv);cur.remove();kq.innerHTML=orig;return;}
+        cur.before(document.createTextNode(ch));
+      },28);
+    },{threshold:.7}).observe(kq);
+  }
+
+  /* ═══════════════════════════════════════════════
+     ⑩ AGENT PHASE: animated SVG flow connectors
+  ═══════════════════════════════════════════════ */
+  const phases=document.querySelector('.agent-phases');
+  if(phases && window.innerWidth>=1280){
+    phases.style.position='relative';
+    const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('class','phase-flow');
+    svg.setAttribute('aria-hidden','true');
+    phases.appendChild(svg);
+    const cols=['#8B5CF6','#FF9F2D','#16C68C'];
+    const cards=[...phases.querySelectorAll('.phase')];
+    requestAnimationFrame(()=>{
+      for(let i=0;i<cards.length-1;i++){
+        const a=cards[i].getBoundingClientRect();
+        const b=cards[i+1].getBoundingClientRect();
+        const pr=phases.getBoundingClientRect();
+        const x1=a.right-pr.left, y1=a.top+a.height/2-pr.top;
+        const x2=b.left -pr.left, y2=b.top+b.height/2-pr.top;
+        const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+        const mx=(x1+x2)/2;
+        path.setAttribute('d',`M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`);
+        path.setAttribute('class','flow-path');
+        path.setAttribute('stroke',cols[i]);
+        path.style.animationDelay=`${i*-.8}s`;
+        svg.appendChild(path);
+      }
+    });
+  }
+
+})();
+</script>
 </body>
 </html>
