@@ -2782,40 +2782,99 @@ document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el))
       machineMeshes.push(mesh);
     });
 
-    /* ── Workers (capsule-style stick figures) ── */
-    function makeWorker(x, z, status){ // status: 'safe'|'caution'|'danger'
-      const col = status==='safe'?0x16C68C : status==='caution'?0xFF9F2D : 0xFF4444;
-      const group = new T.Group();
-      group.position.set(x, 0, z);
-      // body
-      const body = new T.Mesh(new T.CylinderGeometry(0.22,0.22,1.1,8), new T.MeshLambertMaterial({color:col, emissive:col, emissiveIntensity:0.3}));
-      body.position.y = 1.05; body.castShadow = true; group.add(body);
-      // head
-      const head = new T.Mesh(new T.SphereGeometry(0.28,12,8), new T.MeshLambertMaterial({color:0xffd6aa}));
-      head.position.y = 1.9; head.castShadow = true; group.add(head);
-      // helmet
-      const helmet = new T.Mesh(new T.SphereGeometry(0.32,12,6,0,Math.PI*2,0,Math.PI/2), new T.MeshLambertMaterial({color:col}));
-      helmet.position.y = 1.9; group.add(helmet);
-      // legs
-      [-0.14, 0.14].forEach(dx=>{
-        const leg = new T.Mesh(new T.CylinderGeometry(0.1,0.1,0.9,6), new T.MeshLambertMaterial({color:0x2d3748}));
-        leg.position.set(dx,0.45,0); group.add(leg);
-      });
-      // status halo
-      const halo = new T.Mesh(new T.RingGeometry(0.4,0.55,20), new T.MeshBasicMaterial({color:col, transparent:true, opacity:0.6, side:T.DoubleSide}));
-      halo.rotation.x = -Math.PI/2; halo.position.y = 0.02; group.add(halo);
-      group.userData = {status, baseY:0, speed:0.3+Math.random()*0.3, phase:Math.random()*Math.PI*2, halo, body, col};
-      scene.add(group);
-      return group;
+    /* ── Workers (realistic humanoid models) ── */
+    function makeWorker(x, z, status){
+      const col    = status==='safe'?0x16C68C : status==='caution'?0xFF9F2D : 0xFF4444;
+      const skin   = 0xF5B87A;
+      const pants  = 0x1E3A5F;
+      const boots  = 0x111827;
+      const shirt  = 0x334155;
+
+      const g = new T.Group();
+      g.position.set(x, 0, z);
+
+      function part(geo, color, ei=0){
+        const m=new T.Mesh(geo, new T.MeshLambertMaterial({color, emissive:color, emissiveIntensity:ei}));
+        m.castShadow=true; return m;
+      }
+
+      /* ── FEET / BOOTS ── */
+      const bL=part(new T.BoxGeometry(.18,.13,.34), boots); bL.position.set(-.11,.065,.04); g.add(bL);
+      const bR=part(new T.BoxGeometry(.18,.13,.34), boots); bR.position.set(.11,.065,.04);  g.add(bR);
+
+      /* ── LEGS with pivot groups for animation ── */
+      // Left leg group — pivot at hip joint
+      const legLGrp=new T.Group(); legLGrp.position.set(-.12, .95, 0);
+      const llUpper=part(new T.CylinderGeometry(.095,.085,.42,8), pants); llUpper.position.y=-.21; legLGrp.add(llUpper);
+      const llLower=part(new T.CylinderGeometry(.08,.075,.40,8), pants);  llLower.position.y=-.65; legLGrp.add(llLower);
+      g.add(legLGrp);
+
+      // Right leg group
+      const legRGrp=new T.Group(); legRGrp.position.set(.12, .95, 0);
+      const rlUpper=part(new T.CylinderGeometry(.095,.085,.42,8), pants); rlUpper.position.y=-.21; legRGrp.add(rlUpper);
+      const rlLower=part(new T.CylinderGeometry(.08,.075,.40,8), pants);  rlLower.position.y=-.65; legRGrp.add(rlLower);
+      g.add(legRGrp);
+
+      /* ── HIPS ── */
+      const hips=part(new T.BoxGeometry(.40,.13,.22), pants); hips.position.y=.97; g.add(hips);
+
+      /* ── TORSO ── */
+      const torso=part(new T.BoxGeometry(.36,.44,.20), shirt); torso.position.y=1.22; g.add(torso);
+
+      /* ── SAFETY VEST (hi-vis overlay) ── */
+      const vest=part(new T.BoxGeometry(.38,.42,.21), col, .25); vest.position.y=1.22; g.add(vest);
+      // Reflective strip
+      const strip=part(new T.BoxGeometry(.40,.04,.22), 0xFFFFFF, .4); strip.position.y=1.10; g.add(strip);
+
+      /* ── NECK ── */
+      const neck=part(new T.CylinderGeometry(.07,.08,.10,8), skin); neck.position.y=1.50; g.add(neck);
+
+      /* ── HEAD ── */
+      const head=part(new T.SphereGeometry(.185,14,10), skin); head.position.y=1.72; g.add(head);
+      // Face details
+      const faceL=part(new T.SphereGeometry(.03,6,6), 0x3d2b1f); faceL.position.set(-.065,1.74,.16); g.add(faceL);
+      const faceR=part(new T.SphereGeometry(.03,6,6), 0x3d2b1f); faceR.position.set(.065,1.74,.16);  g.add(faceR);
+
+      /* ── HARD HAT ── */
+      const hatDome=part(new T.SphereGeometry(.21,14,8,0,Math.PI*2,0,Math.PI*.52), col, .3);
+      hatDome.position.y=1.72; g.add(hatDome);
+      const hatBrim=new T.Mesh(new T.CylinderGeometry(.28,.28,.025,20,1,true),
+        new T.MeshLambertMaterial({color:col, side:T.DoubleSide}));
+      hatBrim.position.y=1.625; g.add(hatBrim);
+
+      /* ── ARMS with pivot groups ── */
+      // Left arm
+      const armLGrp=new T.Group(); armLGrp.position.set(-.22,1.44,0);
+      const aluL=part(new T.CylinderGeometry(.068,.062,.30,8), shirt);  aluL.position.y=-.15; armLGrp.add(aluL);
+      const allL=part(new T.CylinderGeometry(.057,.052,.26,8), skin);   allL.position.y=-.44; armLGrp.add(allL);
+      const handL=part(new T.SphereGeometry(.065,8,6), skin); handL.position.y=-.60; armLGrp.add(handL);
+      g.add(armLGrp);
+
+      // Right arm
+      const armRGrp=new T.Group(); armRGrp.position.set(.22,1.44,0);
+      const aluR=part(new T.CylinderGeometry(.068,.062,.30,8), shirt);  aluR.position.y=-.15; armRGrp.add(aluR);
+      const allR=part(new T.CylinderGeometry(.057,.052,.26,8), skin);   allR.position.y=-.44; armRGrp.add(allR);
+      const handR=part(new T.SphereGeometry(.065,8,6), skin); handR.position.y=-.60; armRGrp.add(handR);
+      g.add(armRGrp);
+
+      /* ── STATUS HALO ── */
+      const halo=new T.Mesh(new T.RingGeometry(.38,.52,28),
+        new T.MeshBasicMaterial({color:col, transparent:true, opacity:.5, side:T.DoubleSide, depthWrite:false}));
+      halo.rotation.x=-Math.PI/2; halo.position.y=.01; g.add(halo);
+
+      g.userData={status, col, halo, armLGrp, armRGrp, legLGrp, legRGrp, bL, bR,
+        speed:.28+Math.random()*.25, phase:Math.random()*Math.PI*2};
+      scene.add(g);
+      return g;
     }
 
     const workers = [
-      makeWorker(-7, 1, 'safe'),
-      makeWorker(-2, 2, 'caution'),
-      makeWorker(2, -2, 'safe'),
-      makeWorker(6, 1, 'danger'),
-      makeWorker(-4, -4, 'safe'),
-      makeWorker(1, 4, 'caution'),
+      makeWorker(-7,  1,  'safe'),
+      makeWorker(-2,  2,  'caution'),
+      makeWorker( 2, -2,  'safe'),
+      makeWorker( 6,  1,  'danger'),
+      makeWorker(-4, -4,  'safe'),
+      makeWorker( 1,  4,  'caution'),
     ];
 
     /* ── Danger Zones ── */
@@ -2957,14 +3016,31 @@ document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el))
       );
       camera.lookAt(0, 2, 0);
 
-      // Workers walk
+      // Workers — full humanoid walk cycle
       workers.forEach((w,i)=>{
-        const {speed,phase,halo,col}=w.userData;
-        w.position.x += Math.sin(t*speed+phase)*0.015;
-        w.position.z += Math.cos(t*speed*0.7+phase)*0.012;
-        w.position.x = Math.max(-14, Math.min(14, w.position.x));
-        w.position.z = Math.max(-10, Math.min(8, w.position.z));
-        halo.material.opacity = 0.4+0.3*Math.sin(t*2+i);
+        const {speed,phase,halo,armLGrp,armRGrp,legLGrp,legRGrp,bL,bR}=w.userData;
+        // Position update
+        const dx=Math.sin(t*speed+phase)*.016;
+        const dz=Math.cos(t*speed*.7+phase)*.013;
+        w.position.x=Math.max(-13,Math.min(13, w.position.x+dx));
+        w.position.z=Math.max(-9, Math.min(7,  w.position.z+dz));
+        // Face movement direction
+        if(Math.abs(dx)+Math.abs(dz)>.0005) w.rotation.y=Math.atan2(dx,dz);
+        // Walk cycle
+        const wc=t*speed*4;
+        const sw=Math.sin(wc)*.38;
+        armLGrp.rotation.x = sw;   armRGrp.rotation.x =-sw;
+        legLGrp.rotation.x =-sw*.7; legRGrp.rotation.x = sw*.7;
+        // Slight arm sway side
+        armLGrp.rotation.z = .12+Math.sin(wc)*.08;
+        armRGrp.rotation.z =-.12-Math.sin(wc)*.08;
+        // Body bob
+        w.position.y=Math.abs(Math.sin(wc))*.05;
+        // Boot lift
+        bL.position.y=.065+Math.max(0,Math.sin(wc))*.12;
+        bR.position.y=.065+Math.max(0,-Math.sin(wc))*.12;
+        // Halo pulse
+        halo.material.opacity=.28+.22*Math.sin(t*2.2+i*.8);
       });
 
       // Sparks from welding machine
