@@ -2153,6 +2153,102 @@ footer::before{
   </div>
 </section>
 
+<!-- ============== 23. GAMIFICATION ============== -->
+<section id="gamify" style="background:var(--bg-2)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">23 · 안전 게임화 시스템</span>
+      <h2 class="sec-title"><span class="accent">안전 게임화</span> · 포인트 · 배지 · 리더보드</h2>
+      <p class="sec-desc">연속 무사고 일수 · 안전 점수 · 달성 배지 · 팀 순위 — 자발적 안전 참여를 이끄는 행동 설계.</p>
+    </div>
+    <div class="gm-layout">
+      <div class="gm-left">
+        <div class="gm-streak-card">
+          <div class="gm-streak-num" id="gmStreak">28</div>
+          <div class="gm-streak-lbl">연속 무사고 일수 🔥</div>
+          <div class="gm-streak-bar"><div class="gm-streak-fill" id="gmStreakFill" style="width:93%"></div></div>
+          <div class="gm-streak-goal">목표: 30일</div>
+        </div>
+        <div class="gm-score-row">
+          <div class="gm-score-card"><div class="gm-score-val" id="gmPoints">4,820</div><div class="gm-score-lbl">누적 안전 포인트</div></div>
+          <div class="gm-score-card"><div class="gm-score-val" id="gmLevel">Lv.7</div><div class="gm-score-lbl">현재 레벨</div></div>
+        </div>
+        <div class="gm-badges" id="gmBadges"></div>
+      </div>
+      <div class="gm-right">
+        <h4 style="font-size:14px;font-weight:700;margin-bottom:14px;color:var(--ink)">🏆 팀 리더보드</h4>
+        <div class="gm-leaderboard" id="gmLeaderboard"></div>
+        <button class="gm-claim-btn" onclick="gmClaimDaily()">🎁 오늘의 안전 출석 체크 (+50P)</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 24. ENV MONITOR ============== -->
+<section id="envmon">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">24 · 실시간 환경 모니터링</span>
+      <h2 class="sec-title">현장 <span class="accent">환경 센서</span> 실시간 모니터링</h2>
+      <p class="sec-desc">온도 · 습도 · 소음 · CO₂ · 조도 — 5개 센서 데이터를 실시간 시각화하고 임계값 초과 시 즉시 경보.</p>
+    </div>
+    <div class="env-grid" id="envGrid"></div>
+    <div class="env-chart-wrap"><canvas id="envLineChart"></canvas></div>
+  </div>
+</section>
+
+<!-- ============== 25. SHIFT SCHEDULE ============== -->
+<section id="shift" style="background:var(--bg-2)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">25 · 근로자 교대 일정</span>
+      <h2 class="sec-title"><span class="accent">교대 근무</span> 스케줄 관리</h2>
+      <p class="sec-desc">주간/야간 교대 시각화 · 연속 근무 초과 자동 경고 · 인력 배치 최적화.</p>
+    </div>
+    <div class="shift-wrapper">
+      <div class="shift-calendar" id="shiftCal"></div>
+      <div class="shift-legend">
+        <span class="shift-badge day">주간 (08-18)</span>
+        <span class="shift-badge night">야간 (20-06)</span>
+        <span class="shift-badge off">휴무</span>
+        <span class="shift-badge warn">⚠ 연속 초과</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 26. SAFETY QUIZ ============== -->
+<section id="quiz">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">26 · 안전 교육 평가</span>
+      <h2 class="sec-title"><span class="accent">안전 교육</span> · 퀴즈 &amp; 수료증</h2>
+      <p class="sec-desc">산업안전 핵심 문제 10선 · 타이머 · 합격 시 수료증 자동 발급.</p>
+    </div>
+    <div class="quiz-wrapper" id="quizWrapper"></div>
+  </div>
+</section>
+
+<!-- ============== 27. SCORECARD ============== -->
+<section id="scorecard" style="background:var(--bg-2)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">27 · 안전 등급 평가카드</span>
+      <h2 class="sec-title">현장 <span class="accent">안전 등급</span> · 실시간 평가</h2>
+      <p class="sec-desc">6개 영역 자동 점수화 → 종합 등급(A~D) 즉시 산출 · 개선 우선순위 제시.</p>
+    </div>
+    <div class="sc-wrapper">
+      <div class="sc-gauges" id="scGauges"></div>
+      <div class="sc-result-card" id="scResult">
+        <div class="sc-grade" id="scGrade">-</div>
+        <div class="sc-grade-lbl">종합 등급</div>
+        <div class="sc-recs" id="scRecs"></div>
+        <button class="sc-calc-btn" onclick="calcScorecard()">🔄 등급 재계산</button>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CTA -->
 <section class="cta">
   <div class="container">
@@ -6459,6 +6555,464 @@ function showARSim(){
     ctx.fillRect(0,sy,320,2);
   })();
 }
+
+})();
+</script>
+
+<!-- ═══════════════ NEW FEATURES v5 ═══════════════════════ -->
+<style>
+/* ── 23 게임화 ─ */
+.gm-layout{display:grid;grid-template-columns:1fr 1.2fr;gap:24px;}
+.gm-streak-card{background:linear-gradient(135deg,#FF6B35,#E84A10);border-radius:16px;padding:24px;text-align:center;color:#fff;margin-bottom:16px;}
+.gm-streak-num{font-size:52px;font-weight:900;line-height:1;}
+.gm-streak-lbl{font-size:13px;opacity:.85;margin:6px 0 12px;}
+.gm-streak-bar{background:rgba(255,255,255,.25);border-radius:10px;height:8px;overflow:hidden;margin-bottom:6px;}
+.gm-streak-fill{background:#fff;height:100%;border-radius:10px;transition:width 1s ease;}
+.gm-streak-goal{font-size:11px;opacity:.7;}
+.gm-score-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+.gm-score-card{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:14px;text-align:center;}
+.gm-score-val{font-size:22px;font-weight:800;color:var(--a);}
+.gm-score-lbl{font-size:11px;color:var(--ink-4);margin-top:3px;}
+.gm-badges{display:flex;flex-wrap:wrap;gap:8px;}
+.gm-badge{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:8px 12px;font-size:11px;font-weight:700;display:flex;align-items:center;gap:6px;cursor:default;}
+.gm-badge.earned{border-color:var(--a);color:var(--a);background:var(--a-bg);}
+.gm-leaderboard{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
+.gm-lb-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;background:var(--card);border:1px solid var(--bdr);}
+.gm-lb-rank{font-size:16px;font-weight:900;width:28px;flex-shrink:0;}
+.gm-lb-name{flex:1;font-size:13px;font-weight:600;color:var(--ink);}
+.gm-lb-pts{font-size:12px;font-weight:700;color:var(--a);}
+.gm-lb-bar{width:80px;height:5px;background:var(--bg-2);border-radius:5px;overflow:hidden;}
+.gm-lb-bar-fill{height:100%;background:var(--a);border-radius:5px;}
+.gm-claim-btn{width:100%;padding:12px;background:var(--a);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:opacity .2s;}
+.gm-claim-btn:hover{opacity:.85;}
+@media(max-width:800px){.gm-layout{grid-template-columns:1fr;}}
+
+/* ── 24 환경 모니터 ── */
+.env-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:28px;}
+.env-card{background:var(--card);border:1px solid var(--bdr);border-radius:16px;padding:18px 14px;text-align:center;}
+.env-icon{font-size:24px;margin-bottom:8px;}
+.env-val{font-size:26px;font-weight:800;margin-bottom:2px;}
+.env-unit{font-size:11px;color:var(--ink-4);}
+.env-status{font-size:10px;font-weight:700;margin-top:6px;padding:2px 8px;border-radius:20px;display:inline-block;}
+.env-status.ok{background:#E1F8EF;color:#16C68C;}
+.env-status.warn{background:#FFF4E5;color:#FF9F2D;}
+.env-status.danger{background:#FFE9EB;color:#F04452;}
+.env-chart-wrap{background:var(--card);border:1px solid var(--bdr);border-radius:16px;padding:20px;height:200px;}
+@media(max-width:800px){.env-grid{grid-template-columns:repeat(3,1fr);}}
+
+/* ── 25 교대 일정 ── */
+.shift-wrapper{overflow-x:auto;}
+.shift-calendar{min-width:600px;border-radius:14px;overflow:hidden;border:1px solid var(--bdr);}
+.shift-head-row,.shift-row{display:grid;grid-template-columns:100px repeat(7,1fr);}
+.shift-head-row{background:var(--bg-2);}
+.shift-head-cell{padding:10px 8px;font-size:11px;font-weight:700;color:var(--ink-4);text-align:center;border-right:1px solid var(--bdr);}
+.shift-name-cell{padding:10px 12px;font-size:12px;font-weight:600;color:var(--ink);border-right:1px solid var(--bdr);background:var(--card);display:flex;align-items:center;}
+.shift-cell{padding:6px 4px;border-right:1px solid var(--bdr);border-top:1px solid var(--bdr);background:var(--card);display:flex;align-items:center;justify-content:center;}
+.shift-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;cursor:pointer;transition:opacity .2s;}
+.shift-badge.day{background:#E1F8EF;color:#16C68C;}
+.shift-badge.night{background:rgba(49,130,246,.12);color:#3182F6;}
+.shift-badge.off{background:var(--bg-2);color:var(--ink-4);}
+.shift-badge.warn{background:#FFE9EB;color:#F04452;}
+.shift-legend{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;}
+
+/* ── 26 퀴즈 ── */
+.quiz-card{background:var(--card);border:1px solid var(--bdr);border-radius:16px;padding:32px;max-width:680px;margin:0 auto;}
+.quiz-progress{height:4px;background:var(--bg-2);border-radius:4px;margin-bottom:24px;overflow:hidden;}
+.quiz-progress-fill{height:100%;background:var(--a);border-radius:4px;transition:width .4s ease;}
+.quiz-timer{text-align:right;font-size:12px;font-weight:700;color:var(--r);margin-bottom:8px;}
+.quiz-q{font-size:17px;font-weight:700;color:var(--ink);margin-bottom:20px;line-height:1.5;}
+.quiz-opts{display:flex;flex-direction:column;gap:10px;}
+.quiz-opt{padding:12px 16px;border:1.5px solid var(--bdr);border-radius:10px;font-size:13px;cursor:pointer;transition:all .2s;text-align:left;background:var(--bg);color:var(--ink);}
+.quiz-opt:hover{border-color:var(--a);background:var(--a-bg);}
+.quiz-opt.correct{border-color:#16C68C;background:#E1F8EF;color:#16C68C;}
+.quiz-opt.wrong{border-color:#F04452;background:#FFE9EB;color:#F04452;}
+.quiz-result{text-align:center;padding:20px 0;}
+.quiz-result-score{font-size:48px;font-weight:900;color:var(--a);}
+
+/* ── 27 평가카드 ── */
+.sc-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
+.sc-gauges{display:flex;flex-direction:column;gap:14px;}
+.sc-gauge-item{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:14px 16px;}
+.sc-gauge-head{display:flex;justify-content:space-between;margin-bottom:8px;}
+.sc-gauge-label{font-size:12px;font-weight:700;color:var(--ink);}
+.sc-gauge-score{font-size:12px;font-weight:700;color:var(--a);}
+.sc-gauge-bar{height:7px;background:var(--bg-2);border-radius:7px;overflow:hidden;}
+.sc-gauge-fill{height:100%;border-radius:7px;transition:width 1.2s cubic-bezier(.34,1.56,.64,1);}
+.sc-result-card{background:var(--card);border:1px solid var(--bdr);border-radius:16px;padding:28px;text-align:center;}
+.sc-grade{font-size:72px;font-weight:900;line-height:1.1;}
+.sc-grade-lbl{font-size:13px;color:var(--ink-4);margin-bottom:16px;}
+.sc-recs{text-align:left;margin:16px 0;}
+.sc-rec-item{font-size:12px;color:var(--ink-3);padding:5px 0;border-bottom:1px solid var(--bdr);}
+.sc-calc-btn{width:100%;padding:12px;background:var(--a);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;margin-top:16px;}
+@media(max-width:800px){.sc-wrapper{grid-template-columns:1fr;}}
+
+/* ── 전역 검색 ── */
+#globalSearch{position:fixed;top:0;left:0;right:0;bottom:0;z-index:99985;background:rgba(0,0,0,.6);display:none;align-items:flex-start;justify-content:center;padding-top:12vh;}
+#globalSearch.open{display:flex;}
+#gsBox{background:var(--card);border-radius:16px;width:min(640px,92vw);max-height:70vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.22);}
+#gsInput{padding:16px 20px;font-size:16px;border:none;border-bottom:1px solid var(--bdr);outline:none;background:transparent;color:var(--ink);font-family:inherit;width:100%;}
+#gsList{overflow-y:auto;padding:8px 0;}
+.gs-item{display:flex;align-items:center;gap:12px;padding:10px 20px;cursor:pointer;transition:background .12s;}
+.gs-item:hover,.gs-item.gs-active{background:var(--a-bg);}
+.gs-item-icon{font-size:18px;flex-shrink:0;}
+.gs-item-title{font-size:13px;font-weight:700;color:var(--ink);}
+.gs-item-desc{font-size:11px;color:var(--ink-4);}
+.gs-no-result{padding:32px;text-align:center;color:var(--ink-4);font-size:13px;}
+#searchBtn{position:fixed;bottom:370px;right:22px;z-index:9990;width:42px;height:42px;border-radius:50%;background:rgba(10,10,18,.85);border:1px solid rgba(255,107,53,.45);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;}
+
+/* ── PWA 설치 배너 ── */
+#pwaBanner{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(120px);z-index:9995;background:var(--card);border:1px solid var(--a);border-radius:14px;padding:14px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 8px 28px rgba(0,0,0,.15);transition:transform .4s cubic-bezier(.34,1.56,.64,1);min-width:300px;}
+#pwaBanner.show{transform:translateX(-50%) translateY(0);}
+.pwa-icon{font-size:28px;}
+.pwa-text{flex:1;}
+.pwa-title{font-size:13px;font-weight:700;color:var(--ink);}
+.pwa-sub{font-size:11px;color:var(--ink-4);}
+.pwa-install-btn{background:var(--a);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;}
+.pwa-close{background:none;border:none;color:var(--ink-4);cursor:pointer;font-size:16px;}
+</style>
+
+<!-- 전역 검색 오버레이 -->
+<div id="globalSearch">
+  <div id="gsBox">
+    <input id="gsInput" placeholder="🔍 검색... (섹션·기능·데이터)" autocomplete="off">
+    <div id="gsList"></div>
+  </div>
+</div>
+<button id="searchBtn" onclick="openGlobalSearch()" title="전체 검색">🔍</button>
+<div id="pwaBanner">
+  <div class="pwa-icon">📱</div>
+  <div class="pwa-text"><div class="pwa-title">앱으로 설치</div><div class="pwa-sub">홈 화면에 추가하면 오프라인 사용 가능</div></div>
+  <button class="pwa-install-btn" id="pwaInstallBtn">설치</button>
+  <button class="pwa-close" onclick="document.getElementById('pwaBanner').classList.remove('show')">✕</button>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+/* ══ 23 GAMIFICATION ══════════════════════════════════════ */
+const BADGES=[
+  {icon:'🛡️',name:'첫 무사고',desc:'1일 무사고 달성',earned:true},
+  {icon:'🔥',name:'7일 연속',desc:'7일 무사고 달성',earned:true},
+  {icon:'💪',name:'월간 챔피언',desc:'30일 무사고',earned:false},
+  {icon:'🎯',name:'PPE 완벽',desc:'30일 100% 착용',earned:true},
+  {icon:'📊',name:'데이터 마스터',desc:'50건 사고 분석',earned:false},
+  {icon:'🤖',name:'AI 전문가',desc:'AI 예측 10회 실행',earned:true},
+];
+const LEADERBOARD=[
+  {name:'김안전 (용접팀)',pts:6240,pct:100},
+  {name:'이지킴 (도장팀)',pts:5810,pct:93},
+  {name:'박근로 (조립팀)',pts:5230,pct:84},
+  {name:'진일 (연구팀)',pts:4820,pct:77},
+  {name:'최현장 (운반팀)',pts:4120,pct:66},
+];
+const RANK_ICONS=['🥇','🥈','🥉','4️⃣','5️⃣'];
+function renderGM(){
+  const badges=document.getElementById('gmBadges');
+  if(badges) badges.innerHTML=BADGES.map(b=>
+    `<div class="gm-badge${b.earned?' earned':''}" title="${b.desc}">${b.icon} ${b.name}</div>`
+  ).join('');
+  const lb=document.getElementById('gmLeaderboard');
+  if(lb) lb.innerHTML=LEADERBOARD.map((r,i)=>
+    `<div class="gm-lb-row">
+      <span class="gm-lb-rank">${RANK_ICONS[i]}</span>
+      <span class="gm-lb-name">${r.name}</span>
+      <div class="gm-lb-bar"><div class="gm-lb-bar-fill" style="width:${r.pct}%;background:${i===3?'var(--a)':'var(--ink-5)'}"></div></div>
+      <span class="gm-lb-pts">${r.pts.toLocaleString()}P</span>
+    </div>`
+  ).join('');
+}
+renderGM();
+let gmPoints=4820;
+window.gmClaimDaily=function(){
+  gmPoints+=50;
+  const el=document.getElementById('gmPoints');
+  if(el) el.textContent=gmPoints.toLocaleString();
+  showNotif('🎁 출석 완료!','+50P 적립 · 오늘도 안전하게!');
+};
+// Animate streak bar
+setTimeout(()=>{const f=document.getElementById('gmStreakFill');if(f)f.style.width='93%';},500);
+
+/* ══ 24 ENVIRONMENT MONITOR ═══════════════════════════════ */
+const ENV_SENSORS=[
+  {id:'envTemp', icon:'🌡️', label:'온도', unit:'°C', base:28, range:6, thresh:35, warn:32, fmt:v=>v.toFixed(1)},
+  {id:'envHumid',icon:'💧', label:'습도', unit:'%',  base:58, range:15,thresh:80, warn:70, fmt:v=>v.toFixed(0)},
+  {id:'envNoise',icon:'🔊', label:'소음', unit:'dB', base:72, range:18,thresh:85, warn:80, fmt:v=>v.toFixed(0)},
+  {id:'envCO2',  icon:'🌫️', label:'CO₂',  unit:'ppm',base:450,range:150,thresh:1000,warn:800,fmt:v=>v.toFixed(0)},
+  {id:'envLux',  icon:'💡', label:'조도', unit:'lux',base:420,range:120,thresh:100, warn:200,fmt:v=>v.toFixed(0)},
+];
+let envVals=ENV_SENSORS.map(s=>s.base);
+const envHistory=ENV_SENSORS.map(()=>[]);
+const MAX_HIST=30;
+
+function renderEnvGrid(){
+  const g=document.getElementById('envGrid'); if(!g) return;
+  g.innerHTML=ENV_SENSORS.map((s,i)=>{
+    const v=envVals[i];
+    const isWarn=s.label==='조도'?v<s.warn:v>s.warn;
+    const isDanger=s.label==='조도'?v<s.thresh:v>s.thresh;
+    const cls=isDanger?'danger':isWarn?'warn':'ok';
+    const statusTxt=isDanger?'⚠ 임계초과':isWarn?'주의':'정상';
+    const col=isDanger?'#F04452':isWarn?'#FF9F2D':'#16C68C';
+    return `<div class="env-card">
+      <div class="env-icon">${s.icon}</div>
+      <div class="env-val" style="color:${col}">${s.fmt(v)}</div>
+      <div class="env-unit">${s.label} (${s.unit})</div>
+      <span class="env-status ${cls}">${statusTxt}</span>
+    </div>`;
+  }).join('');
+}
+function drawEnvLine(){
+  const cv=document.getElementById('envLineChart'); if(!cv) return;
+  const dpr=devicePixelRatio||1;
+  cv.width=cv.offsetWidth*dpr||600*dpr; cv.height=cv.offsetHeight*dpr||160*dpr;
+  const ctx=cv.getContext('2d'); ctx.scale(dpr,dpr);
+  const W=cv.width/dpr, H=cv.height/dpr;
+  const cols=['#F04452','#3182F6','#FF9F2D','#16C68C','#8B5CF6'];
+  ctx.clearRect(0,0,W,H);
+  ENV_SENSORS.forEach((s,si)=>{
+    const hist=envHistory[si]; if(hist.length<2) return;
+    const mn=Math.min(...hist)*.9, mx=Math.max(...hist)*1.1;
+    ctx.beginPath(); ctx.strokeStyle=cols[si]; ctx.lineWidth=1.5; ctx.globalAlpha=.7;
+    hist.forEach((v,i)=>{
+      const x=W*i/(MAX_HIST-1);
+      const y=H-.6-((v-mn)/(mx-mn||1))*(H-12);
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    });
+    ctx.stroke(); ctx.globalAlpha=1;
+  });
+}
+renderEnvGrid();
+setInterval(()=>{
+  ENV_SENSORS.forEach((s,i)=>{
+    envVals[i]=Math.max(0,s.base+(Math.random()-.5)*s.range*2*(Math.sin(Date.now()/8000+i)+.5));
+    envHistory[i].push(envVals[i]);
+    if(envHistory[i].length>MAX_HIST) envHistory[i].shift();
+    // Auto-alert if dangerous
+    const v=envVals[i];
+    const isDanger=s.label==='조도'?v<s.thresh:v>s.thresh;
+    if(isDanger&&Math.random()<.1) showNotif(`⚠ ${s.label} 경보`,`${s.label} ${s.fmt(v)}${s.unit} — 임계값 초과!`);
+  });
+  renderEnvGrid(); drawEnvLine();
+},2000);
+setTimeout(drawEnvLine,300);
+
+/* ══ 25 SHIFT SCHEDULE ═══════════════════════════════════ */
+const DAYS=['월','화','수','목','금','토','일'];
+const WORKERS_SHIFT=[
+  {name:'김안전',shifts:['day','day','night','night','off','off','day']},
+  {name:'이지킴',shifts:['night','off','day','day','day','night','off']},
+  {name:'박근로',shifts:['day','day','day','off','night','night','day']},
+  {name:'진일',  shifts:['off','day','day','day','day','off','night']},
+  {name:'최현장',shifts:['night','night','off','day','off','day','day']},
+];
+function renderShift(){
+  const cal=document.getElementById('shiftCal'); if(!cal) return;
+  const head=`<div class="shift-head-row"><div class="shift-head-cell">근로자</div>${DAYS.map(d=>`<div class="shift-head-cell">${d}</div>`).join('')}</div>`;
+  const rows=WORKERS_SHIFT.map(w=>{
+    // Check consecutive night shifts
+    let nightCnt=0, warnIdx=-1;
+    w.shifts.forEach((s,i)=>{if(s==='night'){nightCnt++;if(nightCnt>=3)warnIdx=i;}else nightCnt=0;});
+    return `<div class="shift-row">
+      <div class="shift-name-cell">${w.name}</div>
+      ${w.shifts.map((s,i)=>`<div class="shift-cell"><span class="shift-badge ${i===warnIdx?'warn':s}" onclick="toggleShift(this)">${i===warnIdx?'⚠야간':s==='day'?'주간':s==='night'?'야간':'휴무'}</span></div>`).join('')}
+    </div>`;
+  }).join('');
+  cal.innerHTML=head+rows;
+}
+window.toggleShift=function(el){
+  const cycle={주간:'야간',야간:'휴무',휴무:'주간'};
+  const cycleClass={day:'night',night:'off',off:'day'};
+  const cur=el.textContent.trim();
+  el.textContent=cycle[cur]||'주간';
+  el.className='shift-badge '+(cycleClass[el.className.split(' ')[1]]||'day');
+};
+renderShift();
+
+/* ══ 26 SAFETY QUIZ ══════════════════════════════════════ */
+const QUIZ_QS=[
+  {q:'안전모(헬멧)의 KS 인증 교체 주기는?',opts:['1년','2년','3년','5년'],ans:2},
+  {q:'REBA 점수 8~10점의 위험 수준은?',opts:['낮음','보통','높음','매우 높음'],ans:2},
+  {q:'소음성 난청 발생 기준 소음 수준은?',opts:['65dB 이상','75dB 이상','85dB 이상','95dB 이상'],ans:2},
+  {q:'산업재해 발생 시 지체 없이 보고해야 하는 중대재해 정의 중 맞는 것은?',opts:['사망 1명 이상','부상 3명 이상','3일 이상 휴업 2명 이상','사망 1명 또는 부상 2명 이상 동시'],ans:3},
+  {q:'작업환경측정 주기(일반 유해인자)는?',opts:['3개월','6개월','1년','2년'],ans:1},
+  {q:'밀폐 공간 작업 시 산소 농도 기준(작업 중지)은?',opts:['16% 미만','18% 미만','20% 미만','22% 미만'],ans:1},
+  {q:'안전보건표지 중 "경고" 표지의 바탕색은?',opts:['빨강','파랑','노랑','초록'],ans:2},
+  {q:'고압 전기 작업 시 접근 한계 거리(22kV 이하)는?',opts:['0.3m','0.6m','1.2m','2.0m'],ans:1},
+  {q:'근골격계 질환 예방을 위한 유해요인 조사 주기는?',opts:['1년','2년','3년','5년'],ans:2},
+  {q:'화재 발생 시 RACE 절차 중 첫 번째 단계는?',opts:['Alarm(경보)','Confine(격리)','Evacuate(대피)','Rescue(구조)'],ans:3},
+];
+let quizIdx=0, quizScore=0, quizTimer=null, quizSec=30;
+function renderQuiz(){
+  const wrap=document.getElementById('quizWrapper'); if(!wrap) return;
+  if(quizIdx>=QUIZ_QS.length){
+    const pct=Math.round(quizScore/QUIZ_QS.length*100);
+    const pass=pct>=70;
+    wrap.innerHTML=`<div class="quiz-card"><div class="quiz-result">
+      <div style="font-size:40px;margin-bottom:12px">${pass?'🏆':'📚'}</div>
+      <div class="quiz-result-score" style="color:${pass?'#16C68C':'#F04452'}">${pct}점</div>
+      <div style="font-size:14px;margin:8px 0;color:var(--ink)">${quizScore}/${QUIZ_QS.length} 정답 · ${pass?'합격 🎉':'불합격 — 재도전!'}</div>
+      ${pass?`<button onclick="genCert()" style="background:var(--a);color:#fff;border:none;border-radius:10px;padding:10px 24px;font-size:13px;font-weight:700;cursor:pointer;margin-top:12px">📜 수료증 발급</button>`:''}
+      <button onclick="quizReset()" style="background:var(--bg-2);border:1px solid var(--bdr);border-radius:10px;padding:10px 24px;font-size:13px;font-weight:700;cursor:pointer;margin-top:8px;color:var(--ink)">🔄 다시 풀기</button>
+    </div></div>`;
+    return;
+  }
+  const q=QUIZ_QS[quizIdx];
+  clearInterval(quizTimer); quizSec=30;
+  quizTimer=setInterval(()=>{
+    quizSec--;
+    const t=document.getElementById('quizTimerEl');
+    if(t) t.textContent=`⏱ ${quizSec}s`;
+    if(quizSec<=0){clearInterval(quizTimer);quizIdx++;renderQuiz();}
+  },1000);
+  wrap.innerHTML=`<div class="quiz-card">
+    <div class="quiz-timer" id="quizTimerEl">⏱ ${quizSec}s</div>
+    <div class="quiz-progress"><div class="quiz-progress-fill" style="width:${quizIdx/QUIZ_QS.length*100}%"></div></div>
+    <div style="font-size:11px;color:var(--ink-4);margin-bottom:8px">${quizIdx+1} / ${QUIZ_QS.length}</div>
+    <div class="quiz-q">${q.q}</div>
+    <div class="quiz-opts">${q.opts.map((o,i)=>`<button class="quiz-opt" onclick="quizAnswer(${i})">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}</div>
+  </div>`;
+}
+window.quizAnswer=function(i){
+  clearInterval(quizTimer);
+  const q=QUIZ_QS[quizIdx];
+  const btns=document.querySelectorAll('.quiz-opt');
+  btns.forEach((b,bi)=>b.classList.add(bi===q.ans?'correct':bi===i&&i!==q.ans?'wrong':''));
+  if(i===q.ans) quizScore++;
+  setTimeout(()=>{quizIdx++;renderQuiz();},1200);
+};
+window.quizReset=function(){quizIdx=0;quizScore=0;renderQuiz();};
+window.genCert=function(){
+  const cv=document.createElement('canvas'); cv.width=800;cv.height=560;
+  const ctx=cv.getContext('2d');
+  const g=ctx.createLinearGradient(0,0,800,560);
+  g.addColorStop(0,'#FFF8F5'); g.addColorStop(1,'#FFE8DC');
+  ctx.fillStyle=g; ctx.fillRect(0,0,800,560);
+  ctx.strokeStyle='#FF6B35'; ctx.lineWidth=6;
+  ctx.strokeRect(18,18,764,524);
+  ctx.strokeStyle='#FF9F2D'; ctx.lineWidth=2;
+  ctx.strokeRect(28,28,744,504);
+  ctx.fillStyle='#FF6B35'; ctx.font='bold 36px sans-serif'; ctx.textAlign='center';
+  ctx.fillText('산업안전 교육 수료증',400,100);
+  ctx.fillStyle='#191F28'; ctx.font='20px sans-serif';
+  ctx.fillText('위 사람은 SHine-K 플랫폼 산업안전 온라인 교육을',400,180);
+  ctx.fillText('성실히 이수하였음을 증명합니다.',400,215);
+  ctx.fillStyle='#FF6B35'; ctx.font='bold 28px sans-serif';
+  ctx.fillText('진일 (202317104)',400,290);
+  ctx.fillStyle='#8B95A1'; ctx.font='14px sans-serif';
+  ctx.fillText(`수료 일시: ${new Date().toLocaleDateString('ko-KR')} | 점수: ${Math.round(quizScore/QUIZ_QS.length*100)}점`,400,340);
+  ctx.fillStyle='#FF6B35'; ctx.font='bold 18px sans-serif';
+  ctx.fillText('SHine-K Platform · 경운대학교 보건대학',400,430);
+  const a=document.createElement('a');
+  a.download='SHineK_수료증.png'; a.href=cv.toDataURL(); a.click();
+};
+renderQuiz();
+
+/* ══ 27 SCORECARD ════════════════════════════════════════ */
+const SC_AREAS=[
+  {label:'PPE 착용률',  score:88, weight:.2, color:'#16C68C'},
+  {label:'REBA 평균점수',score:72, weight:.18,color:'#3182F6'},
+  {label:'교육 이수율', score:95, weight:.15,color:'#8B5CF6'},
+  {label:'아차사고 보고',score:60, weight:.17,color:'#FF9F2D'},
+  {label:'설비 점검',   score:82, weight:.15,color:'#0FA8B8'},
+  {label:'환경 기준 준수',score:77,weight:.15,color:'#FF6B35'},
+];
+function renderScorecard(){
+  const g=document.getElementById('scGauges'); if(!g) return;
+  g.innerHTML=SC_AREAS.map(a=>`
+    <div class="sc-gauge-item">
+      <div class="sc-gauge-head">
+        <span class="sc-gauge-label">${a.label}</span>
+        <span class="sc-gauge-score" style="color:${a.color}">${a.score}점</span>
+      </div>
+      <div class="sc-gauge-bar">
+        <div class="sc-gauge-fill" style="width:0%;background:${a.color}" data-w="${a.score}"></div>
+      </div>
+    </div>`).join('');
+  setTimeout(()=>g.querySelectorAll('.sc-gauge-fill').forEach(el=>{el.style.width=el.dataset.w+'%';}),100);
+}
+window.calcScorecard=function(){
+  const total=SC_AREAS.reduce((s,a)=>s+a.score*a.weight,0);
+  const grade=total>=90?'A':total>=75?'B':total>=60?'C':'D';
+  const cols={A:'#16C68C',B:'#3182F6',C:'#FF9F2D',D:'#F04452'};
+  const el=document.getElementById('scGrade');
+  if(el){el.textContent=grade;el.style.color=cols[grade];}
+  const recs=SC_AREAS.filter(a=>a.score<80).sort((a,b)=>a.score-b.score)
+    .map(a=>`<div class="sc-rec-item">🔺 ${a.label}: ${a.score}점 → 80점 이상 목표</div>`).join('');
+  const rc=document.getElementById('scRecs');
+  if(rc) rc.innerHTML=recs||'<div class="sc-rec-item">✅ 전 영역 80점 이상 달성!</div>';
+  showNotif(`📊 안전 등급 ${grade}`,`종합 ${total.toFixed(1)}점 — ${grade==='A'?'우수':'개선 필요'}`);
+};
+renderScorecard();
+setTimeout(calcScorecard,800);
+
+/* ══ GLOBAL SEARCH ══════════════════════════════════════ */
+const SEARCH_INDEX=[
+  {icon:'🏭',title:'3D 가상 공장',desc:'근로자 6명 실시간 추적 · 위험구역 · 지게차',hash:'#factory-xr'},
+  {icon:'📊',title:'실시간 안전 대시보드',desc:'KPI · 꺾은선 · 막대 · 파이차트',hash:'#dashboard'},
+  {icon:'🤖',title:'AI 위험 예측',desc:'6개 파라미터 입력 → 위험확률 + 신뢰구간',hash:'#predict'},
+  {icon:'🚨',title:'사고 속보 시스템',desc:'CRUD · IndexedDB 저장',hash:'#incident'},
+  {icon:'📄',title:'보고서 생성',desc:'Canvas PDF 자동 생성',hash:'#report'},
+  {icon:'🎮',title:'안전 게임화',desc:'포인트 · 배지 · 리더보드',hash:'#gamify'},
+  {icon:'🌡️',title:'환경 모니터링',desc:'온도·습도·소음·CO₂·조도',hash:'#envmon'},
+  {icon:'🗓',title:'교대 일정',desc:'주간/야간 스케줄 관리',hash:'#shift'},
+  {icon:'🏆',title:'안전 교육 퀴즈',desc:'10문제 · 합격 시 수료증 발급',hash:'#quiz'},
+  {icon:'📋',title:'안전 등급 평가카드',desc:'6개 영역 A~D 등급',hash:'#scorecard'},
+  {icon:'🌐',title:'플랫폼 소개',desc:'7-Tech 융합 산업안전',hash:'#platform'},
+  {icon:'👷',title:'경북 데이터 분석',desc:'KWCS-7 · 2,924명 실측',hash:'#gyeongbuk'},
+  {icon:'🔥',title:'위기 현실',desc:'OECD 34위 · 38조원 손실',hash:'#crisis'},
+];
+let gsActive=0;
+window.openGlobalSearch=function(){
+  document.getElementById('globalSearch').classList.add('open');
+  document.getElementById('gsInput').value='';
+  renderGS(SEARCH_INDEX);
+  setTimeout(()=>document.getElementById('gsInput').focus(),50);
+};
+function closeGS(){document.getElementById('globalSearch').classList.remove('open');}
+document.getElementById('globalSearch').addEventListener('click',e=>{if(e.target===e.currentTarget)closeGS();});
+document.addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key==='f'){e.preventDefault();openGlobalSearch();}
+  if(e.key==='Escape') closeGS();
+});
+document.getElementById('gsInput').addEventListener('input',e=>{
+  const q=e.target.value.toLowerCase();
+  const res=q?SEARCH_INDEX.filter(i=>i.title.toLowerCase().includes(q)||i.desc.toLowerCase().includes(q)):SEARCH_INDEX;
+  renderGS(res);
+});
+document.getElementById('gsInput').addEventListener('keydown',e=>{
+  const items=document.querySelectorAll('.gs-item');
+  if(e.key==='ArrowDown'){gsActive=Math.min(gsActive+1,items.length-1);}
+  if(e.key==='ArrowUp'){gsActive=Math.max(gsActive-1,0);}
+  items.forEach((el,i)=>el.classList.toggle('gs-active',i===gsActive));
+  if(e.key==='Enter'&&items[gsActive]){items[gsActive].click();}
+});
+function renderGS(items){
+  const list=document.getElementById('gsList');
+  if(!items.length){list.innerHTML='<div class="gs-no-result">검색 결과가 없습니다.</div>';return;}
+  list.innerHTML=items.map((it,i)=>
+    `<div class="gs-item${i===0?' gs-active':''}" onclick="document.querySelector('${it.hash}').scrollIntoView({behavior:'smooth'});closeGS()">
+      <span class="gs-item-icon">${it.icon}</span>
+      <div><div class="gs-item-title">${it.title}</div><div class="gs-item-desc">${it.desc}</div></div>
+    </div>`
+  ).join('');
+}
+
+/* ══ PWA INSTALL ══════════════════════════════════════════ */
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault(); deferredPrompt=e;
+  setTimeout(()=>document.getElementById('pwaBanner').classList.add('show'),5000);
+});
+document.getElementById('pwaInstallBtn').addEventListener('click',()=>{
+  if(!deferredPrompt){showNotif('📱 PWA','이미 설치되었거나 이 브라우저에서는 지원하지 않습니다.');return;}
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then(r=>{
+    if(r.outcome==='accepted') showNotif('✅ 설치 완료!','홈 화면에 앱이 추가되었습니다.');
+    document.getElementById('pwaBanner').classList.remove('show');
+    deferredPrompt=null;
+  });
+});
 
 })();
 </script>
