@@ -1242,40 +1242,40 @@ footer::before{
       <div class="hero-eyebrow">
         <span class="badge">경운대학교 보건대학 · 202317104</span>
         <span class="dot"></span>
-        <span>진일 — 프론트엔드 개발 · 시스템 통합 · 데이터 연구</span>
+        <span data-i18n="heroEyebrow2">진일 — 프론트엔드 개발 · 시스템 통합 · 데이터 연구</span>
       </div>
       <h1>
-        <span>코드로 쓴</span><br>
-        <span class="grad">안전의 언어</span>
+        <span data-i18n="heroH1a">코드로 쓴</span><br>
+        <span class="grad" data-i18n="heroH1b">안전의 언어</span>
       </h1>
-      <p class="hero-sub">
+      <p class="hero-sub" data-i18n="heroSub">
         저는 산업 현장의 데이터를 직접 분석하고, 골절 진단 AI부터 실시간 안전 대시보드까지 — 근로자를 지키는 기술을 혼자 설계하고 구현했습니다. WebGPU · TF.js · WebAssembly · WebXR · Transformers.js를 하나의 플랫폼에 통합한 학생 개발자의 작업물입니다.
       </p>
       <div class="hero-btns">
-        <a href="#mywork" class="btn btn-primary" style="background:linear-gradient(135deg,#FF6B35,#E84A10)">🛠 내가 만든 것 보기 ↓</a>
-        <a href="https://yi123456hj-sys.github.io/bone-fracture-ai/" target="_blank" rel="noopener" class="btn btn-fill">🦴 골절 AI 시연</a>
-        <a href="#dashboard" class="btn btn-ghost">📊 실시간 대시보드</a>
-        <a href="#predict" class="btn btn-ghost">🤖 AI 위험 예측</a>
+        <a href="#mywork" class="btn btn-primary" style="background:linear-gradient(135deg,#FF6B35,#E84A10)" data-i18n="ctaMyWork">🛠 내가 만든 것 보기 ↓</a>
+        <a href="https://yi123456hj-sys.github.io/bone-fracture-ai/" target="_blank" rel="noopener" class="btn btn-fill" data-i18n="ctaBone">🦴 골절 AI 시연</a>
+        <a href="#dashboard" class="btn btn-ghost" data-i18n="ctaDash">📊 실시간 대시보드</a>
+        <a href="#predict" class="btn btn-ghost" data-i18n="ctaPred">🤖 AI 위험 예측</a>
       </div>
       <div class="hero-stats">
         <div class="hero-stat">
           <div class="num"><span class="counter" data-target="22" data-suffix="">0</span></div>
-          <div class="lbl">구현한 섹션 수</div>
-          <div class="sub">설계부터 배포까지</div>
+          <div class="lbl" data-i18n="stat1">구현한 섹션 수</div>
+          <div class="sub" data-i18n="statSub1">설계부터 배포까지</div>
         </div>
         <div class="hero-stat">
           <div class="num"><span class="counter" data-target="8" data-suffix="">0</span></div>
-          <div class="lbl">S/A급 최신 기술</div>
+          <div class="lbl" data-i18n="stat2">S/A급 최신 기술</div>
           <div class="sub">WebGPU · WASM · TF.js</div>
         </div>
         <div class="hero-stat">
           <div class="num"><span class="counter" data-target="10" data-suffix="">0</span></div>
-          <div class="lbl">골절 분류 클래스</div>
+          <div class="lbl" data-i18n="stat3">골절 분류 클래스</div>
           <div class="sub">MobileNet 전이학습</div>
         </div>
         <div class="hero-stat">
           <div class="num"><span class="counter" data-target="97.8" data-suffix="%">0</span></div>
-          <div class="lbl">AI 감지 정확도</div>
+          <div class="lbl" data-i18n="stat4">AI 감지 정확도</div>
           <div class="sub">MediaPipe + YOLO</div>
         </div>
       </div>
@@ -2257,10 +2257,13 @@ const I18N = {
   ko: {
     skip:"본문으로 이동",logoSub:" · Insights",
     navCrisis:"현실",navGB:"경북",navMC:"클러스터",navPlat:"플랫폼",navAgents:"12 에이전트",navScen:"5대 시나리오",navHealth:"헬스 프로모션",navCenter:"관제센터",navCompete:"경쟁분석",navCES:"CES 2027 →",
-    heroEyebrow:"세계 최초 7-Tech 융합 산업안전·건강 플랫폼",heroH1a:"아프기 전에",heroH1b:"근로자를 지킵니다",
-    heroSub:"MediaPipe BlazePose · mmWave Radar · 웨어러블 · 열화상 · 블록체인 · 119 자동연계 · 3D 디지털 트윈. 12 에이전트가 Sense → Judge → Act → Connect를 자율 수행하는 Agentic AI 통합 플랫폼.",
+    heroEyebrow2:"진일 — 프론트엔드 개발 · 시스템 통합 · 데이터 연구",
+    heroEyebrow:"세계 최초 7-Tech 융합 산업안전·건강 플랫폼",heroH1a:"코드로 쓴",heroH1b:"안전의 언어",
+    heroSub:"저는 산업 현장의 데이터를 직접 분석하고, 골절 진단 AI부터 실시간 안전 대시보드까지 — 근로자를 지키는 기술을 혼자 설계하고 구현했습니다. WebGPU · TF.js · WebAssembly · WebXR · Transformers.js를 하나의 플랫폼에 통합한 학생 개발자의 작업물입니다.",
+    ctaMyWork:"🛠 내가 만든 것 보기 ↓",ctaBone:"🦴 골절 AI 시연",ctaDash:"📊 실시간 대시보드",ctaPred:"🤖 AI 위험 예측",
     ctaCenter:"근로자안전센터 LIVE",ctaPlat:"플랫폼 살펴보기",ctaTwin:"3D 디지털 트윈",ctaLive:"Live AI 체험",
-    stat1:"AI 감지 정확도",stat2:"낙상 → 119 연계",stat3:"자율 에이전트",stat4:"입증된 ROI",scrollHint:"SCROLL",
+    stat1:"구현한 섹션 수",stat2:"S/A급 최신 기술",stat3:"골절 분류 클래스",stat4:"AI 감지 정확도",
+    statSub1:"설계부터 배포까지",scrollHint:"SCROLL",
     secCrisisLabel:"불편한 진실",secCrisisTitle:"한국 산업안전의 <span class='accent'>불편한 진실</span>",secCrisisDesc:"OECD 38개국 중 34위 — '산재 공화국'이라는 오명. 정부 5개년 계획은 2030년 OECD 평균 산재율을 목표로 하지만, 현장은 다릅니다.",
     crisis1Title:"2023 산재 사회적 손실",crisis1Desc:"2020년 대비 27.3% 급증. 산재는 '비용'이 아닌 '사회적 타살'(대통령, '25.08).",
     crisis2Title:"50인 미만 사업장 산재사망",crisis2Desc:"중소사업장 자원 제약 · 사후대응 중심 · 통합 예방 플랫폼 부재.",
@@ -2339,10 +2342,13 @@ const I18N = {
   en: {
     skip:"Skip to main",logoSub:" · Insights",
     navCrisis:"Reality",navGB:"Gyeongbuk",navMC:"Clusters",navPlat:"Platform",navAgents:"12 Agents",navScen:"5 Scenarios",navHealth:"Health",navCenter:"Control Center",navCompete:"Compete",navCES:"CES 2027 →",
-    heroEyebrow:"World-First 7-Tech Fusion Safety & Health Platform",heroH1a:"Protecting Workers",heroH1b:"Before They Get Hurt",
-    heroSub:"MediaPipe BlazePose · mmWave Radar · Wearables · Thermal · Blockchain · Auto 119 Dispatch · 3D Twin. 12 agents autonomously execute Sense → Judge → Act → Connect.",
+    heroEyebrow2:"Jinil — Frontend Dev · System Integration · Data Research",
+    heroEyebrow:"World-First 7-Tech Fusion Safety & Health Platform",heroH1a:"Safety Written",heroH1b:"in Code",
+    heroSub:"I analyzed industrial field data firsthand — from fracture diagnosis AI to real-time safety dashboards, I designed and built everything alone. A student developer's work integrating WebGPU · TF.js · WebAssembly · WebXR · Transformers.js in one platform.",
+    ctaMyWork:"🛠 See What I Built ↓",ctaBone:"🦴 Fracture AI Demo",ctaDash:"📊 Live Dashboard",ctaPred:"🤖 AI Risk Predict",
     ctaCenter:"Worker Safety Center LIVE",ctaPlat:"Explore Platform",ctaTwin:"3D Digital Twin",ctaLive:"Live AI Demo",
-    stat1:"AI Detection Accuracy",stat2:"Fall → 119 Emergency",stat3:"Autonomous Agents",stat4:"Proven ROI",scrollHint:"SCROLL",
+    stat1:"Sections Built",stat2:"S/A-Grade Tech",stat3:"Fracture Classes",stat4:"AI Accuracy",
+    statSub1:"From design to deploy",scrollHint:"SCROLL",
     secCrisisLabel:"Uncomfortable Truth",secCrisisTitle:"Korea's <span class='accent'>Uncomfortable Truth</span> in Industrial Safety",secCrisisDesc:"Ranked 34th out of 38 OECD countries — stigmatized as an 'industrial accident republic'. The government's 5-year plan targets OECD-average injury rates by 2030, but the field tells a different story.",
     crisis1Title:"2023 Industrial Accident Social Cost",crisis1Desc:"Up 27.3% vs 2020. Accidents are 'social murder', not just 'costs' (President, Aug '25).",
     crisis2Title:"Fatalities at Sub-50 Employee Sites",crisis2Desc:"SME resource constraints · reactive-response focus · no integrated prevention platform.",
@@ -2421,10 +2427,13 @@ const I18N = {
   zh: {
     skip:"跳到正文",logoSub:" · 洞察",
     navCrisis:"现状",navGB:"庆北",navMC:"集群",navPlat:"平台",navAgents:"12智能体",navScen:"5大场景",navHealth:"健康促进",navCenter:"管制中心",navCompete:"竞品",navCES:"CES 2027 →",
-    heroEyebrow:"全球首创 7-Tech 融合安全健康平台",heroH1a:"在受伤之前",heroH1b:"守护工人",
-    heroSub:"MediaPipe + 毫米波雷达 + 可穿戴 + 热成像 + 区块链 + 119自动派遣 + 3D数字孪生。12智能体自主执行 Sense→Judge→Act→Connect。",
+    heroEyebrow2:"진일 — 前端开发 · 系统集成 · 数据研究",
+    heroEyebrow:"全球首创 7-Tech 融合安全健康平台",heroH1a:"用代码书写的",heroH1b:"安全语言",
+    heroSub:"我亲自分析了工业现场的数据，从骨折诊断AI到实时安全仪表盘——独立设计并实现了保护工人的技术。将 WebGPU · TF.js · WebAssembly · WebXR · Transformers.js 整合在一个平台中的学生开发者作品。",
+    ctaMyWork:"🛠 查看我做的东西 ↓",ctaBone:"🦴 骨折AI演示",ctaDash:"📊 实时仪表盘",ctaPred:"🤖 AI风险预测",
     ctaCenter:"工人安全中心 LIVE",ctaPlat:"探索平台",ctaTwin:"3D数字孪生",ctaLive:"实时AI体验",
-    stat1:"AI检测精度",stat2:"坠落→119",stat3:"自主智能体",stat4:"已验证ROI",scrollHint:"滚动",
+    stat1:"实现的章节数",stat2:"S/A级前沿技术",stat3:"骨折分类类别",stat4:"AI检测精度",
+    statSub1:"从设计到部署",scrollHint:"滚动",
     secCrisisLabel:"令人不安的真相",secCrisisTitle:"韩国工业安全的<span class='accent'>令人不安的真相</span>",secCrisisDesc:"在38个OECD国家中排名第34位——被称为'工伤共和国'。政府5年计划以2030年达到OECD平均工伤率为目标，但现场情况并非如此。",
     crisis1Title:"2023年工伤社会成本",crisis1Desc:"与2020年相比增长27.3%。工伤不是'成本'，而是'社会谋杀'（总统，2025年8月）。",
     crisis2Title:"50人以下工作场所工伤死亡",crisis2Desc:"中小企业资源受限·以事后处理为中心·缺乏综合预防平台。",
@@ -2503,10 +2512,13 @@ const I18N = {
   ja: {
     skip:"メインへスキップ", logoSub:" · インサイト",
     navCrisis:"現状",navGB:"慶北",navMC:"クラスター",navPlat:"プラットフォーム",navAgents:"12エージェント",navScen:"5大シナリオ",navHealth:"健康増進",navCenter:"管制センター",navCompete:"競合分析",navCES:"CES 2027 →",
-    heroEyebrow:"世界初 7-Tech 融合 産業安全・健康プラットフォーム",heroH1a:"怪我をする前に",heroH1b:"労働者を守ります",
-    heroSub:"MediaPipe BlazePose · mmWave レーダー · ウェアラブル · サーマルカメラ · ブロックチェーン · 119自動連携 · 3Dデジタルツイン。12エージェントが Sense→Judge→Act→Connect を自律実行する Agentic AI 統合プラットフォーム。",
+    heroEyebrow2:"진일 — フロントエンド開発 · システム統合 · データ研究",
+    heroEyebrow:"世界初 7-Tech 融合 産業安全・健康プラットフォーム",heroH1a:"コードで書いた",heroH1b:"安全の言語",
+    heroSub:"産業現場のデータを直接分析し、骨折診断AIからリアルタイム安全ダッシュボードまで——労働者を守る技術を一人で設計・実装しました。WebGPU·TF.js·WebAssembly·WebXR·Transformers.jsを一つのプラットフォームに統合した学生開発者の作品です。",
+    ctaMyWork:"🛠 作ったものを見る ↓",ctaBone:"🦴 骨折AI体験",ctaDash:"📊 ライブダッシュボード",ctaPred:"🤖 AIリスク予測",
     ctaCenter:"労働者安全センター LIVE",ctaPlat:"プラットフォームを見る",ctaTwin:"3Dデジタルツイン",ctaLive:"ライブAI体験",
-    stat1:"AI検知精度",stat2:"転倒→119連携",stat3:"自律エージェント",stat4:"実証済みROI",scrollHint:"スクロール",
+    stat1:"実装セクション数",stat2:"S/A級最新技術",stat3:"骨折分類クラス",stat4:"AI検知精度",
+    statSub1:"設計からデプロイまで",scrollHint:"スクロール",
     secCrisisLabel:"不都合な真実",secCrisisTitle:"韓国産業安全の<span class='accent'>不都合な真実</span>",secCrisisDesc:"OECD38カ国中34位——「産業災害共和国」と批判。政府の5カ年計画は2030年にOECD平均達成を目標とするが、現場の実態は異なる。",
     crisis1Title:"2023年 産業災害社会的損失",crisis1Desc:"2020年比27.3%増。事故は「コスト」ではなく「社会的殺人」（大統領、2025年8月）。",
     crisis2Title:"50人未満事業場 産業災害死亡",crisis2Desc:"中小企業のリソース制約・事後対応中心・統合予防プラットフォームの不在。",
