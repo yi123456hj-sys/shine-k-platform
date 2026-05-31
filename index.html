@@ -2012,7 +2012,14 @@ footer::before{
         <span class="xr-badge alert" id="xrAlertBadge" style="display:none">🚨 ALERT</span>
         <span class="xr-badge info" style="background:rgba(49,130,246,.2);color:#60a5fa;border:1px solid rgba(49,130,246,.3)">👁 6 WORKERS TRACKED</span>
       </div>
-      <div class="xr-foot" id="xrFoot">SHine-K Digital Twin · Three.js r160 · WebXR Ready · 실시간 시뮬레이션</div>
+      <div class="xr-foot" id="xrFoot">
+        SHine-K Digital Twin · Three.js r160 · WebGL 2.0 · 실시간 시뮬레이션 &nbsp;|&nbsp;
+        시점:
+        <button onclick="setCamPreset('iso')" style="background:rgba(255,107,53,.2);border:1px solid rgba(255,107,53,.5);color:#FF9F2D;border-radius:5px;padding:2px 9px;cursor:pointer;font-size:11px;">사각</button>
+        <button onclick="setCamPreset('top')" style="background:rgba(22,198,140,.15);border:1px solid rgba(22,198,140,.4);color:#16C68C;border-radius:5px;padding:2px 9px;cursor:pointer;font-size:11px;">탑뷰</button>
+        <button onclick="setCamPreset('front')" style="background:rgba(49,130,246,.15);border:1px solid rgba(49,130,246,.4);color:#60a5fa;border-radius:5px;padding:2px 9px;cursor:pointer;font-size:11px;">정면</button>
+        <button onclick="setCamPreset('drama')" style="background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.4);color:#a78bfa;border-radius:5px;padding:2px 9px;cursor:pointer;font-size:11px;">드라마틱</button>
+      </div>
       <div class="xr-enter" id="xrEnterBtn" style="display:none">
         <button onclick="enterXR()">🥽 Enter VR Mode</button>
       </div>
@@ -2807,6 +2814,57 @@ document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el))
       border.rotation.x = -Math.PI/2; border.position.set(x,0.06,z); scene.add(border);
     });
 
+    /* ── Floor Heatmap (risk zones) ── */
+    function makeHeatSpot(x,z,r,col,opacity){
+      const g=new T.CircleGeometry(r,32);
+      const m=new T.Mesh(g, new T.MeshBasicMaterial({color:col,transparent:true,opacity,side:T.DoubleSide,depthWrite:false}));
+      m.rotation.x=-Math.PI/2; m.position.set(x,0.03,z); scene.add(m);
+    }
+    makeHeatSpot(6,1,3.5,0xFF4444,0.22);
+    makeHeatSpot(-2,-3,2.8,0xFF9F2D,0.18);
+    makeHeatSpot(-10,-7,2.2,0xFF6B35,0.15);
+    makeHeatSpot(9,-7,2.0,0xFF9F2D,0.14);
+
+    /* ── Forklift ── */
+    const forklift = new T.Group();
+    // body
+    const flBody = new T.Mesh(new T.BoxGeometry(2,1.4,3.5), new T.MeshLambertMaterial({color:0xF59E0B}));
+    flBody.position.y=0.7; flBody.castShadow=true; forklift.add(flBody);
+    // cabin
+    const flCabin = new T.Mesh(new T.BoxGeometry(1.4,1.2,1.4), new T.MeshLambertMaterial({color:0xD97706}));
+    flCabin.position.set(0,1.9,0.8); forklift.add(flCabin);
+    // wheels
+    [[1.1,0.35,1.4],[−1.1,0.35,1.4],[1.1,0.35,-1.4],[−1.1,0.35,-1.4]].forEach(([x,y,z])=>{
+      const w=new T.Mesh(new T.CylinderGeometry(0.35,0.35,0.25,12), new T.MeshLambertMaterial({color:0x1f2937}));
+      w.rotation.z=Math.PI/2; w.position.set(x,y,z); forklift.add(w);
+    });
+    // fork mast
+    const mast=new T.Mesh(new T.BoxGeometry(0.15,3.5,0.15), new T.MeshLambertMaterial({color:0x6B7280}));
+    mast.position.set(0,1.75,-1.8); forklift.add(mast);
+    // fork arms
+    const forkLift_fork=new T.Group();
+    [[0.4,0],[−0.4,0]].forEach(([x])=>{
+      const f=new T.Mesh(new T.BoxGeometry(0.15,0.12,1.8), new T.MeshLambertMaterial({color:0x9CA3AF}));
+      f.position.set(x,0,0); forkLift_fork.add(f);
+    });
+    forkLift_fork.position.set(0,1,-2.6); forklift.add(forkLift_fork);
+    forklift.position.set(10,0,3); scene.add(forklift);
+
+    /* ── Conveyor Belt ── */
+    const convCanvas=document.createElement('canvas'); convCanvas.width=128; convCanvas.height=32;
+    const convCtx=convCanvas.getContext('2d');
+    convCtx.fillStyle='#1f2937'; convCtx.fillRect(0,0,128,32);
+    for(let x=0;x<128;x+=16){ convCtx.fillStyle='#374151'; convCtx.fillRect(x,0,8,32); }
+    const convTex=new T.CanvasTexture(convCanvas); convTex.wrapS=T.RepeatWrapping; convTex.repeat.set(4,1);
+    const conveyorMat=new T.MeshLambertMaterial({map:convTex});
+    const conveyor=new T.Mesh(new T.BoxGeometry(6,0.2,1.5),conveyorMat);
+    conveyor.position.set(-10,1.25,5); scene.add(conveyor);
+    // Conveyor legs
+    [[−2,0],[2,0]].forEach(([dx])=>{
+      const leg=new T.Mesh(new T.BoxGeometry(0.15,1.1,0.15), new T.MeshLambertMaterial({color:0x374151}));
+      leg.position.set(-10+dx,0.55,5); scene.add(leg);
+    });
+
     /* ── Scan Beam (AI sensor sweep) ── */
     const beamGeo = new T.ConeGeometry(5, 8, 32, 1, true);
     const beamMat = new T.MeshBasicMaterial({color:0xFF6B35, transparent:true, opacity:0.04, side:T.DoubleSide, depthWrite:false});
@@ -2848,8 +2906,20 @@ document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el))
     const sparks = new T.Points(sparkGeo, sparkMat);
     scene.add(sparks);
 
+    /* ── Camera Presets ── */
+    const CAM_PRESETS = {
+      iso:   {theta:0.6,  phi:0.55, R:26},
+      top:   {theta:0,    phi:1.45, R:22},
+      front: {theta:0,    phi:0.25, R:28},
+      drama: {theta:2.4,  phi:0.18, R:20},
+    };
+    window.setCamPreset = function(name){
+      const p=CAM_PRESETS[name]; if(!p) return;
+      camTheta=p.theta; camPhi=p.phi; camR=p.R;
+    };
+
     /* ── Camera Orbit ── */
-    let camTheta = 0, camPhi = 0.4;
+    let camTheta = 0.6, camPhi = 0.55, camR = 26;
     let isDragging = false, lastX=0, lastY=0;
     canvas.addEventListener('mousedown', e=>{ isDragging=true; lastX=e.clientX; lastY=e.clientY; });
     window.addEventListener('mouseup', ()=>isDragging=false);
@@ -2868,8 +2938,11 @@ document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el))
 
       // Auto-rotate camera (slow)
       if(!isDragging) camTheta += 0.003;
-      const R = 24, cy = 14;
-      camera.position.set(R*Math.sin(camTheta)*Math.cos(camPhi), cy*Math.sin(camPhi)+4, R*Math.cos(camTheta)*Math.cos(camPhi));
+      camera.position.set(
+        camR*Math.sin(camTheta)*Math.cos(camPhi),
+        camR*Math.sin(camPhi)+2,
+        camR*Math.cos(camTheta)*Math.cos(camPhi)
+      );
       camera.lookAt(0, 2, 0);
 
       // Workers walk
@@ -2882,35 +2955,59 @@ document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el))
         halo.material.opacity = 0.4+0.3*Math.sin(t*2+i);
       });
 
-      // Sparks
+      // Sparks from welding machine
       for(let i=0;i<sparkCount;i++){
-        sparkVel[i].life -= 0.008;
+        sparkVel[i].life -= 0.01;
         if(sparkVel[i].life <= 0){
-          sparkPos[i*3]= (Math.random()-0.5)*24;
-          sparkPos[i*3+1]= 0.5+Math.random()*2;
-          sparkPos[i*3+2]= (Math.random()-0.5)*16;
-          sparkVel[i]={vx:(Math.random()-.5)*.04, vy:0.02+Math.random()*.04, vz:(Math.random()-.5)*.04, life:0.8+Math.random()*0.5};
+          // Reset near welding machine position
+          sparkPos[i*3]= -10 + (Math.random()-.5)*2;
+          sparkPos[i*3+1]= 2.5 + Math.random()*0.5;
+          sparkPos[i*3+2]= -7 + (Math.random()-.5)*1.5;
+          sparkVel[i]={vx:(Math.random()-.5)*.12, vy:0.04+Math.random()*.08, vz:(Math.random()-.5)*.12, life:0.6+Math.random()*0.6};
         }
         sparkPos[i*3]   += sparkVel[i].vx;
         sparkPos[i*3+1] += sparkVel[i].vy;
         sparkPos[i*3+2] += sparkVel[i].vz;
+        sparkVel[i].vy  -= 0.003; // gravity
       }
       sparkGeo.attributes.position.needsUpdate = true;
 
       // Scan beam rotate
-      beam.rotation.y += 0.012;
-      beamMat.opacity = 0.03 + 0.02*Math.sin(t*2);
+      beam.rotation.y += 0.014;
+      beamMat.opacity = 0.04 + 0.025*Math.sin(t*2.5);
 
-      // Machine pulse
+      // Machine pulse (edge glow)
       machineMeshes.forEach((m,i)=>{
-        m.children[0].material.opacity = 0.2 + 0.15*Math.sin(t*1.5+i);
+        if(m.children[0]) m.children[0].material.opacity = 0.25 + 0.2*Math.sin(t*1.5+i*0.8);
       });
 
-      // Alert sprites bob
-      sprites.forEach((s,i)=>{ s.position.y = (i===0?3.2:3.2) + 0.12*Math.sin(t*1.8+i); });
+      // Alert sprites bob + rotate to face camera
+      sprites.forEach((s,i)=>{
+        s.position.y = 3.4 + 0.15*Math.sin(t*1.8+i*1.2);
+      });
+
+      // Forklift move
+      forklift.position.x = 10*Math.sin(t*0.25);
+      forklift.rotation.y = Math.atan2(Math.cos(t*0.25), 0) + Math.PI/2;
+      forkLift_fork.position.y = 0.4 + 0.3*Math.abs(Math.sin(t*0.4));
+
+      // Conveyor belt scroll
+      conveyorMat.map && (conveyorMat.map.offset.x += 0.008);
+
+      // Update HUD stats
+      const dangerCount = workers.filter(w=>w.userData.status==='danger').length;
+      const cautionCount = workers.filter(w=>w.userData.status==='caution').length;
+      const safeCount = workers.length - dangerCount - cautionCount;
+      const rEl=document.getElementById('xrRisk'); if(rEl) rEl.textContent=dangerCount;
+      const sEl=document.getElementById('xrSafe'); if(sEl) sEl.textContent=safeCount;
+      const aEl=document.getElementById('xrAlertBadge');
+      if(aEl) { aEl.style.display=dangerCount>0?'':'none'; }
 
       // Lights pulse
-      sun.intensity = 1.6 + 0.3*Math.sin(t*0.5);
+      sun.intensity = 1.6 + 0.25*Math.sin(t*0.7);
+      scene.children.filter(c=>c.isPointLight).forEach((l,i)=>{
+        l.intensity = 2.5 + 1.2*Math.sin(t*1.2+i);
+      });
 
       renderer.render(scene, camera);
     }
