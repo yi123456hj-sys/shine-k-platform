@@ -1,7 +1,7 @@
 /* SHine-K Insights — Service Worker (offline-first PWA)
    Works on Chrome, Safari, Firefox, Edge, Huawei Browser, MIUI/Xiaomi Browser,
    Samsung Internet, UC Browser — anywhere Service Worker API is supported. */
-const CACHE = 'shine-k-insights-v2.0.1';
+const CACHE = 'shine-k-insights-v3.0.0';
 const PRECACHE = [
   './',
   './index.html',
