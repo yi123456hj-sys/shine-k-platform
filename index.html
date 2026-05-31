@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" dir="ltr">
+<html lang="ko" dir="ltr" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -73,42 +73,42 @@
    TOSS-STYLE DESIGN TOKENS (light, projector-friendly)
    ============================================================ */
 :root{
-  /* Toss-inspired palette */
-  --bg:#F9FAFB;          /* main background */
-  --bg-2:#F2F4F6;        /* section alt */
-  --bg-3:#EEF0F2;        /* deeper alt */
+  /* 진일 — 산업안전 레드오렌지 팔레트 */
+  --bg:#FFF8F5;          /* warm white */
+  --bg-2:#FFF2EC;        /* warm alt */
+  --bg-3:#FFE8DC;        /* deeper warm */
   --card:#FFFFFF;
-  --bdr:#E5E8EB;
-  --bdr-strong:#D1D6DB;
+  --bdr:#F2D5C8;
+  --bdr-strong:#E8B89A;
 
-  --ink:#191F28;         /* primary text */
-  --ink-2:#333D4B;       /* secondary */
-  --ink-3:#4E5968;       /* muted */
-  --ink-4:#8B95A1;       /* very muted */
-  --ink-5:#B0B8C1;       /* placeholder */
+  --ink:#1A0F08;         /* warm dark */
+  --ink-2:#3D2010;       /* secondary */
+  --ink-3:#6B3E26;       /* muted */
+  --ink-4:#A0745A;       /* very muted */
+  --ink-5:#C9A48E;       /* placeholder */
 
-  /* Toss-style accent colors (more saturated, single-tone) */
-  --a:#3182F6;           /* Toss blue */
-  --a-light:#4DABF7;
-  --a-dark:#1B64DA;
-  --a-bg:#E8F2FF;        /* blue 50 */
+  /* 레드오렌지 액센트 */
+  --a:#FF6B35;           /* primary orange-red */
+  --a-light:#FF9F2D;
+  --a-dark:#E84A10;
+  --a-bg:#FFF0EB;
 
-  --g:#16C68C;           /* Toss green */
+  --g:#16C68C;           /* safe green (kept) */
   --g-bg:#E1F8EF;
-  --w:#FF9F2D;           /* Toss orange */
+  --w:#FF9F2D;           /* amber */
   --w-bg:#FFF4E5;
-  --r:#F04452;           /* Toss red */
-  --r-bg:#FFE9EB;
-  --p:#8B5CF6;           /* purple */
-  --p-bg:#F1EBFD;
-  --teal:#0FA8B8;
-  --teal-bg:#E0F7FA;
+  --r:#E83535;           /* danger red */
+  --r-bg:#FFEBEB;
+  --p:#C0392B;           /* deep red */
+  --p-bg:#FDECEA;
+  --teal:#FF6B35;
+  --teal-bg:#FFF0EB;
 
-  /* Effects (very subtle, Toss-like) */
-  --shadow-sm:0 1px 3px rgba(15,23,42,.04);
-  --shadow:0 4px 14px rgba(15,23,42,.06);
-  --shadow-lg:0 12px 32px rgba(15,23,42,.08);
-  --shadow-xl:0 24px 56px rgba(15,23,42,.10);
+  /* Effects */
+  --shadow-sm:0 1px 3px rgba(180,60,0,.06);
+  --shadow:0 4px 14px rgba(180,60,0,.10);
+  --shadow-lg:0 12px 32px rgba(180,60,0,.12);
+  --shadow-xl:0 24px 56px rgba(180,60,0,.14);
 
   /* Typography — Pretendard system fallback chain */
   --sans:'Pretendard Variable','Pretendard',-apple-system,BlinkMacSystemFont,system-ui,'Segoe UI',
@@ -148,11 +148,11 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--a);outline-offset:2
 .pill button.active{background:var(--a);color:#fff}
 
 /* ===== NAV ===== */
-nav{position:fixed;top:0;left:0;right:0;z-index:90;padding:14px 0;transition:.3s var(--ease);background:rgba(249,250,251,.7);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px)}
-nav.scrolled{background:rgba(255,255,255,.92);border-bottom:1px solid var(--bdr);padding:10px 0}
+nav{position:fixed;top:0;left:0;right:0;z-index:90;padding:14px 0;transition:.3s var(--ease);background:rgba(255,248,245,.82);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px)}
+nav.scrolled{background:rgba(255,245,240,.96);border-bottom:1px solid var(--bdr);padding:10px 0}
 nav .container{display:flex;align-items:center;justify-content:space-between}
 .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.05rem;color:var(--ink);letter-spacing:-.02em}
-.logo-mark{width:36px;height:36px;background:var(--a);border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:.64rem;letter-spacing:.5px;position:relative;overflow:hidden;box-shadow:0 4px 12px rgba(49,130,246,.3)}
+.logo-mark{width:36px;height:36px;background:linear-gradient(135deg,#FF6B35,#E84A10);border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:.64rem;letter-spacing:.5px;position:relative;overflow:hidden;box-shadow:0 4px 12px rgba(255,107,53,.4)}
 .logo-mark::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.3),transparent 60%)}
 .logo small{font-size:.72rem;color:var(--ink-4);font-weight:500;margin-left:2px;display:none}
 .logo-group{display:flex;align-items:center;gap:0;}
@@ -180,8 +180,9 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 /* ===== HERO (Toss style) ===== */
 .hero{min-height:100vh;min-height:100dvh;display:flex;align-items:center;position:relative;overflow:hidden;padding:120px 0 80px;
   background:
-    radial-gradient(900px circle at 80% 10%,rgba(49,130,246,.06),transparent 50%),
-    radial-gradient(700px circle at 10% 90%,rgba(139,92,246,.04),transparent 50%),
+    radial-gradient(900px circle at 80% 10%,rgba(255,107,53,.09),transparent 50%),
+    radial-gradient(700px circle at 10% 90%,rgba(255,159,45,.06),transparent 50%),
+    radial-gradient(500px circle at 50% 50%,rgba(232,74,16,.04),transparent 60%),
     var(--bg)}
 .hero-canvas-wrap{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.55}
 .hero-canvas-wrap canvas{position:absolute;inset:0;width:100%;height:100%}
@@ -593,6 +594,40 @@ footer{padding:60px 0 36px;text-align:center;background:#fff;border-top:1px soli
 .mini-prog{margin-top:7px;height:3px;background:var(--bdr);border-radius:3px;overflow:hidden}
 .mini-prog-fill{height:100%;border-radius:3px;transition:width .9s var(--ease)}
 
+/* ===== TEAM MEMBER SECTION ===== */
+.team-section{padding:100px 0;position:relative;overflow:hidden}
+.team-solo-wrap{display:flex;justify-content:center;align-items:center;padding:20px 0 60px}
+.team-card{max-width:480px;width:100%;background:var(--card);border:1px solid var(--bdr);border-radius:28px;padding:48px 40px;text-align:center;position:relative;transition:.4s var(--ease)}
+.team-card:hover{transform:translateY(-8px)}
+[data-theme="dark"] .team-card{
+  background:linear-gradient(145deg,#121B2E,#0F1628);
+  border-color:rgba(124,92,252,.35);
+  box-shadow:0 0 40px rgba(124,92,252,.15),0 20px 60px rgba(0,0,0,.7);
+}
+[data-theme="dark"] .team-card:hover{
+  border-color:rgba(124,92,252,.6);
+  box-shadow:0 0 60px rgba(124,92,252,.25),0 24px 70px rgba(0,0,0,.8);
+}
+.team-card-glow{position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(124,92,252,.3),transparent 70%);pointer-events:none;z-index:0}
+.team-avatar{width:110px;height:110px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:3rem;margin:0 auto 22px;position:relative;z-index:1;background:linear-gradient(135deg,#7C5CFC,#22D3EE);box-shadow:0 0 0 4px rgba(124,92,252,.25),0 8px 32px rgba(124,92,252,.4)}
+.team-name{font-size:1.7rem;font-weight:900;letter-spacing:-.04em;color:var(--ink);margin-bottom:6px;position:relative;z-index:1}
+[data-theme="dark"] .team-name{
+  background:linear-gradient(90deg,#A78BFA,#22D3EE);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.team-id{font-size:.82rem;font-family:var(--mono);color:var(--ink-4);font-weight:700;letter-spacing:.06em;margin-bottom:24px;position:relative;z-index:1}
+.team-role-badge{display:inline-flex;align-items:center;gap:8px;background:var(--a-bg);border:1px solid rgba(124,92,252,.3);border-radius:50px;padding:8px 22px;font-size:.84rem;font-weight:700;color:var(--a);margin-bottom:28px;position:relative;z-index:1}
+.team-role-badge .dot{width:8px;height:8px;border-radius:50%;background:var(--a);animation:pulse 2s infinite}
+.team-divider{height:1px;background:linear-gradient(90deg,transparent,var(--bdr),transparent);margin:24px 0;position:relative;z-index:1}
+.team-tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;position:relative;z-index:1}
+.team-tag{font-size:.74rem;padding:6px 14px;border-radius:50px;font-weight:700;letter-spacing:-.01em}
+.team-tag.blue{background:rgba(34,211,238,.1);color:#22D3EE;border:1px solid rgba(34,211,238,.25)}
+.team-tag.purple{background:rgba(124,92,252,.1);color:#A78BFA;border:1px solid rgba(124,92,252,.25)}
+.team-tag.green{background:rgba(15,223,176,.1);color:#0FDFB0;border:1px solid rgba(15,223,176,.25)}
+.team-tag.orange{background:rgba(245,158,11,.1);color:#F59E0B;border:1px solid rgba(245,158,11,.25)}
+.team-school-badge{margin-top:28px;padding:16px 20px;background:var(--bg-2);border-radius:14px;font-size:.82rem;color:var(--ink-3);line-height:1.6;position:relative;z-index:1;border:1px solid var(--bdr)}
+.team-school-badge strong{color:var(--ink);font-weight:800}
+
 /* ===== LIVE EVENT STREAM ===== */
 .event-log-item{display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--bg-2);border-radius:8px;font-size:.76rem;animation:slideInEv .4s var(--ease) both}
 @keyframes slideInEv{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
@@ -600,21 +635,32 @@ footer{padding:60px 0 36px;text-align:center;background:#fff;border-top:1px soli
 .event-badge{padding:3px 10px;border-radius:6px;font-size:.65rem;font-weight:800;font-family:var(--mono);white-space:nowrap;flex-shrink:0;letter-spacing:-.01em}
 .event-desc{flex:1;color:var(--ink-2);line-height:1.35;letter-spacing:-.01em}
 
-/* ===== DARK MODE ===== */
+/* ===== DARK MODE — 渐变紫蓝风格 ===== */
 [data-theme="dark"]{
   color-scheme:dark;
-  --bg:#0D1117; --bg-2:#161B27; --bg-3:#1C2333;
-  --card:#1A2035; --bdr:#2D3748; --bdr-strong:#3D4E6A;
-  --ink:#E2E8F0; --ink-2:#CBD5E0; --ink-3:#A0AEC0;
-  --ink-4:#718096; --ink-5:#4A5568;
-  --shadow-sm:0 1px 3px rgba(0,0,0,.4);
-  --shadow:0 4px 16px rgba(0,0,0,.5);
-  --shadow-lg:0 12px 32px rgba(0,0,0,.6);
-  --shadow-xl:0 24px 56px rgba(0,0,0,.7);
+  --bg:#130800; --bg-2:#1E0E05; --bg-3:#2A1508;
+  --card:#1F0F06; --bdr:#3D1F0D; --bdr-strong:#5C2E10;
+  --ink:#FFE8D6; --ink-2:#FFCBA8; --ink-3:#D4896A;
+  --ink-4:#8A5040; --ink-5:#522F20;
+  --a:#FF7A45; --a-light:#FF9F2D; --a-dark:#E84A10;
+  --a-bg:rgba(255,107,53,.14);
+  --g:#0FDFB0; --g-bg:rgba(15,223,176,.1);
+  --w:#FF9F2D; --w-bg:rgba(255,159,45,.1);
+  --r:#FF4444; --r-bg:rgba(255,68,68,.1);
+  --p:#FF6B35; --p-bg:rgba(255,107,53,.1);
+  --teal:#FF9F2D; --teal-bg:rgba(255,159,45,.1);
+  --shadow-sm:0 1px 4px rgba(0,0,0,.6);
+  --shadow:0 4px 20px rgba(0,0,0,.7);
+  --shadow-lg:0 12px 36px rgba(0,0,0,.8);
+  --shadow-xl:0 24px 60px rgba(0,0,0,.9);
 }
-[data-theme="dark"] nav{background:rgba(13,17,23,.85) !important}
-[data-theme="dark"] nav.scrolled{background:rgba(26,32,53,.96) !important;border-bottom-color:var(--bdr)}
-[data-theme="dark"] .hero{background:radial-gradient(900px circle at 80% 10%,rgba(49,130,246,.14),transparent 50%),radial-gradient(700px circle at 10% 90%,rgba(139,92,246,.1),transparent 50%),var(--bg)}
+[data-theme="dark"] nav{background:rgba(19,8,0,.92) !important;border-bottom:1px solid rgba(255,107,53,.2)}
+[data-theme="dark"] nav.scrolled{background:rgba(30,14,5,.96) !important;border-bottom-color:rgba(255,107,53,.3)}
+[data-theme="dark"] .hero{background:
+  radial-gradient(900px circle at 75% 5%,rgba(255,107,53,.18),transparent 55%),
+  radial-gradient(700px circle at 15% 85%,rgba(255,159,45,.12),transparent 50%),
+  radial-gradient(500px circle at 50% 50%,rgba(232,74,16,.08),transparent 60%),
+  var(--bg)}
 [data-theme="dark"] .hero-eyebrow{background:var(--card)}
 [data-theme="dark"] .pill{background:var(--card);border-color:var(--bdr)}
 [data-theme="dark"] .ticker{background:var(--bg-2);border-color:var(--bdr)}
@@ -723,7 +769,7 @@ footer{padding:60px 0 36px;text-align:center;background:#fff;border-top:1px soli
 /* ── Universal animated gradient text (.accent appears 17+ times) ── */
 @keyframes gradShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
 .accent,.hero h1 .grad,.compare-item .reg{
-  background:linear-gradient(90deg,#3182F6,#00C4A7,#16C68C,#3182F6);
+  background:linear-gradient(90deg,#FF6B35,#FF9F2D,#E84A10,#FF6B35);
   background-size:300% 100%;
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
   background-clip:text;
@@ -735,10 +781,10 @@ footer{padding:60px 0 36px;text-align:center;background:#fff;border-top:1px soli
 .hero::before{
   content:"";position:absolute;inset:0;z-index:0;
   background:
-    radial-gradient(ellipse 900px 700px at 80% -5%,rgba(49,130,246,.13),transparent 60%),
-    radial-gradient(ellipse 700px 600px at 10% 105%,rgba(22,198,140,.10),transparent 55%),
-    radial-gradient(ellipse 500px 500px at 50% 55%,rgba(139,92,246,.07),transparent 60%),
-    radial-gradient(ellipse 600px 400px at -5% 50%,rgba(0,196,167,.06),transparent 60%);
+    radial-gradient(ellipse 900px 700px at 80% -5%,rgba(255,107,53,.14),transparent 60%),
+    radial-gradient(ellipse 700px 600px at 10% 105%,rgba(255,159,45,.10),transparent 55%),
+    radial-gradient(ellipse 500px 500px at 50% 55%,rgba(232,74,16,.07),transparent 60%),
+    radial-gradient(ellipse 600px 400px at -5% 50%,rgba(255,107,53,.06),transparent 60%);
   animation:auroraFloat 14s ease-in-out infinite alternate;
   pointer-events:none;
 }
@@ -990,39 +1036,84 @@ footer::before{
 /* ── Dark mode overrides for gradient text ── */
 [data-theme="dark"] .accent,
 [data-theme="dark"] .hero h1 .grad{
-  background:linear-gradient(90deg,#4DABF7,#00C4A7,#16C68C,#4DABF7);
+  background:linear-gradient(90deg,#FF9F2D,#FF6B35,#FFCC55,#FF9F2D);
   background-size:300% 100%;
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
   animation:gradShift 6s ease-in-out infinite;
 }
 [data-theme="dark"] .hero-stat{
-  background:rgba(26,32,53,.85) !important;
-  border-color:rgba(49,130,246,.25) !important;
+  background:rgba(31,15,6,.85) !important;
+  border-color:rgba(255,107,53,.3) !important;
+  box-shadow:0 0 0 1px rgba(255,107,53,.08),0 4px 20px rgba(0,0,0,.5) !important;
+}
+[data-theme="dark"] .hero-stat:hover{
+  border-color:rgba(255,107,53,.6) !important;
+  box-shadow:0 0 20px rgba(255,107,53,.2),0 8px 24px rgba(0,0,0,.6) !important;
 }
 [data-theme="dark"] .hero-eyebrow{
-  background:rgba(26,32,53,.82) !important;
+  background:rgba(18,27,46,.88) !important;
+  border-color:rgba(124,92,252,.2) !important;
 }
 [data-theme="dark"] .hero-stat .num{
-  background:linear-gradient(90deg,#4DABF7,#16C68C);
+  background:linear-gradient(90deg,#A78BFA,#22D3EE);
   background-size:200%;
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
   animation:gradShift 6s ease-in-out infinite;
 }
-[data-theme="dark"] section.cta{background:linear-gradient(135deg,#0A0F1E,#080F0A) !important}
+[data-theme="dark"] section.cta{background:linear-gradient(135deg,#06030F,#050810) !important}
 [data-theme="dark"] .compare-item .reg{
-  background:linear-gradient(90deg,#4DABF7,#16C68C);
+  background:linear-gradient(90deg,#A78BFA,#22D3EE);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
 [data-theme="dark"] .impact-card .v{
-  background:linear-gradient(90deg,#4DABF7,#16C68C);
+  background:linear-gradient(90deg,#A78BFA,#22D3EE);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
+
+/* ── 渐变卡片发光效果 ── */
+[data-theme="dark"] .card:hover,
+[data-theme="dark"] .crisis-card:hover,
+[data-theme="dark"] .tech-cell:hover,
+[data-theme="dark"] .scenario:hover,
+[data-theme="dark"] .health-card:hover,
+[data-theme="dark"] .roadmap-step:hover,
+[data-theme="dark"] .impact-card:hover,
+[data-theme="dark"] .liveai-card:hover{
+  border-color:rgba(124,92,252,.45) !important;
+  box-shadow:0 0 24px rgba(124,92,252,.18),0 12px 36px rgba(0,0,0,.7) !important;
+}
+[data-theme="dark"] .btn-primary{
+  background:linear-gradient(135deg,#7C5CFC,#22D3EE) !important;
+  border:none;
+}
+[data-theme="dark"] .btn-primary:hover{
+  background:linear-gradient(135deg,#9B80FF,#38E8FF) !important;
+  box-shadow:0 0 30px rgba(124,92,252,.45) !important;
+}
+[data-theme="dark"] .btn-fill{
+  background:linear-gradient(135deg,#1E2D48,#2A3F62) !important;
+  border:1px solid rgba(124,92,252,.3) !important;
+}
+[data-theme="dark"] .logo-mark{
+  background:linear-gradient(135deg,#FF6B35,#E84A10) !important;
+  box-shadow:0 0 20px rgba(255,107,53,.5) !important;
+}
+[data-theme="dark"] .sec-label{color:#FF9F2D !important}
+[data-theme="dark"] .sec-label::before{background:#FF9F2D !important}
+[data-theme="dark"] section:nth-child(even){background:var(--bg-2) !important}
+
+/* ── 섹션별 워밍 글로우 ── */
+[data-theme="dark"] #crisis{background:radial-gradient(800px circle at 20% 50%,rgba(255,107,53,.07),transparent 60%),var(--bg)}
+[data-theme="dark"] #platform{background:radial-gradient(800px circle at 80% 30%,rgba(232,74,16,.09),transparent 60%),var(--bg)}
+[data-theme="dark"] #agents{background:radial-gradient(700px circle at 30% 60%,rgba(255,159,45,.07),transparent 60%),var(--bg-2)}
+[data-theme="dark"] #health{background:radial-gradient(700px circle at 70% 40%,rgba(255,107,53,.06),transparent 60%),var(--bg)}
+[data-theme="dark"] #center{background:radial-gradient(800px circle at 50% 50%,rgba(232,74,16,.08),transparent 60%),var(--bg-2)}
 </style>
 </head>
 <body>
 
 <!-- ★ 학생 배지 -->
-<div id="studentBadge" style="position:fixed;top:56px;left:14px;z-index:999999;display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#3182F6,#1B64DA);border-radius:10px;padding:7px 14px 7px 10px;box-shadow:0 4px 16px rgba(49,130,246,0.40);pointer-events:none;">
+<div id="studentBadge" style="position:fixed;top:56px;left:14px;z-index:999999;display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#FF6B35,#E84A10);border-radius:10px;padding:7px 14px 7px 10px;box-shadow:0 4px 16px rgba(255,107,53,0.45);pointer-events:none;">
   <div style="width:3px;height:30px;background:rgba(255,255,255,0.5);border-radius:2px;"></div>
   <div style="display:flex;flex-direction:column;line-height:1.3;">
     <span style="font-size:14px;font-weight:800;color:#ffffff;letter-spacing:-0.01em;">진일</span>
@@ -1088,7 +1179,7 @@ footer::before{
     <button id="lang-en" onclick="setLang('en')" aria-label="English">EN</button>
     <button id="lang-zh" onclick="setLang('zh')" aria-label="中文">中</button>
     <button id="lang-ja" onclick="setLang('ja')" aria-label="日本語">JA</button>
-    <button id="themeToggle" class="theme-btn" onclick="toggleTheme()" aria-label="다크/라이트 테마 전환">🌙</button>
+    <button id="themeToggle" class="theme-btn" onclick="toggleTheme()" aria-label="다크/라이트 테마 전환">☀️</button>
   </div>
 </div>
 
@@ -1108,6 +1199,7 @@ footer::before{
       <li><a href="#health" data-i18n="navHealth">헬스 프로모션</a></li>
       <li><a href="#center" data-i18n="navCenter">관제센터</a></li>
       <li><a href="#compete" data-i18n="navCompete">경쟁분석</a></li>
+      <li><a href="#team" data-i18n="navTeam">팀</a></li>
     </ul>
     <a href="https://shine-k-wansuk-choi-ces2027.vercel.app" target="_blank" rel="noopener" class="nav-cta" data-i18n="navCES">CES 2027 →</a>
     <button class="menu-toggle" id="menuBtn" onclick="toggleMenu()" aria-label="메뉴 열기" aria-expanded="false">
@@ -1130,6 +1222,7 @@ footer::before{
   <a href="#app" onclick="toggleMenu()">📱 모바일 앱</a>
   <a href="#strategy" onclick="toggleMenu()">🎯 SHine-K 전략</a>
   <a href="#compete" onclick="toggleMenu()">🏆 경쟁사 비교</a>
+  <a href="#team" onclick="toggleMenu()">👤 팀 소개</a>
   <a href="#roadmap" onclick="toggleMenu()">📅 5년 로드맵</a>
   <a href="#methodology" onclick="toggleMenu()">📚 데이터 출처</a>
   <a href="#factory-xr" onclick="toggleMenu()">🏭 3D 가상 공장 XR</a>
@@ -1767,6 +1860,18 @@ footer::before{
         <li data-i18n="diff5"><strong>로컬 R&amp;D 검증</strong> — 경북 RISE 사업 5년 정부 지원. 50인 미만 영세 사업장 저비용 보급형.</li>
       </ol>
     </div>
+    <!-- 경쟁사 역량 레이더 차트 -->
+    <div class="card aos" style="margin-top:20px;padding:32px">
+      <div class="chart-title" data-i18n="compRadarTitle">경쟁사 역량 레이더 비교</div>
+      <div class="chart-sub" data-i18n="compRadarSub">5개 핵심 역량 축 · SHine-K vs 글로벌 TOP 경쟁사</div>
+      <div class="chart-canvas" style="height:320px"><canvas id="chartCompRadar"></canvas></div>
+      <div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:16px;font-size:.78rem;font-weight:700">
+        <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:3px;background:#7C5CFC;border-radius:2px;display:inline-block"></span>SHine-K</span>
+        <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:3px;background:#F04452;border-radius:2px;display:inline-block"></span>Intenseye</span>
+        <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:3px;background:#0FDFB0;border-radius:2px;display:inline-block"></span>Protex AI</span>
+        <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:3px;background:#F59E0B;border-radius:2px;display:inline-block"></span>viAct</span>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -2015,6 +2120,44 @@ footer::before{
   </div>
 </section>
 
+<!-- ===== TEAM MEMBER ===== -->
+<section id="team" class="team-section">
+  <div class="container">
+    <div class="sec-header aos" style="text-align:center">
+      <span class="sec-label" data-i18n="secTeamLabel">팀 소개</span>
+      <h2 class="sec-title" style="text-align:center" data-i18n="secTeamTitle">프로젝트 <span class="accent">개발자</span></h2>
+      <p class="sec-desc" style="text-align:center;margin:0 auto" data-i18n="secTeamDesc">경운대학교 보건대학 · SHine-K Platform 개발팀</p>
+    </div>
+    <div class="team-solo-wrap">
+      <div class="team-card aos">
+        <div class="team-card-glow"></div>
+        <div class="team-avatar">🧑‍💻</div>
+        <div class="team-name" data-i18n="teamName">진일</div>
+        <div class="team-id">202317104</div>
+        <div class="team-role-badge">
+          <span class="dot"></span>
+          <span data-i18n="teamRole">Full-Stack Developer &amp; AI Engineer</span>
+        </div>
+        <div class="team-divider"></div>
+        <div class="team-tags">
+          <span class="team-tag purple">MediaPipe BlazePose</span>
+          <span class="team-tag blue">Three.js WebXR</span>
+          <span class="team-tag green">Agentic AI</span>
+          <span class="team-tag purple">Supabase Realtime</span>
+          <span class="team-tag blue">YOLOv11</span>
+          <span class="team-tag orange">Chart.js</span>
+          <span class="team-tag green">TF.js MoveNet</span>
+          <span class="team-tag purple">Blockchain ZKP</span>
+        </div>
+        <div class="team-school-badge">
+          <strong data-i18n="teamSchool">경운대학교 보건대학</strong><br>
+          <span data-i18n="teamDept">RISE 2025-2029 · 산업안전·건강증진 R&amp;D</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="container">
     <div class="footer-grid">
@@ -2144,7 +2287,9 @@ const I18N = {
     secXRLabel:"3D 가상 공장 XR",secXRTitle:"실시간 <span class='accent'>3D 가상 공장</span> · WebXR 프리뷰",secXRDesc:"Three.js 기반 가상 공장 바닥. 근로자 위치·위험구역·AI 감지 이벤트를 3D로 실시간 시각화. WebXR 지원 기기에서 VR 모드로 입장 가능.",
     xrL1:"모니터링 중 근로자",xrL2:"안전 구역 근로자",xrL3:"위험 구역 근로자",
     ctaH1:"데이터는 충분합니다.<br>",ctaH2:"이제 SHine-K가 행동합니다.",ctaSub:"3D 디지털 트윈 · 12 에이전트 하네스 · 실시간 카메라 AI · 119 자동연결 — 모두 작동하는 데모.",
-    footDataTitle:"데이터 출처",footProjTitle:"과제 정보"
+    footDataTitle:"데이터 출처",footProjTitle:"과제 정보",
+    navTeam:"팀",secTeamLabel:"팀 소개",secTeamTitle:"프로젝트 <span class='accent'>개발자</span>",secTeamDesc:"경운대학교 보건대학 · SHine-K Platform 개발팀",
+    teamName:"진일",teamRole:"Full-Stack Developer & AI Engineer",teamSchool:"경운대학교 보건대학",teamDept:"RISE 2025-2029 · 산업안전·건강증진 R&D"
   },
   en: {
     skip:"Skip to main",logoSub:" · Insights",
@@ -2224,7 +2369,9 @@ const I18N = {
     secXRLabel:"3D Virtual Factory XR",secXRTitle:"Real-time <span class='accent'>3D Virtual Factory</span> · WebXR Preview",secXRDesc:"Three.js-powered virtual factory floor. Real-time 3D visualization of worker positions, hazard zones, and AI detection events. VR mode available on WebXR-capable devices.",
     xrL1:"Workers Being Monitored",xrL2:"Workers in Safe Zone",xrL3:"Workers in Danger Zone",
     ctaH1:"The data is clear.<br>",ctaH2:"Now SHine-K takes action.",ctaSub:"3D Digital Twin · 12 Agent Harness · Real-time Camera AI · 119 Auto-connect — all working demos.",
-    footDataTitle:"Data Sources",footProjTitle:"Project Info"
+    footDataTitle:"Data Sources",footProjTitle:"Project Info",
+    navTeam:"Team",secTeamLabel:"Team",secTeamTitle:"Project <span class='accent'>Developer</span>",secTeamDesc:"Kyungwoon University · College of Health Sciences · SHine-K Platform Team",
+    teamName:"Jin-Il",teamRole:"Full-Stack Developer & AI Engineer",teamSchool:"Kyungwoon University · College of Health Sciences",teamDept:"RISE 2025-2029 · Industrial Safety & Health Promotion R&D"
   },
   zh: {
     skip:"跳到正文",logoSub:" · 洞察",
@@ -2304,7 +2451,9 @@ const I18N = {
     secXRLabel:"3D虚拟工厂XR",secXRTitle:"实时<span class='accent'>3D虚拟工厂</span>·WebXR预览",secXRDesc:"基于Three.js的虚拟工厂地图，实时3D可视化工人位置、危险区域和AI检测事件。支持WebXR设备VR模式。",
     xrL1:"监控中工人",xrL2:"安全区域工人",xrL3:"危险区域工人",
     ctaH1:"数据已经很清楚了。<br>",ctaH2:"现在SHine-K付诸行动。",ctaSub:"3D数字孪生·12智能体管理器·实时摄像头AI·119自动连接——全部可运行演示。",
-    footDataTitle:"数据来源",footProjTitle:"项目信息"
+    footDataTitle:"数据来源",footProjTitle:"项目信息",
+    navTeam:"团队",secTeamLabel:"团队介绍",secTeamTitle:"项目<span class='accent'>开发者</span>",secTeamDesc:"庆运大学 · 保健学院 · SHine-K Platform 开发团队",
+    teamName:"进一",teamRole:"全栈开发工程师 & AI工程师",teamSchool:"庆运大学 保健学院",teamDept:"RISE 2025-2029 · 产业安全·健康促进 R&D"
   },
   ja: {
     skip:"メインへスキップ", logoSub:" · インサイト",
@@ -2384,7 +2533,9 @@ const I18N = {
     secXRLabel:"3D仮想工場XR",secXRTitle:"リアルタイム<span class='accent'>3D仮想工場</span> · WebXRプレビュー",secXRDesc:"Three.jsベースの仮想工場フロア。労働者位置・危険ゾーン・AI検知イベントを3Dでリアルタイム可視化。WebXR対応デバイスでVRモード入場可能。",
     xrL1:"監視中の労働者",xrL2:"安全ゾーン労働者",xrL3:"危険ゾーン労働者",
     ctaH1:"データは十分です。<br>",ctaH2:"今こそSHine-Kが行動します。",ctaSub:"3Dデジタルツイン・12エージェントハーネス・リアルタイムカメラAI・119自動連携——すべて動作するデモ。",
-    footDataTitle:"データ出典",footProjTitle:"プロジェクト情報"
+    footDataTitle:"データ出典",footProjTitle:"プロジェクト情報",
+    navTeam:"チーム",secTeamLabel:"チーム紹介",secTeamTitle:"プロジェクト<span class='accent'>開発者</span>",secTeamDesc:"慶雲大学 · 保健学部 · SHine-K Platform 開発チーム",
+    teamName:"ジンイル",teamRole:"フルスタック開発者 & AIエンジニア",teamSchool:"慶雲大学 保健学部",teamDept:"RISE 2025-2029 · 産業安全・健康増進 R&D"
   }
 };
 
@@ -2602,6 +2753,17 @@ function buildCharts(){
   charts.scatter = new Chart(document.getElementById('chartScatter'), {type:'scatter',data:{datasets:[{label:'제조업 23개 업종',data:Object.entries(DATA.industries).map(([k,v])=>({x:v.safety_mgr,y:v.risk_assess,label:k,n:v.n})),backgroundColor:c=>{const d=c.raw; if(!d) return C.a; if(d.x>=80&&d.y>=70) return C.g; if(d.x<60||d.y<60) return C.r; return C.w;},pointRadius:c=>{const d=c.raw; return d?Math.max(5,Math.min(18,Math.sqrt(d.n)/3)):6;}}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{const d=c.raw; return [` ${d.label}`,` 안전관리자: ${d.x}%`,` 위험성평가: ${d.y}%`,` 사업장: ${d.n.toLocaleString()}개`];}}}},scales:{x:{title:{display:true,text:'안전관리자 선임율 (%)'},min:30,max:95,ticks:{callback:v=>v+'%'}},y:{title:{display:true,text:'위험성평가 실시율 (%)'},min:45,max:90,ticks:{callback:v=>v+'%'}}}}});
   const topS = Object.entries(DATA.industries).sort((a,b)=>b[1].shift-a[1].shift).slice(0,10);
   charts.shift = new Chart(document.getElementById('chartShift'), {type:'bar',data:{labels:topS.map(x=>x[0]),datasets:[{label:'교대근무 (%)',data:topS.map(x=>x[1].shift),backgroundColor:C.p,borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.parsed.y}%`}}},scales:{y:{beginAtZero:true,max:45,ticks:{callback:v=>v+'%'}}}}});
+  // 경쟁사 역량 레이더
+  const compRadarEl = document.getElementById('chartCompRadar');
+  if(compRadarEl){
+    const compLabels=['기술 융합 깊이','응급 대응 속도','건강증진 통합','SME 적합성','Agentic AI'];
+    charts.compRadar = new Chart(compRadarEl, {type:'radar',data:{labels:compLabels,datasets:[
+      {label:'SHine-K',data:[100,100,100,95,100],borderColor:'#7C5CFC',backgroundColor:'rgba(124,92,252,.20)',borderWidth:2.5,pointBackgroundColor:'#7C5CFC'},
+      {label:'Intenseye',data:[40,20,15,30,10],borderColor:'#F04452',backgroundColor:'rgba(240,68,82,.12)',borderWidth:2,pointBackgroundColor:'#F04452'},
+      {label:'Protex AI',data:[45,20,20,40,10],borderColor:'#0FDFB0',backgroundColor:'rgba(15,223,176,.10)',borderWidth:2,pointBackgroundColor:'#0FDFB0'},
+      {label:'viAct',data:[35,15,10,35,5],borderColor:'#F59E0B',backgroundColor:'rgba(245,158,11,.10)',borderWidth:2,pointBackgroundColor:'#F59E0B'},
+    ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.r}점`}}},scales:{r:{beginAtZero:true,min:0,max:100,ticks:{stepSize:25,callback:v=>v+'점',backdropColor:'transparent',font:{size:10}},pointLabels:{font:{size:11.5,weight:'700'}},grid:{color:darkMode?'rgba(255,255,255,.07)':'rgba(0,0,0,.06)'},angleLines:{color:darkMode?'rgba(255,255,255,.07)':'rgba(0,0,0,.06)'}}}}}});
+  }
 }
 const chartObs = new IntersectionObserver((es, o) => { if (es.some(e=>e.isIntersecting)) { o.disconnect(); loadChart().then(buildCharts).catch(e=>console.warn(e)); } }, {rootMargin:'200px'});
 chartObs.observe(document.getElementById('chartHazardErg'));
@@ -3016,7 +3178,7 @@ function updateStudentBadge(isDark){
 function toggleTheme(){
   const wasDark = document.documentElement.dataset.theme === 'dark';
   document.documentElement.dataset.theme = wasDark ? '' : 'dark';
-  localStorage.setItem('shk-theme', wasDark ? '' : 'dark');
+  localStorage.setItem('shk-theme', wasDark ? 'light' : 'dark');
   updateStudentBadge(!wasDark);
   const btn = document.getElementById('themeToggle');
   if (btn) btn.textContent = wasDark ? '🌙' : '☀️';
@@ -3030,11 +3192,16 @@ function toggleTheme(){
 }
 (function initTheme(){
   const saved = localStorage.getItem('shk-theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  if (saved === 'dark' || (!saved && prefersDark)) {
+  // Default to dark; only switch to light if user explicitly saved 'light'
+  const isLight = saved === 'light' || saved === '';
+  if (!isLight) {
     document.documentElement.dataset.theme = 'dark';
     const btn = document.getElementById('themeToggle');
     if (btn) btn.textContent = '☀️';
+  } else {
+    document.documentElement.dataset.theme = '';
+    const btn = document.getElementById('themeToggle');
+    if (btn) btn.textContent = '🌙';
   }
 })();
 
