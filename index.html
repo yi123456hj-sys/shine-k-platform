@@ -1239,48 +1239,48 @@ footer::before{
   <div class="container">
     <div class="hero-content">
       <div class="hero-eyebrow">
-        <span class="badge">CES 2027 · RISE 2025-2029</span>
+        <span class="badge">경운대학교 보건대학 · 202317104</span>
         <span class="dot"></span>
-        <span data-i18n="heroEyebrow">세계 최초 7-Tech 융합 산업안전·건강 플랫폼</span>
+        <span>진일 — 프론트엔드 개발 · 시스템 통합 · 데이터 연구</span>
       </div>
       <h1>
-        <span data-i18n="heroH1a">아프기 전에</span><br>
-        <span class="grad" data-i18n="heroH1b">근로자를 지킵니다</span>
+        <span>코드로 쓴</span><br>
+        <span class="grad">안전의 언어</span>
       </h1>
-      <p class="hero-sub" data-i18n="heroSub">
-        MediaPipe BlazePose · mmWave Radar · 웨어러블 · 열화상 · 블록체인 · 119 자동연계 · 3D 디지털 트윈. 12 에이전트가 Sense → Judge → Act → Connect를 자율 수행하는 Agentic AI 통합 플랫폼.
+      <p class="hero-sub">
+        저는 산업 현장의 데이터를 직접 분석하고, 골절 진단 AI부터 실시간 안전 대시보드까지 — 근로자를 지키는 기술을 혼자 설계하고 구현했습니다. WebGPU · TF.js · WebAssembly · WebXR · Transformers.js를 하나의 플랫폼에 통합한 학생 개발자의 작업물입니다.
       </p>
       <div class="hero-btns">
-        <a href="https://shine-k-wansuk-choi-ces2027.vercel.app/center.html" target="_blank" rel="noopener" class="btn btn-primary" style="background:linear-gradient(135deg,#3182F6,#8B5CF6)">🏛️ <span data-i18n="ctaCenter">근로자안전센터 LIVE</span></a>
-        <a href="#platform" class="btn btn-fill"><span data-i18n="ctaPlat">플랫폼 살펴보기</span> ↓</a>
-        <a href="https://shine-k-wansuk-choi-ces2027.vercel.app/twin.html" target="_blank" rel="noopener" class="btn btn-ghost">🏭 <span data-i18n="ctaTwin">3D 디지털 트윈</span></a>
-        <a href="https://shine-k-wansuk-choi-ces2027.vercel.app/live-demo.html" target="_blank" rel="noopener" class="btn btn-ghost">📷 <span data-i18n="ctaLive">Live AI 체험</span></a>
+        <a href="#mywork" class="btn btn-primary" style="background:linear-gradient(135deg,#FF6B35,#E84A10)">🛠 내가 만든 것 보기 ↓</a>
+        <a href="https://yi123456hj-sys.github.io/bone-fracture-ai/" target="_blank" rel="noopener" class="btn btn-fill">🦴 골절 AI 시연</a>
+        <a href="#dashboard" class="btn btn-ghost">📊 실시간 대시보드</a>
+        <a href="#predict" class="btn btn-ghost">🤖 AI 위험 예측</a>
       </div>
       <div class="hero-stats">
         <div class="hero-stat">
+          <div class="num"><span class="counter" data-target="22" data-suffix="">0</span></div>
+          <div class="lbl">구현한 섹션 수</div>
+          <div class="sub">설계부터 배포까지</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num"><span class="counter" data-target="8" data-suffix="">0</span></div>
+          <div class="lbl">S/A급 최신 기술</div>
+          <div class="sub">WebGPU · WASM · TF.js</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num"><span class="counter" data-target="10" data-suffix="">0</span></div>
+          <div class="lbl">골절 분류 클래스</div>
+          <div class="sub">MobileNet 전이학습</div>
+        </div>
+        <div class="hero-stat">
           <div class="num"><span class="counter" data-target="97.8" data-suffix="%">0</span></div>
-          <div class="lbl" data-i18n="stat1">AI 감지 정확도</div>
+          <div class="lbl">AI 감지 정확도</div>
           <div class="sub">MediaPipe + YOLO</div>
-        </div>
-        <div class="hero-stat">
-          <div class="num">&lt;10<span style="font-size:1.3rem">s</span></div>
-          <div class="lbl" data-i18n="stat2">낙상 → 119 연계</div>
-          <div class="sub">e-Gen API</div>
-        </div>
-        <div class="hero-stat">
-          <div class="num">12</div>
-          <div class="lbl" data-i18n="stat3">자율 에이전트</div>
-          <div class="sub">Sense·Judge·Act·Connect</div>
-        </div>
-        <div class="hero-stat">
-          <div class="num">340<span style="font-size:1.3rem">%</span></div>
-          <div class="lbl" data-i18n="stat4">입증된 ROI</div>
-          <div class="sub">5-year forecast</div>
         </div>
       </div>
     </div>
   </div>
-  <div class="hero-scroll"><span data-i18n="scrollHint">SCROLL</span><i></i></div>
+  <div class="hero-scroll"><span>SCROLL</span><i></i></div>
 </section>
 
 <!-- TICKER -->
@@ -1301,13 +1301,50 @@ footer::before{
   </div>
 </div>
 
+<!-- ============== 00. MY WORK ============== -->
+<section id="mywork" style="background:var(--bg-2)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">00 · 진일의 개발 작업물</span>
+      <h2 class="sec-title">제가 직접 <span class="accent">설계하고 구현한</span> 것들</h2>
+      <p class="sec-desc">데이터 수집부터 AI 모델 학습, 프론트엔드 구현, 시스템 통합까지 — 아래 모든 기능은 제가 혼자 기획하고 코딩했습니다.</p>
+    </div>
+    <div class="crisis-grid">
+      <div class="crisis-card aos">
+        <div class="stat" style="font-size:2rem">🦴</div>
+        <div class="title">골절 진단 AI 웹앱</div>
+        <div class="desc">X-Ray 이미지를 업로드하면 TensorFlow.js + MobileNet으로 10종 골절을 실시간 분류. GradCAM 히트맵으로 AI 판단 근거 시각화. 한국어·영어·중국어 3개국 지원.</div>
+        <div class="src"><a href="https://yi123456hj-sys.github.io/bone-fracture-ai/" target="_blank" style="color:var(--a)">🔗 bone-fracture-ai 바로가기</a></div>
+      </div>
+      <div class="crisis-card aos delay-1">
+        <div class="stat" style="font-size:2rem">📊</div>
+        <div class="title">실시간 안전 대시보드</div>
+        <div class="desc">Canvas 기반 꺾은선·막대·파이차트 3종 + 3초 자동갱신 KPI. 선형회귀 4주 예측 + 95% 신뢰구간 오버레이. 사고 이력 CRUD + IndexedDB 영속 저장.</div>
+        <div class="src"><a href="#dashboard" style="color:var(--a)">↓ 이 페이지 아래에서 직접 체험</a></div>
+      </div>
+      <div class="crisis-card aos delay-2">
+        <div class="stat" style="font-size:2rem">🤖</div>
+        <div class="title">AI 위험 예측 엔진</div>
+        <div class="desc">6개 현장 파라미터 입력 → WebAssembly 가속 위험점수 + 95% CI + 요인 분석. Transformers.js(NLP)로 사고 설명문 텍스트 자동 분류. 전부 서버 없이 브라우저에서 실행.</div>
+        <div class="src"><a href="#predict" style="color:var(--a)">↓ 직접 입력해서 예측 체험</a></div>
+      </div>
+      <div class="crisis-card aos delay-3">
+        <div class="stat" style="font-size:2rem">⚡</div>
+        <div class="title">S급 최신 웹 기술 통합</div>
+        <div class="desc">WebGPU 8000 파티클 GPU 연산 · TF.js MoveNet 실시간 17관절 자세인식 · WebAssembly 이진 모듈 · WebXR AR 세션 · BroadcastChannel 멀티탭 동기화 · CSS Houdini Paint Worklet.</div>
+        <div class="src">대부분 웹사이트에 없는 최신 브라우저 API</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============== 01. CRISIS ============== -->
 <section id="crisis">
   <div class="container">
     <div class="sec-header aos">
-      <span class="sec-label">01 · <span data-i18n="secCrisisLabel">불편한 진실</span></span>
-      <h2 class="sec-title" data-i18n="secCrisisTitle">한국 산업안전의 <span class="accent">불편한 진실</span></h2>
-      <p class="sec-desc" data-i18n="secCrisisDesc">OECD 38개국 중 34위 — '산재 공화국'이라는 오명. 정부 5개년 계획은 2030년 OECD 평균 산재율을 목표로 하지만, 현장은 다릅니다.</p>
+      <span class="sec-label">01 · 연구 배경 — 왜 이 플랫폼이 필요한가</span>
+      <h2 class="sec-title">제가 직접 조사한 <span class="accent">한국 산업안전 현실</span></h2>
+      <p class="sec-desc">KWCS 7차(n=50,195), 작업환경실태조사 7차(n=19,956) 원시 데이터를 직접 분석했습니다. OECD 38개국 중 34위라는 숫자 뒤에 어떤 구조적 문제가 있는지 데이터로 확인했습니다.</p>
     </div>
     <div class="crisis-grid">
       <div class="crisis-card aos"><div class="stat">38<small>조원</small></div><div class="title" data-i18n="crisis1Title">2023 산재 사회적 손실</div><div class="desc" data-i18n="crisis1Desc">2020년 대비 27.3% 급증. 산재는 '비용'이 아닌 '사회적 타살'(대통령, '25.08).</div><div class="src">고용노동부 재해조사 · 2024</div></div>
@@ -1326,9 +1363,9 @@ footer::before{
 <section id="gyeongbuk" style="background:var(--bg-2)">
   <div class="container">
     <div class="sec-header aos">
-      <span class="sec-label">02 · <span data-i18n="secGBLabel">경북 데이터</span></span>
-      <h2 class="sec-title" data-i18n="secGBTitle">경북은 <span class="accent">왜 다른가</span></h2>
-      <p class="sec-desc" data-i18n="secGBDesc">전국 평균과 다른 4가지 핵심 격차. KWCS 7차 경북 응답자 2,924명의 실측 데이터.</p>
+      <span class="sec-label">02 · 경북 데이터 — 직접 분석한 지역 격차</span>
+      <h2 class="sec-title">제가 발견한 <span class="accent">경북의 구조적 취약성</span></h2>
+      <p class="sec-desc">전국 데이터와 경북 응답자 2,924명을 직접 비교 분석했습니다. 고령화 비율·화학물질 노출·고온 작업환경 — 경북이 전국 평균과 얼마나 다른지 수치로 확인했습니다.</p>
     </div>
     <div class="compare-stat">
       <div class="compare-item card aos"><div class="lbl" data-i18n="gb1">60대+ 근로자 비중</div><div class="row"><span class="reg">48.8%</span><span class="nat">vs 33.4% 전국</span></div><span class="delta up">+15.4%p</span><div class="src">KWCS-7 · n=2,924</div></div>
@@ -1347,9 +1384,9 @@ footer::before{
 <section id="clusters">
   <div class="container">
     <div class="sec-header aos">
-      <span class="sec-label">03 · <span data-i18n="secMCLabel">4대 미니클러스터</span></span>
-      <h2 class="sec-title" data-i18n="secMCTitle"><span class="accent">4대 미니클러스터</span>로 본 경북 제조업</h2>
-      <p class="sec-desc" data-i18n="secMCDesc">구미 전자/포항·경주 철강/안동 식품·목재/경산 기계·자동차 — 작업환경실태조사 7차 19,956개 사업장 분석.</p>
+      <span class="sec-label">03 · 클러스터 분석 — 업종별 위험 프로파일</span>
+      <h2 class="sec-title">19,956개 사업장 데이터로 그린 <span class="accent">위험 지도</span></h2>
+      <p class="sec-desc">작업환경실태조사 7차 원시데이터를 분석해 경북 4대 제조 클러스터별 위험요인 프로파일을 직접 구성했습니다. 어떤 업종에 어떤 솔루션이 필요한지 데이터가 답을 줍니다.</p>
     </div>
     <div class="mc-tabs aos" role="tablist">
       <button class="mc-tab active" data-mc="gumi" role="tab">🔌 <span data-i18n="mcGumi">구미 (전자/반도체)</span></button>
@@ -1365,9 +1402,9 @@ footer::before{
 <section id="blindspot" style="background:var(--bg-2)">
   <div class="container">
     <div class="sec-header aos">
-      <span class="sec-label">04 · <span data-i18n="secBSLabel">사각지대</span></span>
-      <h2 class="sec-title" data-i18n="secBSTitle">제조업 23개 업종 — <span class="accent">누가 가장 취약한가?</span></h2>
-      <p class="sec-desc" data-i18n="secBSDesc">자동차·의약·전자/반도체는 잘 관리. 가구·목재·기타제조는 36~46%. SHine-K의 표적 시장.</p>
+      <span class="sec-label">04 · 사각지대 발굴 — 연구 핵심 결과</span>
+      <h2 class="sec-title">제가 찾아낸 <span class="accent">안전 사각지대</span> 23개 업종</h2>
+      <p class="sec-desc">업종별 안전관리자 선임율을 직접 산출했습니다. 가구·목재·기타제조업은 36~46%로 최하위 — 이 숫자가 이 플랫폼의 존재 이유입니다.</p>
     </div>
     <div class="bs-wrap card aos">
       <div class="bs-legend">
@@ -2108,14 +2145,14 @@ footer::before{
 <!-- CTA -->
 <section class="cta">
   <div class="container">
-    <h2><span data-i18n="ctaH1">데이터는 충분합니다.<br></span><span class="accent" data-i18n="ctaH2">이제 SHine-K가 행동합니다.</span></h2>
-    <p data-i18n="ctaSub">3D 디지털 트윈 · 12 에이전트 하네스 · 실시간 카메라 AI · 119 자동연결 — 모두 작동하는 데모.</p>
+    <h2><span>이건 학생의 작품입니다.<br></span><span class="accent">하지만 진짜로 작동합니다.</span></h2>
+    <p>골절 AI · 실시간 대시보드 · AI 예측 · WebGPU · TF.js MoveNet · WebAssembly · WebXR — 서버 없이, 브라우저 하나로 모두 실행됩니다. 코드 한 줄 한 줄이 직접 작성한 것입니다.</p>
     <div class="cta-links">
-      <a href="https://shine-k-wansuk-choi-ces2027.vercel.app" target="_blank" rel="noopener" class="btn btn-primary">🏆 CES 2027 메인 →</a>
-      <a href="https://shine-k-wansuk-choi-ces2027.vercel.app/twin.html" target="_blank" rel="noopener" class="btn btn-ghost">🏭 3D 디지털 트윈</a>
-      <a href="https://shine-k-wansuk-choi-ces2027.vercel.app/harness.html" target="_blank" rel="noopener" class="btn btn-ghost">🧠 12 Agent Harness</a>
-      <a href="https://shine-k-wansuk-choi-ces2027.vercel.app/live-demo.html" target="_blank" rel="noopener" class="btn btn-ghost">📷 Live Camera AI</a>
-      <a href="https://shine-k-wansuk-choi-ces2027.vercel.app/demo.html" target="_blank" rel="noopener" class="btn btn-ghost">🖥️ 관제센터 데모</a>
+      <a href="https://yi123456hj-sys.github.io/bone-fracture-ai/" target="_blank" rel="noopener" class="btn btn-primary" style="background:linear-gradient(135deg,#FF6B35,#E84A10)">🦴 골절 AI 직접 체험 →</a>
+      <a href="#dashboard" class="btn btn-ghost">📊 안전 대시보드</a>
+      <a href="#predict" class="btn btn-ghost">🤖 AI 위험 예측</a>
+      <a href="#incident" class="btn btn-ghost">🚨 사고 속보 시스템</a>
+      <a href="#report" class="btn btn-ghost">📄 보고서 생성</a>
     </div>
   </div>
 </section>
