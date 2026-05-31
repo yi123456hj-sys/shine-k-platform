@@ -4353,16 +4353,16 @@ body { cursor: none !important; }
 /* ⑯ WebGL Fluid */
 #fluidCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.18;}
 /* ⑰ Neural Network */
-#nnCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;opacity:.22;}
+#nnCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1;opacity:.22;}
 /* ⑱ 3D Globe */
-.globe-wrap{position:fixed;right:-60px;top:50%;transform:translateY(-50%);width:220px;height:220px;pointer-events:none;z-index:2;opacity:.35;}
+.globe-wrap{position:fixed;right:-60px;top:50%;transform:translateY(-50%);width:220px;height:220px;pointer-events:none;z-index:-1;opacity:.35;}
 #globeCanvas{width:220px;height:220px;}
 /* ⑲ Particle text */
 #ptCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9998;}
 /* ⑳ Voronoi */
-#vorCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.12;}
+#vorCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1;opacity:.12;}
 /* ㉑ GLSL shader */
-#glslCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.15;}
+#glslCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1;opacity:.15;}
 /* ㉒ Mic waveform */
 .mic-wrap{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);transition:transform .4s cubic-bezier(.34,1.56,.64,1);z-index:99999;background:rgba(10,10,18,.92);border:1px solid rgba(22,198,140,.4);border-radius:16px;padding:18px 24px;display:flex;flex-direction:column;align-items:center;gap:8px;}
 .mic-wrap.show{transform:translate(-50%,-50%) scale(1);}
@@ -4372,7 +4372,7 @@ body { cursor: none !important; }
 #micBtn{position:fixed;bottom:80px;right:22px;z-index:9990;width:42px;height:42px;border-radius:50%;background:rgba(10,10,18,.85);border:1px solid rgba(22,198,140,.45);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:transform .2s,box-shadow .2s;box-shadow:0 0 0 0 rgba(22,198,140,.4);}
 #micBtn:hover{transform:scale(1.12);box-shadow:0 0 0 6px rgba(22,198,140,.2);}
 /* ㉓ Circuit pulse */
-#circuitSvg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;opacity:.14;}
+#circuitSvg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1;opacity:.14;}
 </style>
 <script>
 (function(){
@@ -6068,7 +6068,7 @@ window.loadTFjs = async function(){
 <!-- ═══════════════ ADVANCED TECH v3 (S/A-grade) ═══════════ -->
 <style>
 /* WebGPU canvas */
-#gpuCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.22;}
+#gpuCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1;opacity:.22;}
 /* AR Button */
 #arBtn{position:fixed;bottom:274px;right:22px;z-index:9990;width:42px;height:42px;border-radius:50%;background:rgba(10,10,18,.85);border:1px solid rgba(139,92,246,.55);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:transform .2s;}
 #arBtn:hover{transform:scale(1.12);}
