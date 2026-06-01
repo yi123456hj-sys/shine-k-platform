@@ -181,5 +181,5 @@ jobs:
           git config user.email "action@github.com"
           git config user.name "GitHub Actions"
           git add download/
-          git diff --staged --quiet || git commit -m "ci: update APK download [skip ci]"
+          git diff --staged --quiet || git commit -m "ci: update APK download"
           git push
