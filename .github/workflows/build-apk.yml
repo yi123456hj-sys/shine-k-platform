@@ -102,11 +102,15 @@ jobs:
           </manifest>
           EOF
 
+          mkdir -p app/src/main/assets
+          cp ../index.html app/src/main/assets/index.html
+
           cat > app/src/main/java/com/shinek/platform/MainActivity.java << 'EOF'
           package com.shinek.platform;
           import android.app.Activity;
           import android.os.Bundle;
           import android.webkit.*;
+          import android.net.Uri;
           public class MainActivity extends Activity {
             private WebView w;
             @Override protected void onCreate(Bundle b) {
@@ -115,11 +119,19 @@ jobs:
               WebSettings s = w.getSettings();
               s.setJavaScriptEnabled(true);
               s.setDomStorageEnabled(true);
+              s.setDatabaseEnabled(true);
               s.setLoadWithOverviewMode(true);
               s.setUseWideViewPort(true);
+              s.setAllowFileAccess(true);
+              s.setAllowContentAccess(true);
+              s.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
               w.setWebChromeClient(new WebChromeClient());
-              w.setWebViewClient(new WebViewClient());
-              w.loadUrl("https://yi123456hj-sys.github.io/shine-k-platform/");
+              w.setWebViewClient(new WebViewClient() {
+                @Override public boolean shouldOverrideUrlLoading(WebView v, String url) {
+                  v.loadUrl(url); return true;
+                }
+              });
+              w.loadUrl("file:///android_asset/index.html");
               setContentView(w);
             }
             @Override public void onBackPressed() {
