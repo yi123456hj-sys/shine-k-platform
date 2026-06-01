@@ -103,7 +103,7 @@ jobs:
           EOF
 
           mkdir -p app/src/main/assets
-          cp ../index.html app/src/main/assets/index.html
+          cp index.html app/src/main/assets/index.html
 
           cat > app/src/main/java/com/shinek/platform/MainActivity.java << 'EOF'
           package com.shinek.platform;
