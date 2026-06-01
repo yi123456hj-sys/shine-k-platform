@@ -1213,24 +1213,24 @@ footer::before{
 </nav>
 
 <div class="drawer" id="drawer">
-  <a href="#crisis" onclick="toggleMenu()">📊 현실</a>
-  <a href="#gyeongbuk" onclick="toggleMenu()">🗺️ 경북 데이터</a>
-  <a href="#clusters" onclick="toggleMenu()">🏭 4대 미니클러스터</a>
-  <a href="#blindspot" onclick="toggleMenu()">⚠️ 사각지대</a>
-  <a href="#platform" onclick="toggleMenu()">🌐 7-Tech 플랫폼</a>
-  <a href="#agents" onclick="toggleMenu()">🧠 12 에이전트</a>
-  <a href="#scenarios" onclick="toggleMenu()">🚨 5대 사고 시나리오</a>
-  <a href="#liveai" onclick="toggleMenu()">📷 Live AI</a>
-  <a href="#health" onclick="toggleMenu()">💪 헬스 프로모션</a>
-  <a href="#center" onclick="toggleMenu()">🖥️ 관제센터</a>
-  <a href="#app" onclick="toggleMenu()">📱 모바일 앱</a>
-  <a href="#strategy" onclick="toggleMenu()">🎯 SHine-K 전략</a>
-  <a href="#compete" onclick="toggleMenu()">🏆 경쟁사 비교</a>
-  <a href="#team" onclick="toggleMenu()">👤 팀 소개</a>
-  <a href="#roadmap" onclick="toggleMenu()">📅 5년 로드맵</a>
-  <a href="#methodology" onclick="toggleMenu()">📚 데이터 출처</a>
-  <a href="#factory-xr" onclick="toggleMenu()">🏭 3D 가상 공장 XR</a>
-  <a href="https://shine-k-wansuk-choi-ces2027.vercel.app" target="_blank" rel="noopener">CES 2027 메인 →</a>
+  <a href="#crisis" onclick="toggleMenu()" data-i18n="dCrisis">📊 현실</a>
+  <a href="#gyeongbuk" onclick="toggleMenu()" data-i18n="dGB">🗺️ 경북 데이터</a>
+  <a href="#clusters" onclick="toggleMenu()" data-i18n="dMC">🏭 4대 미니클러스터</a>
+  <a href="#blindspot" onclick="toggleMenu()" data-i18n="dBS">⚠️ 사각지대</a>
+  <a href="#platform" onclick="toggleMenu()" data-i18n="dPlat">🌐 7-Tech 플랫폼</a>
+  <a href="#agents" onclick="toggleMenu()" data-i18n="dAgents">🧠 12 에이전트</a>
+  <a href="#scenarios" onclick="toggleMenu()" data-i18n="dScen">🚨 5대 사고 시나리오</a>
+  <a href="#liveai" onclick="toggleMenu()" data-i18n="dLive">📷 Live AI</a>
+  <a href="#health" onclick="toggleMenu()" data-i18n="dHealth">💪 헬스 프로모션</a>
+  <a href="#center" onclick="toggleMenu()" data-i18n="dCenter">🖥️ 관제센터</a>
+  <a href="#app" onclick="toggleMenu()" data-i18n="dApp">📱 모바일 앱</a>
+  <a href="#strategy" onclick="toggleMenu()" data-i18n="dStrat">🎯 SHine-K 전략</a>
+  <a href="#compete" onclick="toggleMenu()" data-i18n="dCompete">🏆 경쟁사 비교</a>
+  <a href="#team" onclick="toggleMenu()" data-i18n="dTeam">👤 팀 소개</a>
+  <a href="#roadmap" onclick="toggleMenu()" data-i18n="dRM">📅 5년 로드맵</a>
+  <a href="#methodology" onclick="toggleMenu()" data-i18n="dMT">📚 데이터 출처</a>
+  <a href="#factory-xr" onclick="toggleMenu()" data-i18n="dXR">🏭 3D 가상 공장 XR</a>
+  <a href="https://shine-k-wansuk-choi-ces2027.vercel.app" target="_blank" rel="noopener" data-i18n="dCES">CES 2027 메인 →</a>
 </div>
 
 <main id="main">
@@ -2436,7 +2436,9 @@ const I18N = {
     ctaH1:"데이터는 충분합니다.<br>",ctaH2:"이제 SHine-K가 행동합니다.",ctaSub:"3D 디지털 트윈 · 12 에이전트 하네스 · 실시간 카메라 AI · 119 자동연결 — 모두 작동하는 데모.",
     footDataTitle:"데이터 출처",footProjTitle:"과제 정보",
     navTeam:"팀",secTeamLabel:"팀 소개",secTeamTitle:"프로젝트 <span class='accent'>개발자</span>",secTeamDesc:"경운대학교 보건대학 · SHine-K Platform 개발팀",
-    teamName:"진일",teamRole:"Full-Stack Developer & AI Engineer",teamSchool:"경운대학교 보건대학",teamDept:"RISE 2025-2029 · 산업안전·건강증진 R&D"
+    teamName:"진일",teamRole:"Full-Stack Developer & AI Engineer",teamSchool:"경운대학교 보건대학",teamDept:"RISE 2025-2029 · 산업안전·건강증진 R&D",
+    dCrisis:"📊 현실",dGB:"🗺️ 경북 데이터",dMC:"🏭 4대 미니클러스터",dBS:"⚠️ 사각지대",dPlat:"🌐 7-Tech 플랫폼",dAgents:"🧠 12 에이전트",dScen:"🚨 5대 사고 시나리오",dLive:"📷 Live AI",dHealth:"💪 헬스 프로모션",dCenter:"🖥️ 관제센터",dApp:"📱 모바일 앱",dStrat:"🎯 SHine-K 전략",dCompete:"🏆 경쟁사 비교",dTeam:"👤 팀 소개",dRM:"📅 5년 로드맵",dMT:"📚 데이터 출처",dXR:"🏭 3D 가상 공장 XR",dCES:"CES 2027 메인 →",
+    compRadarTitle:"경쟁사 역량 레이더 비교",compRadarSub:"5개 핵심 역량 축 · SHine-K vs 글로벌 TOP 경쟁사"
   },
   en: {
     skip:"Skip to main",logoSub:" · Insights",
@@ -2521,7 +2523,9 @@ const I18N = {
     ctaH1:"The data is clear.<br>",ctaH2:"Now SHine-K takes action.",ctaSub:"3D Digital Twin · 12 Agent Harness · Real-time Camera AI · 119 Auto-connect — all working demos.",
     footDataTitle:"Data Sources",footProjTitle:"Project Info",
     navTeam:"Team",secTeamLabel:"Team",secTeamTitle:"Project <span class='accent'>Developer</span>",secTeamDesc:"Kyungwoon University · College of Health Sciences · SHine-K Platform Team",
-    teamName:"Jin-Il",teamRole:"Full-Stack Developer & AI Engineer",teamSchool:"Kyungwoon University · College of Health Sciences",teamDept:"RISE 2025-2029 · Industrial Safety & Health Promotion R&D"
+    teamName:"Jin-Il",teamRole:"Full-Stack Developer & AI Engineer",teamSchool:"Kyungwoon University · College of Health Sciences",teamDept:"RISE 2025-2029 · Industrial Safety & Health Promotion R&D",
+    dCrisis:"📊 Reality",dGB:"🗺️ Gyeongbuk Data",dMC:"🏭 4 Mini-Clusters",dBS:"⚠️ Blind Spots",dPlat:"🌐 7-Tech Platform",dAgents:"🧠 12 Agents",dScen:"🚨 5 Scenarios",dLive:"📷 Live AI",dHealth:"💪 Health Promotion",dCenter:"🖥️ Control Center",dApp:"📱 Mobile App",dStrat:"🎯 Strategy",dCompete:"🏆 Competitive",dTeam:"👤 Team",dRM:"📅 5-Year Roadmap",dMT:"📚 Data Sources",dXR:"🏭 3D Virtual Factory XR",dCES:"CES 2027 Main →",
+    compRadarTitle:"Competitor Capability Radar",compRadarSub:"5 Core Capability Axes · SHine-K vs Global TOP Competitors"
   },
   zh: {
     skip:"跳到正文",logoSub:" · 洞察",
@@ -2606,7 +2610,9 @@ const I18N = {
     ctaH1:"数据已经很清楚了。<br>",ctaH2:"现在SHine-K付诸行动。",ctaSub:"3D数字孪生·12智能体管理器·实时摄像头AI·119自动连接——全部可运行演示。",
     footDataTitle:"数据来源",footProjTitle:"项目信息",
     navTeam:"团队",secTeamLabel:"团队介绍",secTeamTitle:"项目<span class='accent'>开发者</span>",secTeamDesc:"庆运大学 · 保健学院 · SHine-K Platform 开发团队",
-    teamName:"进一",teamRole:"全栈开发工程师 & AI工程师",teamSchool:"庆运大学 保健学院",teamDept:"RISE 2025-2029 · 产业安全·健康促进 R&D"
+    teamName:"进一",teamRole:"全栈开发工程师 & AI工程师",teamSchool:"庆运大学 保健学院",teamDept:"RISE 2025-2029 · 产业安全·健康促进 R&D",
+    dCrisis:"📊 现状",dGB:"🗺️ 庆北数据",dMC:"🏭 4大产业集群",dBS:"⚠️ 安全盲区",dPlat:"🌐 7-Tech平台",dAgents:"🧠 12智能体",dScen:"🚨 5大事故场景",dLive:"📷 实时AI",dHealth:"💪 健康促进",dCenter:"🖥️ 管制中心",dApp:"📱 移动应用",dStrat:"🎯 SHine-K战略",dCompete:"🏆 竞品分析",dTeam:"👤 团队介绍",dRM:"📅 5年路线图",dMT:"📚 数据来源",dXR:"🏭 3D虚拟工厂XR",dCES:"CES 2027 主站 →",
+    compRadarTitle:"竞争对手能力雷达对比",compRadarSub:"5个核心能力轴 · SHine-K vs 全球TOP竞争对手"
   },
   ja: {
     skip:"メインへスキップ", logoSub:" · インサイト",
@@ -2691,7 +2697,9 @@ const I18N = {
     ctaH1:"データは十分です。<br>",ctaH2:"今こそSHine-Kが行動します。",ctaSub:"3Dデジタルツイン・12エージェントハーネス・リアルタイムカメラAI・119自動連携——すべて動作するデモ。",
     footDataTitle:"データ出典",footProjTitle:"プロジェクト情報",
     navTeam:"チーム",secTeamLabel:"チーム紹介",secTeamTitle:"プロジェクト<span class='accent'>開発者</span>",secTeamDesc:"慶雲大学 · 保健学部 · SHine-K Platform 開発チーム",
-    teamName:"ジンイル",teamRole:"フルスタック開発者 & AIエンジニア",teamSchool:"慶雲大学 保健学部",teamDept:"RISE 2025-2029 · 産業安全・健康増進 R&D"
+    teamName:"ジンイル",teamRole:"フルスタック開発者 & AIエンジニア",teamSchool:"慶雲大学 保健学部",teamDept:"RISE 2025-2029 · 産業安全・健康増進 R&D",
+    dCrisis:"📊 現状",dGB:"🗺️ 慶北データ",dMC:"🏭 4大ミニクラスター",dBS:"⚠️ 安全死角",dPlat:"🌐 7-Techプラットフォーム",dAgents:"🧠 12エージェント",dScen:"🚨 5大事故シナリオ",dLive:"📷 ライブAI",dHealth:"💪 健康増進",dCenter:"🖥️ 管制センター",dApp:"📱 モバイルアプリ",dStrat:"🎯 SHine-K戦略",dCompete:"🏆 競合分析",dTeam:"👤 チーム紹介",dRM:"📅 5年ロードマップ",dMT:"📚 データ出典",dXR:"🏭 3D仮想工場XR",dCES:"CES 2027 メイン →",
+    compRadarTitle:"競合他社能力レーダー比較",compRadarSub:"5つのコア能力軸 · SHine-K vs グローバルTOP競合"
   }
 };
 
@@ -2719,6 +2727,7 @@ function setLang(lang){
   if (window.__renderMC) window.__renderMC(window.__currentMC || 'gumi');
   if (window.__renderHeatmap) window.__renderHeatmap();
 }
+window.setLang = setLang;
 
 // ============================================================
 // MOBILE MENU
