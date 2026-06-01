@@ -147,15 +147,39 @@ jobs:
           chmod +x gradlew
           ./gradlew assembleRelease --no-daemon 2>&1 | tail -20
 
-      - name: Rename APK
+      - name: Copy APK to website folder and commit
         run: |
-          cp app/build/outputs/apk/release/app-release.apk SHine-K.apk
+          mkdir -p download
+          cp app/build/outputs/apk/release/app-release.apk download/SHine-K.apk
 
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: apk-v2
-          name: "SHine-K App v2"
-          body: "安卓 APK 安装包 — 直接下载安装到手机\n\n修复：打开后显示正确网页（不再404）"
-          files: SHine-K.apk
-          make_latest: true
+          # Add a download page
+          cat > download/index.html << 'DLHTML'
+          <!DOCTYPE html>
+          <html lang="zh">
+          <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width,initial-scale=1">
+          <title>SHine-K 下载</title>
+          <style>
+            body{font-family:system-ui,sans-serif;text-align:center;padding:40px 20px;background:#1A0F08;color:#fff}
+            h1{color:#FF6B35;font-size:2rem;margin-bottom:10px}
+            p{color:#ccc;margin-bottom:30px}
+            a{display:inline-block;background:#FF6B35;color:#fff;padding:16px 40px;border-radius:12px;text-decoration:none;font-size:1.1rem;font-weight:700}
+            a:hover{background:#E84A10}
+            .note{font-size:.85rem;color:#888;margin-top:20px}
+          </style>
+          </head>
+          <body>
+          <h1>SHine-K</h1>
+          <p>工业安全 AI 平台 · 安卓版</p>
+          <a href="SHine-K.apk" download>⬇️ 下载 APK</a>
+          <p class="note">安装前请开启"允许未知来源"</p>
+          </body>
+          </html>
+          DLHTML
+
+          git config user.email "action@github.com"
+          git config user.name "GitHub Actions"
+          git add download/
+          git diff --staged --quiet || git commit -m "ci: update APK download [skip ci]"
+          git push
