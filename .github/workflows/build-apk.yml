@@ -154,8 +154,8 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: apk-latest
-          name: "SHine-K App (最新版)"
-          body: "安卓 APK 安装包 — 直接下载安装到手机"
+          tag_name: apk-v2
+          name: "SHine-K App v2"
+          body: "安卓 APK 安装包 — 直接下载安装到手机\n\n修复：打开后显示正确网页（不再404）"
           files: SHine-K.apk
           make_latest: true
