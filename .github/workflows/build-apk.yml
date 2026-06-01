@@ -125,6 +125,7 @@ jobs:
               s.setAllowFileAccess(true);
               s.setAllowContentAccess(true);
               s.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+              s.setDefaultTextEncodingName("utf-8");
               w.setWebChromeClient(new WebChromeClient());
               w.setWebViewClient(new WebViewClient() {
                 @Override public boolean shouldOverrideUrlLoading(WebView v, String url) {
