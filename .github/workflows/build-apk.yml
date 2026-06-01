@@ -17,8 +17,8 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
 
       - name: Create Android project
         run: |
@@ -27,11 +27,18 @@ jobs:
 
           cat > settings.gradle << 'GRADLE'
           pluginManagement {
-            repositories { google(); mavenCentral(); gradlePluginPortal() }
+            repositories {
+              google()
+              mavenCentral()
+              gradlePluginPortal()
+            }
           }
           dependencyResolutionManagement {
             repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-            repositories { google(); mavenCentral() }
+            repositories {
+              google()
+              mavenCentral()
+            }
           }
           rootProject.name = "SHineK"
           include ':app'
@@ -44,7 +51,9 @@ jobs:
           GRADLE
 
           cat > app/build.gradle << 'GRADLE'
-          plugins { id 'com.android.application' }
+          plugins {
+            id 'com.android.application'
+          }
           android {
             namespace 'com.shinek.platform'
             compileSdk 34
@@ -80,7 +89,9 @@ jobs:
               android:allowBackup="true"
               android:theme="@style/AppTheme"
               android:usesCleartextTraffic="false">
-              <activity android:name=".MainActivity" android:exported="true"
+              <activity
+                android:name=".MainActivity"
+                android:exported="true"
                 android:configChanges="orientation|screenSize|keyboardHidden">
                 <intent-filter>
                   <action android:name="android.intent.action.MAIN"/>
@@ -98,7 +109,8 @@ jobs:
           import android.webkit.*;
           public class MainActivity extends Activity {
             private WebView webView;
-            @Override protected void onCreate(Bundle savedInstanceState) {
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
               super.onCreate(savedInstanceState);
               webView = new WebView(this);
               WebSettings s = webView.getSettings();
@@ -111,7 +123,8 @@ jobs:
               webView.loadUrl("https://yi123456hj-sys.github.io/shine-k-platform/website/");
               setContentView(webView);
             }
-            @Override public void onBackPressed() {
+            @Override
+            public void onBackPressed() {
               if (webView.canGoBack()) webView.goBack();
               else super.onBackPressed();
             }
@@ -133,14 +146,23 @@ jobs:
           android.enableJetifier=true
           PROPS
 
+          cat > local.properties << PROPS
+          sdk.dir=$ANDROID_SDK_ROOT
+          PROPS
+
+      - name: Install Android SDK components
+        run: |
+          yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0" 2>&1 | tail -5
+
       - name: Build APK
         run: |
           gradle wrapper --gradle-version 8.4
           chmod +x gradlew
-          ./gradlew assembleRelease --no-daemon
+          ./gradlew assembleRelease --no-daemon --stacktrace 2>&1 | tail -50
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: SHine-K-APK
           path: app/build/outputs/apk/release/*.apk
+          if-no-files-found: error
