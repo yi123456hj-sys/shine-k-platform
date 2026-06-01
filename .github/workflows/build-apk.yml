@@ -11,179 +11,136 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Setup Java
+      - name: Setup Java 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Install Bubblewrap
-        run: npm install -g @bubblewrap/cli
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
 
-      - name: Create TWA manifest
+      - name: Create Android project
         run: |
-          mkdir -p apk_build && cd apk_build
-          cat > twa-manifest.json << 'EOF'
-          {
-            "packageId": "com.shinek.platform",
-            "host": "yi123456hj-sys.github.io",
-            "name": "SHine-K",
-            "launcherName": "SHine-K",
-            "display": "standalone",
-            "orientation": "default",
-            "themeColor": "#FF6B35",
-            "navigationColor": "#FF6B35",
-            "navigationColorDark": "#1A0F08",
-            "navigationDividerColor": "#FF6B35",
-            "navigationDividerColorDark": "#1A0F08",
-            "backgroundColor": "#1A0F08",
-            "enableNotifications": false,
-            "startUrl": "/shine-k-platform/website/?source=twa",
-            "iconUrl": "https://yi123456hj-sys.github.io/shine-k-platform/website/icon-512.png",
-            "splashScreenFadeOutDuration": 300,
-            "signingKey": {
-              "path": "android.keystore",
-              "alias": "shinek"
-            },
-            "appVersionCode": 1,
-            "appVersion": "1.0.0",
-            "shortcuts": [],
-            "generatorApp": "bubblewrap-cli",
-            "webManifestUrl": "https://yi123456hj-sys.github.io/shine-k-platform/website/manifest.json",
-            "fallbackType": "customtabs",
-            "features": {},
-            "alphaDependencies": {"enabled": false},
-            "enableSiteSettingsShortcut": true,
-            "isChromeOSOnly": false,
-            "isMetaQuest": false,
-            "fullScopeUrl": "https://yi123456hj-sys.github.io/shine-k-platform/website/",
-            "minSdkVersion": 19,
-            "fingerprints": []
+          mkdir -p app/src/main/java/com/shinek/platform
+          mkdir -p app/src/main/res/values
+
+          cat > settings.gradle << 'GRADLE'
+          pluginManagement {
+            repositories { google(); mavenCentral(); gradlePluginPortal() }
           }
-          EOF
-
-      - name: Build APK with Bubblewrap
-        working-directory: apk_build
-        env:
-          ANDROID_HOME: /usr/local/lib/android/sdk
-        run: |
-          echo "n" | bubblewrap build --skipPwaValidation 2>&1 || true
-          # If bubblewrap fails, create a simple WebView APK
-          ls -la || true
-
-      - name: Build simple WebView APK (fallback)
-        if: always()
-        run: |
-          mkdir -p simple_apk/app/src/main/java/com/shinek/platform
-          mkdir -p simple_apk/app/src/main/res/layout
-          mkdir -p simple_apk/app/src/main/res/values
-          mkdir -p simple_apk/app/src/main/res/mipmap-hdpi
-
-          cat > simple_apk/settings.gradle << 'EOF'
+          dependencyResolutionManagement {
+            repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+            repositories { google(); mavenCentral() }
+          }
           rootProject.name = "SHineK"
           include ':app'
-          EOF
+          GRADLE
 
-          cat > simple_apk/build.gradle << 'EOF'
-          buildscript {
-              repositories { google(); mavenCentral() }
-              dependencies { classpath 'com.android.tools.build:gradle:8.1.0' }
+          cat > build.gradle << 'GRADLE'
+          plugins {
+            id 'com.android.application' version '8.1.4' apply false
           }
-          allprojects { repositories { google(); mavenCentral() } }
-          EOF
+          GRADLE
 
-          cat > simple_apk/app/build.gradle << 'EOF'
-          apply plugin: 'com.android.application'
+          cat > app/build.gradle << 'GRADLE'
+          plugins { id 'com.android.application' }
           android {
-              compileSdkVersion 34
-              defaultConfig {
-                  applicationId "com.shinek.platform"
-                  minSdkVersion 21
-                  targetSdkVersion 34
-                  versionCode 1
-                  versionName "1.0"
+            namespace 'com.shinek.platform'
+            compileSdk 34
+            defaultConfig {
+              applicationId 'com.shinek.platform'
+              minSdk 21
+              targetSdk 34
+              versionCode 1
+              versionName '1.0'
+            }
+            buildTypes {
+              release {
+                minifyEnabled false
+                signingConfig signingConfigs.debug
               }
-              buildTypes {
-                  release {
-                      minifyEnabled false
-                      signingConfig signingConfigs.debug
-                  }
-              }
+            }
+            compileOptions {
+              sourceCompatibility JavaVersion.VERSION_17
+              targetCompatibility JavaVersion.VERSION_17
+            }
           }
           dependencies {
-              implementation 'androidx.appcompat:appcompat:1.6.1'
+            implementation 'androidx.appcompat:appcompat:1.6.1'
           }
-          EOF
+          GRADLE
 
-          cat > simple_apk/app/src/main/AndroidManifest.xml << 'EOF'
+          cat > app/src/main/AndroidManifest.xml << 'XML'
           <?xml version="1.0" encoding="utf-8"?>
           <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-              <uses-permission android:name="android.permission.INTERNET"/>
-              <application
-                  android:allowBackup="true"
-                  android:label="SHine-K"
-                  android:theme="@style/AppTheme"
-                  android:usesCleartextTraffic="false">
-                  <activity android:name=".MainActivity"
-                      android:exported="true"
-                      android:configChanges="orientation|screenSize">
-                      <intent-filter>
-                          <action android:name="android.intent.action.MAIN"/>
-                          <category android:name="android.intent.category.LAUNCHER"/>
-                      </intent-filter>
-                  </activity>
-              </application>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <application
+              android:label="SHine-K"
+              android:allowBackup="true"
+              android:theme="@style/AppTheme"
+              android:usesCleartextTraffic="false">
+              <activity android:name=".MainActivity" android:exported="true"
+                android:configChanges="orientation|screenSize|keyboardHidden">
+                <intent-filter>
+                  <action android:name="android.intent.action.MAIN"/>
+                  <category android:name="android.intent.category.LAUNCHER"/>
+                </intent-filter>
+              </activity>
+            </application>
           </manifest>
-          EOF
+          XML
 
-          cat > simple_apk/app/src/main/java/com/shinek/platform/MainActivity.java << 'EOF'
+          cat > app/src/main/java/com/shinek/platform/MainActivity.java << 'JAVA'
           package com.shinek.platform;
           import android.app.Activity;
           import android.os.Bundle;
           import android.webkit.*;
-          import android.view.View;
           public class MainActivity extends Activity {
-              @Override protected void onCreate(Bundle savedInstanceState) {
-                  super.onCreate(savedInstanceState);
-                  WebView web = new WebView(this);
-                  web.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
-                  WebSettings s = web.getSettings();
-                  s.setJavaScriptEnabled(true);
-                  s.setDomStorageEnabled(true);
-                  s.setMediaPlaybackRequiresUserGesture(false);
-                  web.setWebChromeClient(new WebChromeClient());
-                  web.loadUrl("https://yi123456hj-sys.github.io/shine-k-platform/website/");
-                  setContentView(web);
-              }
+            private WebView webView;
+            @Override protected void onCreate(Bundle savedInstanceState) {
+              super.onCreate(savedInstanceState);
+              webView = new WebView(this);
+              WebSettings s = webView.getSettings();
+              s.setJavaScriptEnabled(true);
+              s.setDomStorageEnabled(true);
+              s.setLoadWithOverviewMode(true);
+              s.setUseWideViewPort(true);
+              webView.setWebChromeClient(new WebChromeClient());
+              webView.setWebViewClient(new WebViewClient());
+              webView.loadUrl("https://yi123456hj-sys.github.io/shine-k-platform/website/");
+              setContentView(webView);
+            }
+            @Override public void onBackPressed() {
+              if (webView.canGoBack()) webView.goBack();
+              else super.onBackPressed();
+            }
           }
-          EOF
+          JAVA
 
-          cat > simple_apk/app/src/main/res/values/styles.xml << 'EOF'
+          cat > app/src/main/res/values/styles.xml << 'XML'
+          <?xml version="1.0" encoding="utf-8"?>
           <resources>
-              <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-                  <item name="colorPrimary">#FF6B35</item>
-              </style>
+            <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+              <item name="colorPrimary">#FF6B35</item>
+              <item name="colorPrimaryDark">#E84A10</item>
+            </style>
           </resources>
-          EOF
+          XML
 
-          cd simple_apk
-          chmod +x gradlew 2>/dev/null || true
-          gradle wrapper --gradle-version 8.1.1
-          ./gradlew assembleRelease --no-daemon 2>&1
+          cat > gradle.properties << 'PROPS'
+          android.useAndroidX=true
+          android.enableJetifier=true
+          PROPS
 
-      - name: Find APK
-        run: find . -name "*.apk" 2>/dev/null | head -20
+      - name: Build APK
+        run: |
+          gradle wrapper --gradle-version 8.4
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: SHine-K-APK
-          path: |
-            simple_apk/app/build/outputs/apk/**/*.apk
-            apk_build/*.apk
-          if-no-files-found: warn
+          path: app/build/outputs/apk/release/*.apk
