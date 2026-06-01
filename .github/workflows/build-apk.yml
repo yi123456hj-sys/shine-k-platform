@@ -17,43 +17,37 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+      - name: Install Gradle
+        run: |
+          wget -q https://services.gradle.org/distributions/gradle-8.4-bin.zip -O /tmp/gradle.zip
+          unzip -q /tmp/gradle.zip -d /opt
+          echo "/opt/gradle-8.4/bin" >> $GITHUB_PATH
 
-      - name: Create Android project
+      - name: Create Android project files
         run: |
           mkdir -p app/src/main/java/com/shinek/platform
           mkdir -p app/src/main/res/values
 
-          cat > settings.gradle << 'GRADLE'
+          cat > settings.gradle << 'EOF'
           pluginManagement {
-            repositories {
-              google()
-              mavenCentral()
-              gradlePluginPortal()
-            }
+            repositories { google(); mavenCentral(); gradlePluginPortal() }
           }
           dependencyResolutionManagement {
             repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-            repositories {
-              google()
-              mavenCentral()
-            }
+            repositories { google(); mavenCentral() }
           }
           rootProject.name = "SHineK"
           include ':app'
-          GRADLE
+          EOF
 
-          cat > build.gradle << 'GRADLE'
+          cat > build.gradle << 'EOF'
           plugins {
             id 'com.android.application' version '8.1.4' apply false
           }
-          GRADLE
+          EOF
 
-          cat > app/build.gradle << 'GRADLE'
-          plugins {
-            id 'com.android.application'
-          }
+          cat > app/build.gradle << 'EOF'
+          plugins { id 'com.android.application' }
           android {
             namespace 'com.shinek.platform'
             compileSdk 34
@@ -78,20 +72,22 @@ jobs:
           dependencies {
             implementation 'androidx.appcompat:appcompat:1.6.1'
           }
-          GRADLE
+          EOF
 
-          cat > app/src/main/AndroidManifest.xml << 'XML'
+          cat > gradle.properties << 'EOF'
+          android.useAndroidX=true
+          android.enableJetifier=true
+          EOF
+
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
+
+          cat > app/src/main/AndroidManifest.xml << 'EOF'
           <?xml version="1.0" encoding="utf-8"?>
           <manifest xmlns:android="http://schemas.android.com/apk/res/android">
             <uses-permission android:name="android.permission.INTERNET"/>
-            <application
-              android:label="SHine-K"
-              android:allowBackup="true"
-              android:theme="@style/AppTheme"
-              android:usesCleartextTraffic="false">
-              <activity
-                android:name=".MainActivity"
-                android:exported="true"
+            <application android:label="SHine-K" android:allowBackup="true"
+              android:theme="@style/AppTheme" android:usesCleartextTraffic="false">
+              <activity android:name=".MainActivity" android:exported="true"
                 android:configChanges="orientation|screenSize|keyboardHidden">
                 <intent-filter>
                   <action android:name="android.intent.action.MAIN"/>
@@ -100,65 +96,54 @@ jobs:
               </activity>
             </application>
           </manifest>
-          XML
+          EOF
 
-          cat > app/src/main/java/com/shinek/platform/MainActivity.java << 'JAVA'
+          cat > app/src/main/java/com/shinek/platform/MainActivity.java << 'EOF'
           package com.shinek.platform;
           import android.app.Activity;
           import android.os.Bundle;
           import android.webkit.*;
           public class MainActivity extends Activity {
-            private WebView webView;
-            @Override
-            protected void onCreate(Bundle savedInstanceState) {
-              super.onCreate(savedInstanceState);
-              webView = new WebView(this);
-              WebSettings s = webView.getSettings();
+            private WebView w;
+            @Override protected void onCreate(Bundle b) {
+              super.onCreate(b);
+              w = new WebView(this);
+              WebSettings s = w.getSettings();
               s.setJavaScriptEnabled(true);
               s.setDomStorageEnabled(true);
               s.setLoadWithOverviewMode(true);
               s.setUseWideViewPort(true);
-              webView.setWebChromeClient(new WebChromeClient());
-              webView.setWebViewClient(new WebViewClient());
-              webView.loadUrl("https://yi123456hj-sys.github.io/shine-k-platform/website/");
-              setContentView(webView);
+              w.setWebChromeClient(new WebChromeClient());
+              w.setWebViewClient(new WebViewClient());
+              w.loadUrl("https://yi123456hj-sys.github.io/shine-k-platform/website/");
+              setContentView(w);
             }
-            @Override
-            public void onBackPressed() {
-              if (webView.canGoBack()) webView.goBack();
-              else super.onBackPressed();
+            @Override public void onBackPressed() {
+              if (w.canGoBack()) w.goBack(); else super.onBackPressed();
             }
           }
-          JAVA
+          EOF
 
-          cat > app/src/main/res/values/styles.xml << 'XML'
+          cat > app/src/main/res/values/styles.xml << 'EOF'
           <?xml version="1.0" encoding="utf-8"?>
           <resources>
             <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
               <item name="colorPrimary">#FF6B35</item>
-              <item name="colorPrimaryDark">#E84A10</item>
             </style>
           </resources>
-          XML
-
-          cat > gradle.properties << 'PROPS'
-          android.useAndroidX=true
-          android.enableJetifier=true
-          PROPS
-
-          cat > local.properties << PROPS
-          sdk.dir=$ANDROID_SDK_ROOT
-          PROPS
+          EOF
 
       - name: Install Android SDK components
         run: |
-          yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0" 2>&1 | tail -5
+          yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager \
+            "platforms;android-34" \
+            "build-tools;34.0.0" 2>&1 | grep -v "^\[=" | tail -3
 
-      - name: Build APK
+      - name: Generate Gradle wrapper and build
         run: |
-          gradle wrapper --gradle-version 8.4
+          gradle wrapper
           chmod +x gradlew
-          ./gradlew assembleRelease --no-daemon --stacktrace 2>&1 | tail -50
+          ./gradlew assembleRelease --no-daemon 2>&1 | tail -30
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
