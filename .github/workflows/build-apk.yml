@@ -5,6 +5,9 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -136,18 +139,23 @@ jobs:
       - name: Install Android SDK components
         run: |
           yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager \
-            "platforms;android-34" \
-            "build-tools;34.0.0" 2>&1 | grep -v "^\[=" | tail -3
+            "platforms;android-34" "build-tools;34.0.0" 2>&1 | grep -v "^\[=" | tail -3
 
-      - name: Generate Gradle wrapper and build
+      - name: Build APK
         run: |
           gradle wrapper
           chmod +x gradlew
-          ./gradlew assembleRelease --no-daemon 2>&1 | tail -30
+          ./gradlew assembleRelease --no-daemon 2>&1 | tail -20
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
+      - name: Rename APK
+        run: |
+          cp app/build/outputs/apk/release/app-release.apk SHine-K.apk
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: SHine-K-APK
-          path: app/build/outputs/apk/release/*.apk
-          if-no-files-found: error
+          tag_name: apk-latest
+          name: "SHine-K App (最新版)"
+          body: "安卓 APK 安装包 — 直接下载安装到手机"
+          files: SHine-K.apk
+          make_latest: true
