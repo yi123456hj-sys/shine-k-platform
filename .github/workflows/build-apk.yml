@@ -110,7 +110,9 @@ jobs:
           import android.app.Activity;
           import android.os.Bundle;
           import android.webkit.*;
-          import android.net.Uri;
+          import java.io.InputStream;
+          import java.io.InputStreamReader;
+          import java.io.BufferedReader;
           public class MainActivity extends Activity {
             private WebView w;
             @Override protected void onCreate(Bundle b) {
@@ -125,14 +127,24 @@ jobs:
               s.setAllowFileAccess(true);
               s.setAllowContentAccess(true);
               s.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-              s.setDefaultTextEncodingName("utf-8");
+              s.setDefaultTextEncodingName("UTF-8");
               w.setWebChromeClient(new WebChromeClient());
               w.setWebViewClient(new WebViewClient() {
                 @Override public boolean shouldOverrideUrlLoading(WebView v, String url) {
                   v.loadUrl(url); return true;
                 }
               });
-              w.loadUrl("file:///android_asset/index.html");
+              try {
+                InputStream is = getAssets().open("index.html");
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) sb.append(line).append("\n");
+                reader.close();
+                w.loadDataWithBaseURL("file:///android_asset/", sb.toString(), "text/html", "UTF-8", null);
+              } catch (Exception e) {
+                w.loadUrl("file:///android_asset/index.html");
+              }
               setContentView(w);
             }
             @Override public void onBackPressed() {
