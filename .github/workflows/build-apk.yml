@@ -118,7 +118,7 @@ jobs:
               s.setUseWideViewPort(true);
               w.setWebChromeClient(new WebChromeClient());
               w.setWebViewClient(new WebViewClient());
-              w.loadUrl("https://yi123456hj-sys.github.io/shine-k-platform/");
+              w.loadUrl("https://shine-k-insights.vercel.app");
               setContentView(w);
             }
             @Override public void onBackPressed() {
