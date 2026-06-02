@@ -1794,6 +1794,354 @@ footer::before{
   </div>
 </section>
 
+<!-- ============== FUTURE TECH: WEARABLE + NEXT-GEN ============== -->
+<section id="future-tech" style="background:var(--bg-1);overflow:hidden">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">미래 기술 연결</span>
+      <h2 class="sec-title">스마트워치부터 <span class="accent">뇌-컴퓨터 인터페이스</span>까지</h2>
+      <p class="sec-desc">SHine-K는 현재의 웨어러블을 넘어 차세대 인체-디지털 융합 기술과 연결됩니다.</p>
+    </div>
+
+    <!-- Watch Demo + Data Stream -->
+    <div class="ft-layout">
+      <!-- Smartwatch visualizer -->
+      <div class="ft-watch-wrap aos">
+        <div class="ft-watch">
+          <div class="ft-watch-screen">
+            <div class="ft-watch-header">SHine-K</div>
+            <div class="ft-watch-score-label">안전점수</div>
+            <div class="ft-watch-score" id="watchScore">92</div>
+            <div class="ft-watch-ring-wrap">
+              <svg class="ft-ring" viewBox="0 0 80 80">
+                <circle cx="40" cy="40" r="32" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="6"/>
+                <circle cx="40" cy="40" r="32" fill="none" stroke="#3B82F6" stroke-width="6"
+                  stroke-dasharray="201" stroke-dashoffset="16" stroke-linecap="round"
+                  transform="rotate(-90 40 40)" id="watchRing"/>
+              </svg>
+            </div>
+            <div class="ft-watch-metrics">
+              <div class="ft-wm"><span class="ft-wm-val" id="watchHR">78</span><span class="ft-wm-u">BPM</span></div>
+              <div class="ft-wm"><span class="ft-wm-val" id="watchSpo2">98</span><span class="ft-wm-u">%</span></div>
+              <div class="ft-wm"><span class="ft-wm-val" id="watchTemp">36.5</span><span class="ft-wm-u">°C</span></div>
+            </div>
+            <div class="ft-watch-status" id="watchStatus">정상 · 안전구역</div>
+          </div>
+          <div class="ft-watch-btn"></div>
+          <div class="ft-watch-crown"></div>
+        </div>
+        <!-- ECG wave -->
+        <div class="ft-ecg-wrap">
+          <div class="ft-ecg-label">ECG 실시간</div>
+          <canvas id="ecgCanvas" class="ft-ecg-canvas" width="220" height="50"></canvas>
+        </div>
+      </div>
+
+      <!-- Data flow -->
+      <div class="ft-flow aos">
+        <div class="ft-flow-node ft-flow-watch">
+          <div class="ft-fn-icon">⌚</div>
+          <div class="ft-fn-name">스마트워치</div>
+          <div class="ft-fn-sub">BLE 5.0 · &lt;50ms</div>
+        </div>
+        <div class="ft-flow-arrow"><div class="ft-flow-dot"></div><div class="ft-flow-dot"></div><div class="ft-flow-dot"></div></div>
+        <div class="ft-flow-node ft-flow-edge">
+          <div class="ft-fn-icon">⚡</div>
+          <div class="ft-fn-name">엣지 AI</div>
+          <div class="ft-fn-sub">온디바이스 추론</div>
+        </div>
+        <div class="ft-flow-arrow"><div class="ft-flow-dot"></div><div class="ft-flow-dot"></div><div class="ft-flow-dot"></div></div>
+        <div class="ft-flow-node ft-flow-cloud">
+          <div class="ft-fn-icon">🧠</div>
+          <div class="ft-fn-name">SHine-K AI</div>
+          <div class="ft-fn-sub">12 에이전트 판단</div>
+        </div>
+        <div class="ft-flow-arrow"><div class="ft-flow-dot"></div><div class="ft-flow-dot"></div><div class="ft-flow-dot"></div></div>
+        <div class="ft-flow-node ft-flow-action">
+          <div class="ft-fn-icon">🚨</div>
+          <div class="ft-fn-name">즉각 대응</div>
+          <div class="ft-fn-sub">진동·경보·119</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Future Tech Timeline -->
+    <div class="ft-timeline-wrap aos">
+      <div class="ft-tl-title">미래 기술 통합 로드맵</div>
+      <div class="ft-timeline">
+        <div class="ft-tl-item">
+          <div class="ft-tl-dot" style="background:#3B82F6"></div>
+          <div class="ft-tl-year">2025–2026</div>
+          <div class="ft-tl-card">
+            <div class="ft-tl-phase">현재 · 스마트워치 통합</div>
+            <ul class="ft-tl-list">
+              <li>Apple Watch · Galaxy Watch BLE 5.0</li>
+              <li>HR·SpO₂·ECG·체온 실시간 수집</li>
+              <li>진동 알림 · 음성 SOS</li>
+            </ul>
+          </div>
+        </div>
+        <div class="ft-tl-item">
+          <div class="ft-tl-dot" style="background:#8B5CF6"></div>
+          <div class="ft-tl-year">2027</div>
+          <div class="ft-tl-card">
+            <div class="ft-tl-phase">5G 엣지 AI · 스마트 헬멧</div>
+            <ul class="ft-tl-list">
+              <li>5G 초저지연 실시간 스트리밍</li>
+              <li>AR 스마트 헬멧 위험 시각화</li>
+              <li>온디바이스 AI 칩 (엣지 추론)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="ft-tl-item">
+          <div class="ft-tl-dot" style="background:#F97316"></div>
+          <div class="ft-tl-year">2028</div>
+          <div class="ft-tl-card">
+            <div class="ft-tl-phase">엑소스켈레톤 · 스마트 의류</div>
+            <ul class="ft-tl-list">
+              <li>근력 보조 엑소스켈레톤 연동</li>
+              <li>생체신호 내장 스마트 작업복</li>
+              <li>6G 통신 초정밀 위치추적</li>
+            </ul>
+          </div>
+        </div>
+        <div class="ft-tl-item">
+          <div class="ft-tl-dot" style="background:#10B981"></div>
+          <div class="ft-tl-year">2029+</div>
+          <div class="ft-tl-card">
+            <div class="ft-tl-phase">디지털 트윈 인체 · 신경 인터페이스</div>
+            <ul class="ft-tl-list">
+              <li>개인 디지털 건강 트윈 구축</li>
+              <li>뇌파(EEG) 피로도·집중도 측정</li>
+              <li>AI 예측 기반 선제적 개입</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Supported Devices Grid -->
+    <div class="ft-devices aos">
+      <div class="ft-dev-title">연동 지원 기기</div>
+      <div class="ft-dev-grid">
+        <div class="ft-dev-card"><div class="ft-dev-icon">⌚</div><div class="ft-dev-name">Apple Watch</div><div class="ft-dev-spec">Series 9 / Ultra 2</div></div>
+        <div class="ft-dev-card"><div class="ft-dev-icon">⌚</div><div class="ft-dev-name">Galaxy Watch</div><div class="ft-dev-spec">6 / 7 / Ultra</div></div>
+        <div class="ft-dev-card"><div class="ft-dev-icon">📟</div><div class="ft-dev-name">산업용 밴드</div><div class="ft-dev-spec">IP68 방수 · 방진</div></div>
+        <div class="ft-dev-card"><div class="ft-dev-icon">⛑</div><div class="ft-dev-name">스마트 헬멧</div><div class="ft-dev-spec">AR HUD 내장 (2027)</div></div>
+        <div class="ft-dev-card"><div class="ft-dev-icon">👕</div><div class="ft-dev-name">스마트 의류</div><div class="ft-dev-spec">생체신호 직물 (2028)</div></div>
+        <div class="ft-dev-card"><div class="ft-dev-icon">🦾</div><div class="ft-dev-name">엑소스켈레톤</div><div class="ft-dev-spec">근력 보조 연동 (2028)</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+/* ── Future Tech Section ─────────────────────── */
+#future-tech { padding: 80px 0; }
+
+.ft-layout {
+  display: flex;
+  gap: 48px;
+  align-items: center;
+  margin-bottom: 60px;
+  flex-wrap: wrap;
+}
+
+/* Watch */
+.ft-watch-wrap { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.ft-watch {
+  width: 160px; height: 190px;
+  background: linear-gradient(145deg, #1a1a2e, #16213e);
+  border-radius: 38px;
+  border: 3px solid #2d3561;
+  box-shadow: 0 0 40px rgba(59,130,246,.35), 0 20px 60px rgba(0,0,0,.5);
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+.ft-watch-screen {
+  width: 128px; height: 155px;
+  background: #0a0a1a;
+  border-radius: 28px;
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 3px;
+  padding: 8px;
+}
+.ft-watch-header { font-size: 9px; color: #3B82F6; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+.ft-watch-score-label { font-size: 8px; color: #64748b; margin-top: 2px; }
+.ft-watch-score { font-size: 32px; font-weight: 900; color: #fff; line-height: 1; }
+.ft-watch-ring-wrap { position: absolute; top: 18px; left: 50%; transform: translateX(-50%); width: 80px; height: 80px; opacity: .35; pointer-events: none; }
+.ft-ring { width: 80px; height: 80px; }
+.ft-watch-metrics { display: flex; gap: 8px; }
+.ft-wm { display: flex; flex-direction: column; align-items: center; }
+.ft-wm-val { font-size: 13px; font-weight: 700; color: #e2e8f0; }
+.ft-wm-u { font-size: 7px; color: #64748b; }
+.ft-watch-status { font-size: 8px; color: #10B981; font-weight: 600; background: rgba(16,185,129,.12); padding: 2px 8px; border-radius: 20px; }
+.ft-watch-btn { position: absolute; right: -6px; top: 50px; width: 5px; height: 28px; background: #2d3561; border-radius: 3px; }
+.ft-watch-crown { position: absolute; right: -8px; top: 86px; width: 5px; height: 16px; background: #3d4571; border-radius: 3px; }
+
+/* ECG */
+.ft-ecg-wrap { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.ft-ecg-label { font-size: 10px; color: var(--text-3); font-weight: 600; }
+.ft-ecg-canvas { border-radius: 8px; background: #0a0a1a; border: 1px solid #1e293b; }
+
+/* Flow */
+.ft-flow { flex: 1; min-width: 280px; display: flex; flex-direction: column; gap: 0; }
+.ft-flow-node {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 20px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--card);
+}
+.ft-flow-watch  { border-color: #3B82F6; }
+.ft-flow-edge   { border-color: #8B5CF6; }
+.ft-flow-cloud  { border-color: #F97316; }
+.ft-flow-action { border-color: #10B981; }
+.ft-fn-icon { font-size: 22px; }
+.ft-fn-name { font-size: 14px; font-weight: 700; color: var(--text-1); }
+.ft-fn-sub  { font-size: 11px; color: var(--text-3); }
+.ft-flow-arrow {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 4px; padding: 6px 0 6px 34px;
+}
+.ft-flow-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--primary);
+  animation: flowPulse 1.2s infinite;
+}
+.ft-flow-dot:nth-child(2) { animation-delay: .4s; }
+.ft-flow-dot:nth-child(3) { animation-delay: .8s; }
+@keyframes flowPulse { 0%,100%{ opacity:.2; transform:scale(.8); } 50%{ opacity:1; transform:scale(1.2); } }
+
+/* Timeline */
+.ft-timeline-wrap { margin-bottom: 56px; }
+.ft-tl-title, .ft-dev-title {
+  font-size: 13px; font-weight: 700;
+  color: var(--text-2); letter-spacing: .05em; text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.ft-timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; position: relative; }
+.ft-timeline::before {
+  content: ''; position: absolute;
+  top: 18px; left: 24px; right: 24px; height: 2px;
+  background: linear-gradient(90deg, #3B82F6, #8B5CF6, #F97316, #10B981);
+  z-index: 0;
+}
+.ft-tl-item { display: flex; flex-direction: column; align-items: center; gap: 12px; position: relative; }
+.ft-tl-dot { width: 18px; height: 18px; border-radius: 50%; border: 3px solid var(--bg-1); z-index: 1; flex-shrink: 0; }
+.ft-tl-year { font-size: 12px; font-weight: 700; color: var(--text-2); }
+.ft-tl-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 14px; width: 100%;
+}
+.ft-tl-phase { font-size: 11px; font-weight: 700; color: var(--text-1); margin-bottom: 8px; }
+.ft-tl-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 5px; }
+.ft-tl-list li { font-size: 10px; color: var(--text-3); padding-left: 10px; position: relative; }
+.ft-tl-list li::before { content: '›'; position: absolute; left: 0; color: var(--primary); font-weight: 700; }
+
+/* Devices */
+.ft-dev-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+.ft-dev-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px 10px;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  transition: transform .2s, border-color .2s;
+}
+.ft-dev-card:hover { transform: translateY(-4px); border-color: var(--primary); }
+.ft-dev-icon { font-size: 26px; }
+.ft-dev-name { font-size: 11px; font-weight: 700; color: var(--text-1); text-align: center; }
+.ft-dev-spec { font-size: 9px; color: var(--text-3); text-align: center; }
+
+@media(max-width:900px){
+  .ft-timeline { grid-template-columns: repeat(2,1fr); }
+  .ft-timeline::before { display: none; }
+  .ft-dev-grid { grid-template-columns: repeat(3,1fr); }
+  .ft-layout { flex-direction: column; }
+}
+@media(max-width:500px){
+  .ft-dev-grid { grid-template-columns: repeat(2,1fr); }
+}
+</style>
+
+<script>
+(function(){
+  /* ECG animation */
+  function initECG(){
+    const canvas = document.getElementById('ecgCanvas');
+    if(!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    let offset = 0;
+
+    const ecgPattern = [0,0,0,.05,.05,-.05,-.05,.4,.8,1,-.3,-.4,-.1,.05,.05,0,0,0,0,0,0,.1,.12,.1,0,0,0,0,0,0,0,0];
+
+    function draw(){
+      ctx.fillStyle = '#0a0a1a';
+      ctx.fillRect(0,0,W,H);
+      ctx.beginPath();
+      ctx.strokeStyle = '#22d3ee';
+      ctx.lineWidth = 1.5;
+      for(let x=0;x<W;x++){
+        const idx = Math.floor((x + offset) / 4) % ecgPattern.length;
+        const y = H/2 - ecgPattern[idx] * (H*0.42);
+        x===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+      }
+      ctx.stroke();
+      offset = (offset + 1.2) % (ecgPattern.length * 4);
+      requestAnimationFrame(draw);
+    }
+    draw();
+  }
+
+  /* Watch metrics animation */
+  function initWatch(){
+    const hrEl    = document.getElementById('watchHR');
+    const spo2El  = document.getElementById('watchSpo2');
+    const tempEl  = document.getElementById('watchTemp');
+    const scoreEl = document.getElementById('watchScore');
+    const statusEl= document.getElementById('watchStatus');
+    const ring    = document.getElementById('watchRing');
+    if(!hrEl) return;
+
+    let hr = 78, spo2 = 98, temp = 36.5, score = 92;
+    const states = [
+      { label:'정상 · 안전구역', color:'#10B981', score:92 },
+      { label:'주의 · 고온 환경', color:'#F59E0B', score:74 },
+      { label:'경보 · 심박 이상', color:'#EF4444', score:55 },
+      { label:'정상 · 안전구역', color:'#10B981', score:92 },
+    ];
+    let stateIdx = 0;
+
+    setInterval(()=>{
+      hr   = 72 + Math.round(Math.random()*20);
+      spo2 = 96 + Math.round(Math.random()*3);
+      temp = (36.2 + Math.random()*.8).toFixed(1);
+      hrEl.textContent   = hr;
+      spo2El.textContent = spo2;
+      tempEl.textContent = temp;
+    }, 1500);
+
+    setInterval(()=>{
+      stateIdx = (stateIdx + 1) % states.length;
+      const s = states[stateIdx];
+      score = s.score;
+      scoreEl.textContent = score;
+      statusEl.textContent = s.label;
+      statusEl.style.color = s.color;
+      statusEl.style.background = s.color + '20';
+      const circumference = 201;
+      const offset2 = circumference * (1 - score/100);
+      ring.style.strokeDashoffset = offset2;
+      ring.style.stroke = s.color;
+    }, 4000);
+  }
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',()=>{ initECG(); initWatch(); });
+  } else { initECG(); initWatch(); }
+})();
+</script>
+
 <!-- ============== 12. STRATEGY S/H/E ============== -->
 <section id="strategy" style="background:var(--bg-2)">
   <div class="container">
