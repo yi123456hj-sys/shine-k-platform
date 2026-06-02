@@ -7757,6 +7757,7 @@ if('paintWorklet' in CSS){
     });
   `;
   const blob=new Blob([workletCode],{type:'application/javascript'});
+  if(!CSS.paintWorklet){return;} // iOS Safari: skip Houdini
   CSS.paintWorklet.addModule(URL.createObjectURL(blob)).then(()=>{
     // Apply to high-risk dashboard card
     const cards=document.querySelectorAll('.db-kpi-card');
@@ -7997,7 +7998,43 @@ const IDB = (function(){
 })();
 
 /* ══ ④ WEBGPU COMPUTE + RENDER PIPELINE ════════════════════ */
+/* iOS Safari fallback — Canvas 2D particle animation */
+(function(){
+  const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+  if(!isIOS) return;
+  const cv=document.getElementById('gpuCanvas');
+  if(!cv) return;
+  const ctx2=cv.getContext('2d');
+  if(!ctx2) return;
+  function resize(){cv.width=innerWidth;cv.height=innerHeight;}
+  resize(); window.addEventListener('resize',resize);
+  const pts=Array.from({length:80},()=>({
+    x:Math.random()*cv.width,y:Math.random()*cv.height,
+    vx:(Math.random()-.5)*.5,vy:(Math.random()-.5)*.5,
+    r:Math.random()*2+1
+  }));
+  function frame(){
+    ctx2.clearRect(0,0,cv.width,cv.height);
+    pts.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0||p.x>cv.width)p.vx*=-1;
+      if(p.y<0||p.y>cv.height)p.vy*=-1;
+      ctx2.beginPath();ctx2.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx2.fillStyle='rgba(0,180,255,0.5)';ctx2.fill();
+    });
+    pts.forEach((a,i)=>pts.slice(i+1).forEach(b=>{
+      const d=Math.hypot(a.x-b.x,a.y-b.y);
+      if(d<100){ctx2.beginPath();ctx2.moveTo(a.x,a.y);ctx2.lineTo(b.x,b.y);
+        ctx2.strokeStyle=`rgba(0,180,255,${0.15*(1-d/100)})`;ctx2.lineWidth=.5;ctx2.stroke();}
+    }));
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
 (async()=>{
+  try{
+  const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+  if(isIOS){return;} // iOS: use Canvas2D fallback above
   if(!navigator.gpu){console.log('WebGPU not supported');return;}
   const adapter=await navigator.gpu.requestAdapter({powerPreference:'high-performance'});
   if(!adapter) return;
@@ -8069,6 +8106,7 @@ const IDB = (function(){
   }
   gpuFrame();
   showNotif('🖥 WebGPU 활성화',`${N.toLocaleString()}개 파티클 GPU 연산 시작 — 마우스로 상호작용하세요`);
+  }catch(e){console.warn('WebGPU error (ignored):', e);}
 })();
 
 /* ══ ⑤ TRANSFORMERS.JS — 브라우저 내 NLP ════════════════════ */
@@ -8232,6 +8270,8 @@ window.stopCamera=function(){
 
 /* ══ ⑧ WEBXR AR SESSION ══════════════════════════════════ */
 document.getElementById('arBtn').addEventListener('click',async()=>{
+  const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+  if(isIOS){showNotif('📱 AR','iOS Safari는 WebXR을 지원하지 않습니다. AR 시뮬레이션을 표시합니다.');showARSim();return;}
   if(!navigator.xr){showNotif('📱 WebXR','AR 지원 기기(Android Chrome + ARCore)에서 실행하세요. 현재는 AR 시뮬레이션을 표시합니다.');showARSim();return;}
   const supported=await navigator.xr.isSessionSupported('immersive-ar').catch(()=>false);
   if(!supported){showNotif('📱 AR 미지원','이 기기는 immersive-ar를 지원하지 않습니다. AR 시뮬레이션을 표시합니다.');showARSim();return;}
