@@ -2142,6 +2142,546 @@ footer::before{
 })();
 </script>
 
+<!-- ============== NEW-1. AI 안전 챗봇 ============== -->
+<section id="safety-chat" style="background:var(--bg-2)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">AI 안전 어시스턴트</span>
+      <h2 class="sec-title">근로자가 <span class="accent">언제든 물어볼 수 있는</span> AI</h2>
+      <p class="sec-desc">현장 근로자가 작업 중 안전 궁금증을 즉시 해결. SHine-K AI가 법규·매뉴얼·사고이력 기반으로 답변합니다.</p>
+    </div>
+    <div class="chat-layout">
+      <div class="chat-box aos">
+        <div class="chat-header">
+          <div class="chat-avatar">AI</div>
+          <div>
+            <div class="chat-name">SHine-K 안전 어시스턴트</div>
+            <div class="chat-online">● 온라인 · 응답시간 &lt;1초</div>
+          </div>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+          <div class="chat-msg ai"><div class="chat-bubble">안녕하세요! 작업 중 안전 관련 궁금한 점을 물어보세요. 법규·장비·응급처치 무엇이든 답변합니다. 💪</div></div>
+        </div>
+        <div class="chat-input-row">
+          <div class="chat-quick-btns" id="chatQuickBtns">
+            <button onclick="askChat('지게차 안전거리 기준은?')">지게차 안전거리</button>
+            <button onclick="askChat('낙상 사고 시 응급처치 방법은?')">낙상 응급처치</button>
+            <button onclick="askChat('화학물질 누출 시 대응 절차는?')">화학물질 누출</button>
+            <button onclick="askChat('REBA 점수 7점이면 위험한가요?')">REBA 점수 해석</button>
+            <button onclick="askChat('고소작업 안전모 착용 기준은?')">고소작업 기준</button>
+            <button onclick="askChat('오늘 내 안전점수는 몇 점인가요?')">내 안전점수</button>
+          </div>
+          <div class="chat-input-wrap">
+            <input type="text" id="chatInput" class="chat-input" placeholder="안전 관련 질문을 입력하세요..." onkeydown="if(event.key==='Enter')sendChat()">
+            <button class="chat-send" onclick="sendChat()">전송</button>
+          </div>
+        </div>
+      </div>
+      <div class="chat-stats aos">
+        <div class="cs-title">AI 어시스턴트 성능</div>
+        <div class="cs-item"><div class="cs-bar-wrap"><div class="cs-bar" style="width:96%;background:#3B82F6"></div></div><span class="cs-label">답변 정확도 96%</span></div>
+        <div class="cs-item"><div class="cs-bar-wrap"><div class="cs-bar" style="width:89%;background:#10B981"></div></div><span class="cs-label">법규 준수율 89%</span></div>
+        <div class="cs-item"><div class="cs-bar-wrap"><div class="cs-bar" style="width:78%;background:#F97316"></div></div><span class="cs-label">사고 예방 기여 78%</span></div>
+        <div class="cs-divider"></div>
+        <div class="cs-facts">
+          <div class="cs-fact"><div class="cs-fact-num">12,400+</div><div class="cs-fact-label">학습된 안전 Q&A</div></div>
+          <div class="cs-fact"><div class="cs-fact-num">38개</div><div class="cs-fact-label">산업안전보건법 조항</div></div>
+          <div class="cs-fact"><div class="cs-fact-num">24/7</div><div class="cs-fact-label">무중단 응답</div></div>
+        </div>
+        <div class="cs-langs">
+          <span class="cs-lang">🇰🇷 한국어</span>
+          <span class="cs-lang">🇺🇸 English</span>
+          <span class="cs-lang">🇨🇳 中文</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== NEW-2. 화학물질 위험 DB ============== -->
+<section id="chemical-db" style="background:var(--bg-1)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">화학물질 위험 데이터베이스</span>
+      <h2 class="sec-title">QR 스캔 한 번으로 <span class="accent">즉시 MSDS 확인</span></h2>
+      <p class="sec-desc">공장 내 모든 화학물질의 위험등급·취급주의·응급처치를 AI가 즉시 제공. 산업안전보건법 제110조 완전 준수.</p>
+    </div>
+    <div class="chem-layout">
+      <div class="chem-search-wrap aos">
+        <div class="chem-search-box">
+          <input type="text" id="chemSearch" class="chem-input" placeholder="화학물질명 또는 CAS번호 검색..." oninput="searchChem(this.value)">
+          <button class="chem-btn" onclick="searchChem(document.getElementById('chemSearch').value)">🔍 검색</button>
+        </div>
+        <div class="chem-quick-tags">
+          <span class="chem-tag" onclick="selectChem('황산')">황산 H₂SO₄</span>
+          <span class="chem-tag" onclick="selectChem('아세톤')">아세톤</span>
+          <span class="chem-tag" onclick="selectChem('염산')">염산 HCl</span>
+          <span class="chem-tag" onclick="selectChem('암모니아')">암모니아 NH₃</span>
+          <span class="chem-tag" onclick="selectChem('톨루엔')">톨루엔</span>
+          <span class="chem-tag" onclick="selectChem('일산화탄소')">일산화탄소 CO</span>
+        </div>
+        <div class="chem-result-card" id="chemResult" style="display:none"></div>
+      </div>
+      <div class="chem-risk-grid aos">
+        <div class="chem-risk-title">GHS 위험 분류 현황 (경북 제조업)</div>
+        <div class="chem-risk-items">
+          <div class="chem-ri" style="--c:#EF4444"><div class="chem-ri-icon">💀</div><div class="chem-ri-label">급성 독성</div><div class="chem-ri-val">142종</div></div>
+          <div class="chem-ri" style="--c:#F97316"><div class="chem-ri-icon">🔥</div><div class="chem-ri-label">인화성</div><div class="chem-ri-val">289종</div></div>
+          <div class="chem-ri" style="--c:#EAB308"><div class="chem-ri-icon">⚡</div><div class="chem-ri-label">반응성</div><div class="chem-ri-val">67종</div></div>
+          <div class="chem-ri" style="--c:#3B82F6"><div class="chem-ri-icon">🫁</div><div class="chem-ri-label">흡입 위험</div><div class="chem-ri-val">198종</div></div>
+          <div class="chem-ri" style="--c:#8B5CF6"><div class="chem-ri-icon">☣</div><div class="chem-ri-label">발암물질</div><div class="chem-ri-val">53종</div></div>
+          <div class="chem-ri" style="--c:#10B981"><div class="chem-ri-icon">♻</div><div class="chem-ri-label">환경 유해</div><div class="chem-ri-val">176종</div></div>
+        </div>
+        <div class="chem-alert-bar">
+          <span class="chem-alert-icon">⚠️</span>
+          <span>AI 실시간 모니터링: <strong>작업장 내 위험물질 농도 감지 시 즉시 경보</strong></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== NEW-3. 디지털 TBM ============== -->
+<section id="tbm" style="background:var(--bg-2)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">디지털 TBM · 작업전 안전점검</span>
+      <h2 class="sec-title">매일 아침 <span class="accent">3분 디지털 안전미팅</span></h2>
+      <p class="sec-desc">Toolbox Meeting 디지털화. 종이 점검표 제로, AI가 오늘의 위험요소를 자동 분석해 팀에 브리핑합니다.</p>
+    </div>
+    <div class="tbm-layout">
+      <div class="tbm-checklist-wrap aos">
+        <div class="tbm-date-bar">
+          <span id="tbmDate"></span>
+          <span class="tbm-team">🏭 제조 A팀 · 7명</span>
+        </div>
+        <div class="tbm-items" id="tbmItems"></div>
+        <div class="tbm-footer">
+          <div class="tbm-progress-wrap">
+            <div class="tbm-progress-bar"><div class="tbm-progress-fill" id="tbmFill"></div></div>
+            <span class="tbm-progress-text" id="tbmText">0 / 8 완료</span>
+          </div>
+          <button class="tbm-submit" id="tbmSubmit" onclick="submitTBM()" disabled>✅ TBM 완료 서명</button>
+        </div>
+      </div>
+      <div class="tbm-ai-brief aos">
+        <div class="tbm-ai-title">🤖 오늘의 AI 안전 브리핑</div>
+        <div class="tbm-ai-items">
+          <div class="tbm-ai-item tbm-ai-warn"><span class="tbm-ai-dot" style="background:#EF4444"></span><div><div class="tbm-ai-item-title">고위험 작업 예고</div><div class="tbm-ai-item-desc">오늘 2공장 용접 작업 예정 — 방화포·소화기 사전 배치 필요</div></div></div>
+          <div class="tbm-ai-item"><span class="tbm-ai-dot" style="background:#F97316"></span><div><div class="tbm-ai-item-title">날씨 위험</div><div class="tbm-ai-item-desc">오늘 최고 33°C 예보 — 옥외 작업자 30분마다 수분 보충 권고</div></div></div>
+          <div class="tbm-ai-item"><span class="tbm-ai-dot" style="background:#EAB308"></span><div><div class="tbm-ai-item-title">장비 점검 알림</div><div class="tbm-ai-item-desc">지게차 #3 정기점검 D-2 — 오늘 사전 점검 권고</div></div></div>
+          <div class="tbm-ai-item"><span class="tbm-ai-dot" style="background:#3B82F6"></span><div><div class="tbm-ai-item-title">어제 아차사고</div><div class="tbm-ai-item-desc">B구역 바닥 미끄럼 아차사고 1건 접수 — 오늘 미끄럼 방지 매트 확인</div></div></div>
+          <div class="tbm-ai-item"><span class="tbm-ai-dot" style="background:#10B981"></span><div><div class="tbm-ai-item-title">팀 안전점수</div><div class="tbm-ai-item-desc">제조 A팀 이번 주 평균 88점 — 전주 대비 +4점 향상 🎉</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== NEW-4. 법규 준수 현황판 ============== -->
+<section id="compliance" style="background:var(--bg-1)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">법규 준수 자동 체크</span>
+      <h2 class="sec-title"><span class="accent">산업안전보건법</span> 자동 준수 현황</h2>
+      <p class="sec-desc">SHine-K가 실시간으로 법정 의무 항목을 모니터링. 위반 위험 시 사전 경보로 과태료·처벌을 예방합니다.</p>
+    </div>
+    <div class="comp-layout">
+      <div class="comp-score-wrap aos">
+        <div class="comp-donut-wrap">
+          <svg viewBox="0 0 120 120" class="comp-donut">
+            <circle cx="60" cy="60" r="50" fill="none" stroke="var(--border)" stroke-width="12"/>
+            <circle cx="60" cy="60" r="50" fill="none" stroke="#10B981" stroke-width="12"
+              stroke-dasharray="314" stroke-dashoffset="47" stroke-linecap="round"
+              transform="rotate(-90 60 60)"/>
+          </svg>
+          <div class="comp-donut-inner">
+            <div class="comp-donut-val">85%</div>
+            <div class="comp-donut-label">준수율</div>
+          </div>
+        </div>
+        <div class="comp-legend">
+          <div class="comp-leg-item"><span class="comp-leg-dot" style="background:#10B981"></span>준수 항목 <strong>34개</strong></div>
+          <div class="comp-leg-item"><span class="comp-leg-dot" style="background:#EAB308"></span>개선 필요 <strong>5개</strong></div>
+          <div class="comp-leg-item"><span class="comp-leg-dot" style="background:#EF4444"></span>위반 위험 <strong>1개</strong></div>
+        </div>
+      </div>
+      <div class="comp-table-wrap aos">
+        <table class="comp-table">
+          <thead><tr><th>법 조항</th><th>항목</th><th>현황</th><th>상태</th></tr></thead>
+          <tbody>
+            <tr><td>제29조</td><td>안전보건교육 실시</td><td>월 2회 완료</td><td><span class="comp-badge ok">준수</span></td></tr>
+            <tr><td>제36조</td><td>위험성평가 실시</td><td>분기 1회 완료</td><td><span class="comp-badge ok">준수</span></td></tr>
+            <tr><td>제64조</td><td>안전관리자 선임</td><td>1명 배치</td><td><span class="comp-badge ok">준수</span></td></tr>
+            <tr><td>제110조</td><td>화학물질 MSDS 비치</td><td>142종 등록</td><td><span class="comp-badge ok">준수</span></td></tr>
+            <tr><td>제38조</td><td>안전보건표지 부착</td><td>B구역 누락</td><td><span class="comp-badge warn">개선필요</span></td></tr>
+            <tr><td>제51조</td><td>작업환경측정 주기</td><td>측정 D-15 초과</td><td><span class="comp-badge warn">개선필요</span></td></tr>
+            <tr><td>제72조</td><td>안전검사 유효기간</td><td>프레스 #2 만료</td><td><span class="comp-badge danger">위반위험</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="comp-bottom aos">
+      <div class="comp-bot-item"><div class="comp-bot-icon">📋</div><div class="comp-bot-txt"><strong>자동 보고서 생성</strong><br>매월 법정 안전보건 보고서 자동 작성·제출</div></div>
+      <div class="comp-bot-item"><div class="comp-bot-icon">🔔</div><div class="comp-bot-txt"><strong>사전 경보 시스템</strong><br>만료·위반 30일 전부터 담당자 SMS 알림</div></div>
+      <div class="comp-bot-item"><div class="comp-bot-icon">⚖️</div><div class="comp-bot-txt"><strong>법령 자동 업데이트</strong><br>산업안전보건법 개정 시 자동 반영</div></div>
+      <div class="comp-bot-item"><div class="comp-bot-icon">🏆</div><div class="comp-bot-txt"><strong>우수사업장 신청 지원</strong><br>고용노동부 안전보건 우수사업장 인증 자동 준비</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== NEW-5. 근로자 피로도 AI ============== -->
+<section id="fatigue" style="background:var(--bg-2)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">근로자 피로도 AI 분석</span>
+      <h2 class="sec-title">피로가 쌓이기 <span class="accent">전에 먼저 감지</span>합니다</h2>
+      <p class="sec-desc">산업재해의 58%는 피로·부주의가 원인. SHine-K는 얼굴·자세·생체신호를 융합해 실시간 피로도를 측정합니다.</p>
+    </div>
+    <div class="fatigue-layout">
+      <div class="fatigue-visual aos">
+        <div class="fatigue-face-wrap">
+          <div class="fatigue-face" id="fatigueFace">
+            <div class="fatigue-face-ring" id="fatigueRing"></div>
+            <div class="fatigue-face-label">피로도 분석 중</div>
+            <div class="fatigue-scan-line" id="fatigueScan"></div>
+            <div class="fatigue-markers">
+              <div class="fm left-eye" id="fm1"></div>
+              <div class="fm right-eye" id="fm2"></div>
+              <div class="fm mouth" id="fm3"></div>
+              <div class="fm head" id="fm4"></div>
+            </div>
+          </div>
+          <div class="fatigue-score-display">
+            <div class="fatigue-score-label">피로 지수</div>
+            <div class="fatigue-score-val" id="fatigueScore">23</div>
+            <div class="fatigue-score-status" id="fatigueStatus">양호 · 집중 가능</div>
+            <div class="fatigue-score-bar-wrap"><div class="fatigue-score-bar" id="fatigueBar" style="width:23%;background:#10B981"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="fatigue-signals aos">
+        <div class="fatigue-sig-title">측정 신호 소스</div>
+        <div class="fatigue-sigs">
+          <div class="fatigue-sig"><div class="fatigue-sig-icon" style="color:#3B82F6">👁</div><div class="fatigue-sig-info"><div class="fatigue-sig-name">눈 깜빡임 빈도</div><div class="fatigue-sig-val" id="blinkRate">18회/분</div><div class="fatigue-sig-sub">정상 15~20회</div></div></div>
+          <div class="fatigue-sig"><div class="fatigue-sig-icon" style="color:#8B5CF6">🧠</div><div class="fatigue-sig-info"><div class="fatigue-sig-name">고개 끄덕임 감지</div><div class="fatigue-sig-val" id="nodCount">0회</div><div class="fatigue-sig-sub">졸음 지표</div></div></div>
+          <div class="fatigue-sig"><div class="fatigue-sig-icon" style="color:#F97316">❤️</div><div class="fatigue-sig-info"><div class="fatigue-sig-name">심박 변이도 (HRV)</div><div class="fatigue-sig-val" id="hrvVal">42ms</div><div class="fatigue-sig-sub">높을수록 활력</div></div></div>
+          <div class="fatigue-sig"><div class="fatigue-sig-icon" style="color:#10B981">🧍</div><div class="fatigue-sig-info"><div class="fatigue-sig-name">자세 기울기</div><div class="fatigue-sig-val" id="postureVal">3°</div><div class="fatigue-sig-sub">10° 이상 경보</div></div></div>
+          <div class="fatigue-sig"><div class="fatigue-sig-icon" style="color:#EF4444">⌚</div><div class="fatigue-sig-info"><div class="fatigue-sig-name">연속 작업 시간</div><div class="fatigue-sig-val" id="workTime">2h 15m</div><div class="fatigue-sig-sub">4시간 초과 경보</div></div></div>
+          <div class="fatigue-sig"><div class="fatigue-sig-icon" style="color:#EAB308">🌡</div><div class="fatigue-sig-info"><div class="fatigue-sig-name">피부 전기 반응</div><div class="fatigue-sig-val" id="gsrVal">0.8μS</div><div class="fatigue-sig-sub">스트레스 지표</div></div></div>
+        </div>
+      </div>
+      <div class="fatigue-actions aos">
+        <div class="fatigue-act-title">피로 단계별 자동 개입</div>
+        <div class="fatigue-stages">
+          <div class="fatigue-stage" style="--bc:#10B981"><div class="fs-level">양호 (0~30)</div><div class="fs-action">정상 작업 · 모니터링 유지</div></div>
+          <div class="fatigue-stage" style="--bc:#EAB308"><div class="fs-level">주의 (31~60)</div><div class="fs-action">워치 진동 알림 + 스트레칭 유도</div></div>
+          <div class="fatigue-stage" style="--bc:#F97316"><div class="fs-level">경고 (61~80)</div><div class="fs-action">10분 휴식 강제 권고 + 관리자 알림</div></div>
+          <div class="fatigue-stage active-stage" style="--bc:#EF4444"><div class="fs-level">위험 (81~100)</div><div class="fs-action">즉시 작업 중지 + 교대 투입 + 119 대기</div></div>
+        </div>
+        <div class="fatigue-stat-row">
+          <div class="fatigue-stat"><div class="fatigue-stat-val">58%</div><div class="fatigue-stat-label">피로 관련 사고 비율</div></div>
+          <div class="fatigue-stat"><div class="fatigue-stat-val">-34%</div><div class="fatigue-stat-label">AI 개입 후 사고 감소</div></div>
+          <div class="fatigue-stat"><div class="fatigue-stat-val">&lt;2초</div><div class="fatigue-stat-label">피로도 분석 응답시간</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+/* ══ AI 챗봇 ══════════════════════════════════════ */
+#safety-chat { padding: 80px 0; }
+.chat-layout { display: grid; grid-template-columns: 1fr 320px; gap: 32px; align-items: start; }
+.chat-box { background: var(--card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
+.chat-header { display: flex; align-items: center; gap: 12px; padding: 16px 20px; background: linear-gradient(135deg, #1D4ED8, #3B82F6); }
+.chat-avatar { width: 36px; height: 36px; background: rgba(255,255,255,.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: 13px; }
+.chat-name { font-weight: 700; color: #fff; font-size: 14px; }
+.chat-online { font-size: 11px; color: #93C5FD; }
+.chat-messages { height: 280px; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.chat-msg { display: flex; }
+.chat-msg.ai .chat-bubble { background: var(--bg-2); color: var(--text-1); border-radius: 4px 16px 16px 16px; }
+.chat-msg.user { justify-content: flex-end; }
+.chat-msg.user .chat-bubble { background: #1D4ED8; color: #fff; border-radius: 16px 4px 16px 16px; }
+.chat-bubble { padding: 10px 14px; font-size: 13px; line-height: 1.6; max-width: 80%; }
+.chat-quick-btns { display: flex; flex-wrap: wrap; gap: 6px; padding: 12px 16px 0; }
+.chat-quick-btns button { font-size: 11px; padding: 5px 10px; border-radius: 20px; border: 1px solid var(--border); background: var(--bg-1); color: var(--text-2); cursor: pointer; transition: .2s; }
+.chat-quick-btns button:hover { border-color: var(--primary); color: var(--primary); }
+.chat-input-wrap { display: flex; gap: 8px; padding: 12px 16px; }
+.chat-input { flex: 1; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-1); color: var(--text-1); font-size: 13px; outline: none; }
+.chat-send { padding: 10px 18px; background: #1D4ED8; color: #fff; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 13px; }
+.chat-stats { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; }
+.cs-title { font-size: 13px; font-weight: 700; color: var(--text-2); margin-bottom: 16px; }
+.cs-item { margin-bottom: 12px; }
+.cs-bar-wrap { height: 6px; background: var(--border); border-radius: 3px; margin-bottom: 4px; overflow: hidden; }
+.cs-bar { height: 100%; border-radius: 3px; transition: width 1s; }
+.cs-label { font-size: 11px; color: var(--text-3); }
+.cs-divider { height: 1px; background: var(--border); margin: 16px 0; }
+.cs-facts { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 16px; }
+.cs-fact { text-align: center; }
+.cs-fact-num { font-size: 18px; font-weight: 800; color: var(--primary); }
+.cs-fact-label { font-size: 9px; color: var(--text-3); }
+.cs-langs { display: flex; gap: 6px; flex-wrap: wrap; }
+.cs-lang { font-size: 11px; padding: 4px 10px; background: var(--bg-2); border-radius: 20px; color: var(--text-2); }
+
+/* ══ 화학물질 DB ══════════════════════════════════ */
+#chemical-db { padding: 80px 0; }
+.chem-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+.chem-search-box { display: flex; gap: 8px; margin-bottom: 12px; }
+.chem-input { flex: 1; padding: 12px 16px; border-radius: 12px; border: 1.5px solid var(--border); background: var(--card); color: var(--text-1); font-size: 14px; outline: none; transition: border-color .2s; }
+.chem-input:focus { border-color: var(--primary); }
+.chem-btn { padding: 12px 18px; background: #1D4ED8; color: #fff; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 13px; white-space: nowrap; }
+.chem-quick-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+.chem-tag { font-size: 11px; padding: 5px 12px; background: var(--bg-2); border: 1px solid var(--border); border-radius: 20px; cursor: pointer; color: var(--text-2); transition: .2s; }
+.chem-tag:hover { border-color: var(--primary); color: var(--primary); }
+.chem-result-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; }
+.chem-risk-grid { }
+.chem-risk-title { font-size: 13px; font-weight: 700; color: var(--text-2); margin-bottom: 16px; }
+.chem-risk-items { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 16px; }
+.chem-ri { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; text-align: center; transition: .2s; border-top: 3px solid var(--c); }
+.chem-ri:hover { transform: translateY(-3px); }
+.chem-ri-icon { font-size: 22px; margin-bottom: 4px; }
+.chem-ri-label { font-size: 10px; color: var(--text-3); margin-bottom: 4px; }
+.chem-ri-val { font-size: 16px; font-weight: 800; color: var(--c); }
+.chem-alert-bar { background: rgba(239,68,68,.1); border: 1px solid rgba(239,68,68,.3); border-radius: 10px; padding: 12px 16px; display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--text-2); }
+
+/* ══ TBM ════════════════════════════════════════ */
+#tbm { padding: 80px 0; }
+.tbm-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+.tbm-date-bar { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: linear-gradient(135deg,#1D4ED8,#3B82F6); border-radius: 12px 12px 0 0; color: #fff; font-size: 13px; font-weight: 700; }
+.tbm-team { font-size: 11px; opacity: .85; }
+.tbm-items { border: 1px solid var(--border); border-top: none; border-radius: 0 0 0 0; overflow: hidden; }
+.tbm-item { display: flex; align-items: center; gap: 12px; padding: 13px 16px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background .15s; }
+.tbm-item:hover { background: var(--bg-2); }
+.tbm-item.done { background: rgba(16,185,129,.05); }
+.tbm-item.done .tbm-item-text { text-decoration: line-through; color: var(--text-3); }
+.tbm-check { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 11px; transition: .2s; flex-shrink: 0; }
+.tbm-item.done .tbm-check { background: #10B981; border-color: #10B981; color: #fff; }
+.tbm-item-icon { font-size: 16px; flex-shrink: 0; }
+.tbm-item-text { font-size: 13px; color: var(--text-1); }
+.tbm-item-badge { margin-left: auto; font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 600; flex-shrink: 0; }
+.tbm-footer { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border: 1px solid var(--border); border-top: none; border-radius: 0 0 12px 12px; background: var(--card); }
+.tbm-progress-wrap { flex: 1; }
+.tbm-progress-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin-bottom: 4px; }
+.tbm-progress-fill { height: 100%; background: #10B981; border-radius: 3px; transition: width .4s; width: 0%; }
+.tbm-progress-text { font-size: 11px; color: var(--text-3); }
+.tbm-submit { padding: 10px 18px; background: var(--border); color: var(--text-3); border: none; border-radius: 10px; font-weight: 700; font-size: 12px; cursor: not-allowed; transition: .2s; white-space: nowrap; }
+.tbm-submit:not([disabled]) { background: #10B981; color: #fff; cursor: pointer; }
+.tbm-ai-brief { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; }
+.tbm-ai-title { font-size: 14px; font-weight: 700; color: var(--text-1); margin-bottom: 16px; }
+.tbm-ai-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.tbm-ai-item:last-child { border-bottom: none; }
+.tbm-ai-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+.tbm-ai-item-title { font-size: 12px; font-weight: 700; color: var(--text-1); margin-bottom: 3px; }
+.tbm-ai-item-desc { font-size: 11px; color: var(--text-3); line-height: 1.5; }
+
+/* ══ 법규 준수 ════════════════════════════════════ */
+#compliance { padding: 80px 0; }
+.comp-layout { display: grid; grid-template-columns: 260px 1fr; gap: 32px; align-items: start; margin-bottom: 32px; }
+.comp-donut-wrap { position: relative; width: 160px; height: 160px; margin: 0 auto 20px; }
+.comp-donut { width: 160px; height: 160px; }
+.comp-donut-inner { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.comp-donut-val { font-size: 28px; font-weight: 900; color: #10B981; }
+.comp-donut-label { font-size: 11px; color: var(--text-3); }
+.comp-legend { display: flex; flex-direction: column; gap: 10px; }
+.comp-leg-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-2); }
+.comp-leg-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.comp-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.comp-table th { background: var(--bg-2); padding: 10px 12px; text-align: left; font-size: 11px; color: var(--text-3); border-bottom: 2px solid var(--border); }
+.comp-table td { padding: 11px 12px; border-bottom: 1px solid var(--border); color: var(--text-2); }
+.comp-badge { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+.comp-badge.ok     { background: rgba(16,185,129,.15); color: #10B981; }
+.comp-badge.warn   { background: rgba(234,179,8,.15);  color: #EAB308; }
+.comp-badge.danger { background: rgba(239,68,68,.15);  color: #EF4444; }
+.comp-bottom { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+.comp-bot-item { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 20px; display: flex; gap: 12px; align-items: flex-start; }
+.comp-bot-icon { font-size: 24px; flex-shrink: 0; }
+.comp-bot-txt { font-size: 12px; color: var(--text-2); line-height: 1.6; }
+.comp-bot-txt strong { color: var(--text-1); }
+
+/* ══ 피로도 ══════════════════════════════════════ */
+#fatigue { padding: 80px 0; }
+.fatigue-layout { display: grid; grid-template-columns: 260px 1fr 1fr; gap: 28px; align-items: start; }
+.fatigue-face-wrap { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.fatigue-face { width: 200px; height: 200px; background: #0a0a1a; border-radius: 50%; border: 2px solid #1e3a5f; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.fatigue-face-ring { position: absolute; inset: 4px; border-radius: 50%; border: 2px solid transparent; border-top-color: #3B82F6; animation: spin 2s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.fatigue-face-label { font-size: 10px; color: #3B82F6; font-weight: 600; z-index: 1; }
+.fatigue-scan-line { position: absolute; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, #3B82F6, transparent); animation: scan 2s ease-in-out infinite; top: 50%; }
+@keyframes scan { 0%,100%{ transform: translateY(-80px); opacity:0; } 50%{ opacity:1; } }
+.fatigue-markers { position: absolute; inset: 0; }
+.fm { position: absolute; width: 8px; height: 8px; border-radius: 50%; background: #3B82F6; opacity: .6; animation: fmPulse 2s infinite; }
+.fm.left-eye  { top: 35%; left: 28%; }
+.fm.right-eye { top: 35%; right: 28%; }
+.fm.mouth     { bottom: 28%; left: 50%; transform: translateX(-50%); }
+.fm.head      { top: 10%; left: 50%; transform: translateX(-50%); }
+@keyframes fmPulse { 0%,100%{ transform: scale(1); } 50%{ transform: scale(1.6); opacity: 1; } }
+.fatigue-score-display { width: 100%; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; text-align: center; }
+.fatigue-score-label { font-size: 11px; color: var(--text-3); margin-bottom: 4px; }
+.fatigue-score-val { font-size: 36px; font-weight: 900; color: var(--text-1); }
+.fatigue-score-status { font-size: 11px; color: #10B981; font-weight: 600; margin-bottom: 8px; }
+.fatigue-score-bar-wrap { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.fatigue-score-bar { height: 100%; border-radius: 3px; transition: width .6s, background .6s; }
+.fatigue-sig-title, .fatigue-act-title { font-size: 13px; font-weight: 700; color: var(--text-2); margin-bottom: 12px; }
+.fatigue-sigs { display: flex; flex-direction: column; gap: 8px; }
+.fatigue-sig { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; }
+.fatigue-sig-icon { font-size: 20px; flex-shrink: 0; }
+.fatigue-sig-name { font-size: 11px; color: var(--text-3); }
+.fatigue-sig-val { font-size: 14px; font-weight: 700; color: var(--text-1); }
+.fatigue-sig-sub { font-size: 9px; color: var(--text-3); }
+.fatigue-stages { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+.fatigue-stage { padding: 12px 14px; border-radius: 10px; background: var(--card); border-left: 4px solid var(--bc); }
+.fatigue-stage.active-stage { background: rgba(239,68,68,.08); }
+.fs-level { font-size: 12px; font-weight: 700; color: var(--bc); margin-bottom: 3px; }
+.fs-action { font-size: 11px; color: var(--text-3); }
+.fatigue-stat-row { display: flex; gap: 12px; }
+.fatigue-stat { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center; }
+.fatigue-stat-val { font-size: 18px; font-weight: 800; color: var(--primary); }
+.fatigue-stat-label { font-size: 9px; color: var(--text-3); }
+
+@media(max-width:900px){
+  .chat-layout, .chem-layout, .tbm-layout, .fatigue-layout { grid-template-columns: 1fr; }
+  .comp-layout { grid-template-columns: 1fr; }
+  .comp-bottom { grid-template-columns: repeat(2,1fr); }
+  .fatigue-layout { grid-template-columns: 1fr; }
+}
+@media(max-width:500px){
+  .comp-bottom { grid-template-columns: 1fr; }
+}
+</style>
+
+<script>
+/* ── 챗봇 ──────────────────────────────────────── */
+const chatDB = {
+  '지게차': '지게차 안전거리 기준은 작업 반경 2m 이상입니다. 산업안전보건기준에 관한 규칙 제179조에 따라 지게차 작업 시 근로자 접근을 통제해야 하며, 경광등·경보음 설치가 의무입니다. SHine-K mmWave 레이더가 실시간으로 접근을 감지합니다.',
+  '낙상': '낙상 응급처치: ① 즉시 119 신고 ② 환자를 함부로 이동하지 마세요 ③ 의식 확인 후 심폐소생술 준비 ④ 척추 손상 의심 시 목 고정 ⑤ SHine-K가 자동으로 119에 GPS 위치를 전송했습니다.',
+  '화학': '화학물질 누출 대응: ① 즉시 해당 구역 대피 ② 방독면 착용 ③ 환기 시스템 가동 ④ MSDS 확인하여 중화 방법 적용 ⑤ 119 및 환경부 신고. SHine-K 환경 에이전트가 농도를 실시간 모니터링합니다.',
+  'REBA': 'REBA 점수 7점은 "높은 위험"에 해당합니다. 즉각적인 작업 자세 개선이 필요합니다. SHine-K REBA 에이전트 기준: 1~3 낮은 위험, 4~7 중간 위험, 8~10 높은 위험, 11+ 매우 높은 위험. 지금 바로 자세 교정 알림을 보내드릴까요?',
+  '고소': '고소작업 안전모 착용: 산업안전보건기준에 관한 규칙 제32조에 따라 2m 이상 고소작업 시 안전모·안전대 착용이 의무입니다. SHine-K YOLOv11 비전 에이전트가 PPE 미착용을 0.5초 이내 감지하여 즉시 경보합니다.',
+  '안전점수': '현재 귀하의 안전점수는 88점입니다. 오늘 REBA 자세 점수 양호, 화학물질 노출 없음, 웨어러블 심박 정상 범위입니다. 무사고 연속 14일째! 포인트 350점이 적립되었습니다. 🎉',
+};
+
+function askChat(q){
+  document.getElementById('chatInput').value = q;
+  sendChat();
+}
+function sendChat(){
+  const input = document.getElementById('chatInput');
+  const q = input.value.trim();
+  if(!q) return;
+  const msgs = document.getElementById('chatMessages');
+  msgs.innerHTML += `<div class="chat-msg user"><div class="chat-bubble">${q}</div></div>`;
+  input.value = '';
+  setTimeout(()=>{
+    let ans = '죄송합니다, 해당 질문에 대한 정보를 찾고 있습니다. 안전관리자에게 문의하시거나 MSDS를 확인하세요.';
+    for(const [k,v] of Object.entries(chatDB)){ if(q.includes(k)){ ans = v; break; } }
+    msgs.innerHTML += `<div class="chat-msg ai"><div class="chat-bubble">${ans}</div></div>`;
+    msgs.scrollTop = msgs.scrollHeight;
+  }, 600);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+/* ── 화학물질 DB ───────────────────────────────── */
+const chemDB = {
+  '황산': { cas:'7664-93-9', level:'매우 위험', color:'#EF4444', ghs:['부식성','급성독성'], ppb:'0.02ppm (노출기준)', action:'고무 장갑·방독면·보안경 필수. 피부 접촉 시 즉시 다량의 물로 세척.', storage:'건조하고 서늘한 곳, 염기로부터 격리 보관' },
+  '아세톤': { cas:'67-64-1', level:'주의', color:'#EAB308', ghs:['인화성','눈 자극'], ppb:'500ppm (노출기준)', action:'방폭형 설비 필요. 화기 엄금. 환기 충분한 곳에서 취급.', storage:'화기로부터 격리, 서늘하고 건조한 곳' },
+  '염산': { cas:'7647-01-0', level:'위험', color:'#F97316', ghs:['부식성','급성독성','환경유해'], ppb:'1ppm (노출기준)', action:'방독면·내산성 장갑 착용. 누출 시 소다회로 중화.', storage:'밀폐용기, 알칼리와 격리' },
+  '암모니아': { cas:'7664-41-7', level:'위험', color:'#F97316', ghs:['급성독성','인화성'], ppb:'25ppm (노출기준)', action:'방독면(NH₃용) 착용. 다량 누출 시 물 분무.', storage:'환기 양호한 냉암소, 화기 격리' },
+  '톨루엔': { cas:'108-88-3', level:'주의', color:'#EAB308', ghs:['인화성','신경독성'], ppb:'50ppm (노출기준)', action:'유기용제 방독마스크 착용. 피부 반복 접촉 금지.', storage:'화기 격리, 환기 양호한 곳' },
+  '일산화탄소': { cas:'630-08-0', level:'매우 위험', color:'#EF4444', ghs:['급성독성','인화성'], ppb:'30ppm (노출기준)', action:'공기공급식 마스크 착용. 무색·무취로 감지 어려움. CO 감지기 필수.', storage:'환기 철저, 점화원 제거' },
+};
+function selectChem(name){ document.getElementById('chemSearch').value = name; searchChem(name); }
+function searchChem(q){
+  const r = document.getElementById('chemResult');
+  if(!q){ r.style.display='none'; return; }
+  for(const [k,v] of Object.entries(chemDB)){
+    if(q.includes(k)){
+      r.style.display='block';
+      r.innerHTML = `<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <span style="font-size:22px">⚗️</span>
+        <div><div style="font-size:15px;font-weight:700;color:var(--text-1)">${k}</div>
+        <div style="font-size:11px;color:var(--text-3)">CAS: ${v.cas}</div></div>
+        <span style="margin-left:auto;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;background:${v.color}22;color:${v.color}">${v.level}</span>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">${v.ghs.map(g=>`<span style="font-size:10px;padding:3px 8px;background:var(--bg-2);border-radius:10px;color:var(--text-3)">${g}</span>`).join('')}</div>
+      <div style="font-size:12px;color:var(--text-3);margin-bottom:6px">📊 노출 기준: <strong style="color:var(--text-1)">${v.ppb}</strong></div>
+      <div style="font-size:12px;color:var(--text-3);margin-bottom:6px">🛡 취급: ${v.action}</div>
+      <div style="font-size:12px;color:var(--text-3)">📦 보관: ${v.storage}</div>`;
+      return;
+    }
+  }
+  r.style.display='block';
+  r.innerHTML='<div style="font-size:13px;color:var(--text-3);text-align:center;padding:16px">검색 결과 없음. 다른 물질명을 입력하세요.</div>';
+}
+
+/* ── TBM 체크리스트 ────────────────────────────── */
+(function initTBM(){
+  const items = [
+    { icon:'⛑', text:'안전모·안전화·보호구 착용 확인', badge:'필수', badgeC:'#EF4444' },
+    { icon:'🔥', text:'소화기 위치 및 작동 상태 점검', badge:'필수', badgeC:'#EF4444' },
+    { icon:'⚡', text:'전기 배선 및 접지 상태 확인', badge:'필수', badgeC:'#EF4444' },
+    { icon:'🚜', text:'지게차·중장비 일상점검 완료', badge:'해당시', badgeC:'#F97316' },
+    { icon:'☣', text:'화학물질 용기 밀폐 및 표지 확인', badge:'해당시', badgeC:'#F97316' },
+    { icon:'🚪', text:'비상구·대피로 장애물 없음 확인', badge:'필수', badgeC:'#EF4444' },
+    { icon:'📋', text:'오늘의 위험작업 담당자 공유', badge:'필수', badgeC:'#EF4444' },
+    { icon:'💧', text:'음수·휴식 공간 위치 공유', badge:'권고', badgeC:'#3B82F6' },
+  ];
+  const d = new Date();
+  document.getElementById('tbmDate').textContent = `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')} TBM`;
+  const container = document.getElementById('tbmItems');
+  let done = 0;
+  items.forEach((item, i) => {
+    const el = document.createElement('div');
+    el.className = 'tbm-item';
+    el.innerHTML = `<div class="tbm-check" id="tbmCheck${i}"></div><span class="tbm-item-icon">${item.icon}</span><span class="tbm-item-text">${item.text}</span><span class="tbm-item-badge" style="background:${item.badgeC}22;color:${item.badgeC}">${item.badge}</span>`;
+    el.onclick = () => {
+      el.classList.toggle('done');
+      const chk = document.getElementById(`tbmCheck${i}`);
+      const isDone = el.classList.contains('done');
+      chk.textContent = isDone ? '✓' : '';
+      done = document.querySelectorAll('.tbm-item.done').length;
+      document.getElementById('tbmFill').style.width = (done/items.length*100)+'%';
+      document.getElementById('tbmText').textContent = `${done} / ${items.length} 완료`;
+      const btn = document.getElementById('tbmSubmit');
+      btn.disabled = done < items.length;
+    };
+    container.appendChild(el);
+  });
+})();
+function submitTBM(){
+  alert('✅ TBM 완료! 오늘도 안전한 하루 되세요.\n팀 안전점수 +5점이 적립되었습니다.');
+}
+
+/* ── 피로도 애니메이션 ─────────────────────────── */
+(function initFatigue(){
+  const states = [
+    { score:23, status:'양호 · 집중 가능', barColor:'#10B981', blink:'18회/분', nod:'0회', hrv:'42ms', posture:'3°', work:'2h 15m', gsr:'0.8μS' },
+    { score:51, status:'주의 · 스트레칭 권고', barColor:'#EAB308', blink:'12회/분', nod:'1회', hrv:'28ms', posture:'8°', work:'3h 40m', gsr:'1.4μS' },
+    { score:78, status:'경고 · 휴식 필요', barColor:'#F97316', blink:'8회/분', nod:'3회', hrv:'18ms', posture:'14°', work:'5h 10m', gsr:'2.1μS' },
+    { score:23, status:'양호 · 집중 가능', barColor:'#10B981', blink:'18회/분', nod:'0회', hrv:'42ms', posture:'3°', work:'2h 15m', gsr:'0.8μS' },
+  ];
+  let idx = 0;
+  function update(){
+    const s = states[idx];
+    idx = (idx+1) % states.length;
+    const el = n => document.getElementById(n);
+    if(!el('fatigueScore')) return;
+    el('fatigueScore').textContent = s.score;
+    el('fatigueStatus').textContent = s.status;
+    el('fatigueStatus').style.color = s.barColor;
+    el('fatigueBar').style.width = s.score+'%';
+    el('fatigueBar').style.background = s.barColor;
+    el('blinkRate').textContent = s.blink;
+    el('nodCount').textContent = s.nod;
+    el('hrvVal').textContent = s.hrv;
+    el('postureVal').textContent = s.posture;
+    el('workTime').textContent = s.work;
+    el('gsrVal').textContent = s.gsr;
+  }
+  setInterval(update, 3500);
+})();
+</script>
+
 <!-- ============== 12. STRATEGY S/H/E ============== -->
 <section id="strategy" style="background:var(--bg-2)">
   <div class="container">
