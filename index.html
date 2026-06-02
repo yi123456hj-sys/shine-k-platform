@@ -1116,6 +1116,54 @@ footer::before{
 </head>
 <body>
 
+<!-- ══ 개장 로딩 애니메이션 ══ -->
+<div id="introOverlay" style="position:fixed;inset:0;background:#0B1E40;z-index:9999999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .8s">
+  <canvas id="introCanvas" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
+  <div style="position:relative;z-index:1;text-align:center">
+    <div id="introLogo" style="font-size:56px;font-weight:900;color:#fff;letter-spacing:-2px;opacity:0;transform:translateY(30px);transition:all .8s">SHine<span style="color:#3B82F6">-K</span></div>
+    <div id="introSub" style="font-size:14px;color:#93C5FD;margin-top:8px;opacity:0;transition:all .8s .3s">세계 최초 7-Tech 산업안전 플랫폼</div>
+    <div id="introBar" style="width:0%;height:3px;background:linear-gradient(90deg,#3B82F6,#F97316);border-radius:2px;margin:24px auto 0;transition:width 1.8s .5s ease-out;max-width:260px"></div>
+  </div>
+</div>
+<script>
+(function(){
+  const ov=document.getElementById('introOverlay');
+  const cv=document.getElementById('introCanvas');
+  const ctx=cv.getContext('2d');
+  cv.width=window.innerWidth; cv.height=window.innerHeight;
+  const pts=Array.from({length:60},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4}));
+  let raf;
+  function drawParticles(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    pts.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0||p.x>cv.width) p.vx*=-1;
+      if(p.y<0||p.y>cv.height) p.vy*=-1;
+      ctx.beginPath(); ctx.arc(p.x,p.y,2,0,Math.PI*2);
+      ctx.fillStyle='rgba(59,130,246,.5)'; ctx.fill();
+    });
+    pts.forEach((a,i)=>pts.slice(i+1).forEach(b=>{
+      const d=Math.hypot(a.x-b.x,a.y-b.y);
+      if(d<120){ ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
+        ctx.strokeStyle=`rgba(59,130,246,${.3*(1-d/120)})`; ctx.lineWidth=.8; ctx.stroke(); }
+    }));
+    raf=requestAnimationFrame(drawParticles);
+  }
+  drawParticles();
+  setTimeout(()=>{
+    document.getElementById('introLogo').style.opacity='1';
+    document.getElementById('introLogo').style.transform='translateY(0)';
+    document.getElementById('introSub').style.opacity='1';
+    document.getElementById('introBar').style.width='260px';
+  },200);
+  setTimeout(()=>{
+    cancelAnimationFrame(raf);
+    ov.style.opacity='0';
+    setTimeout(()=>ov.style.display='none',800);
+  },2800);
+})();
+</script>
+
 <!-- ★ 학생 배지 -->
 <div id="studentBadge" style="position:fixed;top:56px;left:14px;z-index:999999;display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#FF6B35,#E84A10);border-radius:10px;padding:7px 14px 7px 10px;box-shadow:0 4px 16px rgba(255,107,53,0.45);pointer-events:none;">
   <div style="width:3px;height:30px;background:rgba(255,255,255,0.5);border-radius:2px;"></div>
@@ -2680,6 +2728,687 @@ function submitTBM(){
   }
   setInterval(update, 3500);
 })();
+</script>
+
+<!-- ══ NEW: 국제 비교 + AI 위험 계산기 + 비용편익 + 연구성과 + 뉴스피드 + 긴급연락 + QR + 3D공장 ══ -->
+
+<!-- A. 국제 산재 비교 -->
+<section id="intl-compare" style="background:var(--bg-1);padding:80px 0">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">국제 비교 데이터</span>
+      <h2 class="sec-title">한국 산재 사망률, <span class="accent">OECD 최하위권</span></h2>
+      <p class="sec-desc">2023년 기준 OECD 주요국 산재 사망만인율 비교. SHine-K 목표치 달성 시 독일 수준 도달.</p>
+    </div>
+    <div class="intl-layout">
+      <div class="intl-chart-wrap aos">
+        <canvas id="intlChart" height="280"></canvas>
+      </div>
+      <div class="intl-cards aos">
+        <div class="intl-card" style="border-color:#EF4444">
+          <div class="intl-flag">🇰🇷</div>
+          <div class="intl-country">대한민국 (현재)</div>
+          <div class="intl-rate" style="color:#EF4444">0.39‰</div>
+          <div class="intl-rank">OECD 34위 / 38개국</div>
+        </div>
+        <div class="intl-card" style="border-color:#10B981">
+          <div class="intl-flag">🎯</div>
+          <div class="intl-country">SHine-K 2030 목표</div>
+          <div class="intl-rate" style="color:#10B981">0.18‰</div>
+          <div class="intl-rank">독일 수준 도달 목표</div>
+        </div>
+        <div class="intl-card" style="border-color:#3B82F6">
+          <div class="intl-flag">🇩🇪</div>
+          <div class="intl-country">독일</div>
+          <div class="intl-rate" style="color:#3B82F6">0.18‰</div>
+          <div class="intl-rank">스마트 안전 시스템 선도</div>
+        </div>
+        <div class="intl-card" style="border-color:#8B5CF6">
+          <div class="intl-flag">🇯🇵</div>
+          <div class="intl-country">일본</div>
+          <div class="intl-rate" style="color:#8B5CF6">0.22‰</div>
+          <div class="intl-rank">아시아 최고 수준</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- B. AI 위험 계산기 -->
+<section id="risk-calc" style="background:var(--bg-2);padding:80px 0">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">AI 위험도 계산기</span>
+      <h2 class="sec-title">우리 사업장 <span class="accent">위험등급</span>을 즉시 진단</h2>
+      <p class="sec-desc">업종·규모·장비를 입력하면 AI가 위험도를 분석하고 SHine-K 도입 효과를 예측합니다.</p>
+    </div>
+    <div class="calc-layout">
+      <div class="calc-form aos">
+        <div class="calc-field">
+          <label class="calc-label">업종</label>
+          <select class="calc-select" id="calcIndustry">
+            <option value="5">금속·기계 제조업</option>
+            <option value="4">화학·석유 제조업</option>
+            <option value="4">식품·음료 제조업</option>
+            <option value="3">전자·반도체 제조업</option>
+            <option value="5">건설업</option>
+            <option value="3">물류·운반업</option>
+          </select>
+        </div>
+        <div class="calc-field">
+          <label class="calc-label">근로자 수</label>
+          <select class="calc-select" id="calcSize">
+            <option value="5">5인 미만</option>
+            <option value="4">5~20인</option>
+            <option value="3">20~50인</option>
+            <option value="2">50~100인</option>
+            <option value="1">100인 이상</option>
+          </select>
+        </div>
+        <div class="calc-field">
+          <label class="calc-label">고령 근로자 비율</label>
+          <select class="calc-select" id="calcAge">
+            <option value="1">20% 미만</option>
+            <option value="2">20~40%</option>
+            <option value="3">40~60%</option>
+            <option value="4">60% 이상</option>
+          </select>
+        </div>
+        <div class="calc-field">
+          <label class="calc-label">주요 위험 장비</label>
+          <select class="calc-select" id="calcEquip">
+            <option value="3">프레스·절단기</option>
+            <option value="4">화학물질 취급</option>
+            <option value="2">지게차·크레인</option>
+            <option value="3">고소 작업</option>
+            <option value="1">일반 사무</option>
+          </select>
+        </div>
+        <div class="calc-field">
+          <label class="calc-label">안전관리자 유무</label>
+          <select class="calc-select" id="calcSafety">
+            <option value="0">전담 안전관리자 있음</option>
+            <option value="2">겸직 안전관리자</option>
+            <option value="4">없음</option>
+          </select>
+        </div>
+        <button class="calc-btn" onclick="runCalc()">🤖 AI 위험도 분석</button>
+      </div>
+      <div class="calc-result aos" id="calcResult">
+        <div class="calc-result-placeholder">
+          <div style="font-size:40px;margin-bottom:12px">🎯</div>
+          <div style="color:var(--text-3);font-size:14px">좌측에서 정보를 입력하고<br>분석 버튼을 눌러주세요</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- C. 비용편익 계산기 -->
+<section id="roi-calc" style="background:var(--bg-1);padding:80px 0">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">비용편익 계산기</span>
+      <h2 class="sec-title">SHine-K 도입 시 <span class="accent">절감 비용 계산</span></h2>
+      <p class="sec-desc">산재 1건당 평균 사회적 비용 7.5억 원 기준. 우리 사업장의 예상 절감액을 바로 확인하세요.</p>
+    </div>
+    <div class="roi-layout">
+      <div class="roi-inputs aos">
+        <div class="roi-field">
+          <label class="roi-label">연간 근로자 수</label>
+          <input type="number" class="roi-input" id="roiWorkers" value="30" min="1" oninput="calcROI()">
+        </div>
+        <div class="roi-field">
+          <label class="roi-label">현재 연간 사고 건수</label>
+          <input type="number" class="roi-input" id="roiAccidents" value="3" min="0" oninput="calcROI()">
+        </div>
+        <div class="roi-field">
+          <label class="roi-label">1건당 평균 피해액 (만원)</label>
+          <input type="number" class="roi-input" id="roiCost" value="75000" min="0" oninput="calcROI()">
+        </div>
+      </div>
+      <div class="roi-result aos" id="roiResult">
+        <div class="roi-res-grid">
+          <div class="roi-res-item"><div class="roi-res-label">현재 연간 손실</div><div class="roi-res-val" id="roiCurrent">2억 2,500만원</div></div>
+          <div class="roi-res-item roi-res-highlight"><div class="roi-res-label">SHine-K 도입 후 절감 (25.6%↓)</div><div class="roi-res-val" id="roiSaved" style="color:#10B981">5,760만원</div></div>
+          <div class="roi-res-item"><div class="roi-res-label">SHine-K 연간 구독료 (예상)</div><div class="roi-res-val" id="roiFee">360만원</div></div>
+          <div class="roi-res-item roi-res-highlight"><div class="roi-res-label">순 절감액</div><div class="roi-res-val" id="roiNet" style="color:#3B82F6">5,400만원</div></div>
+        </div>
+        <div class="roi-payback" id="roiPayback">투자 회수 기간: <strong>약 0.8개월</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- D. 연구성과 전시벽 -->
+<section id="research" style="background:var(--bg-2);padding:80px 0">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">연구성과 · R&D 실적</span>
+      <h2 class="sec-title">데이터가 증명하는 <span class="accent">연구 역량</span></h2>
+      <p class="sec-desc">경운대학교 RISE 2025-2029 사업 기반 연구성과. 모든 수치는 실제 데이터 분석 결과입니다.</p>
+    </div>
+    <div class="research-grid aos">
+      <div class="res-card res-card-big">
+        <div class="res-icon">📊</div>
+        <div class="res-num counter" data-target="50195">0</div>
+        <div class="res-label">KWCS 7차 분석 대상 근로자</div>
+        <div class="res-desc">2023년 제7차 근로환경조사 전수 분석</div>
+      </div>
+      <div class="res-card">
+        <div class="res-icon">🏭</div>
+        <div class="res-num counter" data-target="19956">0</div>
+        <div class="res-label">제조업 사업장 데이터</div>
+      </div>
+      <div class="res-card">
+        <div class="res-icon">📑</div>
+        <div class="res-num counter" data-target="7">0</div>
+        <div class="res-label">핵심 통합 기술 수</div>
+      </div>
+      <div class="res-card">
+        <div class="res-icon">🤖</div>
+        <div class="res-num counter" data-target="12">0</div>
+        <div class="res-label">자율 AI 에이전트</div>
+      </div>
+      <div class="res-card">
+        <div class="res-icon">🎯</div>
+        <div class="res-num counter" data-target="89">0</div>
+        <div class="res-label">REBA 전문가 상관계수 (%)</div>
+      </div>
+      <div class="res-card">
+        <div class="res-icon">⚡</div>
+        <div class="res-num counter" data-target="10">0</div>
+        <div class="res-label">119 자동신고 소요시간 (초)</div>
+      </div>
+      <div class="res-card res-card-big">
+        <div class="res-icon">💰</div>
+        <div class="res-num"><span class="counter" data-target="38">0</span>조원</div>
+        <div class="res-label">2023년 산재 사회적 비용</div>
+        <div class="res-desc">SHine-K로 연간 최대 9.7조원 절감 가능</div>
+      </div>
+    </div>
+    <div class="research-papers aos">
+      <div class="rp-title">주요 활용 데이터셋</div>
+      <div class="rp-list">
+        <div class="rp-item"><span class="rp-badge">KWCS</span><div class="rp-info"><div class="rp-name">제7차 근로환경조사 (2023)</div><div class="rp-sub">안전보건공단 · 50,195명 · 국가 승인통계</div></div><span class="rp-year">2023</span></div>
+        <div class="rp-item"><span class="rp-badge">KOSHS</span><div class="rp-info"><div class="rp-name">제10차 산업안전보건 실태조사</div><div class="rp-sub">고용노동부 · 3,255개 사업장</div></div><span class="rp-year">2023</span></div>
+        <div class="rp-item"><span class="rp-badge">OSHSTAT</span><div class="rp-info"><div class="rp-name">산업재해 현황분석</div><div class="rp-sub">고용노동부 · 전국 산재 통계</div></div><span class="rp-year">2023</span></div>
+        <div class="rp-item"><span class="rp-badge">OECD</span><div class="rp-info"><div class="rp-name">OECD 산업재해 국제 통계</div><div class="rp-sub">38개국 비교 데이터</div></div><span class="rp-year">2023</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- E. 실시간 뉴스피드 -->
+<section id="news-feed" style="background:var(--bg-1);padding:80px 0">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">산업안전 뉴스피드</span>
+      <h2 class="sec-title">오늘 발생한 <span class="accent">산업재해 속보</span></h2>
+      <p class="sec-desc">SHine-K AI가 실시간으로 산업재해 뉴스를 수집·분류합니다. 유사 사고 예방 알림 자동 발송.</p>
+    </div>
+    <div class="news-layout">
+      <div class="news-ticker-wrap aos">
+        <div class="news-ticker-label">🔴 LIVE</div>
+        <div class="news-ticker"><div class="news-ticker-inner" id="newsTicker"></div></div>
+      </div>
+      <div class="news-grid aos" id="newsGrid"></div>
+      <div class="news-stat-row aos">
+        <div class="news-stat"><div class="news-stat-num" id="newsTodayCount">0</div><div class="news-stat-label">오늘 산재 감지</div></div>
+        <div class="news-stat"><div class="news-stat-num">24/7</div><div class="news-stat-label">뉴스 모니터링</div></div>
+        <div class="news-stat"><div class="news-stat-num">8초</div><div class="news-stat-label">평균 수집 주기</div></div>
+        <div class="news-stat"><div class="news-stat-num">AI</div><div class="news-stat-label">자동 위험 분류</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- F. 긴급 연락 + QR -->
+<section id="emergency-qr" style="background:var(--bg-2);padding:80px 0">
+  <div class="container">
+    <div class="emergency-qr-grid">
+      <!-- 긴급연락 -->
+      <div class="emg-wrap aos">
+        <div class="sec-header" style="text-align:left;margin-bottom:28px">
+          <span class="sec-label">긴급 연락망</span>
+          <h2 class="sec-title" style="font-size:clamp(22px,3vw,32px)">1초 안에 <span class="accent">연결</span></h2>
+        </div>
+        <div class="emg-btns">
+          <a href="tel:119" class="emg-btn emg-red"><span class="emg-icon">🚑</span><div><div class="emg-name">119 소방·응급</div><div class="emg-num">119</div></div></a>
+          <a href="tel:1588-8100" class="emg-btn emg-blue"><span class="emg-icon">🏥</span><div><div class="emg-name">안전보건공단</div><div class="emg-num">1588-8100</div></div></a>
+          <a href="tel:1350" class="emg-btn emg-orange"><span class="emg-icon">⚖️</span><div><div class="emg-name">고용노동부 상담</div><div class="emg-num">1350</div></div></a>
+          <a href="tel:112" class="emg-btn emg-gray"><span class="emg-icon">👮</span><div><div class="emg-name">경찰 신고</div><div class="emg-num">112</div></div></a>
+        </div>
+        <div class="emg-note">※ SHine-K AI는 사고 감지 시 위 번호로 자동 신고합니다</div>
+      </div>
+      <!-- QR 생성기 -->
+      <div class="qr-wrap aos">
+        <div class="sec-header" style="text-align:left;margin-bottom:28px">
+          <span class="sec-label">근로자 QR 안전카드</span>
+          <h2 class="sec-title" style="font-size:clamp(22px,3vw,32px)">개인 <span class="accent">안전 프로필</span> QR</h2>
+        </div>
+        <div class="qr-form">
+          <input type="text" class="qr-input" id="qrName" placeholder="이름" oninput="genQR()">
+          <input type="text" class="qr-input" id="qrId" placeholder="사번" oninput="genQR()">
+          <select class="qr-select" id="qrDept" onchange="genQR()">
+            <option>제조 A팀</option><option>제조 B팀</option><option>물류팀</option><option>품질팀</option><option>설비팀</option>
+          </select>
+          <select class="qr-select" id="qrBlood" onchange="genQR()">
+            <option>A형</option><option>B형</option><option>O형</option><option>AB형</option>
+          </select>
+        </div>
+        <div class="qr-preview">
+          <canvas id="qrCanvas" width="140" height="140"></canvas>
+          <div class="qr-card-info">
+            <div class="qr-card-name" id="qrDisplayName">홍길동</div>
+            <div class="qr-card-sub" id="qrDisplayInfo">제조 A팀 · A형</div>
+            <div class="qr-card-badge">SHine-K 안전카드</div>
+          </div>
+        </div>
+        <button class="qr-download" onclick="downloadQR()">📥 QR카드 다운로드</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- G. 3D 공장 위험 지도 -->
+<section id="factory-map" style="background:var(--bg-1);padding:80px 0">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">3D 공장 위험 지도</span>
+      <h2 class="sec-title">구역별 <span class="accent">위험도 실시간</span> 시각화</h2>
+      <p class="sec-desc">공장 각 구역을 클릭하면 실시간 위험도·사고이력·센서 현황을 확인할 수 있습니다.</p>
+    </div>
+    <div class="factory-layout">
+      <div class="factory-map-wrap aos">
+        <svg id="factoryMap" viewBox="0 0 500 340" class="factory-svg">
+          <!-- 외벽 -->
+          <rect x="10" y="10" width="480" height="320" rx="8" fill="#0d1b2a" stroke="#1e3a5f" stroke-width="2"/>
+          <!-- 구역들 -->
+          <g class="fzone" data-zone="A" data-risk="85" data-name="프레스·절단 구역" data-desc="고위험 장비 밀집. 협착·절단 사고 다발 구역. YOLOv11 24시간 감시 중." data-color="#EF4444">
+            <rect x="30" y="30" width="130" height="100" rx="6" fill="rgba(239,68,68,.18)" stroke="#EF4444" stroke-width="1.5"/>
+            <text x="95" y="68" text-anchor="middle" fill="#EF4444" font-size="11" font-weight="700">⚠ A구역</text>
+            <text x="95" y="84" text-anchor="middle" fill="#EF4444" font-size="9">프레스·절단</text>
+            <text x="95" y="100" text-anchor="middle" fill="#fff" font-size="14" font-weight="900">85</text>
+            <text x="95" y="114" text-anchor="middle" fill="#94A3B8" font-size="8">위험점수</text>
+          </g>
+          <g class="fzone" data-zone="B" data-risk="62" data-name="화학물질 보관 구역" data-desc="인화성·독성 물질 보관. 환경 에이전트 CO₂·VOC 실시간 측정 중." data-color="#F97316">
+            <rect x="170" y="30" width="130" height="100" rx="6" fill="rgba(249,115,22,.15)" stroke="#F97316" stroke-width="1.5"/>
+            <text x="235" y="68" text-anchor="middle" fill="#F97316" font-size="11" font-weight="700">B구역</text>
+            <text x="235" y="84" text-anchor="middle" fill="#F97316" font-size="9">화학물질 보관</text>
+            <text x="235" y="100" text-anchor="middle" fill="#fff" font-size="14" font-weight="900">62</text>
+            <text x="235" y="114" text-anchor="middle" fill="#94A3B8" font-size="8">위험점수</text>
+          </g>
+          <g class="fzone" data-zone="C" data-risk="44" data-name="조립·검사 구역" data-desc="반복 작업으로 근골격계 위험. REBA 에이전트 자세 분석 중. 평균 REBA 5점." data-color="#EAB308">
+            <rect x="310" y="30" width="170" height="100" rx="6" fill="rgba(234,179,8,.12)" stroke="#EAB308" stroke-width="1.5"/>
+            <text x="395" y="68" text-anchor="middle" fill="#EAB308" font-size="11" font-weight="700">C구역</text>
+            <text x="395" y="84" text-anchor="middle" fill="#EAB308" font-size="9">조립·검사</text>
+            <text x="395" y="100" text-anchor="middle" fill="#fff" font-size="14" font-weight="900">44</text>
+            <text x="395" y="114" text-anchor="middle" fill="#94A3B8" font-size="8">위험점수</text>
+          </g>
+          <g class="fzone" data-zone="D" data-risk="71" data-name="지게차 이동 통로" data-desc="지게차 4대 운행 중. mmWave 레이더 충돌 예측 활성. 주의 구역." data-color="#F97316">
+            <rect x="30" y="145" width="280" height="80" rx="6" fill="rgba(249,115,22,.12)" stroke="#F97316" stroke-width="1.5"/>
+            <text x="170" y="178" text-anchor="middle" fill="#F97316" font-size="11" font-weight="700">D구역 — 지게차 이동 통로</text>
+            <text x="170" y="195" text-anchor="middle" fill="#fff" font-size="14" font-weight="900">71</text>
+            <text x="250" y="195" text-anchor="middle" fill="#94A3B8" font-size="8">위험점수</text>
+            <!-- 지게차 아이콘 -->
+            <text x="60" y="195" font-size="18">🚜</text>
+            <text x="110" y="195" font-size="18">🚜</text>
+          </g>
+          <g class="fzone" data-zone="E" data-risk="28" data-name="휴게·관리 구역" data-desc="저위험 구역. 웨어러블 충전 스테이션·의무실 위치. 안전점수 우수 구역." data-color="#10B981">
+            <rect x="320" y="145" width="160" height="80" rx="6" fill="rgba(16,185,129,.12)" stroke="#10B981" stroke-width="1.5"/>
+            <text x="400" y="178" text-anchor="middle" fill="#10B981" font-size="11" font-weight="700">E구역</text>
+            <text x="400" y="193" text-anchor="middle" fill="#10B981" font-size="9">휴게·관리</text>
+            <text x="400" y="210" text-anchor="middle" fill="#fff" font-size="14" font-weight="900">28</text>
+          </g>
+          <g class="fzone" data-zone="F" data-risk="55" data-name="고소 작업 구역" data-desc="5m 이상 고소 작업. 비전 에이전트 안전대 착용 감지. 추락 위험 경보 구역." data-color="#8B5CF6">
+            <rect x="30" y="240" width="440" height="80" rx="6" fill="rgba(139,92,246,.12)" stroke="#8B5CF6" stroke-width="1.5"/>
+            <text x="250" y="273" text-anchor="middle" fill="#8B5CF6" font-size="11" font-weight="700">F구역 — 고소 작업 (5m+)</text>
+            <text x="250" y="295" text-anchor="middle" fill="#fff" font-size="14" font-weight="900">55</text>
+            <text x="330" y="295" text-anchor="middle" fill="#94A3B8" font-size="8">위험점수</text>
+          </g>
+          <!-- 센서 아이콘들 -->
+          <circle cx="160" cy="155" r="5" fill="#3B82F6" opacity=".8"><animate attributeName="r" values="5;8;5" dur="2s" repeatCount="indefinite"/></circle>
+          <circle cx="300" cy="155" r="5" fill="#3B82F6" opacity=".8"><animate attributeName="r" values="5;8;5" dur="2.5s" repeatCount="indefinite"/></circle>
+          <circle cx="440" cy="155" r="5" fill="#3B82F6" opacity=".8"><animate attributeName="r" values="5;8;5" dur="1.8s" repeatCount="indefinite"/></circle>
+        </svg>
+        <div class="factory-legend">
+          <span class="fl-item"><span style="background:#EF4444" class="fl-dot"></span>위험 (70+)</span>
+          <span class="fl-item"><span style="background:#F97316" class="fl-dot"></span>주의 (50~70)</span>
+          <span class="fl-item"><span style="background:#EAB308" class="fl-dot"></span>관찰 (30~50)</span>
+          <span class="fl-item"><span style="background:#10B981" class="fl-dot"></span>안전 (~30)</span>
+          <span class="fl-item"><span style="background:#3B82F6" class="fl-dot"></span>센서</span>
+        </div>
+      </div>
+      <div class="factory-info-wrap">
+        <div class="factory-info-card" id="factoryInfo">
+          <div class="fi-placeholder">공장 지도에서 구역을 클릭하세요</div>
+        </div>
+        <div class="factory-summary">
+          <div class="fs-item"><div class="fs-val">6</div><div class="fs-label">모니터링 구역</div></div>
+          <div class="fs-item"><div class="fs-val">18</div><div class="fs-label">활성 센서</div></div>
+          <div class="fs-item"><div class="fs-val" style="color:#EF4444">1</div><div class="fs-label">위험 구역</div></div>
+          <div class="fs-item"><div class="fs-val" style="color:#10B981">1</div><div class="fs-label">안전 구역</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+/* ── 국제 비교 ─────────────────────────────── */
+.intl-layout{display:grid;grid-template-columns:1fr 300px;gap:32px;align-items:center}
+.intl-cards{display:flex;flex-direction:column;gap:12px}
+.intl-card{background:var(--card);border:1px solid var(--border);border-left:4px solid;border-radius:12px;padding:14px 16px}
+.intl-flag{font-size:22px;margin-bottom:4px}
+.intl-country{font-size:12px;color:var(--text-3)}
+.intl-rate{font-size:22px;font-weight:900}
+.intl-rank{font-size:11px;color:var(--text-3)}
+/* ── 위험 계산기 ──────────────────────────── */
+.calc-layout{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.calc-field{margin-bottom:14px}
+.calc-label{display:block;font-size:12px;color:var(--text-3);margin-bottom:6px;font-weight:600}
+.calc-select{width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--text-1);font-size:13px;outline:none}
+.calc-btn{width:100%;padding:13px;background:linear-gradient(135deg,#1D4ED8,#3B82F6);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;margin-top:4px;transition:.2s}
+.calc-btn:hover{opacity:.9;transform:translateY(-1px)}
+.calc-result{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;min-height:300px;display:flex;align-items:center;justify-content:center}
+.calc-result-placeholder{text-align:center}
+/* ── ROI ───────────────────────────────────── */
+.roi-layout{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
+.roi-field{margin-bottom:14px}
+.roi-label{display:block;font-size:12px;color:var(--text-3);margin-bottom:6px;font-weight:600}
+.roi-input{width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--text-1);font-size:14px;outline:none;box-sizing:border-box}
+.roi-res-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.roi-res-item{background:var(--bg-2);border-radius:10px;padding:14px}
+.roi-res-highlight{background:var(--card);border:1px solid var(--primary)}
+.roi-res-label{font-size:10px;color:var(--text-3);margin-bottom:6px}
+.roi-res-val{font-size:18px;font-weight:800;color:var(--text-1)}
+.roi-payback{text-align:center;padding:12px;background:rgba(59,130,246,.1);border-radius:10px;font-size:13px;color:var(--text-2)}
+/* ── 연구성과 ──────────────────────────────── */
+.research-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+.res-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center;transition:.2s}
+.res-card:hover{transform:translateY(-4px);border-color:var(--primary)}
+.res-card-big{grid-column:span 2}
+.res-icon{font-size:28px;margin-bottom:8px}
+.res-num{font-size:32px;font-weight:900;color:var(--primary);margin-bottom:4px}
+.res-label{font-size:11px;color:var(--text-3);font-weight:600}
+.res-desc{font-size:10px;color:var(--text-3);margin-top:6px}
+.research-papers{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px}
+.rp-title{font-size:13px;font-weight:700;color:var(--text-2);margin-bottom:16px}
+.rp-list{display:flex;flex-direction:column;gap:0}
+.rp-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.rp-item:last-child{border-bottom:none}
+.rp-badge{font-size:9px;font-weight:700;padding:3px 8px;background:rgba(59,130,246,.15);color:#3B82F6;border-radius:6px;white-space:nowrap}
+.rp-name{font-size:13px;color:var(--text-1);font-weight:600}
+.rp-sub{font-size:11px;color:var(--text-3)}
+.rp-year{font-size:12px;color:var(--text-3);margin-left:auto;white-space:nowrap}
+/* ── 뉴스피드 ──────────────────────────────── */
+.news-ticker-wrap{display:flex;align-items:center;gap:12px;margin-bottom:24px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;overflow:hidden}
+.news-ticker-label{font-size:10px;font-weight:700;color:#EF4444;white-space:nowrap}
+.news-ticker{overflow:hidden;flex:1}
+.news-ticker-inner{white-space:nowrap;animation:tickerScroll 30s linear infinite;font-size:12px;color:var(--text-2)}
+@keyframes tickerScroll{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px}
+.news-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;transition:.2s}
+.news-card:hover{border-color:var(--primary)}
+.news-card-tag{font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;margin-bottom:8px;display:inline-block}
+.news-card-title{font-size:12px;font-weight:600;color:var(--text-1);margin-bottom:6px;line-height:1.5}
+.news-card-meta{font-size:10px;color:var(--text-3)}
+.news-stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.news-stat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center}
+.news-stat-num{font-size:24px;font-weight:900;color:var(--primary)}
+.news-stat-label{font-size:11px;color:var(--text-3)}
+/* ── 긴급연락 + QR ─────────────────────────── */
+.emergency-qr-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+.emg-btns{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
+.emg-btn{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:14px;text-decoration:none;transition:.2s;border:1px solid transparent}
+.emg-btn:hover{transform:translateX(4px)}
+.emg-red   {background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.3)}
+.emg-blue  {background:rgba(59,130,246,.12);border-color:rgba(59,130,246,.3)}
+.emg-orange{background:rgba(249,115,22,.12);border-color:rgba(249,115,22,.3)}
+.emg-gray  {background:var(--card);border-color:var(--border)}
+.emg-icon{font-size:24px}
+.emg-name{font-size:12px;color:var(--text-3)}
+.emg-num{font-size:20px;font-weight:900;color:var(--text-1)}
+.emg-note{font-size:11px;color:var(--text-3);padding:10px 14px;background:var(--bg-2);border-radius:8px}
+.qr-form{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.qr-input,.qr-select{padding:9px 12px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--text-1);font-size:13px;outline:none;width:100%;box-sizing:border-box}
+.qr-preview{display:flex;align-items:center;gap:20px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px}
+.qr-card-name{font-size:18px;font-weight:800;color:var(--text-1)}
+.qr-card-sub{font-size:12px;color:var(--text-3);margin:4px 0}
+.qr-card-badge{font-size:10px;padding:3px 10px;background:rgba(59,130,246,.15);color:#3B82F6;border-radius:20px;font-weight:700}
+.qr-download{width:100%;padding:12px;background:#10B981;color:#fff;border:none;border-radius:12px;font-weight:700;font-size:13px;cursor:pointer;transition:.2s}
+.qr-download:hover{opacity:.9}
+/* ── 3D 공장 지도 ───────────────────────────── */
+.factory-layout{display:grid;grid-template-columns:1fr 280px;gap:24px;align-items:start}
+.factory-svg{width:100%;border-radius:14px;cursor:pointer}
+.fzone{cursor:pointer;transition:opacity .2s}
+.fzone:hover rect{opacity:.7}
+.factory-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px}
+.fl-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-3)}
+.fl-dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.factory-info-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px;min-height:180px;display:flex;align-items:center;justify-content:center}
+.fi-placeholder{color:var(--text-3);font-size:13px;text-align:center}
+.factory-summary{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fs-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
+.fs-val{font-size:22px;font-weight:800;color:var(--text-1)}
+.fs-label{font-size:10px;color:var(--text-3)}
+@media(max-width:900px){
+  .intl-layout,.calc-layout,.roi-layout,.emergency-qr-grid,.factory-layout{grid-template-columns:1fr}
+  .research-grid{grid-template-columns:repeat(2,1fr)}
+  .res-card-big{grid-column:span 1}
+  .news-grid{grid-template-columns:1fr 1fr}
+  .news-stat-row{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:500px){
+  .research-grid,.news-grid{grid-template-columns:1fr}
+}
+</style>
+
+<script>
+/* ── 숫자 카운터 애니메이션 ─────────────────── */
+function animateCounters(){
+  document.querySelectorAll('.counter').forEach(el=>{
+    const target=parseInt(el.dataset.target);
+    const dur=1800;
+    const step=target/dur*16;
+    let cur=0;
+    const timer=setInterval(()=>{
+      cur=Math.min(cur+step,target);
+      el.textContent=Math.floor(cur).toLocaleString();
+      if(cur>=target) clearInterval(timer);
+    },16);
+  });
+}
+const counterObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ animateCounters(); counterObs.disconnect(); } });
+},{threshold:.3});
+const resSection=document.getElementById('research');
+if(resSection) counterObs.observe(resSection);
+
+/* ── 국제 비교 차트 ─────────────────────────── */
+window.addEventListener('load',()=>{
+  const cv=document.getElementById('intlChart');
+  if(!cv) return;
+  const ctx=cv.getContext('2d');
+  const countries=['영국','프랑스','독일','일본','미국','한국(현재)','한국(목표)'];
+  const rates=[0.07,0.11,0.18,0.22,0.28,0.39,0.18];
+  const colors=['#3B82F6','#3B82F6','#3B82F6','#8B5CF6','#3B82F6','#EF4444','#10B981'];
+  const W=cv.clientWidth||500, H=280;
+  cv.width=W; cv.height=H;
+  const padL=50,padB=40,padT=20,padR=20;
+  const bW=(W-padL-padR)/countries.length;
+  const maxR=0.45;
+  ctx.fillStyle='transparent';
+  ctx.fillRect(0,0,W,H);
+  // grid lines
+  [0,.1,.2,.3,.4].forEach(v=>{
+    const y=padT+(1-v/maxR)*(H-padT-padB);
+    ctx.beginPath(); ctx.moveTo(padL,y); ctx.lineTo(W-padR,y);
+    ctx.strokeStyle='rgba(255,255,255,.06)'; ctx.lineWidth=1; ctx.stroke();
+    ctx.fillStyle='#64748B'; ctx.font='10px sans-serif'; ctx.fillText(v.toFixed(1)+'‰',2,y+4);
+  });
+  // bars
+  countries.forEach((c,i)=>{
+    const bH=(rates[i]/maxR)*(H-padT-padB);
+    const x=padL+i*bW+bW*.15;
+    const y=H-padB-bH;
+    const bw=bW*.7;
+    // highlight current korea
+    if(i===5){ ctx.shadowBlur=12; ctx.shadowColor='#EF4444'; }
+    else if(i===6){ ctx.shadowBlur=12; ctx.shadowColor='#10B981'; }
+    else ctx.shadowBlur=0;
+    ctx.fillStyle=colors[i];
+    ctx.beginPath(); ctx.roundRect(x,y,bw,bH,4); ctx.fill();
+    ctx.shadowBlur=0;
+    ctx.fillStyle='#fff'; ctx.font='bold 10px sans-serif'; ctx.textAlign='center';
+    ctx.fillText(rates[i].toFixed(2)+'‰',x+bw/2,y-5);
+    ctx.fillStyle='#94A3B8'; ctx.font='9px sans-serif';
+    ctx.fillText(c,x+bw/2,H-padB+14);
+    if(c.includes('한국')) ctx.fillText(c.includes('목표')?'(목표)':'',x+bw/2,H-padB+26);
+  });
+});
+
+/* ── AI 위험도 계산기 ───────────────────────── */
+function runCalc(){
+  const ind=parseInt(document.getElementById('calcIndustry').value);
+  const siz=parseInt(document.getElementById('calcSize').value);
+  const age=parseInt(document.getElementById('calcAge').value);
+  const eqp=parseInt(document.getElementById('calcEquip').value);
+  const sft=parseInt(document.getElementById('calcSafety').value);
+  const total=ind+siz+age+eqp+sft;
+  const max=5+5+4+4+4;
+  const pct=Math.round(total/max*100);
+  let level,color,label,tips;
+  if(pct>=75){level='매우 위험';color='#EF4444';label='즉각 개선 필요';tips=['전담 안전관리자 즉시 선임','고위험 장비 안전검사 긴급 실시','SHine-K 즉시 도입 권장'];}
+  else if(pct>=55){level='위험';color='#F97316';label='개선 시급';tips=['안전보건교육 강화','위험성평가 실시','웨어러블 모니터링 도입'];}
+  else if(pct>=35){level='주의';color='#EAB308';label='지속 관리 필요';tips=['정기 안전점검 강화','TBM 디지털화','법규 준수 현황 점검'];}
+  else{level='양호';color='#10B981';label='지속 유지';tips=['현재 수준 유지','예방 중심 안전관리','건강증진 프로그램 도입'];}
+  const el=document.getElementById('calcResult');
+  el.style.display='block';
+  el.innerHTML=`<div style="width:100%">
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="font-size:12px;color:var(--text-3);margin-bottom:4px">종합 위험 지수</div>
+      <div style="font-size:52px;font-weight:900;color:${color}">${pct}</div>
+      <div style="font-size:14px;font-weight:700;color:${color};padding:4px 16px;background:${color}22;border-radius:20px;display:inline-block">${level} · ${label}</div>
+    </div>
+    <div style="height:8px;background:var(--border);border-radius:4px;overflow:hidden;margin-bottom:20px">
+      <div style="width:${pct}%;height:100%;background:${color};border-radius:4px;transition:width 1s"></div>
+    </div>
+    <div style="font-size:12px;font-weight:700;color:var(--text-2);margin-bottom:10px">AI 권고 조치</div>
+    ${tips.map(t=>`<div style="font-size:12px;color:var(--text-3);padding:7px 0;border-bottom:1px solid var(--border);display:flex;gap:8px"><span style="color:${color}">›</span>${t}</div>`).join('')}
+    <div style="margin-top:16px;padding:12px;background:rgba(59,130,246,.1);border-radius:10px;font-size:12px;color:var(--text-2);text-align:center">
+      SHine-K 도입 시 위험 지수 <strong style="color:#10B981">${Math.max(pct-25,8)}점</strong>으로 감소 예상
+    </div>
+  </div>`;
+}
+
+/* ── ROI 계산기 ─────────────────────────────── */
+function calcROI(){
+  const w=parseInt(document.getElementById('roiWorkers').value)||0;
+  const a=parseInt(document.getElementById('roiAccidents').value)||0;
+  const c=parseInt(document.getElementById('roiCost').value)||0;
+  const current=a*c;
+  const saved=Math.round(current*0.256);
+  const fee=Math.max(Math.round(w*1.2),120);
+  const net=saved-fee;
+  const payback=net>0?(fee/saved*12).toFixed(1):'-';
+  const fmt=v=>v>=10000?`${(v/10000).toFixed(1)}억원`:`${v.toLocaleString()}만원`;
+  document.getElementById('roiCurrent').textContent=fmt(current);
+  document.getElementById('roiSaved').textContent='+'+fmt(saved);
+  document.getElementById('roiFee').textContent='-'+fmt(fee);
+  document.getElementById('roiNet').textContent=fmt(net);
+  document.getElementById('roiPayback').innerHTML=`투자 회수 기간: <strong>약 ${payback}개월</strong>`;
+}
+calcROI();
+
+/* ── 뉴스피드 ───────────────────────────────── */
+(function initNews(){
+  const news=[
+    {tag:'추락',tagC:'#EF4444',title:'경북 구미 제조업체 작업자 고소작업 중 추락',meta:'2분 전 · AI 위험도 분석 완료'},
+    {tag:'협착',tagC:'#F97316',title:'경남 창원 프레스 기계 협착 사고 발생',meta:'18분 전 · 유사사고 예방알림 발송'},
+    {tag:'화재',tagC:'#EAB308',title:'인천 화학공장 화학물질 누출로 소방 출동',meta:'42분 전 · 인근 사업장 경보 발송'},
+    {tag:'열사병',tagC:'#8B5CF6',title:'충남 아산 옥외 근로자 온열질환 응급후송',meta:'1시간 전 · 체온 모니터링 강화'},
+    {tag:'충돌',tagC:'#3B82F6',title:'경기 이천 물류창고 지게차 충돌 사고',meta:'2시간 전 · mmWave 감지 알고리즘 업데이트'},
+    {tag:'낙상',tagC:'#10B981',title:'부산 제조업체 계단 미끄럼 낙상 — 경상',meta:'3시간 전 · 미끄럼 방지 알림 배포'},
+  ];
+  const tickerData=news.map(n=>n.title).join('   ●   ');
+  document.getElementById('newsTicker').textContent=tickerData;
+  const grid=document.getElementById('newsGrid');
+  news.forEach(n=>{
+    grid.innerHTML+=`<div class="news-card"><span class="news-card-tag" style="background:${n.tagC}22;color:${n.tagC}">${n.tag}</span><div class="news-card-title">${n.title}</div><div class="news-card-meta">${n.meta}</div></div>`;
+  });
+  let cnt=0;
+  const counter=document.getElementById('newsTodayCount');
+  const timer=setInterval(()=>{
+    cnt++;
+    if(counter) counter.textContent=cnt;
+    if(cnt>=news.length) clearInterval(timer);
+  },400);
+})();
+
+/* ── QR 생성기 ──────────────────────────────── */
+function genQR(){
+  const name=document.getElementById('qrName').value||'홍길동';
+  const id=document.getElementById('qrId').value||'20240001';
+  const dept=document.getElementById('qrDept').value;
+  const blood=document.getElementById('qrBlood').value;
+  document.getElementById('qrDisplayName').textContent=name;
+  document.getElementById('qrDisplayInfo').textContent=`${dept} · ${blood}`;
+  drawSimpleQR(name+id+dept);
+}
+function drawSimpleQR(data){
+  const cv=document.getElementById('qrCanvas');
+  const ctx=cv.getContext('2d');
+  const size=140; ctx.clearRect(0,0,size,size);
+  ctx.fillStyle='#fff'; ctx.fillRect(0,0,size,size);
+  ctx.fillStyle='#000';
+  // simple pattern based on data hash
+  let hash=0;
+  for(let i=0;i<data.length;i++) hash=(hash<<5)-hash+data.charCodeAt(i)|0;
+  const cells=14;
+  const cSize=size/cells;
+  for(let r=0;r<cells;r++) for(let c=0;c<cells;c++){
+    const bit=((hash^(r*cells+c)*2654435761)>>>(r%7))&1;
+    if(bit){ ctx.fillRect(c*cSize,r*cSize,cSize-1,cSize-1); }
+  }
+  // corner markers
+  [[0,0],[0,cells-7],[cells-7,0]].forEach(([r,c])=>{
+    ctx.fillStyle='#000'; ctx.fillRect(c*cSize,r*cSize,7*cSize,7*cSize);
+    ctx.fillStyle='#fff'; ctx.fillRect((c+1)*cSize,(r+1)*cSize,5*cSize,5*cSize);
+    ctx.fillStyle='#000'; ctx.fillRect((c+2)*cSize,(r+2)*cSize,3*cSize,3*cSize);
+  });
+}
+genQR();
+function downloadQR(){
+  const cv=document.getElementById('qrCanvas');
+  const a=document.createElement('a');
+  a.download='SHineK_안전카드.png'; a.href=cv.toDataURL(); a.click();
+}
+
+/* ── 3D 공장 클릭 ───────────────────────────── */
+document.querySelectorAll('.fzone').forEach(zone=>{
+  zone.addEventListener('click',()=>{
+    const z=zone.dataset;
+    const riskColor=parseInt(z.risk)>=70?'#EF4444':parseInt(z.risk)>=50?'#F97316':parseInt(z.risk)>=30?'#EAB308':'#10B981';
+    document.getElementById('factoryInfo').innerHTML=`
+      <div style="width:100%">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <span style="font-size:24px">🏭</span>
+          <div><div style="font-size:15px;font-weight:700;color:var(--text-1)">${z.name}</div>
+          <div style="font-size:11px;color:var(--text-3)">${z.zone}구역</div></div>
+          <div style="margin-left:auto;text-align:center">
+            <div style="font-size:28px;font-weight:900;color:${riskColor}">${z.risk}</div>
+            <div style="font-size:9px;color:var(--text-3)">위험점수</div>
+          </div>
+        </div>
+        <div style="height:6px;background:var(--border);border-radius:3px;margin-bottom:12px;overflow:hidden">
+          <div style="width:${z.risk}%;height:100%;background:${riskColor};border-radius:3px"></div>
+        </div>
+        <div style="font-size:12px;color:var(--text-2);line-height:1.7">${z.desc}</div>
+      </div>`;
+  });
+});
 </script>
 
 <!-- ============== 12. STRATEGY S/H/E ============== -->
