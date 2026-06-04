@@ -1116,61 +1116,12 @@ footer::before{
 </head>
 <body>
 
-<!-- ══ 개장 로딩 애니메이션 ══ -->
-<div id="introOverlay" style="position:fixed;inset:0;background:#0B1E40;z-index:9999999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .8s">
-  <canvas id="introCanvas" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
-  <div style="position:relative;z-index:1;text-align:center">
-    <div id="introLogo" style="font-size:56px;font-weight:900;color:#fff;letter-spacing:-2px;opacity:0;transform:translateY(30px);transition:all .8s">SHine<span style="color:#3B82F6">-K</span></div>
-    <div id="introSub" style="font-size:14px;color:#93C5FD;margin-top:8px;opacity:0;transition:all .8s .3s">세계 최초 7-Tech 산업안전 플랫폼</div>
-    <div id="introBar" style="width:0%;height:3px;background:linear-gradient(90deg,#3B82F6,#F97316);border-radius:2px;margin:24px auto 0;transition:width 1.8s .5s ease-out;max-width:260px"></div>
-  </div>
-</div>
-<script>
-(function(){
-  const ov=document.getElementById('introOverlay');
-  const cv=document.getElementById('introCanvas');
-  const ctx=cv.getContext('2d');
-  cv.width=window.innerWidth; cv.height=window.innerHeight;
-  const pts=Array.from({length:60},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4}));
-  let raf;
-  function drawParticles(){
-    ctx.clearRect(0,0,cv.width,cv.height);
-    pts.forEach(p=>{
-      p.x+=p.vx; p.y+=p.vy;
-      if(p.x<0||p.x>cv.width) p.vx*=-1;
-      if(p.y<0||p.y>cv.height) p.vy*=-1;
-      ctx.beginPath(); ctx.arc(p.x,p.y,2,0,Math.PI*2);
-      ctx.fillStyle='rgba(59,130,246,.5)'; ctx.fill();
-    });
-    pts.forEach((a,i)=>pts.slice(i+1).forEach(b=>{
-      const d=Math.hypot(a.x-b.x,a.y-b.y);
-      if(d<120){ ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
-        ctx.strokeStyle=`rgba(59,130,246,${.3*(1-d/120)})`; ctx.lineWidth=.8; ctx.stroke(); }
-    }));
-    raf=requestAnimationFrame(drawParticles);
-  }
-  drawParticles();
-  setTimeout(()=>{
-    document.getElementById('introLogo').style.opacity='1';
-    document.getElementById('introLogo').style.transform='translateY(0)';
-    document.getElementById('introSub').style.opacity='1';
-    document.getElementById('introBar').style.width='260px';
-  },200);
-  setTimeout(()=>{
-    cancelAnimationFrame(raf);
-    ov.style.opacity='0';
-    setTimeout(()=>ov.style.display='none',800);
-  },2800);
-})();
-</script>
+<!-- introOverlay removed — using introScreen only -->
 
 <!-- ★ 학생 배지 -->
-<div id="studentBadge" style="position:fixed;top:56px;left:14px;z-index:999999;display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#FF6B35,#E84A10);border-radius:10px;padding:7px 14px 7px 10px;box-shadow:0 4px 16px rgba(255,107,53,0.45);pointer-events:none;">
-  <div style="width:3px;height:30px;background:rgba(255,255,255,0.5);border-radius:2px;"></div>
-  <div style="display:flex;flex-direction:column;line-height:1.3;">
-    <span style="font-size:14px;font-weight:800;color:#ffffff;letter-spacing:-0.01em;">진일</span>
-    <span style="font-size:10px;font-weight:600;color:rgba(255,255,255,0.75);letter-spacing:0.04em;">202317104</span>
-  </div>
+<div id="studentBadge" style="position:fixed;bottom:72px;left:14px;z-index:999999;display:flex;align-items:center;gap:6px;background:linear-gradient(135deg,#FF6B35,#E84A10);border-radius:20px;padding:5px 10px 5px 8px;box-shadow:0 2px 10px rgba(255,107,53,0.35);pointer-events:none;opacity:0.85;">
+  <span style="font-size:12px;font-weight:800;color:#fff;">진일</span>
+  <span style="font-size:9px;color:rgba(255,255,255,0.8);">202317104</span>
 </div>
 
 <div id="progressBar" aria-hidden="true" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
@@ -1273,6 +1224,9 @@ footer::before{
   <a href="#health" onclick="toggleMenu()" data-i18n="dHealth">💪 헬스 프로모션</a>
   <a href="#center" onclick="toggleMenu()" data-i18n="dCenter">🖥️ 관제센터</a>
   <a href="#app" onclick="toggleMenu()" data-i18n="dApp">📱 모바일 앱</a>
+  <a href="#stretch" onclick="toggleMenu()">🧘 스트레칭 타이머</a>
+  <a href="#accident-stats" onclick="toggleMenu()">📊 사고 통계 차트</a>
+  <a href="#heat-calc" onclick="toggleMenu()">🌡️ 열지수 계산기</a>
   <a href="#strategy" onclick="toggleMenu()" data-i18n="dStrat">🎯 SHine-K 전략</a>
   <a href="#compete" onclick="toggleMenu()" data-i18n="dCompete">🏆 경쟁사 비교</a>
   <a href="#team" onclick="toggleMenu()" data-i18n="dTeam">👤 팀 소개</a>
@@ -3951,6 +3905,139 @@ document.querySelectorAll('.fzone').forEach(zone=>{
   </div>
 </section>
 
+<!-- ============== NEW-A. 작업 전 스트레칭 타이머 ============== -->
+<section id="stretch" style="background:var(--bg-1)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">NEW · 근골격계 예방</span>
+      <h2 class="sec-title">작업 전 <span class="accent">스트레칭 타이머</span></h2>
+      <p class="sec-desc">근골격계 질환(62.1%)을 줄이는 가장 간단한 방법. 작업 시작 전 5가지 스트레칭을 타이머와 함께 진행하세요.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start">
+      <div>
+        <div id="stretchList" style="display:flex;flex-direction:column;gap:10px"></div>
+      </div>
+      <div style="position:sticky;top:80px">
+        <div style="background:var(--bg-2);border:1px solid var(--bdr);border-radius:20px;padding:32px;text-align:center">
+          <div style="position:relative;width:160px;height:160px;margin:0 auto 20px">
+            <svg width="160" height="160" style="transform:rotate(-90deg)">
+              <circle cx="80" cy="80" r="70" fill="none" stroke="var(--bdr)" stroke-width="8"/>
+              <circle id="stretchRing" cx="80" cy="80" r="70" fill="none" stroke="var(--a)" stroke-width="8"
+                stroke-dasharray="439.8" stroke-dashoffset="439.8" stroke-linecap="round" style="transition:stroke-dashoffset .5s linear"/>
+            </svg>
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+              <div id="stretchEmoji" style="font-size:36px">🧘</div>
+              <div id="stretchSec" style="font-size:28px;font-weight:900;color:var(--a);line-height:1">30</div>
+              <div style="font-size:11px;color:var(--txt-2)">초</div>
+            </div>
+          </div>
+          <div id="stretchName" style="font-size:16px;font-weight:700;color:var(--txt);margin-bottom:6px">스트레칭을 선택하세요</div>
+          <div id="stretchGuide" style="font-size:12px;color:var(--txt-2);line-height:1.7;margin-bottom:20px;min-height:40px"></div>
+          <div style="display:flex;gap:10px;justify-content:center">
+            <button id="stretchBtn" onclick="stretchControl()" style="padding:10px 28px;background:var(--a);border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:700;cursor:pointer">▶ 시작</button>
+            <button onclick="stretchReset()" style="padding:10px 20px;background:var(--bg);border:1px solid var(--bdr);border-radius:10px;color:var(--txt-2);font-size:13px;cursor:pointer">↺</button>
+          </div>
+          <div id="stretchProgress" style="margin-top:16px;display:flex;gap:6px;justify-content:center"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== NEW-B. 사고 유형 통계 시각화 ============== -->
+<section id="accident-stats" style="background:var(--bg-2)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">NEW · 데이터 시각화</span>
+      <h2 class="sec-title">한국 산업재해 <span class="accent">사고 유형 분석</span></h2>
+      <p class="sec-desc">2023년 고용노동부 산업재해 현황 분석 — 사고 유형별 발생 비율과 업종별 분포를 시각화합니다.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center">
+      <div>
+        <div style="font-size:13px;font-weight:600;color:var(--txt);margin-bottom:14px;text-align:center">사고 유형별 비율 (%)</div>
+        <canvas id="accDonut" width="280" height="280" style="display:block;margin:0 auto"></canvas>
+        <div id="donutLegend" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px"></div>
+      </div>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:var(--txt);margin-bottom:14px">업종별 사망 재해자 수 (명)</div>
+        <canvas id="accBar" width="400" height="260" style="display:block;width:100%"></canvas>
+        <div style="margin-top:20px;padding:14px;background:var(--bg);border-left:3px solid var(--a);border-radius:0 8px 8px 0">
+          <div style="font-size:12px;color:var(--txt-2);line-height:1.8">
+            📌 <strong style="color:var(--txt)">떨어짐(추락)</strong>이 전체의 <strong style="color:#EF4444">27.3%</strong>로 1위<br>
+            📌 <strong style="color:var(--txt)">건설업</strong> 사망자가 전체의 <strong style="color:#EF4444">49.2%</strong> 차지<br>
+            📌 <strong style="color:var(--txt)">끼임·협착</strong>은 제조업 사고의 <strong style="color:#F97316">32%</strong><br>
+            출처: 고용노동부 2023 산업재해 현황
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== NEW-C. 열지수 & 음수량 계산기 ============== -->
+<section id="heat-calc" style="background:var(--bg-1)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label">NEW · 온열질환 예방</span>
+      <h2 class="sec-title">열지수 & <span class="accent">음수량 계산기</span></h2>
+      <p class="sec-desc">기온과 습도를 입력하면 체감온도(열지수)와 작업 위험도, 권장 음수량·휴식 빈도를 자동 계산합니다. 철강·야외 현장 필수.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px">
+      <div style="background:var(--bg-2);border:1px solid var(--bdr);border-radius:20px;padding:28px">
+        <div style="font-size:14px;font-weight:700;color:var(--txt);margin-bottom:20px">환경 조건 입력</div>
+        <div style="margin-bottom:16px">
+          <label style="font-size:12px;color:var(--txt-2);display:block;margin-bottom:6px">기온 (°C)</label>
+          <div style="display:flex;align-items:center;gap:12px">
+            <input type="range" id="tempSlider" min="20" max="45" value="32" oninput="calcHeat()" style="flex:1;accent-color:var(--a)">
+            <span id="tempVal" style="font-size:20px;font-weight:800;color:var(--a);min-width:46px">32°C</span>
+          </div>
+        </div>
+        <div style="margin-bottom:16px">
+          <label style="font-size:12px;color:var(--txt-2);display:block;margin-bottom:6px">상대습도 (%)</label>
+          <div style="display:flex;align-items:center;gap:12px">
+            <input type="range" id="humidSlider" min="20" max="100" value="60" oninput="calcHeat()" style="flex:1;accent-color:var(--a)">
+            <span id="humidVal" style="font-size:20px;font-weight:800;color:var(--a);min-width:46px">60%</span>
+          </div>
+        </div>
+        <div style="margin-bottom:20px">
+          <label style="font-size:12px;color:var(--txt-2);display:block;margin-bottom:6px">작업 강도</label>
+          <div style="display:flex;gap:8px">
+            <button class="heat-intensity-btn active" onclick="setIntensity(this,'light')" style="flex:1;padding:8px;border-radius:8px;border:1px solid var(--a);background:rgba(255,107,53,.1);color:var(--a);font-size:12px;cursor:pointer">경작업</button>
+            <button class="heat-intensity-btn" onclick="setIntensity(this,'medium')" style="flex:1;padding:8px;border-radius:8px;border:1px solid var(--bdr);background:var(--bg);color:var(--txt-2);font-size:12px;cursor:pointer">중작업</button>
+            <button class="heat-intensity-btn" onclick="setIntensity(this,'heavy')" style="flex:1;padding:8px;border-radius:8px;border:1px solid var(--bdr);background:var(--bg);color:var(--txt-2);font-size:12px;cursor:pointer">중중작업</button>
+          </div>
+        </div>
+        <div style="background:var(--bg);border-radius:12px;padding:16px;font-size:12px;color:var(--txt-2);line-height:1.9">
+          💡 <strong style="color:var(--txt)">열지수(Heat Index)</strong>는 기온과 습도를 결합한 체감온도로,<br>
+          실제 신체가 느끼는 더위 위험도를 나타냅니다.
+        </div>
+      </div>
+
+      <div>
+        <div style="background:var(--bg-2);border:1px solid var(--bdr);border-radius:20px;padding:28px;margin-bottom:16px;text-align:center">
+          <div style="font-size:12px;color:var(--txt-2);margin-bottom:8px">열지수 (체감온도)</div>
+          <div id="heatIndex" style="font-size:56px;font-weight:900;line-height:1;color:var(--a)">—</div>
+          <div style="font-size:13px;color:var(--txt-2);margin-bottom:12px">°C</div>
+          <div id="heatGrade" style="display:inline-block;padding:6px 20px;border-radius:20px;font-size:14px;font-weight:700">조건을 입력하세요</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+          <div style="background:var(--bg-2);border:1px solid var(--bdr);border-radius:14px;padding:16px;text-align:center">
+            <div style="font-size:10px;color:var(--txt-2);margin-bottom:6px">💧 시간당 음수량</div>
+            <div id="heatWater" style="font-size:24px;font-weight:800;color:#3B82F6">—</div>
+            <div style="font-size:11px;color:var(--txt-2)">mL / 시간</div>
+          </div>
+          <div style="background:var(--bg-2);border:1px solid var(--bdr);border-radius:14px;padding:16px;text-align:center">
+            <div style="font-size:10px;color:var(--txt-2);margin-bottom:6px">⏱️ 휴식 빈도</div>
+            <div id="heatBreak" style="font-size:24px;font-weight:800;color:#10B981">—</div>
+            <div style="font-size:11px;color:var(--txt-2)">분마다</div>
+          </div>
+        </div>
+        <div id="heatAdvice" style="background:var(--bg-2);border:1px solid var(--bdr);border-radius:14px;padding:16px;font-size:12px;color:var(--txt-2);line-height:1.9"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CTA -->
 <section class="cta">
   <div class="container">
@@ -5717,13 +5804,10 @@ body { cursor: none !important; }
   const hero=document.querySelector('.hero');
   if(hero){
     [
-      {t:'MediaPipe·33pts', x:'72%',y:'20%',a:'cf1',d:'0s',  dur:'7s' },
-      {t:'mmWave 60GHz',    x:'78%',y:'40%',a:'cf2',d:'.9s', dur:'9s' },
-      {t:'BLE 5.0 <50ms',  x:'64%',y:'62%',a:'cf3',d:'1.5s',dur:'8s' },
-      {t:'REBA r=0.89',    x:'82%',y:'30%',a:'cf4',d:'.4s', dur:'11s'},
-      {t:'119 Auto ⚡<10s', x:'70%',y:'76%',a:'cf1',d:'2.1s',dur:'10s'},
-      {t:'Triple Verify ✓', x:'87%',y:'56%',a:'cf2',d:'1.1s',dur:'8.5s'},
-      {t:'ZK·Blockchain',   x:'61%',y:'48%',a:'cf3',d:'1.8s',dur:'9.5s'},
+      {t:'MediaPipe·33pts', x:'70%',y:'18%',a:'cf1',d:'0s',  dur:'7s' },
+      {t:'REBA r=0.89',    x:'76%',y:'38%',a:'cf4',d:'.4s', dur:'11s'},
+      {t:'119 Auto ⚡<10s', x:'68%',y:'60%',a:'cf1',d:'1.5s',dur:'10s'},
+      {t:'ZK·Blockchain',   x:'74%',y:'78%',a:'cf3',d:'1.8s',dur:'9.5s'},
     ].forEach(c=>{
       const el=document.createElement('div');
       el.className='hero-float-chip';
@@ -8786,6 +8870,255 @@ document.getElementById('pwaInstallBtn').addEventListener('click',()=>{
 });
 
 })();
+</script>
+
+<script>
+/* ══ NEW-A: 스트레칭 타이머 ══════════════════════════════════ */
+const STRETCHES=[
+  {name:'목 좌우 돌리기',emoji:'🔄',sec:30,guide:'천천히 목을 좌→우→좌로 돌립니다.\n무리하지 말고 부드럽게. 어깨 힘 빼기.'},
+  {name:'어깨 돌리기',emoji:'🔃',sec:30,guide:'양 어깨를 앞→위→뒤→아래로 크게 돌립니다.\n10회 앞방향, 10회 뒷방향.'},
+  {name:'손목·손가락 스트레칭',emoji:'🙌',sec:30,guide:'손목을 시계·반시계 방향으로 돌린 후\n손가락을 쫙 폈다 오므립니다. 10회 반복.'},
+  {name:'허리 앞으로 굽히기',emoji:'🧎',sec:40,guide:'발을 어깨너비로 벌리고 천천히 앞으로 숙입니다.\n등을 펴고 10초 유지 후 천천히 올라옵니다.'},
+  {name:'종아리 스트레칭',emoji:'🦵',sec:40,guide:'벽이나 책상을 잡고 한쪽 발을 뒤로 뻗습니다.\n발뒤꿈치를 바닥에 붙이고 10초 유지.'},
+];
+let stretchIdx=0, stretchTimer=null, stretchRemain=0, stretchRunning=false;
+
+function renderStretchList(){
+  const el=document.getElementById('stretchList');
+  if(!el) return;
+  el.innerHTML=STRETCHES.map((s,i)=>`
+    <div onclick="selectStretch(${i})" style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:${i===stretchIdx?'rgba(255,107,53,.08)':'var(--bg)'};border:1px solid ${i===stretchIdx?'var(--a)':'var(--bdr)'};border-radius:12px;cursor:pointer;transition:.2s">
+      <span style="font-size:24px">${s.emoji}</span>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:600;color:var(--txt)">${s.name}</div>
+        <div style="font-size:11px;color:var(--txt-2)">⏱ ${s.sec}초</div>
+      </div>
+      <div id="sdone${i}" style="font-size:18px">${''}</div>
+    </div>`
+  ).join('');
+  renderStretchProgress();
+}
+
+function renderStretchProgress(){
+  const el=document.getElementById('stretchProgress');
+  if(!el) return;
+  el.innerHTML=STRETCHES.map((_,i)=>`<div style="width:10px;height:10px;border-radius:50%;background:${i<stretchIdx?'var(--a)':i===stretchIdx?'rgba(255,107,53,.4)':'var(--bdr)'}"></div>`).join('');
+}
+
+function selectStretch(i){
+  if(stretchRunning) return;
+  stretchIdx=i;
+  stretchRemain=STRETCHES[i].sec;
+  document.getElementById('stretchSec').textContent=stretchRemain;
+  document.getElementById('stretchName').textContent=STRETCHES[i].name;
+  document.getElementById('stretchGuide').textContent=STRETCHES[i].guide;
+  document.getElementById('stretchEmoji').textContent=STRETCHES[i].emoji;
+  document.getElementById('stretchBtn').textContent='▶ 시작';
+  updateRing(1);
+  renderStretchList();
+}
+
+function updateRing(frac){
+  const ring=document.getElementById('stretchRing');
+  if(!ring) return;
+  const circ=439.8;
+  ring.style.strokeDashoffset=circ*(1-frac);
+}
+
+function stretchControl(){
+  if(!stretchRunning){
+    stretchRunning=true;
+    document.getElementById('stretchBtn').textContent='⏸ 일시정지';
+    const total=STRETCHES[stretchIdx].sec;
+    stretchTimer=setInterval(()=>{
+      stretchRemain--;
+      document.getElementById('stretchSec').textContent=stretchRemain;
+      updateRing(stretchRemain/total);
+      if(stretchRemain<=0){
+        clearInterval(stretchTimer);
+        stretchRunning=false;
+        document.getElementById(`sdone${stretchIdx}`).textContent='✅';
+        document.getElementById('stretchBtn').textContent='▶ 시작';
+        if(stretchIdx<STRETCHES.length-1){
+          setTimeout(()=>{ stretchIdx++; selectStretch(stretchIdx); },800);
+        } else {
+          document.getElementById('stretchName').textContent='🎉 전체 완료! 수고하셨습니다.';
+          document.getElementById('stretchGuide').textContent='5가지 스트레칭을 모두 완료했습니다. 안전하게 작업을 시작하세요!';
+        }
+      }
+    },1000);
+  } else {
+    stretchRunning=false;
+    clearInterval(stretchTimer);
+    document.getElementById('stretchBtn').textContent='▶ 재개';
+  }
+}
+
+function stretchReset(){
+  clearInterval(stretchTimer);
+  stretchRunning=false;
+  stretchIdx=0;
+  selectStretch(0);
+  STRETCHES.forEach((_,i)=>{ const el=document.getElementById(`sdone${i}`); if(el) el.textContent=''; });
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  if(document.getElementById('stretchList')){
+    selectStretch(0);
+    renderStretchList();
+  }
+});
+
+
+/* ══ NEW-B: 사고 통계 차트 ═══════════════════════════════════ */
+document.addEventListener('DOMContentLoaded',()=>{
+  const donutEl=document.getElementById('accDonut');
+  const barEl=document.getElementById('accBar');
+  if(!donutEl||!barEl) return;
+
+  // Donut chart — accident types
+  const donutData=[
+    {label:'떨어짐',pct:27.3,color:'#EF4444'},
+    {label:'끼임',pct:14.8,color:'#F97316'},
+    {label:'부딪힘',pct:13.2,color:'#EAB308'},
+    {label:'넘어짐',pct:12.6,color:'#10B981'},
+    {label:'절단·베임',pct:9.4,color:'#3B82F6'},
+    {label:'기타',pct:22.7,color:'#8B5CF6'},
+  ];
+  (function drawDonut(){
+    const ctx=donutEl.getContext('2d');
+    const W=donutEl.width, H=donutEl.height;
+    const cx=W/2, cy=H/2, r=100, ri=60;
+    ctx.clearRect(0,0,W,H);
+    let angle=-Math.PI/2;
+    donutData.forEach(d=>{
+      const slice=2*Math.PI*d.pct/100;
+      ctx.beginPath();
+      ctx.moveTo(cx,cy);
+      ctx.arc(cx,cy,r,angle,angle+slice);
+      ctx.closePath();
+      ctx.fillStyle=d.color;
+      ctx.fill();
+      angle+=slice;
+    });
+    // inner hole
+    ctx.beginPath();
+    ctx.arc(cx,cy,ri,0,2*Math.PI);
+    ctx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--bg-2')||'#F5F1EE';
+    ctx.fill();
+    // center text
+    ctx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--txt')||'#1A1A1A';
+    ctx.font='bold 14px sans-serif';
+    ctx.textAlign='center';
+    ctx.fillText('사고',cx,cy-4);
+    ctx.fillText('유형',cx,cy+14);
+  })();
+
+  // Legend
+  const leg=document.getElementById('donutLegend');
+  if(leg) leg.innerHTML=donutData.map(d=>`<div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--txt-2)"><div style="width:10px;height:10px;border-radius:2px;background:${d.color};flex-shrink:0"></div>${d.label} ${d.pct}%</div>`).join('');
+
+  // Bar chart — industry deaths
+  const barData=[
+    {label:'건설',val:341,color:'#EF4444'},
+    {label:'제조',val:152,color:'#F97316'},
+    {label:'서비스',val:89,color:'#EAB308'},
+    {label:'운수',val:67,color:'#10B981'},
+    {label:'농업',val:45,color:'#3B82F6'},
+    {label:'기타',val:49,color:'#8B5CF6'},
+  ];
+  (function drawBar(){
+    const ctx=barEl.getContext('2d');
+    const W=barEl.offsetWidth||400, H=260;
+    barEl.width=W; barEl.height=H;
+    const pad={t:20,r:16,b:40,l:44};
+    const chartW=W-pad.l-pad.r, chartH=H-pad.t-pad.b;
+    const max=Math.max(...barData.map(d=>d.val));
+    const bw=chartW/barData.length*.55;
+    const gap=chartW/barData.length;
+    ctx.clearRect(0,0,W,H);
+    const txtColor=getComputedStyle(document.documentElement).getPropertyValue('--txt-2')||'#666';
+    // grid
+    [0,100,200,300,400].forEach(v=>{
+      const y=pad.t+chartH*(1-v/max);
+      ctx.beginPath(); ctx.moveTo(pad.l,y); ctx.lineTo(W-pad.r,y);
+      ctx.strokeStyle='rgba(0,0,0,.06)'; ctx.lineWidth=1; ctx.stroke();
+      ctx.fillStyle=txtColor; ctx.font='10px sans-serif'; ctx.textAlign='right';
+      ctx.fillText(v,pad.l-4,y+3);
+    });
+    barData.forEach((d,i)=>{
+      const x=pad.l+i*gap+(gap-bw)/2;
+      const bh=chartH*d.val/max;
+      const y=pad.t+chartH-bh;
+      const g=ctx.createLinearGradient(0,y,0,y+bh);
+      g.addColorStop(0,d.color); g.addColorStop(1,d.color+'88');
+      ctx.fillStyle=g;
+      ctx.beginPath(); ctx.roundRect(x,y,bw,bh,4); ctx.fill();
+      ctx.fillStyle=txtColor; ctx.font='bold 10px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(d.val,x+bw/2,y-4);
+      ctx.fillStyle=txtColor; ctx.font='10px sans-serif';
+      ctx.fillText(d.label,x+bw/2,H-pad.b+14);
+    });
+  })();
+});
+
+
+/* ══ NEW-C: 열지수 계산기 ════════════════════════════════════ */
+let heatIntensity='light';
+function setIntensity(el,val){
+  heatIntensity=val;
+  document.querySelectorAll('.heat-intensity-btn').forEach(b=>{
+    b.style.borderColor='var(--bdr)'; b.style.background='var(--bg)'; b.style.color='var(--txt-2)';
+  });
+  el.style.borderColor='var(--a)'; el.style.background='rgba(255,107,53,.1)'; el.style.color='var(--a)';
+  calcHeat();
+}
+function calcHeat(){
+  const T=parseFloat(document.getElementById('tempSlider').value);
+  const H=parseFloat(document.getElementById('humidSlider').value);
+  document.getElementById('tempVal').textContent=T+'°C';
+  document.getElementById('humidVal').textContent=H+'%';
+  // Rothfusz regression (in Fahrenheit, then convert)
+  const Tf=T*9/5+32, RH=H;
+  let HI = -42.379 + 2.04901523*Tf + 10.14333127*RH
+    - .22475541*Tf*RH - .00683783*Tf*Tf - .05391553*RH*RH
+    + .00122874*Tf*Tf*RH + .00085282*Tf*RH*RH - .00000199*Tf*Tf*RH*RH;
+  const hiC=Math.round((HI-32)*5/9);
+  document.getElementById('heatIndex').textContent=hiC;
+  let grade,gradeColor,gradeBg,water,breakMin,advice;
+  if(hiC<27){
+    grade='안전';gradeColor='#10B981';gradeBg='rgba(16,185,129,.1)';
+    water=200; breakMin=60;
+    advice='현재 열지수는 안전 범위입니다.\n• 일반적인 음수량 유지 (200mL/시간)\n• 1시간마다 짧은 휴식 권장';
+  } else if(hiC<32){
+    grade='주의';gradeColor='#EAB308';gradeBg='rgba(234,179,8,.1)';
+    water=300; breakMin=45;
+    advice='⚠️ 체온 상승 주의 단계\n• 음수량 증가 (300mL/시간)\n• 45분마다 그늘 휴식\n• 야외 중작업 시 보건관리자에 보고';
+  } else if(hiC<41){
+    grade='위험';gradeColor='#F97316';gradeBg='rgba(249,115,22,.1)';
+    water=500; breakMin=30;
+    advice='🔴 열경련·열탈진 위험!\n• 30분마다 반드시 휴식\n• 500mL/시간 이상 음수\n• 2인 1조 작업 필수\n• 경미한 두통·어지럼 즉시 보고';
+  } else {
+    grade='매우 위험';gradeColor='#EF4444';gradeBg='rgba(239,68,68,.1)';
+    water=700; breakMin=15;
+    advice='🚨 열사병 위험! 즉각 조치 필요!\n• 15분마다 반드시 휴식\n• 700mL/시간 이상 음수\n• 야외·고온 작업 즉시 중단 검토\n• 의식 혼미·고열 시 119 즉시 신고';
+  }
+  // intensity multiplier
+  const mult={light:1,medium:1.3,heavy:1.6}[heatIntensity]||1;
+  const finalWater=Math.round(water*mult);
+  const finalBreak=Math.round(breakMin/mult);
+  document.getElementById('heatGrade').textContent=grade;
+  document.getElementById('heatGrade').style.background=gradeBg;
+  document.getElementById('heatGrade').style.color=gradeColor;
+  document.getElementById('heatGrade').style.border=`1px solid ${gradeColor}`;
+  document.getElementById('heatWater').textContent=finalWater;
+  document.getElementById('heatWater').style.color=gradeColor;
+  document.getElementById('heatBreak').textContent=finalBreak;
+  document.getElementById('heatAdvice').textContent=advice;
+  document.getElementById('heatAdvice').style.whiteSpace='pre-line';
+  document.getElementById('heatAdvice').style.borderLeft=`3px solid ${gradeColor}`;
+}
+document.addEventListener('DOMContentLoaded',()=>{ if(document.getElementById('tempSlider')) calcHeat(); });
 </script>
 </body>
 </html>
