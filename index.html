@@ -1281,6 +1281,8 @@ footer::before{
             <a href="#bio-monitor" class="drop-item"><div class="drop-icon">💓</div><div class="drop-info"><div class="drop-name" data-i18n="navBio">바이오 모니터링</div><div class="drop-sub">심박·체온 실시간</div></div></a>
             <a href="#zero-accident" class="drop-item"><div class="drop-icon">🏆</div><div class="drop-info"><div class="drop-name" data-i18n="navZA">무재해 기록판</div><div class="drop-sub">공장별 연속일수</div></div></a>
             <a href="#fatigue" class="drop-item"><div class="drop-icon">😴</div><div class="drop-info"><div class="drop-name">피로도 AI</div><div class="drop-sub">눈·심박 분석</div></div></a>
+            <a href="#shift-fatigue" class="drop-item"><div class="drop-icon">🔋</div><div class="drop-info"><div class="drop-name" data-i18n="navShiftFatigue">피로 지수 계산기</div><div class="drop-sub">교대 근무 위험도</div></div></a>
+            <a href="#noise-meter" class="drop-item"><div class="drop-icon">🎤</div><div class="drop-info"><div class="drop-name" data-i18n="navNoise">소음 측정기</div><div class="drop-sub">실시간 dB 측정</div></div></a>
             <a href="#stretch" class="drop-item"><div class="drop-icon">🧘</div><div class="drop-info"><div class="drop-name" data-i18n="navStretch">스트레칭 타이머</div><div class="drop-sub">근골격계 예방</div></div></a>
             <a href="#heat-calc" class="drop-item"><div class="drop-icon">🌡️</div><div class="drop-info"><div class="drop-name" data-i18n="navHeat">열지수 계산기</div><div class="drop-sub">온열질환 예방</div></div></a>
           </div>
@@ -4387,6 +4389,147 @@ document.querySelectorAll('.fzone').forEach(zone=>{
   </div>
 </section>
 
+<!-- ============== NEW-H. 실시간 소음 측정기 ============== -->
+<section id="noise-meter" style="background:var(--bg-2)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label" data-i18n="nmLabel">NEW · 실시간 소음 측정</span>
+      <h2 class="sec-title"><span data-i18n="nmTitle1">현장 소음</span> <span class="accent" data-i18n="nmTitle2">실시간 측정기</span></h2>
+      <p class="sec-desc" data-i18n="nmDesc">마이크를 통해 현장 소음을 실시간으로 측정합니다. 고용노동부 기준(90dB/8h)과 비교해 즉시 경보를 발령합니다.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start">
+
+      <!-- Meter display -->
+      <div style="background:var(--bg);border:1px solid var(--bdr);border-radius:20px;padding:28px;text-align:center">
+        <div style="position:relative;width:220px;height:220px;margin:0 auto 20px">
+          <canvas id="nmCanvas" width="220" height="220"></canvas>
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+            <div id="nmDb" style="font-size:52px;font-weight:900;color:var(--a);line-height:1;transition:color .3s">--</div>
+            <div style="font-size:14px;color:var(--txt-2);margin-top:2px">dB</div>
+            <div id="nmGrade" style="font-size:12px;font-weight:700;margin-top:6px;padding:3px 12px;border-radius:10px;background:var(--bg-2)">대기 중</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;justify-content:center;margin-bottom:16px">
+          <button id="nmBtn" onclick="nmToggle()" style="padding:11px 28px;background:var(--a);border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:700;cursor:pointer" data-i18n="nmStart">🎤 측정 시작</button>
+          <button onclick="nmReset()" style="padding:11px 16px;background:var(--bg-2);border:1px solid var(--bdr);border-radius:10px;color:var(--txt-2);font-size:13px;cursor:pointer">↺</button>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--txt-2);padding:0 8px">
+          <span>최소: <strong id="nmMin" style="color:var(--a)">--</strong> dB</span>
+          <span>최대: <strong id="nmMax" style="color:#EF4444">--</strong> dB</span>
+          <span>평균: <strong id="nmAvg" style="color:#EAB308">--</strong> dB</span>
+        </div>
+      </div>
+
+      <!-- Level guide + history -->
+      <div>
+        <div style="font-size:13px;font-weight:700;color:var(--txt);margin-bottom:12px" data-i18n="nmGuideTitle">📋 소음 기준 가이드</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:10px">
+            <div style="width:10px;height:10px;border-radius:50%;background:#10B981;flex-shrink:0"></div>
+            <div style="flex:1;font-size:12px;color:var(--txt-2)"><strong style="color:var(--txt)" data-i18n="nmSafe">안전</strong> &lt;80dB — <span data-i18n="nmSafeDesc">정상 대화 수준, 보호구 불필요</span></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(234,179,8,.08);border:1px solid rgba(234,179,8,.2);border-radius:10px">
+            <div style="width:10px;height:10px;border-radius:50%;background:#EAB308;flex-shrink:0"></div>
+            <div style="flex:1;font-size:12px;color:var(--txt-2)"><strong style="color:var(--txt)" data-i18n="nmCaution">주의</strong> 80~90dB — <span data-i18n="nmCautionDesc">귀마개 착용 권장</span></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(249,115,22,.08);border:1px solid rgba(249,115,22,.2);border-radius:10px">
+            <div style="width:10px;height:10px;border-radius:50%;background:#F97316;flex-shrink:0"></div>
+            <div style="flex:1;font-size:12px;color:var(--txt-2)"><strong style="color:var(--txt)" data-i18n="nmDanger">위험</strong> 90~100dB — <span data-i18n="nmDangerDesc">귀마개·귀덮개 의무 착용</span></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:10px">
+            <div style="width:10px;height:10px;border-radius:50%;background:#EF4444;flex-shrink:0"></div>
+            <div style="flex:1;font-size:12px;color:var(--txt-2)"><strong style="color:var(--txt)" data-i18n="nmCritical">즉시조치</strong> &gt;100dB — <span data-i18n="nmCriticalDesc">즉시 작업 중단, 방음 조치</span></div>
+          </div>
+        </div>
+        <div style="font-size:12px;font-weight:700;color:var(--txt);margin-bottom:8px" data-i18n="nmHistTitle">📊 최근 10초 추이</div>
+        <canvas id="nmHistory" height="80" style="width:100%;border-radius:8px;background:var(--bg)"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== NEW-I. 교대 근무 피로 지수 ============== -->
+<section id="shift-fatigue" style="background:var(--bg-1)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label" data-i18n="sfLabel">NEW · 피로 위험 분석</span>
+      <h2 class="sec-title"><span data-i18n="sfTitle1">교대 근무</span> <span class="accent" data-i18n="sfTitle2">피로 지수 계산기</span></h2>
+      <p class="sec-desc" data-i18n="sfDesc">근무 패턴을 입력하면 FAST(Fatigue Avoidance Scheduling Tool) 기반 피로 점수와 사고 발생 확률을 자동 계산합니다.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px">
+      <div style="background:var(--bg-2);border:1px solid var(--bdr);border-radius:20px;padding:28px">
+        <div style="font-size:13px;font-weight:700;color:var(--txt);margin-bottom:18px" data-i18n="sfInputTitle">근무 패턴 입력</div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div>
+            <label style="font-size:11px;color:var(--txt-2);display:block;margin-bottom:5px" data-i18n="sfShiftType">근무 유형</label>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px" id="sfTypeGrid">
+              <button onclick="sfSelectType(this,'day')" class="sf-type active" style="padding:9px;border-radius:8px;border:1px solid var(--a);background:rgba(255,107,53,.1);color:var(--a);font-size:11px;font-weight:700;cursor:pointer" data-i18n="sfDay">주간</button>
+              <button onclick="sfSelectType(this,'night')" class="sf-type" style="padding:9px;border-radius:8px;border:1px solid var(--bdr);background:var(--bg);color:var(--txt-2);font-size:11px;font-weight:700;cursor:pointer" data-i18n="sfNight">야간</button>
+              <button onclick="sfSelectType(this,'rotate')" class="sf-type" style="padding:9px;border-radius:8px;border:1px solid var(--bdr);background:var(--bg);color:var(--txt-2);font-size:11px;font-weight:700;cursor:pointer" data-i18n="sfRotate">교대</button>
+            </div>
+          </div>
+          <div>
+            <label style="font-size:11px;color:var(--txt-2);display:block;margin-bottom:5px" data-i18n="sfHoursLabel">1일 근무 시간</label>
+            <div style="display:flex;align-items:center;gap:10px">
+              <input type="range" id="sfHours" min="6" max="16" value="8" oninput="document.getElementById('sfHoursVal').textContent=this.value;calcFatigue()" style="flex:1;accent-color:var(--a)">
+              <span id="sfHoursVal" style="font-size:18px;font-weight:800;color:var(--a);min-width:36px">8</span>
+              <span style="font-size:11px;color:var(--txt-2)" data-i18n="sfHoursUnit">시간</span>
+            </div>
+          </div>
+          <div>
+            <label style="font-size:11px;color:var(--txt-2);display:block;margin-bottom:5px" data-i18n="sfConsLabel">연속 근무 일수</label>
+            <div style="display:flex;align-items:center;gap:10px">
+              <input type="range" id="sfCons" min="1" max="14" value="5" oninput="document.getElementById('sfConsVal').textContent=this.value;calcFatigue()" style="flex:1;accent-color:var(--a)">
+              <span id="sfConsVal" style="font-size:18px;font-weight:800;color:var(--a);min-width:24px">5</span>
+              <span style="font-size:11px;color:var(--txt-2)" data-i18n="sfConsUnit">일</span>
+            </div>
+          </div>
+          <div>
+            <label style="font-size:11px;color:var(--txt-2);display:block;margin-bottom:5px" data-i18n="sfSleepLabel">평균 수면 시간</label>
+            <div style="display:flex;align-items:center;gap:10px">
+              <input type="range" id="sfSleep" min="3" max="9" value="7" oninput="document.getElementById('sfSleepVal').textContent=this.value;calcFatigue()" style="flex:1;accent-color:var(--a)">
+              <span id="sfSleepVal" style="font-size:18px;font-weight:800;color:var(--a);min-width:24px">7</span>
+              <span style="font-size:11px;color:var(--txt-2)" data-i18n="sfSleepUnit">시간</span>
+            </div>
+          </div>
+          <div>
+            <label style="font-size:11px;color:var(--txt-2);display:block;margin-bottom:5px" data-i18n="sfAgeLabel">작업자 연령대</label>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px">
+              <button onclick="sfSelectAge(this,'20')" class="sf-age active" style="padding:7px;border-radius:7px;border:1px solid var(--a);background:rgba(255,107,53,.1);color:var(--a);font-size:11px;cursor:pointer">20대</button>
+              <button onclick="sfSelectAge(this,'30')" class="sf-age" style="padding:7px;border-radius:7px;border:1px solid var(--bdr);background:var(--bg);color:var(--txt-2);font-size:11px;cursor:pointer">30대</button>
+              <button onclick="sfSelectAge(this,'40')" class="sf-age" style="padding:7px;border-radius:7px;border:1px solid var(--bdr);background:var(--bg);color:var(--txt-2);font-size:11px;cursor:pointer">40대</button>
+              <button onclick="sfSelectAge(this,'50')" class="sf-age" style="padding:7px;border-radius:7px;border:1px solid var(--bdr);background:var(--bg);color:var(--txt-2);font-size:11px;cursor:pointer">50+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div>
+        <div style="background:var(--bg-2);border:1px solid var(--bdr);border-radius:20px;padding:28px;margin-bottom:14px;text-align:center">
+          <div style="font-size:12px;color:var(--txt-2);margin-bottom:10px" data-i18n="sfScoreLabel">피로 지수 (0-100)</div>
+          <div style="position:relative;height:12px;background:var(--bdr);border-radius:6px;overflow:hidden;margin-bottom:12px">
+            <div id="sfBar" style="height:100%;width:35%;background:linear-gradient(90deg,#10B981,#EAB308,#F97316,#EF4444);border-radius:6px;transition:width .8s ease"></div>
+          </div>
+          <div id="sfScore" style="font-size:48px;font-weight:900;color:var(--a);line-height:1;margin-bottom:6px">35</div>
+          <div id="sfGrade" style="display:inline-block;padding:5px 18px;border-radius:16px;font-size:13px;font-weight:700;background:rgba(16,185,129,.1);color:#10B981;border:1px solid rgba(16,185,129,.3)">양호</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+          <div style="background:var(--bg-2);border:1px solid var(--bdr);border-radius:12px;padding:14px;text-align:center">
+            <div style="font-size:10px;color:var(--txt-2);margin-bottom:4px" data-i18n="sfAccRisk">사고 상대 위험도</div>
+            <div id="sfRisk" style="font-size:22px;font-weight:800;color:#F97316">1.0×</div>
+          </div>
+          <div style="background:var(--bg-2);border:1px solid var(--bdr);border-radius:12px;padding:14px;text-align:center">
+            <div style="font-size:10px;color:var(--txt-2);margin-bottom:4px" data-i18n="sfRecommend">권장 휴식 주기</div>
+            <div id="sfBreak" style="font-size:22px;font-weight:800;color:#3B82F6">60분</div>
+          </div>
+        </div>
+        <div id="sfAdvice" style="background:var(--bg-2);border:1px solid var(--bdr);border-radius:12px;padding:16px;font-size:12px;color:var(--txt-2);line-height:1.9;white-space:pre-line"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CTA -->
 <section class="cta">
   <div class="container">
@@ -4492,6 +4635,9 @@ if ('serviceWorker' in navigator) {
 // ============================================================
 const I18N = {
   ko: {
+    nmLabel:"NEW · 실시간 소음 측정",nmTitle1:"현장 소음",nmTitle2:"실시간 측정기",nmDesc:"마이크를 통해 현장 소음을 실시간으로 측정합니다. 고용노동부 기준(90dB/8h)과 비교해 즉시 경보를 발령합니다.",nmStart:"🎤 측정 시작",nmGuideTitle:"📋 소음 기준 가이드",nmSafe:"안전",nmSafeDesc:"정상 대화 수준, 보호구 불필요",nmCaution:"주의",nmCautionDesc:"귀마개 착용 권장",nmDanger:"위험",nmDangerDesc:"귀마개·귀덮개 의무 착용",nmCritical:"즉시조치",nmCriticalDesc:"즉시 작업 중단, 방음 조치",nmHistTitle:"📊 최근 추이",
+    sfLabel:"NEW · 피로 위험 분석",sfTitle1:"교대 근무",sfTitle2:"피로 지수 계산기",sfDesc:"근무 패턴을 입력하면 FAST 기반 피로 점수와 사고 발생 확률을 자동 계산합니다.",sfInputTitle:"근무 패턴 입력",sfShiftType:"근무 유형",sfDay:"주간",sfNight:"야간",sfRotate:"교대",sfHoursLabel:"1일 근무 시간",sfHoursUnit:"시간",sfConsLabel:"연속 근무 일수",sfConsUnit:"일",sfSleepLabel:"평균 수면 시간",sfSleepUnit:"시간",sfAgeLabel:"작업자 연령대",sfScoreLabel:"피로 지수 (0-100)",sfAccRisk:"사고 상대 위험도",sfRecommend:"권장 휴식 주기",
+    navNoise:"소음 측정기",navShiftFatigue:"피로 지수",navData:"현황 분석",navSafety:"안전 도구",navResults:"관제·성과",navBio:"바이오 모니터링",navZA:"무재해 기록판",navStretch:"스트레칭",navHeat:"열지수 계산기",navRiskMatrix:"위험성 평가",navFiveWhy:"5-Why 분석",navCpr:"CPR 응급처치",navPledge:"안전 서약",navBS:"사각지대",navAccStats:"사고 통계",navIntl:"국제 비교",
     rmLabel:"NEW · 위험성 평가",rmTitle1:"인터랙티브",rmTitle2:"위험성 평가 매트릭스",rmDesc:"발생 가능성과 심각도로 위험 요인을 5×5 매트릭스에 배치. 클릭하면 위험 등급이 자동 계산됩니다.",rm1:"매우낮음",rm2:"낮음",rm3:"보통",rm4:"높음",rm5:"매우높음",rmXAxis:"← 발생 가능성 →",rmGreen:"수용 가능",rmYellow:"주의 필요",rmOrange:"개선 필요",rmRed:"즉시 조치",rmAddTitle:"위험 요인 등록",rmProbLabel:"발생 가능성 (1-5)",rmSevLabel:"심각도 (1-5)",rmAddBtn:"+ 매트릭스에 추가",
     whyLabel:"NEW · 사고 원인 분석",whyTitle1:"5-Why",whyTitle2:"근본 원인 분석 도구",whyDesc:"도요타에서 개발한 5-Why 기법으로 사고의 근본 원인을 찾아냅니다. '왜?'를 5번 반복해 구조적 문제를 발견합니다.",whyProbLabel:"🔴 발생한 문제 (사고/아차사고)",whyAnalyzeBtn:"🔍 분석 시작",whyResetBtn:"↺ 초기화",whyResultHint:"왼쪽에 문제와 원인을 입력하면 분석 결과가 표시됩니다",
     cprLabel:"NEW · 응급처치 가이드",cprTitle1:"CPR &amp; 현장",cprTitle2:"응급처치 인터랙티브 가이드",cprDesc:"심정지 발생 시 정확한 CPR 박자를 유지하는 타이머와 4가지 주요 부상 유형별 단계별 응급처치 가이드입니다.",cprTimerTitle:"🫀 CPR 박자 타이머",cprTimerSub:"분당 100-120회 압박 유지",cprPressCount:"압박 횟수",cprCycleInfo:"30회 압박 → 2회 인공호흡 1세트",cprStart:"▶ 시작",cprPause:"⏸ 일시정지",cprBreathNow:"💨 지금 인공호흡 2회!",cprNote:"⚠️ 119 신고 후 AED 가져오는 동안 CPR 지속\n가슴 압박 깊이: 성인 5-6cm / 소아 4-5cm",firstAidTitle:"🩺 부상 유형별 처치 가이드",faBurn:"🔥 화상",faFall:"🤸 추락·골절",faChemical:"🧪 화학물질",faCut:"🩸 절단·출혈",faSelectHint:"위 버튼을 눌러 응급처치 가이드를 확인하세요",
@@ -4696,6 +4842,9 @@ const I18N = {
     mw4Title:"S-Grade Cutting-Edge Web Stack",mw4Desc:"WebGPU 8000-particle GPU compute · TF.js MoveNet 17-joint real-time pose · WebAssembly binary module · WebXR AR session · BroadcastChannel multi-tab sync · CSS Houdini Paint Worklet.",mw4Src:"Browser APIs rarely seen on other sites"
   },
   zh: {
+    nmLabel:"NEW · 实时噪音测量",nmTitle1:"现场噪音",nmTitle2:"实时测量仪",nmDesc:"通过麦克风实时测量现场噪音。与劳动部标准(90dB/8h)对比，立即发出警报。",nmStart:"🎤 开始测量",nmGuideTitle:"📋 噪音标准指南",nmSafe:"安全",nmSafeDesc:"正常对话水平，无需防护具",nmCaution:"注意",nmCautionDesc:"建议佩戴耳塞",nmDanger:"危险",nmDangerDesc:"必须佩戴耳塞·耳罩",nmCritical:"立即措施",nmCriticalDesc:"立即停止作业，采取隔音措施",nmHistTitle:"📊 近期趋势",
+    sfLabel:"NEW · 疲劳风险分析",sfTitle1:"倒班工作",sfTitle2:"疲劳指数计算器",sfDesc:"输入工作模式，自动计算基于FAST的疲劳分数和事故发生概率。",sfInputTitle:"工作模式输入",sfShiftType:"班次类型",sfDay:"白班",sfNight:"夜班",sfRotate:"轮班",sfHoursLabel:"每日工作时间",sfHoursUnit:"小时",sfConsLabel:"连续工作天数",sfConsUnit:"天",sfSleepLabel:"平均睡眠时间",sfSleepUnit:"小时",sfAgeLabel:"作业人员年龄",sfScoreLabel:"疲劳指数 (0-100)",sfAccRisk:"事故相对风险",sfRecommend:"建议休息间隔",
+    navNoise:"噪音测量",navShiftFatigue:"疲劳指数",navData:"现况分析",navSafety:"安全工具",navResults:"管制成果",navBio:"生体监控",navZA:"无事故记录",navStretch:"拉伸计时器",navHeat:"热指数计算",navRiskMatrix:"风险评估矩阵",navFiveWhy:"5-Why分析",navCpr:"CPR急救",navPledge:"安全承诺",navBS:"安全盲区",navAccStats:"事故统计",navIntl:"国际比较",
     rmLabel:"NEW · 风险评估",rmTitle1:"交互式",rmTitle2:"风险评估矩阵",rmDesc:"按发生可能性和严重程度将危险因素放置在5×5矩阵中，自动计算风险等级。",rm1:"极低",rm2:"低",rm3:"中等",rm4:"高",rm5:"极高",rmXAxis:"← 发生可能性 →",rmGreen:"可接受",rmYellow:"需注意",rmOrange:"需改善",rmRed:"立即整改",rmAddTitle:"登记危险因素",rmProbLabel:"发生可能性 (1-5)",rmSevLabel:"严重程度 (1-5)",rmAddBtn:"+ 添加到矩阵",
     whyLabel:"NEW · 事故原因分析",whyTitle1:"5-Why",whyTitle2:"根本原因分析工具",whyDesc:"运用丰田开发的5-Why技法找出事故根本原因。重复问5次'为什么'发现结构性问题。",whyProbLabel:"🔴 发生的问题（事故/未遂事故）",whyAnalyzeBtn:"🔍 开始分析",whyResetBtn:"↺ 重置",whyResultHint:"在左侧输入问题和原因，分析结果将显示在此处",
     cprLabel:"NEW · 急救指南",cprTitle1:"CPR &amp; 现场",cprTitle2:"急救互动指南",cprDesc:"心脏骤停时保持正确CPR节拍的计时器，以及4种主要伤害类型的分步急救指南。",cprTimerTitle:"🫀 CPR节拍计时器",cprTimerSub:"每分钟保持100-120次按压",cprPressCount:"按压次数",cprCycleInfo:"30次按压→2次人工呼吸为1组",cprStart:"▶ 开始",cprPause:"⏸ 暂停",cprBreathNow:"💨 现在进行2次人工呼吸！",cprNote:"⚠️ 拨打119后在等待AED期间持续CPR\n按压深度：成人5-6cm / 儿童4-5cm",firstAidTitle:"🩺 按伤害类型急救指南",faBurn:"🔥 烧伤",faFall:"🤸 坠落·骨折",faChemical:"🧪 化学物质",faCut:"🩸 割伤·出血",faSelectHint:"点击上方按钮查看急救步骤",
@@ -9264,6 +9413,231 @@ document.getElementById('pwaInstallBtn').addEventListener('click',()=>{
 </script>
 
 <script>
+/* ══ NEW-H: 실시간 소음 측정기 ══════════════════════════════ */
+let nmRunning=false, nmStream=null, nmAnalyser=null, nmCtx=null, nmRaf=null;
+let nmMinVal=999, nmMaxVal=0, nmTotal=0, nmCount=0, nmHistory=[];
+
+function nmDbColor(db){
+  return db<80?'#10B981':db<90?'#EAB308':db<100?'#F97316':'#EF4444';
+}
+function nmGradeText(db){
+  const lang=(document.documentElement.lang||'ko').slice(0,2);
+  const t={ko:['안전','주의','위험','즉시조치'],en:['Safe','Caution','Danger','Critical'],zh:['安全','注意','危险','立即措施'],ja:['安全','注意','危険','即時措置']};
+  const L=t[lang]||t.ko;
+  return db<80?L[0]:db<90?L[1]:db<100?L[2]:L[3];
+}
+
+function nmDrawGauge(db){
+  const canvas=document.getElementById('nmCanvas'); if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  const W=220,H=220,cx=110,cy=120,r=90;
+  ctx.clearRect(0,0,W,H);
+  // Background arc
+  ctx.beginPath(); ctx.arc(cx,cy,r,Math.PI,2*Math.PI);
+  ctx.lineWidth=14; ctx.strokeStyle='rgba(0,0,0,.08)'; ctx.stroke();
+  // Color arc
+  const pct=Math.min(Math.max((db-40)/80,0),1);
+  const c=nmDbColor(db);
+  ctx.beginPath(); ctx.arc(cx,cy,r,Math.PI,Math.PI+Math.PI*pct);
+  ctx.lineWidth=14; ctx.strokeStyle=c; ctx.lineCap='round'; ctx.stroke();
+  // Ticks
+  [40,60,80,90,100,120].forEach(v=>{
+    const a=Math.PI+Math.PI*(v-40)/80;
+    const x1=cx+(r-20)*Math.cos(a), y1=cy+(r-20)*Math.sin(a);
+    const x2=cx+r*Math.cos(a), y2=cy+r*Math.sin(a);
+    ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2);
+    ctx.strokeStyle='rgba(0,0,0,.15)'; ctx.lineWidth=2; ctx.stroke();
+    ctx.fillStyle='rgba(0,0,0,.3)'; ctx.font='9px sans-serif'; ctx.textAlign='center';
+    ctx.fillText(v, cx+(r+10)*Math.cos(a), cy+(r+10)*Math.sin(a));
+  });
+}
+
+function nmDrawHistory(){
+  const canvas=document.getElementById('nmHistory'); if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  const W=canvas.offsetWidth||400; canvas.width=W; const H=80;
+  ctx.clearRect(0,0,W,H);
+  if(nmHistory.length<2) return;
+  const min=30, max=120;
+  ctx.beginPath();
+  nmHistory.forEach((v,i)=>{
+    const x=i/(nmHistory.length-1)*W;
+    const y=H-(v-min)/(max-min)*H;
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  });
+  ctx.strokeStyle=nmDbColor(nmHistory[nmHistory.length-1]);
+  ctx.lineWidth=2; ctx.stroke();
+  // Fill
+  ctx.lineTo(W,H); ctx.lineTo(0,H); ctx.closePath();
+  ctx.fillStyle=nmDbColor(nmHistory[nmHistory.length-1])+'22';
+  ctx.fill();
+}
+
+async function nmToggle(){
+  if(!nmRunning){
+    try{
+      nmStream=await navigator.mediaDevices.getUserMedia({audio:true});
+      const ac=new AudioContext();
+      const src=ac.createMediaStreamSource(nmStream);
+      nmAnalyser=ac.createAnalyser();
+      nmAnalyser.fftSize=2048;
+      src.connect(nmAnalyser);
+      nmRunning=true;
+      document.getElementById('nmBtn').textContent='⏹ 중지';
+      nmLoop();
+    } catch(e){
+      alert('마이크 접근 권한이 필요합니다.');
+    }
+  } else {
+    nmRunning=false;
+    if(nmStream) nmStream.getTracks().forEach(t=>t.stop());
+    cancelAnimationFrame(nmRaf);
+    document.getElementById('nmBtn').textContent='🎤 측정 시작';
+  }
+}
+
+function nmLoop(){
+  if(!nmRunning) return;
+  const data=new Uint8Array(nmAnalyser.fftSize);
+  nmAnalyser.getByteTimeDomainData(data);
+  let rms=0;
+  data.forEach(v=>{ const n=(v-128)/128; rms+=n*n; });
+  rms=Math.sqrt(rms/data.length);
+  const db=rms>0?Math.round(20*Math.log10(rms)+94):30;
+  const clamped=Math.max(30,Math.min(120,db));
+
+  document.getElementById('nmDb').textContent=clamped;
+  document.getElementById('nmDb').style.color=nmDbColor(clamped);
+  document.getElementById('nmGrade').textContent=nmGradeText(clamped);
+  document.getElementById('nmGrade').style.background=nmDbColor(clamped)+'22';
+  document.getElementById('nmGrade').style.color=nmDbColor(clamped);
+
+  if(clamped<nmMinVal) nmMinVal=clamped;
+  if(clamped>nmMaxVal) nmMaxVal=clamped;
+  nmTotal+=clamped; nmCount++;
+  document.getElementById('nmMin').textContent=nmMinVal;
+  document.getElementById('nmMax').textContent=nmMaxVal;
+  document.getElementById('nmAvg').textContent=Math.round(nmTotal/nmCount);
+
+  nmHistory.push(clamped); if(nmHistory.length>100) nmHistory.shift();
+  nmDrawGauge(clamped); nmDrawHistory();
+  nmRaf=requestAnimationFrame(nmLoop);
+}
+
+function nmReset(){
+  nmMinVal=999; nmMaxVal=0; nmTotal=0; nmCount=0; nmHistory=[];
+  ['nmDb','nmMin','nmMax','nmAvg'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='--';});
+  document.getElementById('nmGrade').textContent='대기 중';
+  nmDrawGauge(30);
+}
+
+document.addEventListener('DOMContentLoaded',()=>{ if(document.getElementById('nmCanvas')) nmDrawGauge(30); });
+
+
+/* ══ NEW-I: 교대 근무 피로 지수 ═════════════════════════════ */
+let sfShiftType='day', sfAgeGroup='20';
+
+function sfSelectType(el,type){
+  sfShiftType=type;
+  document.querySelectorAll('.sf-type').forEach(b=>{
+    b.style.borderColor='var(--bdr)'; b.style.background='var(--bg)'; b.style.color='var(--txt-2)';
+  });
+  el.style.borderColor='var(--a)'; el.style.background='rgba(255,107,53,.1)'; el.style.color='var(--a)';
+  calcFatigue();
+}
+function sfSelectAge(el,age){
+  sfAgeGroup=age;
+  document.querySelectorAll('.sf-age').forEach(b=>{
+    b.style.borderColor='var(--bdr)'; b.style.background='var(--bg)'; b.style.color='var(--txt-2)';
+  });
+  el.style.borderColor='var(--a)'; el.style.background='rgba(255,107,53,.1)'; el.style.color='var(--a)';
+  calcFatigue();
+}
+
+function calcFatigue(){
+  const hours=parseFloat(document.getElementById('sfHours').value)||8;
+  const cons=parseInt(document.getElementById('sfCons').value)||5;
+  const sleep=parseFloat(document.getElementById('sfSleep').value)||7;
+
+  // FAST-model inspired fatigue score
+  let score=0;
+  // Sleep deficit
+  const sleepDebt=Math.max(0,7-sleep);
+  score+=sleepDebt*8;
+  // Shift type penalty
+  score+={day:0,night:20,rotate:15}[sfShiftType]||0;
+  // Hours > 8 penalty
+  score+=Math.max(0,hours-8)*5;
+  // Consecutive days
+  score+=Math.min(cons-1,6)*4;
+  // Age factor
+  const ageMult={'20':0.9,'30':1.0,'40':1.15,'50':1.35}[sfAgeGroup]||1;
+  score=Math.round(score*ageMult);
+  score=Math.min(score,100);
+
+  // Accident relative risk (based on studies: fatigue doubles accident risk)
+  const riskMult=(1+score/50).toFixed(1);
+  const breakMin=score>70?20:score>50?30:score>30?45:60;
+
+  // Grade
+  const lang=(document.documentElement.lang||'ko').slice(0,2);
+  const grades={
+    ko:['양호','보통','주의','위험','매우위험'],
+    en:['Good','Moderate','Caution','Danger','Critical'],
+    zh:['良好','一般','注意','危险','极度危险'],
+    ja:['良好','普通','注意','危険','極めて危険']
+  };
+  const advices={
+    ko:[
+      '현재 피로 수준은 낮습니다.\n• 현재 근무 패턴을 유지하세요\n• 정기 건강검진으로 예방 관리',
+      '약간의 피로가 축적되고 있습니다.\n• 휴식 중 눈을 감고 10분 이완\n• 카페인 의존 주의',
+      '⚠️ 피로가 상당히 축적되었습니다.\n• 업무 중 집중력 저하 주의\n• 위험 작업 전 컨디션 확인 필수\n• 수면 1시간 추가 확보 권장',
+      '🔴 높은 피로 수준 — 사고 위험 증가!\n• 야간 고위험 작업 재배치 검토\n• 동료와 2인 1조 작업 필수\n• 즉시 수면 환경 개선 필요',
+      '🚨 극도 피로 — 즉각 조치 필요!\n• 현재 근무 패턴 즉시 재조정\n• 의료진 상담 필요\n• 위험 설비 작업 당일 금지'
+    ],
+    en:[
+      'Fatigue level is low.\n• Maintain current work pattern\n• Regular health checkups for prevention',
+      'Slight fatigue is accumulating.\n• Rest eyes 10 min during breaks\n• Be careful of caffeine dependency',
+      '⚠️ Significant fatigue accumulated.\n• Watch for reduced concentration\n• Check condition before hazardous work\n• Try to get 1 more hour of sleep',
+      '🔴 High fatigue — increased accident risk!\n• Consider reassigning from night high-risk work\n• Buddy system required\n• Improve sleep environment immediately',
+      '🚨 Extreme fatigue — immediate action needed!\n• Readjust current work pattern immediately\n• Medical consultation required\n• No hazardous equipment work today'
+    ],
+    zh:[
+      '当前疲劳水平较低。\n• 维持目前工作模式\n• 定期健康检查预防管理',
+      '疲劳正在轻微积累。\n• 休息时闭目放松10分钟\n• 注意咖啡因依赖',
+      '⚠️ 疲劳积累较为明显。\n• 注意工作中注意力下降\n• 危险作业前必须确认状态\n• 建议增加1小时睡眠',
+      '🔴 高疲劳水平——事故风险增加！\n• 考虑调离夜间高危作业\n• 必须双人作业\n• 立即改善睡眠环境',
+      '🚨 极度疲劳——需立即采取措施！\n• 立即调整工作模式\n• 需要医疗咨询\n• 今日禁止危险设备作业'
+    ],
+    ja:[
+      '現在の疲労レベルは低いです。\n• 現在の勤務パターンを維持\n• 定期健康診断で予防管理',
+      '軽微な疲労が蓄積しています。\n• 休憩中に目を閉じて10分リラックス\n• カフェイン依存に注意',
+      '⚠️ かなりの疲労が蓄積しています。\n• 業務中の集中力低下に注意\n• 危険作業前にコンディション確認必須\n• 睡眠1時間追加確保を推奨',
+      '🔴 高疲労レベル——事故リスク増加！\n• 夜間高危険作業への再配置を検討\n• 2人1組作業必須\n• 即座に睡眠環境改善が必要',
+      '🚨 極度疲労——即時対応が必要！\n• 現在の勤務パターンを即座に見直し\n• 医療相談が必要\n• 本日の危険設備作業禁止'
+    ]
+  };
+  const L=lang in grades?lang:'ko';
+  const idx=score<20?0:score<40?1:score<60?2:score<80?3:4;
+  const gradeColors=['#10B981','#3B82F6','#EAB308','#F97316','#EF4444'];
+  const c=gradeColors[idx];
+
+  document.getElementById('sfScore').textContent=score;
+  document.getElementById('sfScore').style.color=c;
+  document.getElementById('sfBar').style.width=score+'%';
+  document.getElementById('sfGrade').textContent=grades[L][idx];
+  document.getElementById('sfGrade').style.background=c+'18';
+  document.getElementById('sfGrade').style.color=c;
+  document.getElementById('sfGrade').style.border=`1px solid ${c}44`;
+  document.getElementById('sfRisk').textContent=riskMult+'×';
+  document.getElementById('sfRisk').style.color=c;
+  document.getElementById('sfBreak').textContent=breakMin+'분';
+  document.getElementById('sfAdvice').textContent=advices[L][idx];
+  document.getElementById('sfAdvice').style.borderLeft=`3px solid ${c}`;
+}
+
+document.addEventListener('DOMContentLoaded',()=>{ if(document.getElementById('sfScore')) calcFatigue(); });
+
 /* ══ NEW-F: 위험성 평가 매트릭스 ════════════════════════════ */
 const RM_COLORS=[[0,'#10B981'],[0,'#10B981'],[0,'#10B981'],[0,'#EAB308'],[0,'#EAB308'],
   [0,'#10B981'],[0,'#10B981'],[0,'#EAB308'],[0,'#EAB308'],[0,'#F97316'],
