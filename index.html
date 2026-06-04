@@ -1224,6 +1224,8 @@ footer::before{
   <a href="#health" onclick="toggleMenu()" data-i18n="dHealth">💪 헬스 프로모션</a>
   <a href="#center" onclick="toggleMenu()" data-i18n="dCenter">🖥️ 관제센터</a>
   <a href="#app" onclick="toggleMenu()" data-i18n="dApp">📱 모바일 앱</a>
+  <a href="#cpr-guide" onclick="toggleMenu()">🫀 CPR 응급처치 가이드</a>
+  <a href="#safety-pledge" onclick="toggleMenu()">✍️ 안전 서약 서명</a>
   <a href="#zero-accident" onclick="toggleMenu()">🏆 무재해 기록판</a>
   <a href="#bio-monitor" onclick="toggleMenu()">💓 작업자 바이오 패널</a>
   <a href="#stretch" onclick="toggleMenu()">🧘 스트레칭 타이머</a>
@@ -4084,6 +4086,101 @@ document.querySelectorAll('.fzone').forEach(zone=>{
   </div>
 </section>
 
+<!-- ============== NEW-D. CPR & 응급처치 가이드 ============== -->
+<section id="cpr-guide" style="background:var(--bg-2)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label" data-i18n="cprLabel">NEW · 응급처치 가이드</span>
+      <h2 class="sec-title"><span data-i18n="cprTitle1">CPR &amp; 현장</span> <span class="accent" data-i18n="cprTitle2">응급처치 인터랙티브 가이드</span></h2>
+      <p class="sec-desc" data-i18n="cprDesc">심정지 발생 시 정확한 CPR 박자를 유지하는 타이머와 4가지 주요 부상 유형별 단계별 응급처치 가이드입니다.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start">
+
+      <!-- CPR Timer -->
+      <div style="background:var(--bg);border:1px solid var(--bdr);border-radius:20px;padding:28px;text-align:center">
+        <div style="font-size:14px;font-weight:700;color:var(--txt);margin-bottom:4px" data-i18n="cprTimerTitle">🫀 CPR 박자 타이머</div>
+        <div style="font-size:11px;color:var(--txt-2);margin-bottom:20px" data-i18n="cprTimerSub">분당 100-120회 압박 유지 (한 손은 이마 고정)</div>
+        <div id="cprHeart" style="font-size:72px;line-height:1;margin-bottom:8px;transition:transform .1s">🫀</div>
+        <div id="cprBpm" style="font-size:13px;color:var(--txt-2);margin-bottom:6px">110 BPM</div>
+        <div id="cprCount" style="font-size:48px;font-weight:900;color:#EF4444;margin-bottom:4px">0</div>
+        <div style="font-size:11px;color:var(--txt-2);margin-bottom:16px" data-i18n="cprPressCount">압박 횟수</div>
+        <div id="cprCycle" style="font-size:12px;color:var(--txt-2);margin-bottom:20px" data-i18n="cprCycleInfo">30회 압박 → 2회 인공호흡 1세트</div>
+        <div style="display:flex;gap:10px;justify-content:center;margin-bottom:16px">
+          <button id="cprBtn" onclick="cprToggle()" style="padding:12px 32px;background:#EF4444;border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:700;cursor:pointer" data-i18n="cprStart">▶ 시작</button>
+          <button onclick="cprReset()" style="padding:12px 20px;background:var(--bg-2);border:1px solid var(--bdr);border-radius:10px;color:var(--txt-2);font-size:13px;cursor:pointer">↺</button>
+        </div>
+        <div id="cprBreath" style="display:none;padding:12px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);border-radius:10px;font-size:13px;font-weight:700;color:#3B82F6" data-i18n="cprBreathNow">💨 지금 인공호흡 2회!</div>
+        <div style="margin-top:16px;padding:12px;background:rgba(239,68,68,.06);border-radius:10px;font-size:11px;color:var(--txt-2);line-height:1.8" data-i18n="cprNote">⚠️ 119 신고 후 AED 가져오는 동안 CPR 지속<br>가슴 압박 깊이: 성인 5-6cm / 소아 4-5cm</div>
+      </div>
+
+      <!-- First Aid Selector -->
+      <div>
+        <div style="font-size:13px;font-weight:700;color:var(--txt);margin-bottom:12px" data-i18n="firstAidTitle">🩺 부상 유형별 처치 가이드</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px">
+          <button onclick="showFirstAid('burn')" class="fa-type-btn" style="padding:12px;background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.3);border-radius:10px;cursor:pointer;font-size:12px;color:#F97316;font-weight:600" data-i18n="faBurn">🔥 화상</button>
+          <button onclick="showFirstAid('fall')" class="fa-type-btn" style="padding:12px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);border-radius:10px;cursor:pointer;font-size:12px;color:#3B82F6;font-weight:600" data-i18n="faFall">🤸 추락·골절</button>
+          <button onclick="showFirstAid('chemical')" class="fa-type-btn" style="padding:12px;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.3);border-radius:10px;cursor:pointer;font-size:12px;color:#8B5CF6;font-weight:600" data-i18n="faChemical">🧪 화학물질</button>
+          <button onclick="showFirstAid('cut')" class="fa-type-btn" style="padding:12px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:10px;cursor:pointer;font-size:12px;color:#EF4444;font-weight:600" data-i18n="faCut">🩸 절단·출혈</button>
+        </div>
+        <div id="faSteps" style="background:var(--bg);border:1px solid var(--bdr);border-radius:14px;padding:20px;min-height:280px">
+          <div style="text-align:center;color:var(--txt-2);font-size:13px;padding:40px 0" data-i18n="faSelectHint">위 버튼을 눌러 응급처치 가이드를 확인하세요</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== NEW-E. 안전 서약 디지털 서명 ============== -->
+<section id="safety-pledge" style="background:var(--bg-1)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label" data-i18n="pledgeLabel">NEW · 작업 전 안전 서약</span>
+      <h2 class="sec-title"><span data-i18n="pledgeTitle1">디지털</span> <span class="accent" data-i18n="pledgeTitle2">안전 서약서 서명</span></h2>
+      <p class="sec-desc" data-i18n="pledgeDesc">작업 시작 전 안전 수칙을 확인하고 디지털 서명으로 서약합니다. 서명 후 PDF로 저장할 수 있습니다.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start">
+
+      <!-- Pledge Content -->
+      <div style="background:var(--bg-2);border:1px solid var(--bdr);border-radius:20px;padding:28px">
+        <div style="text-align:center;margin-bottom:20px">
+          <div style="font-size:22px;font-weight:900;color:var(--txt);letter-spacing:-0.5px" data-i18n="pledgeDocTitle">안전 작업 서약서</div>
+          <div style="font-size:11px;color:var(--txt-2);margin-top:4px" id="pledgeDate"></div>
+        </div>
+        <div style="font-size:12px;color:var(--txt-2);line-height:2;margin-bottom:18px;padding:16px;background:var(--bg);border-radius:10px;border-left:3px solid var(--a)">
+          <div data-i18n="pledgeItem1">✅ 나는 오늘 작업 전 보호구(안전모, 안전화, 장갑)를 착용한다.</div>
+          <div data-i18n="pledgeItem2">✅ 나는 작업 구역의 위험 요인을 사전에 확인한다.</div>
+          <div data-i18n="pledgeItem3">✅ 나는 정해진 작업 절차를 반드시 준수한다.</div>
+          <div data-i18n="pledgeItem4">✅ 나는 이상 발견 시 즉시 작업을 중단하고 보고한다.</div>
+          <div data-i18n="pledgeItem5">✅ 나는 동료 근로자의 안전도 함께 지킨다.</div>
+        </div>
+        <div style="margin-bottom:14px">
+          <label style="font-size:11px;color:var(--txt-2);display:block;margin-bottom:6px" data-i18n="pledgeNameLabel">서명인 이름</label>
+          <input id="pledgeName" type="text" placeholder="이름을 입력하세요" style="width:100%;padding:10px 14px;background:var(--bg);border:1px solid var(--bdr);border-radius:8px;color:var(--txt);font-size:13px;outline:none">
+        </div>
+        <div>
+          <label style="font-size:11px;color:var(--txt-2);display:block;margin-bottom:6px" data-i18n="pledgeDeptLabel">소속 / 부서</label>
+          <input id="pledgeDept" type="text" placeholder="소속 부서를 입력하세요" style="width:100%;padding:10px 14px;background:var(--bg);border:1px solid var(--bdr);border-radius:8px;color:var(--txt);font-size:13px;outline:none">
+        </div>
+      </div>
+
+      <!-- Signature Pad -->
+      <div>
+        <div style="font-size:12px;color:var(--txt-2);margin-bottom:8px" data-i18n="pledgeSigLabel">✍️ 서명 (마우스 또는 터치로 서명)</div>
+        <canvas id="sigCanvas" width="420" height="200" style="width:100%;height:200px;background:#fff;border:2px solid var(--bdr);border-radius:12px;cursor:crosshair;touch-action:none"></canvas>
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+          <button onclick="sigClear()" style="padding:8px 18px;background:var(--bg-2);border:1px solid var(--bdr);border-radius:8px;color:var(--txt-2);font-size:12px;cursor:pointer" data-i18n="sigClearBtn">🗑 지우기</button>
+          <button onclick="savePledge()" style="padding:8px 22px;background:var(--a);border:none;border-radius:8px;color:#fff;font-size:12px;font-weight:700;cursor:pointer" data-i18n="sigSaveBtn">📄 서약서 저장</button>
+        </div>
+        <div id="pledgeResult" style="display:none;margin-top:16px;padding:14px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.3);border-radius:10px;text-align:center">
+          <div style="font-size:22px;margin-bottom:6px">✅</div>
+          <div style="font-size:14px;font-weight:700;color:#10B981" data-i18n="pledgeDone">서약 완료! 안전하게 작업하세요.</div>
+          <div id="pledgeDoneInfo" style="font-size:11px;color:var(--txt-2);margin-top:4px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CTA -->
 <section class="cta">
   <div class="container">
@@ -4189,6 +4286,8 @@ if ('serviceWorker' in navigator) {
 // ============================================================
 const I18N = {
   ko: {
+    cprLabel:"NEW · 응급처치 가이드",cprTitle1:"CPR &amp; 현장",cprTitle2:"응급처치 인터랙티브 가이드",cprDesc:"심정지 발생 시 정확한 CPR 박자를 유지하는 타이머와 4가지 주요 부상 유형별 단계별 응급처치 가이드입니다.",cprTimerTitle:"🫀 CPR 박자 타이머",cprTimerSub:"분당 100-120회 압박 유지",cprPressCount:"압박 횟수",cprCycleInfo:"30회 압박 → 2회 인공호흡 1세트",cprStart:"▶ 시작",cprPause:"⏸ 일시정지",cprBreathNow:"💨 지금 인공호흡 2회!",cprNote:"⚠️ 119 신고 후 AED 가져오는 동안 CPR 지속\n가슴 압박 깊이: 성인 5-6cm / 소아 4-5cm",firstAidTitle:"🩺 부상 유형별 처치 가이드",faBurn:"🔥 화상",faFall:"🤸 추락·골절",faChemical:"🧪 화학물질",faCut:"🩸 절단·출혈",faSelectHint:"위 버튼을 눌러 응급처치 가이드를 확인하세요",
+    pledgeLabel:"NEW · 작업 전 안전 서약",pledgeTitle1:"디지털",pledgeTitle2:"안전 서약서 서명",pledgeDesc:"작업 시작 전 안전 수칙을 확인하고 디지털 서명으로 서약합니다.",pledgeDocTitle:"안전 작업 서약서",pledgeItem1:"✅ 나는 오늘 작업 전 보호구를 착용한다.",pledgeItem2:"✅ 나는 작업 구역의 위험 요인을 사전에 확인한다.",pledgeItem3:"✅ 나는 정해진 작업 절차를 반드시 준수한다.",pledgeItem4:"✅ 나는 이상 발견 시 즉시 작업을 중단하고 보고한다.",pledgeItem5:"✅ 나는 동료 근로자의 안전도 함께 지킨다.",pledgeNameLabel:"서명인 이름",pledgeDeptLabel:"소속 / 부서",pledgeSigLabel:"✍️ 서명 (마우스 또는 터치로 서명)",sigClearBtn:"🗑 지우기",sigSaveBtn:"📄 서약서 저장",pledgeDone:"서약 완료! 안전하게 작업하세요.",
     zaLabel:"NEW · 무재해 현황",zaTitle1:"공장별",zaTitle2:"무재해 기록판",zaDesc:"실제 산업 현장에서 사용하는 무재해 기록판을 디지털화했습니다. 공장별 연속 무재해 일수를 실시간으로 추적합니다.",zaHistLabel:"📋 전체 현황 요약",
     bioLabel:"NEW · 웨어러블 모니터링",bioTitle1:"실시간 작업자",bioTitle2:"생체 신호 패널",bioDesc:"스마트밴드로 수집한 작업자 6명의 심박수·체온·활동량을 실시간 모니터링합니다. 이상 감지 시 즉시 경보가 발령됩니다.",bioStatusOk:"정상",bioStatusWarn:"주의",bioStatusAlert:"경보",bioAlertTitle:"이상 감지 — 즉시 확인 필요",
     newStretchLabel:"NEW · 근골격계 예방",newStretchTitle1:"작업 전",newStretchTitle2:"스트레칭 타이머",newStretchDesc:"근골격계 질환(62.1%)을 줄이는 가장 간단한 방법. 작업 시작 전 5가지 스트레칭을 타이머와 함께 진행하세요.",
@@ -4287,6 +4386,8 @@ const I18N = {
     mw4Title:"S급 최신 웹 기술 통합",mw4Desc:"WebGPU 8000 파티클 GPU 연산 · TF.js MoveNet 실시간 17관절 자세인식 · WebAssembly 이진 모듈 · WebXR AR 세션 · BroadcastChannel 멀티탭 동기화 · CSS Houdini Paint Worklet.",mw4Src:"대부분 웹사이트에 없는 최신 브라우저 API"
   },
   en: {
+    cprLabel:"NEW · First Aid Guide",cprTitle1:"CPR &amp; Workplace",cprTitle2:"Interactive First Aid Guide",cprDesc:"A CPR beat timer to maintain correct compression rhythm during cardiac arrest, plus step-by-step first aid for 4 major injury types.",cprTimerTitle:"🫀 CPR Beat Timer",cprTimerSub:"Maintain 100-120 compressions/min",cprPressCount:"Compressions",cprCycleInfo:"30 compressions → 2 rescue breaths = 1 cycle",cprStart:"▶ Start",cprPause:"⏸ Pause",cprBreathNow:"💨 Give 2 rescue breaths now!",cprNote:"⚠️ Keep CPR going while someone gets AED\nCompression depth: Adult 5-6cm / Child 4-5cm",firstAidTitle:"🩺 First Aid by Injury Type",faBurn:"🔥 Burns",faFall:"🤸 Fall/Fracture",faChemical:"🧪 Chemical",faCut:"🩸 Cut/Bleeding",faSelectHint:"Press a button above to view first aid steps",
+    pledgeLabel:"NEW · Pre-Work Safety Pledge",pledgeTitle1:"Digital",pledgeTitle2:"Safety Pledge Signature",pledgeDesc:"Review safety rules and sign a digital pledge before starting work.",pledgeDocTitle:"Safety Work Pledge",pledgeItem1:"✅ I will wear PPE (helmet, safety shoes, gloves) today.",pledgeItem2:"✅ I will check hazards in my work area in advance.",pledgeItem3:"✅ I will strictly follow established work procedures.",pledgeItem4:"✅ I will stop work immediately and report any abnormality.",pledgeItem5:"✅ I will also protect the safety of my fellow workers.",pledgeNameLabel:"Signatory Name",pledgeDeptLabel:"Department",pledgeSigLabel:"✍️ Sign here (mouse or touch)",sigClearBtn:"🗑 Clear",sigSaveBtn:"📄 Save Pledge",pledgeDone:"Pledge complete! Work safely.",
     zaLabel:"NEW · Zero Accident Status",zaTitle1:"Factory",zaTitle2:"Zero Accident Board",zaDesc:"A digital version of the zero-accident boards used in real industrial sites. Tracks consecutive accident-free days per factory in real time.",zaHistLabel:"📋 Overall Summary",
     bioLabel:"NEW · Wearable Monitoring",bioTitle1:"Live Worker",bioTitle2:"Bio-Signal Panel",bioDesc:"Real-time monitoring of heart rate, body temperature, and activity levels for 6 workers via smart bands. Instant alert when anomalies detected.",bioStatusOk:"Normal",bioStatusWarn:"Caution",bioStatusAlert:"Alert",bioAlertTitle:"Anomaly Detected — Immediate Check Required",
     newStretchLabel:"NEW · MSK Prevention",newStretchTitle1:"Pre-Work",newStretchTitle2:"Stretching Timer",newStretchDesc:"The simplest way to reduce musculoskeletal disorders (62.1%). Complete 5 stretches with a guided timer before starting work.",
@@ -4385,6 +4486,8 @@ const I18N = {
     mw4Title:"S-Grade Cutting-Edge Web Stack",mw4Desc:"WebGPU 8000-particle GPU compute · TF.js MoveNet 17-joint real-time pose · WebAssembly binary module · WebXR AR session · BroadcastChannel multi-tab sync · CSS Houdini Paint Worklet.",mw4Src:"Browser APIs rarely seen on other sites"
   },
   zh: {
+    cprLabel:"NEW · 急救指南",cprTitle1:"CPR &amp; 现场",cprTitle2:"急救互动指南",cprDesc:"心脏骤停时保持正确CPR节拍的计时器，以及4种主要伤害类型的分步急救指南。",cprTimerTitle:"🫀 CPR节拍计时器",cprTimerSub:"每分钟保持100-120次按压",cprPressCount:"按压次数",cprCycleInfo:"30次按压→2次人工呼吸为1组",cprStart:"▶ 开始",cprPause:"⏸ 暂停",cprBreathNow:"💨 现在进行2次人工呼吸！",cprNote:"⚠️ 拨打119后在等待AED期间持续CPR\n按压深度：成人5-6cm / 儿童4-5cm",firstAidTitle:"🩺 按伤害类型急救指南",faBurn:"🔥 烧伤",faFall:"🤸 坠落·骨折",faChemical:"🧪 化学物质",faCut:"🩸 割伤·出血",faSelectHint:"点击上方按钮查看急救步骤",
+    pledgeLabel:"NEW · 作业前安全承诺",pledgeTitle1:"数字化",pledgeTitle2:"安全承诺书签名",pledgeDesc:"作业开始前确认安全规则并进行数字签名承诺。",pledgeDocTitle:"安全作业承诺书",pledgeItem1:"✅ 我今天作业前将佩戴防护用品。",pledgeItem2:"✅ 我将提前确认作业区域的危险因素。",pledgeItem3:"✅ 我将严格遵守规定的作业程序。",pledgeItem4:"✅ 我发现异常时将立即停止作业并报告。",pledgeItem5:"✅ 我也将一同保护同事的安全。",pledgeNameLabel:"签名人姓名",pledgeDeptLabel:"所属部门",pledgeSigLabel:"✍️ 签名（鼠标或触摸）",sigClearBtn:"🗑 清除",sigSaveBtn:"📄 保存承诺书",pledgeDone:"承诺完成！请安全作业。",
     zaLabel:"NEW · 无事故现况",zaTitle1:"各工厂",zaTitle2:"无事故记录板",zaDesc:"将实际工业现场使用的无事故记录板数字化。实时追踪各工厂连续无事故天数。",zaHistLabel:"📋 整体现况汇总",
     bioLabel:"NEW · 可穿戴监控",bioTitle1:"实时工人",bioTitle2:"生体信号面板",bioDesc:"通过智能手环实时监控6名工人的心率、体温、活动量。检测到异常时立即发出警报。",bioStatusOk:"正常",bioStatusWarn:"注意",bioStatusAlert:"警报",bioAlertTitle:"检测到异常——需立即确认",
     newStretchLabel:"NEW · 肌肉骨骼预防",newStretchTitle1:"作业前",newStretchTitle2:"拉伸计时器",newStretchDesc:"减少肌肉骨骼疾病(62.1%)最简单的方法。开始工作前跟随计时器完成5种拉伸运动。",
@@ -4483,6 +4586,8 @@ const I18N = {
     mw4Title:"S级前沿Web技术集成",mw4Desc:"WebGPU 8000粒子GPU运算 · TF.js MoveNet实时17关节姿态识别 · WebAssembly二进制模块 · WebXR AR会话 · BroadcastChannel多标签同步 · CSS Houdini Paint Worklet。",mw4Src:"大多数网站上没有的最新浏览器API"
   },
   ja: {
+    cprLabel:"NEW · 応急処置ガイド",cprTitle1:"CPR &amp; 現場",cprTitle2:"応急処置インタラクティブガイド",cprDesc:"心停止時に正確なCPRリズムを維持するタイマーと、4つの主要な傷害タイプ別ステップガイドです。",cprTimerTitle:"🫀 CPRリズムタイマー",cprTimerSub:"毎分100-120回の胸骨圧迫を維持",cprPressCount:"圧迫回数",cprCycleInfo:"30回圧迫→2回人工呼吸 = 1セット",cprStart:"▶ 開始",cprPause:"⏸ 一時停止",cprBreathNow:"💨 人工呼吸2回！",cprNote:"⚠️ 119番通報後AED取得中もCPRを継続\n圧迫深度：成人5-6cm / 小児4-5cm",firstAidTitle:"🩺 傷害タイプ別処置ガイド",faBurn:"🔥 熱傷",faFall:"🤸 転落・骨折",faChemical:"🧪 化学物質",faCut:"🩸 切創・出血",faSelectHint:"上のボタンを押して応急処置ガイドを確認",
+    pledgeLabel:"NEW · 作業前安全誓約",pledgeTitle1:"デジタル",pledgeTitle2:"安全誓約書署名",pledgeDesc:"作業開始前に安全ルールを確認し、デジタル署名で誓約します。",pledgeDocTitle:"安全作業誓約書",pledgeItem1:"✅ 本日の作業前に保護具を着用する。",pledgeItem2:"✅ 作業区域の危険要因を事前に確認する。",pledgeItem3:"✅ 定められた作業手順を必ず遵守する。",pledgeItem4:"✅ 異常発見時は即座に作業を中断し報告する。",pledgeItem5:"✅ 同僚作業者の安全も共に守る。",pledgeNameLabel:"署名者氏名",pledgeDeptLabel:"所属部署",pledgeSigLabel:"✍️ 署名（マウスまたはタッチ）",sigClearBtn:"🗑 クリア",sigSaveBtn:"📄 誓約書保存",pledgeDone:"誓約完了！安全に作業してください。",
     zaLabel:"NEW · 無災害状況",zaTitle1:"工場別",zaTitle2:"無災害記録板",zaDesc:"実際の産業現場で使用する無災害記録板をデジタル化しました。工場別の連続無災害日数をリアルタイムで追跡します。",zaHistLabel:"📋 全体状況サマリー",
     bioLabel:"NEW · ウェアラブル監視",bioTitle1:"リアルタイム作業者",bioTitle2:"生体信号パネル",bioDesc:"スマートバンドで収集した6名の心拍数・体温・活動量をリアルタイム監視。異常検知時に即座に警報を発令します。",bioStatusOk:"正常",bioStatusWarn:"注意",bioStatusAlert:"警報",bioAlertTitle:"異常検知 — 即時確認が必要",
     newStretchLabel:"NEW · 筋骨格系予防",newStretchTitle1:"作業前",newStretchTitle2:"ストレッチタイマー",newStretchDesc:"筋骨格系疾患(62.1%)を減らす最も簡単な方法。作業開始前に5つのストレッチをタイマーと一緒に行ってください。",
@@ -8945,6 +9050,161 @@ document.getElementById('pwaInstallBtn').addEventListener('click',()=>{
 </script>
 
 <script>
+/* ══ NEW-D: CPR 타이머 & 응급처치 ══════════════════════════ */
+let cprRunning=false, cprInterval=null, cprPresses=0, cprSetCount=0;
+const CPR_BPM=110, CPR_INTERVAL=Math.round(60000/CPR_BPM);
+
+function cprToggle(){
+  if(!cprRunning){
+    cprRunning=true;
+    document.getElementById('cprBtn').textContent='⏸ 일시정지';
+    document.getElementById('cprBtn').setAttribute('data-i18n','cprPause');
+    cprInterval=setInterval(()=>{
+      cprPresses++;
+      const h=document.getElementById('cprHeart');
+      h.style.transform='scale(1.3)';
+      setTimeout(()=>h.style.transform='scale(1)',120);
+      document.getElementById('cprCount').textContent=cprPresses;
+      const inSet=cprPresses%30;
+      const breathEl=document.getElementById('cprBreath');
+      if(inSet===0){
+        cprSetCount++;
+        breathEl.style.display='block';
+        setTimeout(()=>breathEl.style.display='none',2000);
+      }
+    },CPR_INTERVAL);
+  } else {
+    cprRunning=false;
+    clearInterval(cprInterval);
+    const btn=document.getElementById('cprBtn');
+    btn.textContent='▶ 재개';
+  }
+}
+function cprReset(){
+  cprRunning=false; clearInterval(cprInterval);
+  cprPresses=0; cprSetCount=0;
+  document.getElementById('cprCount').textContent='0';
+  document.getElementById('cprHeart').style.transform='scale(1)';
+  document.getElementById('cprBreath').style.display='none';
+  const btn=document.getElementById('cprBtn');
+  btn.textContent='▶ 시작';
+  btn.setAttribute('data-i18n','cprStart');
+}
+
+const FA_DATA={
+  ko:{
+    burn:{title:'🔥 화상 응급처치',color:'#F97316',steps:['119에 즉시 신고','흐르는 찬물(15-25°C)로 20분 이상 냉각','얼음·얼음팩 직접 접촉 절대 금지','물집은 터트리지 말 것','멸균 거즈로 덮고 이송 준비','의식 없으면 기도 확보 후 CPR']},
+    fall:{title:'🤸 추락·골절 응급처치',color:'#3B82F6',steps:['부상자를 움직이지 말 것 (척추 손상 주의)','119 신고 후 구조대 대기','출혈 있으면 깨끗한 천으로 압박지혈','골절 부위 고정 (부목 대용품 활용)','의식·호흡 확인, 없으면 CPR 시작','보온 유지 (쇼크 예방)']},
+    chemical:{title:'🧪 화학물질 노출 응급처치',color:'#8B5CF6',steps:['오염 구역에서 즉시 이탈','오염된 옷·신발 제거 (맨손 접촉 금지)','피부 노출: 흐르는 물 15-30분 세척','눈 노출: 깨끗한 물 15분 이상 세척','흡입: 신선한 공기 이동, 반좌위','MSDS 확인 후 119·독극물센터(1339) 신고']},
+    cut:{title:'🩸 절단·출혈 응급처치',color:'#EF4444',steps:['깨끗한 천·거즈로 상처 압박 (5-10분)','절단된 부위: 깨끗한 비닐에 넣어 얼음물에 보관','상처 부위를 심장보다 높게 유지','지혈대 사용은 최후 수단 (시간 기록)','119 신고, 절단 부위 함께 이송','쇼크 증상 주시 (창백·식은땀·빠른 맥)']},
+  },
+  en:{
+    burn:{title:'🔥 Burn First Aid',color:'#F97316',steps:['Call 119 immediately','Cool with running water (15-25°C) for 20+ min','Never apply ice directly','Do not pop blisters','Cover with sterile gauze and prepare for transport','If unconscious, secure airway and start CPR']},
+    fall:{title:'🤸 Fall/Fracture First Aid',color:'#3B82F6',steps:['Do NOT move the victim (spinal injury risk)','Call 119 and wait for rescue team','Apply pressure to any bleeding with clean cloth','Immobilize fracture site (improvised splint)','Check consciousness/breathing; start CPR if needed','Keep warm to prevent shock']},
+    chemical:{title:'🧪 Chemical Exposure First Aid',color:'#8B5CF6',steps:['Evacuate contaminated area immediately','Remove contaminated clothing/shoes (avoid bare hands)','Skin exposure: flush with running water 15-30 min','Eye exposure: flush with clean water 15+ min','Inhalation: move to fresh air, semi-reclined position','Check MSDS, call 119 or Poison Center']},
+    cut:{title:'🩸 Cut/Bleeding First Aid',color:'#EF4444',steps:['Apply firm pressure with clean cloth/gauze (5-10 min)','Severed part: wrap in clean plastic, keep in ice water','Keep wound elevated above heart level','Tourniquet as last resort only (record time applied)','Call 119, transport severed part with victim','Watch for shock: pale, cold sweat, rapid pulse']},
+  },
+  zh:{
+    burn:{title:'🔥 烧伤急救',color:'#F97316',steps:['立即拨打119','用流动冷水(15-25°C)冲洗20分钟以上','绝对不能直接使用冰块','不要刺破水泡','用无菌纱布覆盖，准备转运','如无意识，确保气道通畅并开始CPR']},
+    fall:{title:'🤸 坠落·骨折急救',color:'#3B82F6',steps:['不要移动伤者（注意脊椎损伤）','拨打119等待救援队','用干净布料压迫止血','固定骨折部位（使用临时夹板）','确认意识·呼吸，无反应则开始CPR','保温（预防休克）']},
+    chemical:{title:'🧪 化学物质暴露急救',color:'#8B5CF6',steps:['立即离开污染区域','脱去污染衣物·鞋子（不要徒手接触）','皮肤暴露：流动水冲洗15-30分钟','眼睛暴露：清水冲洗15分钟以上','吸入：移至新鲜空气，半卧位','查阅MSDS后拨打119·毒物中心']},
+    cut:{title:'🩸 割伤·出血急救',color:'#EF4444',steps:['用干净布料·纱布压迫伤口（5-10分钟）','断肢：装入干净塑料袋，放入冰水保存','将伤口抬高至心脏以上','止血带为最后手段（记录使用时间）','拨打119，断肢一同转运','观察休克症状（面色苍白·冷汗·脉搏加快）']},
+  },
+  ja:{
+    burn:{title:'🔥 熱傷の応急処置',color:'#F97316',steps:['119番に即時通報','流水(15-25°C)で20分以上冷却','氷を直接当てることは絶対禁止','水疱を破らないこと','滅菌ガーゼで覆い搬送準備','意識がない場合は気道確保しCPR開始']},
+    fall:{title:'🤸 転落・骨折の応急処置',color:'#3B82F6',steps:['傷病者を動かさないこと（脊椎損傷注意）','119番通報後に救助隊を待機','出血は清潔な布で圧迫止血','骨折部位を固定（即席副木使用）','意識・呼吸確認、なければCPR開始','保温して保護（ショック予防）']},
+    chemical:{title:'🧪 化学物質ばく露の応急処置',color:'#8B5CF6',steps:['汚染区域から即時退避','汚染した衣服・靴を除去（素手接触禁止）','皮膚ばく露：流水で15-30分洗浄','眼のばく露：清水で15分以上洗浄','吸入：新鮮な空気の場所へ移動、半座位','MSDS確認後119番・中毒センターへ通報']},
+    cut:{title:'🩸 切創・出血の応急処置',color:'#EF4444',steps:['清潔な布・ガーゼで創部を圧迫（5-10分）','切断部位：清潔なビニールに入れ氷水で保存','創部を心臓より高く保つ','止血帯は最終手段（使用時刻を記録）','119番通報、切断部位と共に搬送','ショック症状監視（蒼白・冷汗・頻脈）']},
+  }
+};
+
+function showFirstAid(type){
+  const lang=(document.documentElement.lang||'ko').slice(0,2);
+  const L=FA_DATA[lang]||FA_DATA.ko;
+  const d=L[type];
+  const el=document.getElementById('faSteps'); if(!el) return;
+  let stepDelay=0;
+  el.innerHTML=`<div style="font-size:14px;font-weight:700;color:${d.color};margin-bottom:14px">${d.title}</div>`+
+    d.steps.map((s,i)=>`<div class="fa-step" style="display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--bdr);font-size:13px;color:var(--txt-2);opacity:0;transform:translateX(-10px);transition:all .3s ${i*.08}s">
+      <span style="min-width:22px;height:22px;border-radius:50%;background:${d.color}22;border:1px solid ${d.color}44;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:${d.color};flex-shrink:0">${i+1}</span>
+      <span>${s}</span>
+    </div>`).join('');
+  requestAnimationFrame(()=>{
+    el.querySelectorAll('.fa-step').forEach(el=>{el.style.opacity='1';el.style.transform='none';});
+  });
+}
+
+
+/* ══ NEW-E: 서명 패드 & 안전 서약 ════════════════════════════ */
+document.addEventListener('DOMContentLoaded',()=>{
+  // Set date
+  const d=new Date();
+  const dateEl=document.getElementById('pledgeDate');
+  if(dateEl) dateEl.textContent=`${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일`;
+
+  // Signature pad
+  const canvas=document.getElementById('sigCanvas'); if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  ctx.strokeStyle='#1a1a2e'; ctx.lineWidth=2.5; ctx.lineCap='round'; ctx.lineJoin='round';
+  let drawing=false, lastX=0, lastY=0;
+
+  function getPos(e){
+    const r=canvas.getBoundingClientRect();
+    const scaleX=canvas.width/r.width, scaleY=canvas.height/r.height;
+    if(e.touches) return {x:(e.touches[0].clientX-r.left)*scaleX, y:(e.touches[0].clientY-r.top)*scaleY};
+    return {x:(e.clientX-r.left)*scaleX, y:(e.clientY-r.top)*scaleY};
+  }
+  canvas.addEventListener('mousedown',e=>{drawing=true;const p=getPos(e);lastX=p.x;lastY=p.y;});
+  canvas.addEventListener('mousemove',e=>{if(!drawing)return;const p=getPos(e);ctx.beginPath();ctx.moveTo(lastX,lastY);ctx.lineTo(p.x,p.y);ctx.stroke();lastX=p.x;lastY=p.y;});
+  canvas.addEventListener('mouseup',()=>drawing=false);
+  canvas.addEventListener('mouseleave',()=>drawing=false);
+  canvas.addEventListener('touchstart',e=>{e.preventDefault();drawing=true;const p=getPos(e);lastX=p.x;lastY=p.y;},{passive:false});
+  canvas.addEventListener('touchmove',e=>{e.preventDefault();if(!drawing)return;const p=getPos(e);ctx.beginPath();ctx.moveTo(lastX,lastY);ctx.lineTo(p.x,p.y);ctx.stroke();lastX=p.x;lastY=p.y;},{passive:false});
+  canvas.addEventListener('touchend',()=>drawing=false);
+});
+
+window.sigClear=function(){
+  const canvas=document.getElementById('sigCanvas'); if(!canvas) return;
+  canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);
+  document.getElementById('pledgeResult').style.display='none';
+};
+
+window.savePledge=function(){
+  const canvas=document.getElementById('sigCanvas');
+  const name=document.getElementById('pledgeName').value.trim();
+  const dept=document.getElementById('pledgeDept').value.trim();
+  // Check if signed (not blank)
+  const blank=document.createElement('canvas'); blank.width=canvas.width; blank.height=canvas.height;
+  if(canvas.toDataURL()===blank.toDataURL()){
+    alert('서명을 먼저 해주세요.');return;
+  }
+  const r=document.getElementById('pledgeResult');
+  const info=document.getElementById('pledgeDoneInfo');
+  r.style.display='block';
+  const d=new Date();
+  info.textContent=`${name||'(미입력)'} · ${dept||'(미입력)'} · ${d.getFullYear()}.${d.getMonth()+1}.${d.getDate()} ${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
+  // Print
+  const sig=canvas.toDataURL();
+  const win=window.open('','_blank');
+  win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>안전 서약서</title>
+  <style>body{font-family:'Malgun Gothic',sans-serif;padding:40px;max-width:600px;margin:0 auto;color:#222}
+  h2{color:#FF6B35;border-bottom:2px solid #FF6B35;padding-bottom:8px}
+  .item{padding:6px 0;font-size:14px;border-bottom:1px solid #eee}
+  .sig{border:1px solid #ddd;border-radius:8px;margin:16px 0}
+  .footer{margin-top:24px;font-size:11px;color:#999}</style></head>
+  <body><h2>안전 작업 서약서</h2>
+  <p style="font-size:13px;color:#666">${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일 | ${name||'(이름 미입력)'} | ${dept||'(부서 미입력)'}</p>
+  <div class="item">✅ 작업 전 보호구(안전모, 안전화, 장갑)를 착용한다.</div>
+  <div class="item">✅ 작업 구역의 위험 요인을 사전에 확인한다.</div>
+  <div class="item">✅ 정해진 작업 절차를 반드시 준수한다.</div>
+  <div class="item">✅ 이상 발견 시 즉시 작업을 중단하고 보고한다.</div>
+  <div class="item">✅ 동료 근로자의 안전도 함께 지킨다.</div>
+  <div><p style="font-size:13px;color:#666;margin-bottom:4px">서명:</p><img src="${sig}" class="sig" width="300"></div>
+  <div class="footer">© SHine-K Platform · RISE 2025-2029 · 경운대학교</div>
+  </body></html>`);
+  win.document.close(); win.print();
+};
+
 /* ══ NEW-0: 무재해 기록판 ═══════════════════════════════════ */
 const ZA_FACTORIES = [
   {name:'구미 A공장',  days:142, record:210, color:'#10B981', zone:'전자·반도체'},
