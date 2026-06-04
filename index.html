@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
@@ -243,7 +243,7 @@
 <header>
   <div class="header-left">
     <div class="logo-text">K-SAFE3D</div>
-    <div class="author-info" id="authorTxt">研发人：李志秀 | 中国｜庆云大学 物理治疗系</div>
+    <div class="author-info" id="authorTxt">研发人：秦溢 | 中国｜庆云大学 物理治疗系</div>
     <div class="user-status" id="userStatus">游客模式 — 登录解锁全部权限</div>
   </div>
   <div class="nav-group">
@@ -279,7 +279,7 @@
   <canvas class="particles" id="particles"></canvas>
   <div class="banner-badge">🇰🇷 KOREA · AI INDUSTRIAL SAFETY · 2025</div>
   <h1 class="banner-title" id="bannerTitle">K-SAFE3D<br>韩国本土AI工业安全平台</h1>
-  <p class="banner-sub" id="bannerSub">庆云大学 · 李志秀 研发 | 中韩英三语 · 3D数字孪生 · 自治AI安全防控系统</p>
+  <p class="banner-sub" id="bannerSub">庆云大学 · 秦溢 研发 | 中韩英三语 · 3D数字孪生 · 自治AI安全防控系统</p>
   <div class="banner-btns">
     <button class="btn-primary" id="bannerDown">立即下载说明书</button>
     <button class="btn-secondary" id="bannerLogin">登录体验完整版</button>
@@ -513,7 +513,7 @@
 <footer>
   <div>
     <div class="footer-logo">K-SAFE3D</div>
-    <div style="margin-top:6px;font-size:12px;">© 2026 庆云大学 · 李志秀 研发 | 韩国大邱庆北工业区定制</div>
+    <div style="margin-top:6px;font-size:12px;">© 2026 庆云大学 · 秦溢 研发 | 韩国大邱庆北工业区定制</div>
   </div>
   <div style="text-align:right;font-size:12px;color:#333355;">
     <div>KWAI · AI基本法 · 7-Tech · 3D Digital Twin</div>
@@ -525,13 +525,13 @@
 // ===================== 三语数据 =====================
 const langData = {
   cn: {
-    authorTxt: "研发人：李志秀 | 中国｜庆云大学 物理治疗系",
+    authorTxt: "研发人：秦溢 | 中国｜庆云大学 物理治疗系",
     downCn: "下载中文项目说明书", downKr: "下载韩文项目说明书",
     openLogin: "登录/注册", loginTitle: "用户邮箱注册/登录",
     loginTip: "游客仅可预览，登录解锁全部案例 + 完整下载 + 3D功能",
     submitLogin: "确认提交",
     bannerTitle: "K-SAFE3D\n韩国本土AI工业安全平台",
-    bannerSub: "庆云大学 · 李志秀 研发 | 中韩英三语 · 3D数字孪生 · 自治AI安全防控系统",
+    bannerSub: "庆云大学 · 秦溢 研发 | 中韩英三语 · 3D数字孪生 · 自治AI安全防控系统",
     scrollHint: "向下滚动",
     bgTitle: "一、项目立项背景",
     bgDesc: "2025韩国官方权威数据：韩国全年AI安全事故1247起、个人信息泄露872万人次、产业总损失3.2兆韩元；50人以下中小企业AI合规率仅12.7%。海外OpenAI/谷歌/NAVER安全产品无韩国本土韩语攻防、AI基本法、韩国9道本地化适配。K-SAFE3D由庆云大学针对大邱庆北工业区定制研发，填补韩国本地化AI工业安全空白。",
@@ -573,13 +573,13 @@ const langData = {
     warnText: "【S级高危预警】大邱北区检测到LLM后门异常访问，已自动拦截，正在生成整改方案！"
   },
   kr: {
-    authorTxt: "개발자：이지수｜중국｜경운대학교 물리치료학과",
+    authorTxt: "개발자：진일｜중국｜경운대학교 물리치료학과",
     downCn: "중문 설명서 다운로드", downKr: "한국 설명서 다운로드",
     openLogin: "로그인/회원가입", loginTitle: "이메일 회원가입 및 로그인",
     loginTip: "비회원은 미리보기만 가능, 로그인 후 전체 사례와 문서 다운로드 가능",
     submitLogin: "확인",
     bannerTitle: "K-SAFE3D\n한국 AI 산업안전 플랫폼",
-    bannerSub: "경운대학교 · 이지수 개발 | 한중영 3개국어 · 3D디지털트윈 · 자율AI안전시스템",
+    bannerSub: "경운대학교 · 진일 개발 | 한중영 3개국어 · 3D디지털트윈 · 자율AI안전시스템",
     scrollHint: "스크롤 다운",
     bgTitle: "1. 사업 추진 배경",
     bgDesc: "2025년 한국 공식통계 기준 전국 AI안전사고 1247건, 개인정보유출 피해자 872만명, 산업손실 3.2조원 발생. 50인이하 중소기업 AI컴플라이언스 준수율은 12.7%에 불과하다. 해외 OpenAI, 구글, 네이버 클로바는 한국어공격탐지, AI기본법 적합, 전국9도 현지화기능이 없으며 본 플랫폼은 경운대학교에서 대구경북공단 맞춤 개발로 시장공백을 메움.",
@@ -727,7 +727,7 @@ document.getElementById("bannerLogin").addEventListener("click", () => loginMask
 
 // ===================== 文档下载(复制) =====================
 const cnDoc = `# K-SAFE3D 韩国本土AI工业安全防控平台项目说明书
-研发人：李志秀｜国籍：中国｜庆云大学 物理治疗系
+研发人：秦溢｜国籍：中国｜庆云大学 物理治疗系
 
 ## 1. 立项背景
 依托韩国2025官方数据：AI事故1247起、信息泄露872万人次、产业损失3.2兆韩元，中小企业合规率12.7%。
@@ -750,7 +750,7 @@ const cnDoc = `# K-SAFE3D 韩国本土AI工业安全防控平台项目说明书
 K-SAFE3D全维度领先OpenAI/谷歌/NAVER CLOVA，是韩国唯一本土化工业AI安全合规平台。`;
 
 const krDoc = `# K-SAFE3D 국내 맞춤형 AI 산업안전 플랫폼 설명서
-개발자：이지수｜중국｜경운대학교 물리치료학과
+개발자：진일｜중국｜경운대학교 물리치료학과
 
 ## 1. 사업배경
 2025년 공식데이터 AI사고1247건, 정보유출872만명, 손실3.2조원, 중소기업준수율12.7%.
