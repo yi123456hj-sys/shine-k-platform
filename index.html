@@ -1284,6 +1284,8 @@ footer::before{
             <a href="#shift-fatigue" class="drop-item"><div class="drop-icon">🔋</div><div class="drop-info"><div class="drop-name" data-i18n="navShiftFatigue">피로 지수 계산기</div><div class="drop-sub">교대 근무 위험도</div></div></a>
             <a href="#noise-meter" class="drop-item"><div class="drop-icon">🎤</div><div class="drop-info"><div class="drop-name" data-i18n="navNoise">소음 측정기</div><div class="drop-sub">실시간 dB 측정</div></div></a>
             <a href="#stretch" class="drop-item"><div class="drop-icon">🧘</div><div class="drop-info"><div class="drop-name" data-i18n="navStretch">스트레칭 타이머</div><div class="drop-sub">근골격계 예방</div></div></a>
+            <a href="#ppe-guide" class="drop-item"><div class="drop-icon">🦺</div><div class="drop-info"><div class="drop-name">PPE 선택 가이드</div><div class="drop-sub">작업별 보호구 추천</div></div></a>
+            <a href="#body-map" class="drop-item"><div class="drop-icon">🦴</div><div class="drop-info"><div class="drop-name">신체 부위별 가이드</div><div class="drop-sub">직업성 질환 예방</div></div></a>
             <a href="#heat-calc" class="drop-item"><div class="drop-icon">🌡️</div><div class="drop-info"><div class="drop-name" data-i18n="navHeat">열지수 계산기</div><div class="drop-sub">온열질환 예방</div></div></a>
           </div>
         </div>
@@ -4530,6 +4532,80 @@ document.querySelectorAll('.fzone').forEach(zone=>{
   </div>
 </section>
 
+<!-- ============== NEW-J. PPE 선택 가이드 ============== -->
+<section id="ppe-guide" style="background:var(--bg-2)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label" data-i18n="ppeLabel">NEW · 보호구 선택</span>
+      <h2 class="sec-title"><span data-i18n="ppeTitle1">작업 유형별</span> <span class="accent" data-i18n="ppeTitle2">PPE 선택 가이드</span></h2>
+      <p class="sec-desc" data-i18n="ppeDesc">작업 유형을 선택하면 산업안전보건법에 따른 필수 보호구 목록과 올바른 착용법을 안내합니다.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:24px" id="ppeTypeGrid"></div>
+    <div id="ppeResult" style="display:none">
+      <div style="font-size:13px;font-weight:700;color:var(--txt);margin-bottom:14px" id="ppeResultTitle"></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px" id="ppeItems"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== NEW-K. 신체 부위별 근골격계 가이드 ============== -->
+<section id="body-map" style="background:var(--bg-1)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label" data-i18n="bodyLabel">NEW · 근골격계 예방</span>
+      <h2 class="sec-title"><span data-i18n="bodyTitle1">신체 부위별</span> <span class="accent" data-i18n="bodyTitle2">직업성 질환 가이드</span></h2>
+      <p class="sec-desc" data-i18n="bodyDesc">신체 부위를 클릭하면 해당 부위에 발생하는 직업성 근골격계 질환과 예방 스트레칭, 작업 개선 방법을 확인할 수 있습니다.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start">
+      <!-- SVG body -->
+      <div style="text-align:center">
+        <div style="font-size:11px;color:var(--txt-2);margin-bottom:12px" data-i18n="bodyClickHint">👆 부위를 클릭하세요</div>
+        <svg id="bodySvg" viewBox="0 0 200 400" style="width:100%;max-width:260px;cursor:pointer" xmlns="http://www.w3.org/2000/svg">
+          <!-- Head -->
+          <circle class="body-part" data-part="neck" cx="100" cy="40" r="28" fill="var(--bg-2)" stroke="var(--bdr)" stroke-width="2"/>
+          <text x="100" y="44" text-anchor="middle" font-size="10" fill="var(--txt-2)" pointer-events="none">목/어깨</text>
+          <!-- Neck connector -->
+          <rect class="body-part" data-part="neck" x="88" y="68" width="24" height="18" rx="4" fill="var(--bg-2)" stroke="var(--bdr)" stroke-width="1.5"/>
+          <!-- Torso -->
+          <rect class="body-part" data-part="back" x="60" y="86" width="80" height="100" rx="12" fill="var(--bg-2)" stroke="var(--bdr)" stroke-width="2"/>
+          <text x="100" y="140" text-anchor="middle" font-size="10" fill="var(--txt-2)" pointer-events="none">허리/등</text>
+          <!-- Left arm -->
+          <rect class="body-part" data-part="shoulder" x="22" y="88" width="36" height="22" rx="8" fill="var(--bg-2)" stroke="var(--bdr)" stroke-width="1.5"/>
+          <text x="40" y="103" text-anchor="middle" font-size="9" fill="var(--txt-2)" pointer-events="none">어깨</text>
+          <rect class="body-part" data-part="elbow" x="18" y="112" width="28" height="60" rx="8" fill="var(--bg-2)" stroke="var(--bdr)" stroke-width="1.5"/>
+          <text x="32" y="146" text-anchor="middle" font-size="9" fill="var(--txt-2)" pointer-events="none">팔꿈치</text>
+          <rect class="body-part" data-part="wrist" x="16" y="174" width="28" height="40" rx="7" fill="var(--bg-2)" stroke="var(--bdr)" stroke-width="1.5"/>
+          <text x="30" y="198" text-anchor="middle" font-size="9" fill="var(--txt-2)" pointer-events="none">손목</text>
+          <!-- Right arm -->
+          <rect class="body-part" data-part="shoulder" x="142" y="88" width="36" height="22" rx="8" fill="var(--bg-2)" stroke="var(--bdr)" stroke-width="1.5"/>
+          <text x="160" y="103" text-anchor="middle" font-size="9" fill="var(--txt-2)" pointer-events="none">어깨</text>
+          <rect class="body-part" data-part="elbow" x="154" y="112" width="28" height="60" rx="8" fill="var(--bg-2)" stroke="var(--bdr)" stroke-width="1.5"/>
+          <text x="168" y="146" text-anchor="middle" font-size="9" fill="var(--txt-2)" pointer-events="none">팔꿈치</text>
+          <rect class="body-part" data-part="wrist" x="156" y="174" width="28" height="40" rx="7" fill="var(--bg-2)" stroke="var(--bdr)" stroke-width="1.5"/>
+          <text x="170" y="198" text-anchor="middle" font-size="9" fill="var(--txt-2)" pointer-events="none">손목</text>
+          <!-- Hips -->
+          <rect class="body-part" data-part="hip" x="60" y="186" width="80" height="40" rx="8" fill="var(--bg-2)" stroke="var(--bdr)" stroke-width="2"/>
+          <text x="100" y="210" text-anchor="middle" font-size="10" fill="var(--txt-2)" pointer-events="none">허리/골반</text>
+          <!-- Left leg -->
+          <rect class="body-part" data-part="knee" x="64" y="228" width="32" height="80" rx="8" fill="var(--bg-2)" stroke="var(--bdr)" stroke-width="1.5"/>
+          <text x="80" y="272" text-anchor="middle" font-size="9" fill="var(--txt-2)" pointer-events="none">무릎</text>
+          <rect class="body-part" data-part="ankle" x="66" y="310" width="28" height="50" rx="7" fill="var(--bg-2)" stroke="var(--bdr)" stroke-width="1.5"/>
+          <text x="80" y="340" text-anchor="middle" font-size="9" fill="var(--txt-2)" pointer-events="none">발목</text>
+          <!-- Right leg -->
+          <rect class="body-part" data-part="knee" x="104" y="228" width="32" height="80" rx="8" fill="var(--bg-2)" stroke="var(--bdr)" stroke-width="1.5"/>
+          <text x="120" y="272" text-anchor="middle" font-size="9" fill="var(--txt-2)" pointer-events="none">무릎</text>
+          <rect class="body-part" data-part="ankle" x="106" y="310" width="28" height="50" rx="7" fill="var(--bg-2)" stroke="var(--bdr)" stroke-width="1.5"/>
+          <text x="120" y="340" text-anchor="middle" font-size="9" fill="var(--txt-2)" pointer-events="none">발목</text>
+        </svg>
+      </div>
+      <!-- Detail panel -->
+      <div id="bodyDetail" style="background:var(--bg-2);border:1px solid var(--bdr);border-radius:16px;padding:24px;min-height:320px;display:flex;align-items:center;justify-content:center">
+        <div style="text-align:center;color:var(--txt-2);font-size:13px" data-i18n="bodySelectHint">신체 부위를 클릭하면<br>상세 정보가 표시됩니다</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CTA -->
 <section class="cta">
   <div class="container">
@@ -4635,6 +4711,8 @@ if ('serviceWorker' in navigator) {
 // ============================================================
 const I18N = {
   ko: {
+    ppeLabel:"NEW · 보호구 선택",ppeTitle1:"작업 유형별",ppeTitle2:"PPE 선택 가이드",ppeDesc:"작업 유형을 선택하면 산업안전보건법에 따른 필수 보호구 목록과 올바른 착용법을 안내합니다.",
+    bodyLabel:"NEW · 근골격계 예방",bodyTitle1:"신체 부위별",bodyTitle2:"직업성 질환 가이드",bodyDesc:"신체 부위를 클릭하면 관련 직업성 근골격계 질환과 예방법을 확인할 수 있습니다.",bodyClickHint:"👆 부위를 클릭하세요",bodySelectHint:"신체 부위를 클릭하면 상세 정보가 표시됩니다",
     nmLabel:"NEW · 실시간 소음 측정",nmTitle1:"현장 소음",nmTitle2:"실시간 측정기",nmDesc:"마이크를 통해 현장 소음을 실시간으로 측정합니다. 고용노동부 기준(90dB/8h)과 비교해 즉시 경보를 발령합니다.",nmStart:"🎤 측정 시작",nmGuideTitle:"📋 소음 기준 가이드",nmSafe:"안전",nmSafeDesc:"정상 대화 수준, 보호구 불필요",nmCaution:"주의",nmCautionDesc:"귀마개 착용 권장",nmDanger:"위험",nmDangerDesc:"귀마개·귀덮개 의무 착용",nmCritical:"즉시조치",nmCriticalDesc:"즉시 작업 중단, 방음 조치",nmHistTitle:"📊 최근 추이",
     sfLabel:"NEW · 피로 위험 분석",sfTitle1:"교대 근무",sfTitle2:"피로 지수 계산기",sfDesc:"근무 패턴을 입력하면 FAST 기반 피로 점수와 사고 발생 확률을 자동 계산합니다.",sfInputTitle:"근무 패턴 입력",sfShiftType:"근무 유형",sfDay:"주간",sfNight:"야간",sfRotate:"교대",sfHoursLabel:"1일 근무 시간",sfHoursUnit:"시간",sfConsLabel:"연속 근무 일수",sfConsUnit:"일",sfSleepLabel:"평균 수면 시간",sfSleepUnit:"시간",sfAgeLabel:"작업자 연령대",sfScoreLabel:"피로 지수 (0-100)",sfAccRisk:"사고 상대 위험도",sfRecommend:"권장 휴식 주기",
     navNoise:"소음 측정기",navShiftFatigue:"피로 지수",navData:"현황 분석",navSafety:"안전 도구",navResults:"관제·성과",navBio:"바이오 모니터링",navZA:"무재해 기록판",navStretch:"스트레칭",navHeat:"열지수 계산기",navRiskMatrix:"위험성 평가",navFiveWhy:"5-Why 분석",navCpr:"CPR 응급처치",navPledge:"안전 서약",navBS:"사각지대",navAccStats:"사고 통계",navIntl:"국제 비교",
@@ -4740,6 +4818,7 @@ const I18N = {
     mw4Title:"S급 최신 웹 기술 통합",mw4Desc:"WebGPU 8000 파티클 GPU 연산 · TF.js MoveNet 실시간 17관절 자세인식 · WebAssembly 이진 모듈 · WebXR AR 세션 · BroadcastChannel 멀티탭 동기화 · CSS Houdini Paint Worklet.",mw4Src:"대부분 웹사이트에 없는 최신 브라우저 API"
   },
   en: {
+    ppeLabel:"NEW · PPE Selection",ppeTitle1:"By Work Type",ppeTitle2:"PPE Selection Guide",ppeDesc:"Select your work type to get required PPE list and proper wearing instructions per safety regulations.",bodyLabel:"NEW · MSK Prevention",bodyTitle1:"By Body Part",bodyTitle2:"Occupational Disease Guide",bodyDesc:"Click a body part to see related occupational musculoskeletal diseases and prevention methods.",bodyClickHint:"👆 Click a body part",bodySelectHint:"Click a body part to see details",
     nmLabel:"NEW · Real-time Noise Meter",nmTitle1:"Workplace Noise",nmTitle2:"Live Noise Meter",nmDesc:"Measure workplace noise in real time via microphone. Compares against MoEL standard (90dB/8h) and triggers instant alerts.",nmStart:"🎤 Start Measuring",nmGuideTitle:"📋 Noise Level Guide",nmSafe:"Safe",nmSafeDesc:"Normal conversation level, no PPE needed",nmCaution:"Caution",nmCautionDesc:"Earplugs recommended",nmDanger:"Danger",nmDangerDesc:"Earplugs/earmuffs required",nmCritical:"Immediate Action",nmCriticalDesc:"Stop work immediately, soundproof",nmHistTitle:"📊 Recent Trend",
     sfLabel:"NEW · Fatigue Risk Analysis",sfTitle1:"Shift Work",sfTitle2:"Fatigue Index Calculator",sfDesc:"Enter your shift pattern to automatically calculate a FAST-based fatigue score and relative accident risk.",sfInputTitle:"Work Pattern Input",sfShiftType:"Shift Type",sfDay:"Day",sfNight:"Night",sfRotate:"Rotating",sfHoursLabel:"Daily Work Hours",sfHoursUnit:"hrs",sfConsLabel:"Consecutive Work Days",sfConsUnit:"days",sfSleepLabel:"Average Sleep",sfSleepUnit:"hrs",sfAgeLabel:"Worker Age Group",sfScoreLabel:"Fatigue Index (0-100)",sfAccRisk:"Relative Accident Risk",sfRecommend:"Recommended Break",
     navNoise:"Noise Meter",navShiftFatigue:"Fatigue Index",navData:"Status Analysis",navSafety:"Safety Tools",navResults:"Control·Results",navBio:"Bio Monitoring",navZA:"Zero Accident",navStretch:"Stretching",navHeat:"Heat Index",navRiskMatrix:"Risk Matrix",navFiveWhy:"5-Why Analysis",navCpr:"CPR First Aid",navPledge:"Safety Pledge",navBS:"Blind Spots",navAccStats:"Accident Stats",navIntl:"Intl Comparison",dropDataTitle:"Research Data & Status",dropPlatTitle:"Core Tech & AI",dropSafetyTitle:"Accident Prevention & Response",dropHealthTitle:"Worker Health & Monitoring",dropResultsTitle:"Control Center & Results",
@@ -4845,6 +4924,7 @@ const I18N = {
     mw4Title:"S-Grade Cutting-Edge Web Stack",mw4Desc:"WebGPU 8000-particle GPU compute · TF.js MoveNet 17-joint real-time pose · WebAssembly binary module · WebXR AR session · BroadcastChannel multi-tab sync · CSS Houdini Paint Worklet.",mw4Src:"Browser APIs rarely seen on other sites"
   },
   zh: {
+    ppeLabel:"NEW · 防护用品选择",ppeTitle1:"按作业类型",ppeTitle2:"PPE选择指南",ppeDesc:"选择作业类型，获取根据安全法规所需的防护用品清单及正确佩戴方法。",bodyLabel:"NEW · 肌骨骼预防",bodyTitle1:"按身体部位",bodyTitle2:"职业病指南",bodyDesc:"点击身体部位查看相关职业性肌骨骼疾病和预防方法。",bodyClickHint:"👆 点击部位",bodySelectHint:"点击身体部位查看详细信息",
     nmLabel:"NEW · 实时噪音测量",nmTitle1:"现场噪音",nmTitle2:"实时测量仪",nmDesc:"通过麦克风实时测量现场噪音。与劳动部标准(90dB/8h)对比，立即发出警报。",nmStart:"🎤 开始测量",nmGuideTitle:"📋 噪音标准指南",nmSafe:"安全",nmSafeDesc:"正常对话水平，无需防护具",nmCaution:"注意",nmCautionDesc:"建议佩戴耳塞",nmDanger:"危险",nmDangerDesc:"必须佩戴耳塞·耳罩",nmCritical:"立即措施",nmCriticalDesc:"立即停止作业，采取隔音措施",nmHistTitle:"📊 近期趋势",
     sfLabel:"NEW · 疲劳风险分析",sfTitle1:"倒班工作",sfTitle2:"疲劳指数计算器",sfDesc:"输入工作模式，自动计算基于FAST的疲劳分数和事故发生概率。",sfInputTitle:"工作模式输入",sfShiftType:"班次类型",sfDay:"白班",sfNight:"夜班",sfRotate:"轮班",sfHoursLabel:"每日工作时间",sfHoursUnit:"小时",sfConsLabel:"连续工作天数",sfConsUnit:"天",sfSleepLabel:"平均睡眠时间",sfSleepUnit:"小时",sfAgeLabel:"作业人员年龄",sfScoreLabel:"疲劳指数 (0-100)",sfAccRisk:"事故相对风险",sfRecommend:"建议休息间隔",
     navNoise:"噪音测量",navShiftFatigue:"疲劳指数",navData:"现况分析",navSafety:"安全工具",navResults:"管制成果",navBio:"生体监控",navZA:"无事故记录",navStretch:"拉伸计时器",navHeat:"热指数计算",navRiskMatrix:"风险评估矩阵",navFiveWhy:"5-Why分析",navCpr:"CPR急救",navPledge:"安全承诺",navBS:"安全盲区",navAccStats:"事故统计",navIntl:"国际比较",
@@ -4951,6 +5031,7 @@ const I18N = {
     mw4Title:"S级前沿Web技术集成",mw4Desc:"WebGPU 8000粒子GPU运算 · TF.js MoveNet实时17关节姿态识别 · WebAssembly二进制模块 · WebXR AR会话 · BroadcastChannel多标签同步 · CSS Houdini Paint Worklet。",mw4Src:"大多数网站上没有的最新浏览器API"
   },
   ja: {
+    ppeLabel:"NEW · 保護具選択",ppeTitle1:"作業タイプ別",ppeTitle2:"PPE選択ガイド",ppeDesc:"作業タイプを選択すると、安全法規に基づく必須保護具リストと正しい装着法を案内します。",bodyLabel:"NEW · 筋骨格系予防",bodyTitle1:"身体部位別",bodyTitle2:"職業性疾患ガイド",bodyDesc:"身体部位をクリックすると関連する職業性筋骨格系疾患と予防法を確認できます。",bodyClickHint:"👆 部位をクリック",bodySelectHint:"身体部位をクリックすると詳細が表示されます",
     nmLabel:"NEW · リアルタイム騒音測定",nmTitle1:"現場騒音",nmTitle2:"リアルタイム測定器",nmDesc:"マイクで現場騒音をリアルタイム測定。雇用労働部基準(90dB/8h)と比較し即時警報を発令します。",nmStart:"🎤 測定開始",nmGuideTitle:"📋 騒音基準ガイド",nmSafe:"安全",nmSafeDesc:"通常会話レベル、保護具不要",nmCaution:"注意",nmCautionDesc:"耳栓着用を推奨",nmDanger:"危険",nmDangerDesc:"耳栓・耳当て着用義務",nmCritical:"即時措置",nmCriticalDesc:"作業即時中断、防音措置",nmHistTitle:"📊 直近の推移",
     sfLabel:"NEW · 疲労リスク分析",sfTitle1:"交代勤務",sfTitle2:"疲労指数計算機",sfDesc:"勤務パターンを入力するとFASTモデルに基づく疲労スコアと事故発生リスクを自動計算します。",sfInputTitle:"勤務パターン入力",sfShiftType:"勤務タイプ",sfDay:"日勤",sfNight:"夜勤",sfRotate:"交代",sfHoursLabel:"1日の勤務時間",sfHoursUnit:"時間",sfConsLabel:"連続勤務日数",sfConsUnit:"日",sfSleepLabel:"平均睡眠時間",sfSleepUnit:"時間",sfAgeLabel:"作業者年齢層",sfScoreLabel:"疲労指数 (0-100)",sfAccRisk:"事故相対リスク",sfRecommend:"推奨休憩間隔",
     navNoise:"騒音測定器",navShiftFatigue:"疲労指数",navData:"現況分析",navSafety:"安全ツール",navResults:"管制・成果",navBio:"バイオ監視",navZA:"無災害記録",navStretch:"ストレッチ",navHeat:"熱指数",navRiskMatrix:"リスクマトリクス",navFiveWhy:"5-Why分析",navCpr:"CPR応急処置",navPledge:"安全誓約",navBS:"安全死角",navAccStats:"事故統計",navIntl:"国際比較",dropDataTitle:"研究データ＆現況",dropPlatTitle:"コア技術＆AI",dropSafetyTitle:"事故予防＆対応ツール",dropHealthTitle:"作業者健康＆モニタリング",dropResultsTitle:"管制センター＆成果",
@@ -9422,6 +9503,341 @@ document.getElementById('pwaInstallBtn').addEventListener('click',()=>{
 </script>
 
 <script>
+/* ══ NEW-J: PPE 선택 가이드 ══════════════════════════════════ */
+const PPE_TYPES = {
+  ko: [
+    {id:'welding',icon:'🔥',name:'용접·절단',color:'#F97316'},
+    {id:'chemical',icon:'🧪',name:'화학물질',color:'#8B5CF6'},
+    {id:'height',icon:'🏗️',name:'고소·추락',color:'#3B82F6'},
+    {id:'noise',icon:'🔊',name:'소음 작업',color:'#EAB308'},
+    {id:'dust',icon:'💨',name:'분진·연기',color:'#6B7280'},
+    {id:'electric',icon:'⚡',name:'전기 작업',color:'#EF4444'},
+    {id:'heavy',icon:'⚙️',name:'중량물',color:'#10B981'},
+    {id:'cold',icon:'❄️',name:'저온 작업',color:'#06B6D4'},
+  ],
+  en: [
+    {id:'welding',icon:'🔥',name:'Welding/Cutting',color:'#F97316'},
+    {id:'chemical',icon:'🧪',name:'Chemicals',color:'#8B5CF6'},
+    {id:'height',icon:'🏗️',name:'Heights/Falls',color:'#3B82F6'},
+    {id:'noise',icon:'🔊',name:'Noisy Work',color:'#EAB308'},
+    {id:'dust',icon:'💨',name:'Dust/Fumes',color:'#6B7280'},
+    {id:'electric',icon:'⚡',name:'Electrical',color:'#EF4444'},
+    {id:'heavy',icon:'⚙️',name:'Heavy Loads',color:'#10B981'},
+    {id:'cold',icon:'❄️',name:'Cold Work',color:'#06B6D4'},
+  ],
+  zh: [
+    {id:'welding',icon:'🔥',name:'焊接·切割',color:'#F97316'},
+    {id:'chemical',icon:'🧪',name:'化学物质',color:'#8B5CF6'},
+    {id:'height',icon:'🏗️',name:'高处·坠落',color:'#3B82F6'},
+    {id:'noise',icon:'🔊',name:'噪音作业',color:'#EAB308'},
+    {id:'dust',icon:'💨',name:'粉尘·烟雾',color:'#6B7280'},
+    {id:'electric',icon:'⚡',name:'电气作业',color:'#EF4444'},
+    {id:'heavy',icon:'⚙️',name:'重物搬运',color:'#10B981'},
+    {id:'cold',icon:'❄️',name:'低温作业',color:'#06B6D4'},
+  ],
+  ja: [
+    {id:'welding',icon:'🔥',name:'溶接・切断',color:'#F97316'},
+    {id:'chemical',icon:'🧪',name:'化学物質',color:'#8B5CF6'},
+    {id:'height',icon:'🏗️',name:'高所・墜落',color:'#3B82F6'},
+    {id:'noise',icon:'🔊',name:'騒音作業',color:'#EAB308'},
+    {id:'dust',icon:'💨',name:'粉塵・ヒューム',color:'#6B7280'},
+    {id:'electric',icon:'⚡',name:'電気作業',color:'#EF4444'},
+    {id:'heavy',icon:'⚙️',name:'重量物',color:'#10B981'},
+    {id:'cold',icon:'❄️',name:'低温作業',color:'#06B6D4'},
+  ]
+};
+
+const PPE_DATA = {
+  welding: {
+    ko:[{icon:'🥽',name:'용접 보안면',req:true,desc:'아크·불꽃·자외선 차단. 차광도 10~13 필터'},
+        {icon:'🧤',name:'내열 용접장갑',req:true,desc:'가죽제 내열 장갑. 손목 보호 포함'},
+        {icon:'🥼',name:'방염 작업복',req:true,desc:'불꽃 튐 방지. 100% 면 또는 방염 처리'},
+        {icon:'👞',name:'안전화',req:true,desc:'발등 쇠캡 포함. 내열 밑창'},
+        {icon:'😷',name:'용접 흄 마스크',req:true,desc:'KN95 이상. 용접흄·오존 차단'},
+        {icon:'🦺',name:'방열 앞치마',req:false,desc:'고열 용접 시 추가 착용 권장'}],
+    en:[{icon:'🥽',name:'Welding Face Shield',req:true,desc:'Arc/flame/UV protection. Shade 10-13 filter'},
+        {icon:'🧤',name:'Heat-resistant Gloves',req:true,desc:'Leather welding gloves with wrist guard'},
+        {icon:'🥼',name:'Flame-retardant Coverall',req:true,desc:'Spark/spatter protection. FR cotton or treated'},
+        {icon:'👞',name:'Safety Boots',req:true,desc:'Steel toe cap. Heat-resistant sole'},
+        {icon:'😷',name:'Welding Fume Respirator',req:true,desc:'N95/P100. Filters welding fume & ozone'},
+        {icon:'🦺',name:'Welding Apron',req:false,desc:'Extra protection for high-heat welding'}],
+    zh:[{icon:'🥽',name:'焊接防护面罩',req:true,desc:'防弧光·火焰·紫外线。遮光度10-13'},
+        {icon:'🧤',name:'耐热焊接手套',req:true,desc:'皮革耐热手套，含护腕'},
+        {icon:'🥼',name:'阻燃工作服',req:true,desc:'防火花飞溅。纯棉或阻燃处理'},
+        {icon:'👞',name:'安全鞋',req:true,desc:'钢头防砸，耐热鞋底'},
+        {icon:'😷',name:'焊接烟尘口罩',req:true,desc:'KN95以上，过滤焊烟和臭氧'},
+        {icon:'🦺',name:'焊接皮围裙',req:false,desc:'高温焊接时额外佩戴'}],
+    ja:[{icon:'🥽',name:'溶接用保護面',req:true,desc:'アーク・火花・UV遮断。遮光度10-13'},
+        {icon:'🧤',name:'耐熱溶接手袋',req:true,desc:'革製耐熱グローブ。手首保護付き'},
+        {icon:'🥼',name:'防炎作業服',req:true,desc:'スパッタ防止。難燃綿または難燃処理'},
+        {icon:'👞',name:'安全靴',req:true,desc:'鋼製つま先キャップ。耐熱底'},
+        {icon:'😷',name:'溶接ヒューム防毒マスク',req:true,desc:'N95/DS2以上。溶接ヒューム・オゾン遮断'},
+        {icon:'🦺',name:'溶接用前掛け',req:false,desc:'高熱溶接時に追加着用推奨'}]
+  },
+  chemical: {
+    ko:[{icon:'😷',name:'방독 마스크',req:true,desc:'화학물질 종류에 맞는 정화통 선택'},
+        {icon:'🥽',name:'화학용 고글',req:true,desc:'밀폐형 고글. 액체 튐 완전 차단'},
+        {icon:'🧤',name:'내화학성 장갑',req:true,desc:'니트릴 또는 네오프렌. 화학물질 종류 확인'},
+        {icon:'🥼',name:'내화학성 보호복',req:true,desc:'화학물질 종류에 따라 레벨 A~D 선택'},
+        {icon:'👞',name:'화학용 안전화',req:true,desc:'화학물질 내성 소재. 금속 노출 없음'},
+        {icon:'🚿',name:'비상 샤워기',req:true,desc:'15m 이내 설치. 15분 이상 세척 가능'}],
+    en:[{icon:'😷',name:'Chemical Respirator',req:true,desc:'Select cartridge type for specific chemical'},
+        {icon:'🥽',name:'Chemical Goggles',req:true,desc:'Sealed goggles. Full liquid splash protection'},
+        {icon:'🧤',name:'Chemical-resistant Gloves',req:true,desc:'Nitrile or neoprene. Match to chemical'},
+        {icon:'🥼',name:'Chemical Protective Suit',req:true,desc:'Level A-D based on chemical hazard'},
+        {icon:'👞',name:'Chemical Safety Boots',req:true,desc:'Chemical-resistant material'},
+        {icon:'🚿',name:'Emergency Shower',req:true,desc:'Within 15m. 15+ min flush capacity'}],
+    zh:[{icon:'😷',name:'防毒面具',req:true,desc:'根据化学物质种类选择滤毒罐'},
+        {icon:'🥽',name:'化学品护目镜',req:true,desc:'密封式护目镜，完全防液体飞溅'},
+        {icon:'🧤',name:'耐化学品手套',req:true,desc:'丁腈或氯丁橡胶，需与化学品匹配'},
+        {icon:'🥼',name:'化学防护服',req:true,desc:'根据危害级别选A~D级'},
+        {icon:'👞',name:'化学品安全靴',req:true,desc:'耐化学品材质'},
+        {icon:'🚿',name:'紧急淋浴器',req:true,desc:'15米以内设置，可冲洗15分钟以上'}],
+    ja:[{icon:'😷',name:'防毒マスク',req:true,desc:'化学物質に応じた吸収缶を選択'},
+        {icon:'🥽',name:'化学用ゴーグル',req:true,desc:'密封型ゴーグル。液体飛散完全遮断'},
+        {icon:'🧤',name:'耐化学性手袋',req:true,desc:'ニトリルまたはネオプレン。化学物質確認'},
+        {icon:'🥼',name:'化学防護服',req:true,desc:'危険レベルによりA~Dを選択'},
+        {icon:'👞',name:'化学用安全靴',req:true,desc:'耐化学性素材'},
+        {icon:'🚿',name:'緊急シャワー',req:true,desc:'15m以内設置。15分以上洗浄可能'}]
+  },
+  height: {
+    ko:[{icon:'🦺',name:'안전대 (전신식)',req:true,desc:'EN361 전신식 안전대. D링 후면 또는 가슴 위치'},
+        {icon:'⛑️',name:'안전모',req:true,desc:'A형 이상. 턱끈 반드시 체결'},
+        {icon:'🔗',name:'죔줄 + 충격흡수장치',req:true,desc:'1.8m 이하 죔줄. 충격하중 6kN 이하'},
+        {icon:'👞',name:'안전화',req:true,desc:'미끄럼 방지 밑창. 발목 지지형'},
+        {icon:'🧤',name:'미끄럼방지 장갑',req:false,desc:'그립력 강화. 손 부상 예방'},
+        {icon:'📍',name:'낙하물 방지망',req:true,desc:'작업 하부 낙하물 방지망 설치 의무'}],
+    en:[{icon:'🦺',name:'Full-body Harness',req:true,desc:'EN361 compliant. Rear/chest D-ring'},
+        {icon:'⛑️',name:'Safety Helmet',req:true,desc:'Type A+. Chin strap must be fastened'},
+        {icon:'🔗',name:'Lanyard + Shock Absorber',req:true,desc:'≤1.8m lanyard. Impact <6kN'},
+        {icon:'👞',name:'Safety Boots',req:true,desc:'Anti-slip sole. Ankle support'},
+        {icon:'🧤',name:'Anti-slip Gloves',req:false,desc:'Enhanced grip. Hand protection'},
+        {icon:'📍',name:'Debris Net',req:true,desc:'Required below work area'}],
+    zh:[{icon:'🦺',name:'全身式安全带',req:true,desc:'EN361认证，后背/胸前D形环'},
+        {icon:'⛑️',name:'安全帽',req:true,desc:'A型以上，下颚带必须扣紧'},
+        {icon:'🔗',name:'安全绳+冲击吸收器',req:true,desc:'1.8m以下安全绳，冲击载荷低于6kN'},
+        {icon:'👞',name:'安全鞋',req:true,desc:'防滑鞋底，踝部支撑型'},
+        {icon:'🧤',name:'防滑手套',req:false,desc:'增强握力，防止手部受伤'},
+        {icon:'📍',name:'防坠物安全网',req:true,desc:'作业下方必须安装防坠物网'}],
+    ja:[{icon:'🦺',name:'フルハーネス型安全帯',req:true,desc:'EN361準拠。背面・胸部Dカン'},
+        {icon:'⛑️',name:'ヘルメット',req:true,desc:'A型以上。あごひも必ず締める'},
+        {icon:'🔗',name:'ランヤード+衝撃吸収器',req:true,desc:'1.8m以下。衝撃荷重6kN以下'},
+        {icon:'👞',name:'安全靴',req:true,desc:'滑り止め底。足首サポート'},
+        {icon:'🧤',name:'滑り止め手袋',req:false,desc:'グリップ向上。手の保護'},
+        {icon:'📍',name:'落下物防止ネット',req:true,desc:'作業下部への設置義務'}]
+  },
+  noise: {
+    ko:[{icon:'🎧',name:'귀덮개',req:true,desc:'SNR 30dB 이상. 85dB 초과 환경에서 의무'},
+        {icon:'🔇',name:'귀마개',req:true,desc:'폼 타입 NRR 29이상. 귀덮개와 병행 가능'},
+        {icon:'⛑️',name:'안전모 + 귀덮개 일체형',req:false,desc:'고소 작업 병행 시 일체형 권장'}],
+    en:[{icon:'🎧',name:'Earmuffs',req:true,desc:'SNR 30dB+. Required above 85dB'},
+        {icon:'🔇',name:'Earplugs',req:true,desc:'Foam NRR 29+. Can combine with earmuffs'},
+        {icon:'⛑️',name:'Helmet-mount Earmuffs',req:false,desc:'Recommended for height+noise combo'}],
+    zh:[{icon:'🎧',name:'防噪耳罩',req:true,desc:'SNR 30dB以上，超85dB强制佩戴'},
+        {icon:'🔇',name:'耳塞',req:true,desc:'泡沫型NRR 29以上，可与耳罩并用'},
+        {icon:'⛑️',name:'安全帽一体式耳罩',req:false,desc:'高处+噪音作业时推荐'}],
+    ja:[{icon:'🎧',name:'イヤーマフ',req:true,desc:'SNR 30dB以上。85dB超環境で義務'},
+        {icon:'🔇',name:'耳栓',req:true,desc:'フォーム型NRR29以上。耳マフと併用可'},
+        {icon:'⛑️',name:'ヘルメット一体型イヤーマフ',req:false,desc:'高所+騒音作業の場合推奨'}]
+  },
+  dust:{
+    ko:[{icon:'😷',name:'방진 마스크 1급',req:true,desc:'KF94 이상. 분진·미스트·연기 차단'},
+        {icon:'🥽',name:'밀폐 고글',req:true,desc:'분진 입자 차단. 환기공 없는 밀폐형'},
+        {icon:'🥼',name:'방진 작업복',req:true,desc:'분진 침투 방지 소재. 목·손목 밀폐'}],
+    en:[{icon:'😷',name:'Dust Respirator P100',req:true,desc:'NIOSH P100 or KF94+. Dust/mist/fume'},
+        {icon:'🥽',name:'Sealed Goggles',req:true,desc:'No ventilation holes. Dust-tight'},
+        {icon:'🥼',name:'Dust-proof Coverall',req:true,desc:'Tightly sealed at neck and wrists'}],
+    zh:[{icon:'😷',name:'防尘口罩(一级)',req:true,desc:'KF94以上，防粉尘·雾滴·烟雾'},
+        {icon:'🥽',name:'密封护目镜',req:true,desc:'无通气孔密封型'},
+        {icon:'🥼',name:'防尘工作服',req:true,desc:'防尘渗透材质，颈部/腕部密封'}],
+    ja:[{icon:'😷',name:'防塵マスク1級',req:true,desc:'DS2/P100以上。粉塵・ミスト・ヒューム遮断'},
+        {icon:'🥽',name:'密封ゴーグル',req:true,desc:'通気孔なし密閉型'},
+        {icon:'🥼',name:'防塵作業服',req:true,desc:'粉塵侵入防止素材。首・手首密封'}]
+  },
+  electric:{
+    ko:[{icon:'🧤',name:'절연 장갑',req:true,desc:'1000V급 이상. 사용 전 핀홀 테스트 필수'},
+        {icon:'⛑️',name:'절연 안전모',req:true,desc:'Class E (20,000V) 이상'},
+        {icon:'👞',name:'절연 안전화',req:true,desc:'EH급 전기절연 안전화'},
+        {icon:'🥼',name:'방전복',req:false,desc:'고압 작업 시 아크 플래시 방호복'}],
+    en:[{icon:'🧤',name:'Insulating Gloves',req:true,desc:'1000V+ rated. Pinhole test before use'},
+        {icon:'⛑️',name:'Insulating Helmet',req:true,desc:'Class E (20,000V+)'},
+        {icon:'👞',name:'EH Safety Boots',req:true,desc:'Electrical hazard rated'},
+        {icon:'🥼',name:'Arc Flash Suit',req:false,desc:'Required for high-voltage work'}],
+    zh:[{icon:'🧤',name:'绝缘手套',req:true,desc:'1000V以上，使用前必须针孔测试'},
+        {icon:'⛑️',name:'绝缘安全帽',req:true,desc:'E级(20000V)以上'},
+        {icon:'👞',name:'绝缘安全鞋',req:true,desc:'EH级电气绝缘安全鞋'},
+        {icon:'🥼',name:'防电弧服',req:false,desc:'高压作业时需穿着'}],
+    ja:[{icon:'🧤',name:'絶縁手袋',req:true,desc:'1000V以上。使用前ピンホールテスト必須'},
+        {icon:'⛑️',name:'絶縁ヘルメット',req:true,desc:'Class E (20,000V) 以上'},
+        {icon:'👞',name:'絶縁安全靴',req:true,desc:'EH級電気絶縁安全靴'},
+        {icon:'🥼',name:'アーク防護服',req:false,desc:'高電圧作業時に着用'}]
+  },
+  heavy:{
+    ko:[{icon:'⛑️',name:'안전모',req:true,desc:'낙하물 충격 방호. 턱끈 체결'},
+        {icon:'👞',name:'중작업용 안전화',req:true,desc:'300J 충격흡수 발등 보호. 발등 압축 내성'},
+        {icon:'🧤',name:'중량물 장갑',req:true,desc:'절단 방지 + 충격 흡수 복합 장갑'},
+        {icon:'🦺',name:'허리 보호대',req:false,desc:'20kg 이상 반복 작업 시 착용 권장'}],
+    en:[{icon:'⛑️',name:'Safety Helmet',req:true,desc:'Impact protection. Chin strap required'},
+        {icon:'👞',name:'Heavy-duty Safety Boots',req:true,desc:'300J impact toe cap + compression resistance'},
+        {icon:'🧤',name:'Heavy Load Gloves',req:true,desc:'Cut-resistant + impact absorbing'},
+        {icon:'🦺',name:'Back Support Belt',req:false,desc:'Recommended for 20kg+ repetitive lifts'}],
+    zh:[{icon:'⛑️',name:'安全帽',req:true,desc:'防坠物冲击，下颚带必须扣紧'},
+        {icon:'👞',name:'重作业安全鞋',req:true,desc:'300J防砸，鞋面抗压缩'},
+        {icon:'🧤',name:'重物搬运手套',req:true,desc:'防割+减震复合手套'},
+        {icon:'🦺',name:'腰部护具',req:false,desc:'20kg以上重复作业时推荐佩戴'}],
+    ja:[{icon:'⛑️',name:'安全帽',req:true,desc:'落下物衝撃防護。あごひも締める'},
+        {icon:'👞',name:'重作業安全靴',req:true,desc:'300J衝撃吸収つま先。甲圧縮耐性'},
+        {icon:'🧤',name:'重量物用手袋',req:true,desc:'耐切創+衝撃吸収複合手袋'},
+        {icon:'🦺',name:'腰部保護帯',req:false,desc:'20kg以上反復作業時推奨'}]
+  },
+  cold:{
+    ko:[{icon:'🧥',name:'방한복 (3층 시스템)',req:true,desc:'베이스·미드·아우터 3레이어. 체온 유지'},
+        {icon:'🧤',name:'방한 장갑',req:true,desc:'내층 울, 외층 방수. 10°C 이하 의무'},
+        {icon:'👢',name:'방한화',req:true,desc:'단열 밑창. 미끄럼 방지 스파이크'},
+        {icon:'🎿',name:'방한 헬멧',req:false,desc:'귀마개 일체형. -10°C 이하 권장'}],
+    en:[{icon:'🧥',name:'Cold-weather Suit (3-layer)',req:true,desc:'Base/mid/outer layer. Thermal protection'},
+        {icon:'🧤',name:'Insulated Gloves',req:true,desc:'Wool inner, waterproof outer. Required <10°C'},
+        {icon:'👢',name:'Insulated Boots',req:true,desc:'Thermal insole. Anti-slip spikes'},
+        {icon:'🎿',name:'Winter Helmet',req:false,desc:'Integrated ear cover. Advised <-10°C'}],
+    zh:[{icon:'🧥',name:'防寒服(三层系统)',req:true,desc:'基础层·中间层·外层，保持体温'},
+        {icon:'🧤',name:'防寒手套',req:true,desc:'内层羊毛，外层防水，10°C以下必戴'},
+        {icon:'👢',name:'防寒靴',req:true,desc:'隔热鞋底，防滑防冰钉'},
+        {icon:'🎿',name:'防寒安全帽',req:false,desc:'一体式耳罩，-10°C以下推荐'}],
+    ja:[{icon:'🧥',name:'防寒服(3レイヤー)',req:true,desc:'ベース・ミッド・アウター。体温維持'},
+        {icon:'🧤',name:'防寒手袋',req:true,desc:'内層ウール、外層防水。10°C以下義務'},
+        {icon:'👢',name:'防寒靴',req:true,desc:'断熱底。滑り止めスパイク'},
+        {icon:'🎿',name:'防寒ヘルメット',req:false,desc:'イヤーカバー一体型。-10°C以下推奨'}]
+  }
+};
+
+function renderPPETypes(){
+  const el=document.getElementById('ppeTypeGrid'); if(!el) return;
+  const lang=(document.documentElement.lang||'ko').slice(0,2);
+  const types=PPE_TYPES[lang]||PPE_TYPES.ko;
+  el.innerHTML=types.map(t=>`
+    <button onclick="showPPE('${t.id}')" style="padding:14px 8px;background:var(--bg);border:1px solid var(--bdr);border-radius:12px;cursor:pointer;transition:.2s;text-align:center" onmouseover="this.style.borderColor='${t.color}';this.style.background='${t.color}18'" onmouseout="this.style.borderColor='var(--bdr)';this.style.background='var(--bg)'">
+      <div style="font-size:26px;margin-bottom:6px">${t.icon}</div>
+      <div style="font-size:11px;font-weight:700;color:var(--txt)">${t.name}</div>
+    </button>`).join('');
+}
+
+function showPPE(id){
+  const lang=(document.documentElement.lang||'ko').slice(0,2);
+  const types=PPE_TYPES[lang]||PPE_TYPES.ko;
+  const typeInfo=types.find(t=>t.id===id);
+  const items=PPE_DATA[id]?.[lang]||PPE_DATA[id]?.ko||[];
+  const el=document.getElementById('ppeResult'); if(!el) return;
+  el.style.display='block';
+  const title=document.getElementById('ppeResultTitle');
+  if(title) title.innerHTML=`${typeInfo?.icon||''} ${typeInfo?.name||id} — <span style="color:${typeInfo?.color}">필요 보호구 ${items.length}종</span>`;
+  const itemEl=document.getElementById('ppeItems'); if(!itemEl) return;
+  itemEl.innerHTML=items.map(item=>`
+    <div style="background:var(--bg-2);border:1px solid ${item.req?'var(--a)':'var(--bdr)'};border-radius:12px;padding:16px;position:relative">
+      ${item.req?`<div style="position:absolute;top:8px;right:10px;font-size:9px;font-weight:700;background:rgba(255,107,53,.15);color:var(--a);padding:2px 8px;border-radius:8px">필수</div>`:`<div style="position:absolute;top:8px;right:10px;font-size:9px;color:var(--txt-2);padding:2px 8px;border:1px solid var(--bdr);border-radius:8px">권장</div>`}
+      <div style="font-size:28px;margin-bottom:8px">${item.icon}</div>
+      <div style="font-size:13px;font-weight:700;color:var(--txt);margin-bottom:4px">${item.name}</div>
+      <div style="font-size:11px;color:var(--txt-2);line-height:1.6">${item.desc}</div>
+    </div>`).join('');
+}
+
+document.addEventListener('DOMContentLoaded',()=>{ if(document.getElementById('ppeTypeGrid')) renderPPETypes(); });
+
+
+/* ══ NEW-K: 신체 부위별 근골격계 가이드 ════════════════════ */
+const BODY_DATA = {
+  neck: {
+    ko:{name:'목·어깨',disease:'경추 추간판 탈출증, 근막동통증후군, 경견완 증후군',risks:'장시간 고개 숙임, 화면 작업, 무거운 헬멧 착용, 반복적 목 회전',prevent:'모니터 눈높이 조절, 30분마다 목 스트레칭, 헤드셋 사용 권장, 경추 베개 지원',stretch:'목 좌우 회전 10회 × 앞뒤 굽힘 10회 × 어깨 돌리기 10회'},
+    en:{name:'Neck·Shoulder',disease:'Cervical disc herniation, Myofascial pain, Cervicobrachial syndrome',risks:'Prolonged head-down posture, screen work, heavy helmets, repetitive neck rotation',prevent:'Monitor at eye level, neck stretch every 30 min, headset recommended, cervical pillow',stretch:'Neck rotation 10× + Forward/back flex 10× + Shoulder rolls 10×'},
+    zh:{name:'颈部·肩部',disease:'颈椎间盘突出、肌筋膜疼痛综合征、颈肩腕综合征',risks:'长时间低头、屏幕作业、佩戴重型头盔、反复颈部旋转',prevent:'显示器调至眼睛高度、每30分钟颈部伸展、建议使用耳麦',stretch:'颈部左右转动10次×前后弯曲10次×肩部绕环10次'},
+    ja:{name:'首・肩',disease:'頸椎椎間板ヘルニア、筋膜疼痛症候群、頸肩腕症候群',risks:'長時間のうつむき姿勢、画面作業、重いヘルメット、反復的な首の回転',prevent:'モニターを目の高さに調整、30分毎に首のストレッチ、ヘッドセット推奨',stretch:'首の左右回転10回×前後屈10回×肩回し10回'}
+  },
+  back: {
+    ko:{name:'허리·등',disease:'요추 추간판 탈출증, 근긴장성 요통, 척추관 협착증',risks:'장시간 앉거나 서있기, 20kg 이상 중량물, 비틀린 자세 반복, 진동 노출',prevent:'틸트 요추 지지대, 30분마다 자세 변경, 올바른 중량물 들기 교육, 방진 시트',stretch:'고양이·소 자세 10회 × 무릎 가슴 당기기 × 허리 비틀기'},
+    en:{name:'Lower Back',disease:'Lumbar disc herniation, Muscular tension back pain, Spinal stenosis',risks:'Prolonged sitting/standing, 20kg+ loads, repetitive twisting, vibration exposure',prevent:'Lumbar support, posture change every 30 min, proper lifting training, anti-vibration seat',stretch:'Cat/cow pose 10× + Knee-to-chest pull + Spinal twist'},
+    zh:{name:'腰部·背部',disease:'腰椎间盘突出症、肌肉紧张性腰痛、椎管狭窄症',risks:'长时间坐立、搬运20kg以上重物、反复扭转动作、振动暴露',prevent:'腰椎支撑垫、每30分钟变换姿势、正确搬运教育',stretch:'猫式·牛式10次×膝盖拉向胸部×脊柱扭转'},
+    ja:{name:'腰・背中',disease:'腰椎椎間板ヘルニア、筋緊張性腰痛、脊柱管狭窄症',risks:'長時間の座位/立位、20kg以上の重量物、繰り返しの捻り動作、振動暴露',prevent:'腰椎サポート、30分毎の姿勢変換、正しいリフティング研修',stretch:'キャット・カウポーズ10回×膝胸引き×脊柱捻り'}
+  },
+  shoulder:{
+    ko:{name:'어깨',disease:'회전근개 파열, 어깨 점액낭염, 오십견(동결견)',risks:'팔 들어올리기 반복, 머리 위 작업, 어깨 충격·진동, 무거운 공구 장시간 사용',prevent:'작업대 높이 조절(팔꿈치 높이), 공구 무게 최소화, 팔 지지대 활용',stretch:'어깨 돌리기 10회 × 팔 가로 당기기 × 벽 밀기 스트레칭'},
+    en:{name:'Shoulder',disease:'Rotator cuff tear, Shoulder bursitis, Frozen shoulder',risks:'Repetitive arm lifting, overhead work, shoulder impact/vibration, heavy tool use',prevent:'Adjust workbench to elbow height, minimize tool weight, use arm support',stretch:'Shoulder rolls 10× + Cross-body arm pull + Wall push stretch'},
+    zh:{name:'肩部',disease:'肩袖撕裂、肩部滑囊炎、五十肩（冻结肩）',risks:'反复举臂、头顶作业、肩部冲击·振动、长时间使用重型工具',prevent:'工作台调至肘部高度、最小化工具重量、使用臂托',stretch:'肩部绕环10次×跨胸拉伸×靠墙推压'},
+    ja:{name:'肩',disease:'腱板断裂、肩滑液包炎、五十肩（凍結肩）',risks:'反復的な腕の挙上、頭上作業、肩への衝撃・振動、重い工具の長時間使用',prevent:'作業台を肘の高さに調整、工具重量最小化、アームサポート活用',stretch:'肩回し10回×クロスボディアームプル×壁押しストレッチ'}
+  },
+  elbow:{
+    ko:{name:'팔꿈치',disease:'테니스 엘보우(외상과염), 골프 엘보우(내상과염), 주관절 터널증후군',risks:'반복 비틀기 동작, 진동 공구 사용, 팔꿈치 압박, 손목 굴곡 반복',prevent:'공구 손잡이 두께 최적화(30-45mm), 진동 장갑 착용, 팔꿈치 패드',stretch:'손목 굴신 10회 × 손목 회전 × 팔꿈치 굴곡 스트레칭'},
+    en:{name:'Elbow',disease:'Tennis elbow (lateral epicondylitis), Golfer\'s elbow (medial), Cubital tunnel',risks:'Repetitive twisting, vibration tools, elbow pressure, repetitive wrist flexion',prevent:'Optimal grip diameter (30-45mm), vibration gloves, elbow pad',stretch:'Wrist flexion/extension 10× + Wrist rotation + Elbow flexion stretch'},
+    zh:{name:'肘部',disease:'网球肘（外上髁炎）、高尔夫球肘（内上髁炎）、肘管综合征',risks:'反复扭转动作、使用振动工具、肘部压迫、反复腕部弯曲',prevent:'优化工具握柄直径(30-45mm)、佩戴防振手套、肘部护垫',stretch:'腕部屈伸10次×腕部旋转×肘关节弯曲伸展'},
+    ja:{name:'肘',disease:'テニス肘（外側上顆炎）、ゴルフ肘（内側）、肘部管症候群',risks:'反復的な捻り動作、振動工具使用、肘への圧迫、手首屈曲の繰り返し',prevent:'グリップ径最適化(30-45mm)、防振手袋着用、エルボーパッド',stretch:'手首屈伸10回×手首回転×肘関節屈曲ストレッチ'}
+  },
+  wrist:{
+    ko:{name:'손목·손',disease:'수근관 증후군(손목터널), 드쿼르벵 건초염, 레이노 증후군',risks:'반복 손목 굴곡, 진동 공구, 정밀 조립 반복, 저온 작업',prevent:'수직 마우스, 손목 각도 0° 유지, 진동 방진 장갑, 손가락 보온',stretch:'손목 굴신 10회 × 손가락 벌리기 × 손 쥐었다 펴기 10회'},
+    en:{name:'Wrist·Hand',disease:'Carpal tunnel syndrome, De Quervain\'s tenosynovitis, Raynaud\'s',risks:'Repetitive wrist flexion, vibration tools, precision assembly, cold work',prevent:'Vertical mouse, wrist at 0°, anti-vibration gloves, finger warmers',stretch:'Wrist flex/extend 10× + Finger spread + Open/close fist 10×'},
+    zh:{name:'手腕·手部',disease:'腕管综合征、桡骨茎突狭窄性腱鞘炎、雷诺综合征',risks:'反复腕部弯曲、振动工具、精密组装、低温作业',prevent:'竖式鼠标、手腕角度保持0°、防振手套、手指保暖',stretch:'腕部屈伸10次×手指张开×握拳张开10次'},
+    ja:{name:'手首・手',disease:'手根管症候群、ド・ケルバン腱鞘炎、レイノー症候群',risks:'反復的な手首屈曲、振動工具、精密組立、低温作業',prevent:'縦型マウス、手首角度0°維持、防振手袋、指の保温',stretch:'手首屈伸10回×指を開く×握る・開く10回'}
+  },
+  hip:{
+    ko:{name:'허리·골반',disease:'고관절 점액낭염, 요부 근막통증, 천장관절 증후군',risks:'장시간 서서 작업, 비대칭 자세, 바닥 작업, 한쪽 다리 체중 집중',prevent:'방진 작업화, 피로방지 매트, 작업 의자 교대 사용, 대칭 자세 유지',stretch:'고관절 굴곡 스트레칭 × 비둘기 자세 × 서서 골반 기울이기'},
+    en:{name:'Hip·Pelvis',disease:'Hip bursitis, Lumbar myofascial pain, Sacroiliac joint syndrome',risks:'Prolonged standing, asymmetric posture, floor work, one-leg weight bearing',prevent:'Shock-absorbing shoes, anti-fatigue mat, alternate sit/stand, symmetric posture',stretch:'Hip flexor stretch + Pigeon pose + Standing pelvic tilt'},
+    zh:{name:'腰部·骨盆',disease:'髋关节滑囊炎、腰部筋膜疼痛、骶髂关节综合征',risks:'长时间站立作业、不对称姿势、地面作业、单腿承重',prevent:'减震工鞋、防疲劳垫、交替坐站使用、保持对称姿势',stretch:'髋屈肌拉伸×鸽式×站姿骨盆倾斜'},
+    ja:{name:'腰・骨盤',disease:'股関節滑液包炎、腰部筋膜疼痛、仙腸関節症候群',risks:'長時間の立位作業、非対称な姿勢、床作業、片足への体重集中',prevent:'防振安全靴、疲労防止マット、座位/立位交替使用、対称姿勢維持',stretch:'股関節屈曲ストレッチ×鳩のポーズ×立位骨盤傾斜'}
+  },
+  knee:{
+    ko:{name:'무릎',disease:'슬개골 연골연화증, 무릎 점액낭염, 반월판 손상',risks:'쪼그려 앉기 반복, 무릎 꿇기, 계단 오르내리기, 진동 노출',prevent:'무릎 패드 착용, 쪼그리기 작업 최소화, 보조 도구 활용, 대퇴 근력 강화',stretch:'무릎 굴신 × 허벅지 앞뒤 스트레칭 × 종아리 스트레칭'},
+    en:{name:'Knee',disease:'Chondromalacia patellae, Knee bursitis, Meniscus injury',risks:'Repetitive squatting, kneeling, stair climbing, vibration',prevent:'Knee pads, minimize squatting, use tools, strengthen quadriceps',stretch:'Knee bend/extend + Quad/hamstring stretch + Calf stretch'},
+    zh:{name:'膝部',disease:'髌骨软化症、膝关节滑囊炎、半月板损伤',risks:'反复蹲起、跪姿作业、上下楼梯、振动暴露',prevent:'佩戴护膝、减少蹲式作业、使用辅助工具、强化大腿肌力',stretch:'膝部弯曲伸展×大腿前后拉伸×小腿拉伸'},
+    ja:{name:'膝',disease:'膝蓋軟骨軟化症、膝関節滑液包炎、半月板損傷',risks:'反復的なしゃがみ作業、膝立ち、階段昇降、振動暴露',prevent:'ニーパッド着用、しゃがみ作業最小化、補助具活用、大腿筋強化',stretch:'膝屈伸×大腿前後ストレッチ×ふくらはぎストレッチ'}
+  },
+  ankle:{
+    ko:{name:'발목·발',disease:'족저근막염, 발목 염좌 반복, 아킬레스건염',risks:'딱딱한 바닥 장시간 서기, 미끄러운 바닥, 불균형 지면, 무거운 안전화',prevent:'충격 흡수 안창, 발목 지지 안전화, 쿠션 양말, 피로방지 매트',stretch:'발목 돌리기 10회 × 발가락 들기 × 종아리 스트레칭'},
+    en:{name:'Ankle·Foot',disease:'Plantar fasciitis, Repetitive ankle sprain, Achilles tendinitis',risks:'Prolonged standing on hard surfaces, slippery floors, uneven ground, heavy boots',prevent:'Shock-absorbing insole, ankle-support boots, cushion socks, anti-fatigue mat',stretch:'Ankle rotation 10× + Toe raise + Calf stretch'},
+    zh:{name:'脚踝·足部',disease:'足底筋膜炎、反复踝关节扭伤、跟腱炎',risks:'长时间站立于硬地面、湿滑地面、不平整地面、重型安全鞋',prevent:'减震鞋垫、踝部支撑安全鞋、缓冲袜子、防疲劳垫',stretch:'脚踝绕环10次×踮脚尖×小腿拉伸'},
+    ja:{name:'足首・足',disease:'足底筋膜炎、反復的な足首捻挫、アキレス腱炎',risks:'硬い床での長時間立位、滑りやすい床、不均一な地面、重い安全靴',prevent:'衝撃吸収インソール、足首サポート安全靴、クッションソックス',stretch:'足首回し10回×つま先上げ×ふくらはぎストレッチ'}
+  }
+};
+
+function showBodyPart(part){
+  const lang=(document.documentElement.lang||'ko').slice(0,2);
+  const d=BODY_DATA[part]?.[lang]||BODY_DATA[part]?.ko;
+  if(!d) return;
+  const el=document.getElementById('bodyDetail'); if(!el) return;
+  const colors={neck:'#F97316',back:'#EF4444',shoulder:'#8B5CF6',elbow:'#3B82F6',wrist:'#06B6D4',hip:'#EAB308',knee:'#10B981',ankle:'#6B7280'};
+  const c=colors[part]||'var(--a)';
+  el.innerHTML=`
+    <div>
+      <div style="font-size:16px;font-weight:800;color:${c};margin-bottom:14px">🦴 ${d.name}</div>
+      <div style="margin-bottom:12px">
+        <div style="font-size:10px;font-weight:700;color:var(--txt-2);letter-spacing:.06em;margin-bottom:5px">⚕️ 주요 직업성 질환</div>
+        <div style="font-size:12px;color:var(--txt);background:${c}12;padding:8px 12px;border-radius:8px;border-left:3px solid ${c}">${d.disease}</div>
+      </div>
+      <div style="margin-bottom:12px">
+        <div style="font-size:10px;font-weight:700;color:var(--txt-2);letter-spacing:.06em;margin-bottom:5px">⚠️ 주요 위험 요인</div>
+        <div style="font-size:12px;color:var(--txt-2);line-height:1.7">${d.risks}</div>
+      </div>
+      <div style="margin-bottom:12px">
+        <div style="font-size:10px;font-weight:700;color:var(--txt-2);letter-spacing:.06em;margin-bottom:5px">✅ 예방 방법</div>
+        <div style="font-size:12px;color:var(--txt-2);line-height:1.7">${d.prevent}</div>
+      </div>
+      <div style="padding:10px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:8px">
+        <div style="font-size:10px;font-weight:700;color:#10B981;margin-bottom:4px">🧘 권장 스트레칭</div>
+        <div style="font-size:12px;color:var(--txt-2)">${d.stretch}</div>
+      </div>
+    </div>`;
+  // highlight selected body part
+  document.querySelectorAll('.body-part').forEach(p=>{
+    p.style.fill=p.dataset.part===part?`${c}33`:'var(--bg-2)';
+    p.style.stroke=p.dataset.part===part?c:'var(--bdr)';
+  });
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('.body-part').forEach(el=>{
+    el.style.cursor='pointer';
+    el.addEventListener('click',()=>showBodyPart(el.dataset.part));
+    el.addEventListener('mouseenter',()=>{ if(!el.style.fill.includes('33')) el.style.fill='var(--bg-1)'; });
+    el.addEventListener('mouseleave',()=>{ if(!el.style.fill.includes('33')) el.style.fill='var(--bg-2)'; });
+  });
+});
+
 /* ══ NEW-H: 실시간 소음 측정기 ══════════════════════════════ */
 let nmRunning=false, nmStream=null, nmAnalyser=null, nmCtx=null, nmRaf=null;
 let nmMinVal=999, nmMaxVal=0, nmTotal=0, nmCount=0, nmHistory=[];
