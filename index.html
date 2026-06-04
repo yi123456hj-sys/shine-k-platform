@@ -1,662 +1,2055 @@
-﻿<!DOCTYPE html>
-<html lang="zh-CN">
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WorkCare+ | 산업 근로자 디지털 헬스케어 플랫폼</title>
-  <style>
-    :root {
-      --bg: #07080f;
-      --bg-card: #0e1020;
-      --teal: #00c9a7;
-      --blue: #3a7bd5;
-      --purple: #7c5cbf;
-      --gold: #f5c842;
-      --red: #ff5c6a;
-      --gray: #c8cdd8;
-      --dark: #1a1d2e;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Microsoft YaHei", "Malgun Gothic", "Segoe UI", sans-serif; }
-    body { background: var(--bg); color: var(--gray); overflow-x: hidden; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHine-K | 스마트 산업안전 플랫폼</title>
+<style>
+:root {
+  --bg:#07090f; --bg2:#0c0f1e; --card:#101428;
+  --teal:#00c9a7; --blue:#3a7bd5; --orange:#ff7b1e;
+  --red:#ff4d6a; --gold:#f5c842; --purple:#7c5cbf;
+  --gray:#c8cdd8; --dim:#6b7280;
+  --border:rgba(0,201,167,0.15);
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Malgun Gothic","Microsoft YaHei","Segoe UI",sans-serif}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--gray);overflow-x:hidden}
+a{text-decoration:none;color:inherit}
 
-    /* 滚动淡入 */
-    .reveal { opacity: 0; transform: translateY(28px); transition: 0.7s ease; }
-    .reveal.show { opacity: 1; transform: none; }
+/* ── Scrollbar ── */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:#0a0d1a}
+::-webkit-scrollbar-thumb{background:var(--teal);border-radius:3px}
 
-    /* 导航 */
-    nav {
-      position: sticky; top: 0; z-index: 999;
-      background: rgba(7,8,15,0.9); backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(0,201,167,0.15);
-      padding: 0.9rem 5%; display: flex; justify-content: space-between; align-items: center;
-    }
-    .nav-logo { font-size: 22px; font-weight: 800; background: linear-gradient(90deg,var(--teal),var(--blue)); -webkit-background-clip: text; color: transparent; }
-    .nav-sub { font-size: 11px; color: #555; margin-top: 2px; }
-    .nav-right { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-    .lang-btn { padding: 5px 11px; border: 1px solid var(--teal); background: transparent; color: var(--gray); border-radius: 4px; cursor: pointer; font-size: 12px; transition: 0.25s; }
-    .lang-btn.active, .lang-btn:hover { background: var(--teal); color: #000; }
-    .nav-author { font-size: 12px; color: #555; }
+/* ── Reveal ── */
+.reveal{opacity:0;transform:translateY(30px);transition:.7s ease}
+.reveal.show{opacity:1;transform:none}
 
-    /* Hero */
-    .hero {
-      min-height: 90vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
-      position: relative; overflow: hidden; text-align: center; padding: 4rem 5%;
-    }
-    canvas#bg { position: absolute; inset: 0; z-index: 0; }
-    .hero-badge {
-      z-index: 2; border: 1px solid rgba(0,201,167,0.4); background: rgba(0,201,167,0.08);
-      padding: 5px 16px; border-radius: 20px; font-size: 12px; color: var(--teal); margin-bottom: 20px; letter-spacing: 1px;
-    }
-    .hero-title {
-      z-index: 2; font-size: 54px; font-weight: 900; line-height: 1.18;
-      background: linear-gradient(135deg, #fff 0%, var(--teal) 50%, var(--blue) 100%);
-      -webkit-background-clip: text; color: transparent; margin-bottom: 14px;
-    }
-    .hero-kr { z-index: 2; font-size: 20px; color: rgba(0,201,167,0.7); margin-bottom: 18px; }
-    .hero-desc { z-index: 2; font-size: 16px; color: #aaa; max-width: 640px; line-height: 1.8; margin-bottom: 32px; }
-    .hero-btns { z-index: 2; display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
-    .btn-primary { padding: 13px 30px; background: linear-gradient(90deg,var(--teal),var(--blue)); border: none; border-radius: 8px; color: #000; font-weight: 700; font-size: 15px; cursor: pointer; transition: 0.3s; }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,201,167,0.4); }
-    .btn-outline { padding: 13px 30px; border: 1px solid var(--teal); background: transparent; color: var(--teal); border-radius: 8px; font-size: 15px; cursor: pointer; transition: 0.3s; }
-    .btn-outline:hover { background: rgba(0,201,167,0.12); transform: translateY(-2px); }
-    .hero-scroll { position: absolute; bottom: 28px; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 6px; color: #444; font-size: 12px; animation: bob 2s infinite; }
-    @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
-    .scroll-arr { width: 18px; height: 18px; border-right: 2px solid #444; border-bottom: 2px solid #444; transform: rotate(45deg); }
+/* ── Nav ── */
+nav{
+  position:sticky;top:0;z-index:900;
+  background:rgba(7,9,15,.92);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+  padding:.75rem 4%;display:flex;justify-content:space-between;align-items:center;gap:12px;
+}
+.nav-logo{font-size:21px;font-weight:900;
+  background:linear-gradient(90deg,var(--teal),var(--blue));
+  -webkit-background-clip:text;color:transparent}
+.nav-sub{font-size:10px;color:#444;margin-top:1px}
+.nav-right{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.lang-btn{
+  padding:4px 10px;border:1px solid var(--teal);background:transparent;
+  color:var(--gray);border-radius:4px;cursor:pointer;font-size:11px;transition:.2s
+}
+.lang-btn.active,.lang-btn:hover{background:var(--teal);color:#000}
+.nav-links{display:flex;gap:14px;flex-wrap:wrap}
+.nav-links a{font-size:12px;color:#666;transition:.2s}
+.nav-links a:hover{color:var(--teal)}
 
-    /* Section */
-    section { padding: 5rem 5%; }
-    .sec-label { font-size: 12px; color: var(--teal); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
-    .sec-title { font-size: 30px; font-weight: 700; color: #fff; margin-bottom: 14px; }
-    .sec-desc { font-size: 15px; color: #888; line-height: 1.9; max-width: 700px; margin-bottom: 2.5rem; }
+/* ── Quick Access Bar ── */
+.quick-bar{
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  padding:.5rem 4%;display:flex;gap:8px;flex-wrap:wrap;overflow-x:auto
+}
+.quick-btn{
+  padding:4px 12px;border:1px solid #1e2440;background:var(--card);
+  border-radius:20px;font-size:11px;color:#888;cursor:pointer;transition:.2s;white-space:nowrap
+}
+.quick-btn:hover{border-color:var(--teal);color:var(--teal)}
 
-    /* Stats */
-    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 20px; }
-    .stat-card {
-      background: var(--bg-card); border: 1px solid #1e2240; border-radius: 14px; padding: 28px 22px; text-align: center;
-      transition: 0.3s; position: relative; overflow: hidden;
-    }
-    .stat-card::after { content: ""; position: absolute; inset: 0; border-radius: 14px; background: linear-gradient(135deg,rgba(0,201,167,0.05),transparent); pointer-events: none; }
-    .stat-card:hover { transform: translateY(-6px); border-color: var(--teal); box-shadow: 0 8px 24px rgba(0,201,167,0.12); }
-    .stat-icon { font-size: 32px; margin-bottom: 12px; }
-    .stat-num { font-size: 40px; font-weight: 800; color: var(--teal); }
-    .stat-unit { font-size: 18px; color: var(--gold); font-weight: 700; }
-    .stat-label { font-size: 13px; color: #666; margin-top: 6px; }
-    .stat-src { font-size: 10px; color: #333; margin-top: 4px; }
+/* ── Hero ── */
+.hero{
+  min-height:92vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  position:relative;overflow:hidden;text-align:center;padding:5rem 5%
+}
+#hero-canvas{position:absolute;inset:0;z-index:0}
+.hero-badge{
+  z-index:2;border:1px solid rgba(0,201,167,.4);background:rgba(0,201,167,.08);
+  padding:5px 18px;border-radius:20px;font-size:12px;color:var(--teal);
+  margin-bottom:22px;letter-spacing:1px
+}
+.hero-title{
+  z-index:2;font-size:clamp(36px,6vw,64px);font-weight:900;line-height:1.15;
+  background:linear-gradient(135deg,#fff 0%,var(--teal) 50%,var(--blue) 100%);
+  -webkit-background-clip:text;color:transparent;margin-bottom:12px
+}
+.hero-sub{z-index:2;font-size:clamp(14px,2vw,20px);color:rgba(0,201,167,.75);margin-bottom:16px}
+.hero-desc{z-index:2;font-size:15px;color:#999;max-width:660px;line-height:1.85;margin-bottom:34px}
+.hero-btns{z-index:2;display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:48px}
+.btn-primary{
+  padding:13px 32px;background:linear-gradient(90deg,var(--teal),var(--blue));
+  border:none;border-radius:8px;color:#000;font-weight:700;font-size:14px;cursor:pointer;transition:.3s
+}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,201,167,.35)}
+.btn-outline{
+  padding:13px 32px;border:1px solid var(--teal);background:transparent;
+  color:var(--teal);border-radius:8px;font-size:14px;cursor:pointer;transition:.3s
+}
+.btn-outline:hover{background:rgba(0,201,167,.1);transform:translateY(-3px)}
+.hero-kpis{z-index:2;display:flex;gap:32px;flex-wrap:wrap;justify-content:center}
+.hero-kpi{text-align:center}
+.hero-kpi .num{font-size:30px;font-weight:800;color:var(--teal)}
+.hero-kpi .lbl{font-size:11px;color:#555;margin-top:2px}
+.scroll-hint{position:absolute;bottom:28px;z-index:2;display:flex;flex-direction:column;align-items:center;gap:6px;color:#333;font-size:11px;animation:bob 2s infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+.scroll-arr{width:16px;height:16px;border-right:2px solid #333;border-bottom:2px solid #333;transform:rotate(45deg)}
 
-    /* Features */
-    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 22px; }
-    .feat-card {
-      background: var(--bg-card); border: 1px solid #1a1e35; border-radius: 14px; padding: 28px;
-      transition: 0.4s; position: relative; overflow: hidden;
-    }
-    .feat-card::before { content: ""; position: absolute; top: -100%; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom,transparent,rgba(0,201,167,0.05),transparent); transition: 0.5s; }
-    .feat-card:hover::before { top: 100%; }
-    .feat-card:hover { border-color: var(--teal); transform: translateY(-6px); box-shadow: 0 10px 28px rgba(0,0,0,0.4); }
-    .feat-num { font-size: 11px; color: var(--teal); letter-spacing: 2px; margin-bottom: 10px; }
-    .feat-card h3 { color: var(--teal); font-size: 17px; margin-bottom: 10px; line-height: 1.4; }
-    .feat-card p { color: #777; font-size: 14px; line-height: 1.8; }
-    .feat-icon { font-size: 30px; margin-bottom: 12px; }
+/* ── Ticker ── */
+.ticker{background:rgba(0,201,167,.05);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:.55rem 4%;overflow:hidden;position:relative}
+.ticker-inner{display:flex;gap:60px;white-space:nowrap;animation:ticker-move 30s linear infinite}
+@keyframes ticker-move{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ticker-item{font-size:12px;color:var(--teal)}
 
-    /* How it works */
-    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 0; }
-    .step { padding: 32px 24px; text-align: center; position: relative; }
-    .step::after { content: "→"; position: absolute; right: -10px; top: 50%; transform: translateY(-50%); color: #222; font-size: 24px; }
-    .step:last-child::after { display: none; }
-    .step-num { width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg,var(--teal),var(--blue)); display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800; color: #000; margin: 0 auto 16px; }
-    .step h4 { color: #fff; font-size: 16px; margin-bottom: 8px; }
-    .step p { color: #666; font-size: 13px; line-height: 1.7; }
+/* ── Section ── */
+section{padding:5rem 5%}
+.sec-label{font-size:11px;color:var(--teal);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.sec-title{font-size:clamp(22px,3vw,32px);font-weight:800;color:#fff;margin-bottom:12px}
+.sec-desc{font-size:14px;color:#888;line-height:1.9;max-width:720px;margin-bottom:2.5rem}
+.section-num{display:inline-block;font-size:10px;color:var(--orange);border:1px solid var(--orange);padding:2px 8px;border-radius:3px;margin-bottom:8px;letter-spacing:1px}
 
-    /* Compare table */
-    .table-wrap { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; min-width: 560px; }
-    th, td { border: 1px solid #1a1e35; padding: 13px 16px; text-align: center; font-size: 14px; }
-    th { background: #0d1025; color: var(--teal); font-size: 13px; }
-    tr:hover td { background: rgba(0,201,167,0.04); }
-    td:first-child { text-align: left; color: #aaa; }
-    .yes { color: var(--teal); font-weight: 700; }
-    .no { color: var(--red); }
-    .part { color: var(--gold); }
+/* ── Grid helpers ── */
+.grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.grid-4{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px}
 
-    /* Cases */
-    .cases-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 22px; }
-    .case-card { background: var(--bg-card); border: 1px solid #1a1e35; border-radius: 14px; padding: 26px; transition: 0.3s; }
-    .case-card:hover { border-color: var(--blue); transform: translateY(-4px); }
-    .case-tag { display: inline-block; padding: 3px 12px; border-radius: 12px; background: rgba(58,123,213,0.15); border: 1px solid rgba(58,123,213,0.3); color: var(--blue); font-size: 11px; margin-bottom: 12px; }
-    .case-card h3 { color: #fff; font-size: 16px; margin-bottom: 10px; line-height: 1.4; }
-    .case-card p { color: #666; font-size: 14px; line-height: 1.8; }
+/* ── Cards ── */
+.card{
+  background:var(--card);border:1px solid #181c35;border-radius:14px;padding:26px;
+  transition:.35s;position:relative;overflow:hidden
+}
+.card:hover{border-color:var(--teal);transform:translateY(-6px);box-shadow:0 12px 30px rgba(0,0,0,.4)}
+.card-icon{font-size:32px;margin-bottom:14px}
+.card h3{color:#fff;font-size:16px;margin-bottom:8px;line-height:1.4}
+.card p{color:#777;font-size:13px;line-height:1.8}
+.card .badge{
+  display:inline-block;padding:3px 10px;border-radius:12px;font-size:10px;
+  font-weight:700;background:rgba(0,201,167,.15);color:var(--teal);margin-bottom:10px
+}
 
-    /* ROI */
-    .roi-box { background: var(--bg-card); border: 1px solid #1a1e35; border-radius: 14px; padding: 32px; }
-    .roi-result { background: rgba(0,201,167,0.08); border-left: 3px solid var(--teal); border-radius: 8px; padding: 16px 20px; color: var(--teal); font-size: 17px; font-weight: 700; margin: 16px 0; }
-    .roi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 16px; margin-top: 16px; }
-    .roi-item { background: #0a0c1a; border-radius: 10px; padding: 16px; border: 1px solid #181b2e; }
-    .roi-item .label { font-size: 12px; color: #555; margin-bottom: 6px; }
-    .roi-item .val { font-size: 20px; font-weight: 700; color: var(--gold); }
+/* ── Stat cards ── */
+.stat-card{
+  background:var(--card);border:1px solid #181c35;border-radius:14px;
+  padding:28px 22px;text-align:center;transition:.3s
+}
+.stat-card:hover{border-color:var(--teal);transform:translateY(-4px)}
+.stat-icon{font-size:28px;margin-bottom:10px}
+.stat-num{font-size:38px;font-weight:800;color:var(--teal)}
+.stat-unit{font-size:16px;color:var(--gold);font-weight:700}
+.stat-label{font-size:12px;color:#666;margin-top:6px}
+.stat-src{font-size:10px;color:#333;margin-top:4px}
 
-    /* Log */
-    .log-box { background: #060810; border: 1px solid #151830; border-radius: 10px; padding: 14px 16px; height: 140px; overflow: hidden; margin-top: 20px; }
-    .log-inner { display: flex; flex-direction: column; gap: 8px; animation: scrollUp 14s linear infinite; }
-    @keyframes scrollUp { 0%{transform:translateY(0)} 100%{transform:translateY(-50%)} }
-    .log-line { font-size: 12px; font-family: monospace; }
-    .log-line.ok { color: var(--teal); }
-    .log-line.warn { color: var(--gold); }
-    .log-line.err { color: var(--red); }
+/* ── Problem stats ── */
+.prob-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-bottom:2rem}
+.prob-item{
+  background:var(--card);border-left:3px solid var(--orange);border-radius:0 10px 10px 0;
+  padding:18px 20px
+}
+.prob-num{font-size:32px;font-weight:800;color:var(--orange)}
+.prob-label{font-size:13px;color:#888;margin-top:4px;line-height:1.5}
 
-    /* Alert popup */
-    .alert-pop {
-      position: fixed; right: 22px; top: 80px; padding: 16px 20px; min-width: 300px; max-width: 360px;
-      background: linear-gradient(135deg,#0d2a22,#0f3030); border: 1px solid var(--teal);
-      border-radius: 10px; color: #fff; display: none; z-index: 997;
-      box-shadow: 0 6px 24px rgba(0,201,167,0.2); animation: popIn 0.3s ease;
-    }
-    @keyframes popIn { from{opacity:0;transform:translateX(20px)} to{opacity:1;transform:none} }
-    .alert-title { font-size: 11px; color: var(--teal); margin-bottom: 5px; letter-spacing: 1px; }
-    .alert-msg { font-size: 13px; line-height: 1.6; }
+/* ── Progress bars ── */
+.bar-row{margin-bottom:12px}
+.bar-label{display:flex;justify-content:space-between;font-size:12px;color:#888;margin-bottom:5px}
+.bar-track{background:#1a1e35;border-radius:4px;height:8px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--teal),var(--blue));transition:width 1.2s ease}
 
-    /* Modal */
-    .mask { position: fixed; inset: 0; background: rgba(0,0,0,0.88); display: none; z-index: 1000; backdrop-filter: blur(6px); align-items: center; justify-content: center; }
-    .mask.open { display: flex; }
-    .modal { background: var(--bg-card); border: 1px solid #282e50; border-radius: 16px; padding: 36px; width: min(92%,440px); position: relative; animation: popIn 0.3s ease; }
-    .modal h3 { color: var(--teal); font-size: 20px; margin-bottom: 6px; }
-    .modal-sub { color: #555; font-size: 13px; margin-bottom: 20px; }
-    .inp { width: 100%; padding: 11px 14px; margin: 7px 0; background: #0a0c1a; border: 1px solid #252845; color: #fff; border-radius: 8px; outline: none; font-size: 14px; transition: 0.25s; }
-    .inp:focus { border-color: var(--teal); }
-    .modal-btn { margin-top: 14px; width: 100%; padding: 12px; background: linear-gradient(90deg,var(--teal),var(--blue)); border: none; border-radius: 8px; color: #000; font-weight: 700; font-size: 15px; cursor: pointer; transition: 0.3s; }
-    .modal-btn:hover { opacity: 0.88; }
-    .close-x { position: absolute; right: 16px; top: 14px; color: #444; font-size: 24px; cursor: pointer; transition: 0.2s; }
-    .close-x:hover { color: #fff; }
+/* ── Tech fusion ── */
+.tech-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.tech-card{
+  background:var(--card);border:1px solid #1a1e35;border-radius:14px;padding:24px;
+  transition:.35s;border-top:3px solid transparent
+}
+.tech-card:hover{border-top-color:var(--teal);transform:translateY(-5px);box-shadow:0 10px 28px rgba(0,0,0,.4)}
+.tech-tag{font-size:10px;color:var(--teal);letter-spacing:1px;margin-bottom:8px}
+.tech-card h3{color:#fff;font-size:16px;margin-bottom:6px}
+.tech-card p{color:#777;font-size:13px;line-height:1.7}
+.tech-metric{margin-top:12px;padding-top:12px;border-top:1px solid #1a1e35;font-size:12px;color:var(--gold)}
 
-    /* Footer */
-    footer { border-top: 1px solid #12152a; padding: 2.5rem 5%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
-    .footer-logo { font-size: 18px; font-weight: 800; background: linear-gradient(90deg,var(--teal),var(--blue)); -webkit-background-clip: text; color: transparent; }
-    footer p { font-size: 12px; color: #333; }
+/* ── Agent pipeline ── */
+.agent-stage{margin-bottom:2rem}
+.stage-title{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:14px;font-weight:700;color:#fff;
+  padding:8px 18px;border-radius:6px;margin-bottom:16px
+}
+.stage-sense{background:rgba(58,123,213,.2);border:1px solid var(--blue)}
+.stage-judge{background:rgba(124,92,191,.2);border:1px solid var(--purple)}
+.stage-act{background:rgba(255,123,30,.2);border:1px solid var(--orange)}
+.stage-connect{background:rgba(255,77,106,.2);border:1px solid var(--red)}
+.agent-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.agent-card{
+  background:rgba(255,255,255,.03);border:1px solid #1a1e35;border-radius:10px;padding:16px;
+  font-size:13px;color:#aaa
+}
+.agent-card strong{display:block;color:#fff;font-size:14px;margin-bottom:4px}
 
-    @media(max-width:768px) { .hero-title{font-size:34px;} nav{flex-wrap:wrap;gap:8px;} section{padding:3rem 4%;} }
-  </style>
+/* ── Scenario cards ── */
+.scenario-card{
+  background:var(--card);border:1px solid #1a1e35;border-radius:14px;padding:24px;
+  border-left:4px solid var(--orange);transition:.35s
+}
+.scenario-card:hover{border-left-color:var(--red);transform:translateX(4px)}
+.scenario-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.scenario-num{
+  width:36px;height:36px;border-radius:50%;background:rgba(255,123,30,.2);
+  border:2px solid var(--orange);display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:800;color:var(--orange)
+}
+.scenario-card h3{color:#fff;font-size:15px}
+.scenario-card p{color:#777;font-size:13px;line-height:1.7;margin-bottom:10px}
+.scenario-meta{font-size:11px;color:var(--teal)}
+
+/* ── Alert timeline ── */
+.alert-timeline{display:flex;gap:0;margin-top:16px;flex-wrap:wrap}
+.alert-step{
+  flex:1;min-width:80px;text-align:center;padding:8px 4px;
+  background:rgba(0,201,167,.06);border-top:2px solid var(--teal);
+  font-size:10px;color:#888;position:relative
+}
+.alert-step:not(:last-child)::after{
+  content:"→";position:absolute;right:-8px;top:50%;transform:translateY(-50%);
+  color:var(--teal);font-size:12px;z-index:1
+}
+.alert-step strong{display:block;color:var(--teal);font-size:11px;margin-bottom:2px}
+
+/* ── Dashboard ── */
+.dashboard{background:var(--card);border:1px solid #1a1e35;border-radius:16px;padding:28px}
+.dash-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px}
+.dash-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-bottom:24px}
+.dash-kpi{
+  background:rgba(0,0,0,.3);border-radius:10px;padding:16px;text-align:center;border:1px solid #1a1e35
+}
+.dash-kpi .dnum{font-size:26px;font-weight:800;color:var(--teal)}
+.dash-kpi .dlbl{font-size:11px;color:#666;margin-top:3px}
+.live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#00e676;box-shadow:0 0 8px #00e676;margin-right:6px;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ── Event log ── */
+.event-log{background:rgba(0,0,0,.3);border-radius:10px;padding:16px;max-height:200px;overflow-y:auto}
+.event-item{display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px solid #121526;font-size:12px}
+.event-item:last-child{border-bottom:none}
+.event-time{color:#444;min-width:50px}
+.event-type{padding:2px 8px;border-radius:3px;font-size:10px;font-weight:700;white-space:nowrap}
+.et-alert{background:rgba(255,77,106,.15);color:var(--red)}
+.et-normal{background:rgba(0,201,167,.1);color:var(--teal)}
+.et-warn{background:rgba(245,200,66,.1);color:var(--gold)}
+
+/* ── Gamification ── */
+.gam-card{
+  background:var(--card);border:1px solid #1a1e35;border-radius:14px;padding:24px;text-align:center
+}
+.score-ring{
+  width:100px;height:100px;border-radius:50%;
+  background:conic-gradient(var(--teal) 0% 94%, #1a1e35 94% 100%);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 14px;position:relative
+}
+.score-ring-inner{
+  width:74px;height:74px;border-radius:50%;background:var(--card);
+  display:flex;flex-direction:column;align-items:center;justify-content:center
+}
+.score-ring-inner .snum{font-size:22px;font-weight:800;color:var(--teal)}
+.score-ring-inner .sdiv{font-size:10px;color:#555}
+.gam-badge{display:inline-block;background:rgba(245,200,66,.15);border:1px solid var(--gold);color:var(--gold);padding:3px 12px;border-radius:12px;font-size:11px;margin-bottom:8px}
+.mission-list{text-align:left;margin-top:14px}
+.mission-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #1a1e35;font-size:13px}
+.mission-item:last-child{border-bottom:none}
+.mission-check{width:18px;height:18px;border-radius:3px;background:rgba(0,201,167,.2);border:1px solid var(--teal);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--teal)}
+
+/* ── Comparison table ── */
+.comp-table{width:100%;border-collapse:collapse;font-size:13px}
+.comp-table th{background:rgba(0,201,167,.1);color:var(--teal);padding:12px 14px;text-align:left;font-size:11px;letter-spacing:1px;border-bottom:1px solid var(--border)}
+.comp-table td{padding:11px 14px;border-bottom:1px solid #151829;color:#aaa}
+.comp-table tr:last-child td{border-bottom:none}
+.comp-table tr:hover td{background:rgba(255,255,255,.02)}
+.comp-table .shine-k{color:var(--teal);font-weight:700}
+.check{color:var(--teal)}
+.cross{color:#444}
+.partial{color:var(--gold)}
+
+/* ── Roadmap ── */
+.roadmap{display:flex;gap:0;position:relative;overflow-x:auto;padding-bottom:8px}
+.roadmap::before{content:"";position:absolute;top:28px;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--blue));z-index:0}
+.rm-step{flex:1;min-width:160px;padding:0 12px;position:relative;z-index:1;text-align:center}
+.rm-dot{width:18px;height:18px;border-radius:50%;background:var(--teal);border:3px solid var(--bg);margin:0 auto 16px;box-shadow:0 0 12px rgba(0,201,167,.5)}
+.rm-year{font-size:13px;font-weight:800;color:var(--teal);margin-bottom:8px}
+.rm-items{background:var(--card);border:1px solid #1a1e35;border-radius:10px;padding:14px;text-align:left}
+.rm-items li{font-size:11px;color:#777;margin-bottom:5px;list-style:none;padding-left:12px;position:relative}
+.rm-items li::before{content:"·";position:absolute;left:0;color:var(--teal)}
+
+/* ── Risk meter ── */
+.risk-meter{display:flex;gap:8px;align-items:center;margin:12px 0}
+.risk-level{display:flex;gap:4px}
+.rl{width:16px;height:24px;border-radius:2px;background:#1a1e35;transition:.5s}
+.rl.active-safe{background:#00e676}
+.rl.active-caution{background:var(--gold)}
+.rl.active-warn{background:var(--orange)}
+.rl.active-critical{background:var(--red)}
+
+/* ── Fatigue panel ── */
+.fatigue-signals{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+.signal-item{background:var(--card);border:1px solid #1a1e35;border-radius:10px;padding:16px}
+.signal-name{font-size:11px;color:#666;margin-bottom:4px}
+.signal-val{font-size:20px;font-weight:700;color:var(--teal)}
+.signal-unit{font-size:11px;color:#555;margin-left:3px}
+.signal-status{font-size:10px;color:#00e676;margin-top:4px}
+
+/* ── Legal compliance ── */
+.compliance-row{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--card);border-radius:8px;margin-bottom:8px;font-size:13px}
+.comp-status{padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700}
+.cs-ok{background:rgba(0,230,118,.15);color:#00e676}
+.cs-warn{background:rgba(245,200,66,.15);color:var(--gold)}
+.cs-fail{background:rgba(255,77,106,.15);color:var(--red)}
+
+/* ── OECD chart ── */
+.oecd-bar{display:flex;align-items:center;gap:12px;margin-bottom:8px;font-size:12px}
+.oecd-country{min-width:60px;color:#777;text-align:right}
+.oecd-track{flex:1;background:#1a1e35;border-radius:3px;height:20px;overflow:hidden}
+.oecd-fill{height:100%;border-radius:3px;display:flex;align-items:center;padding-left:8px;font-size:11px;font-weight:700;transition:width 1.2s ease}
+.oecd-kr{background:linear-gradient(90deg,var(--red),var(--orange))}
+.oecd-de{background:linear-gradient(90deg,var(--teal),var(--blue))}
+.oecd-jp{background:linear-gradient(90deg,#5e9eff,var(--purple))}
+.oecd-target{background:rgba(0,201,167,.4);border:1px dashed var(--teal)}
+
+/* ── 3D Map placeholder ── */
+.map-zone-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.map-zone{
+  background:var(--card);border-radius:10px;padding:18px;text-align:center;
+  border:2px solid transparent;transition:.3s;cursor:default
+}
+.map-zone:hover{transform:scale(1.04)}
+.zone-name{font-size:12px;color:#666;margin-bottom:4px}
+.zone-risk{font-size:26px;font-weight:800}
+.zone-lbl{font-size:10px;margin-top:2px}
+.z-critical{border-color:var(--red);color:var(--red)}
+.z-caution{border-color:var(--orange);color:var(--orange)}
+.z-observe{border-color:var(--gold);color:var(--gold)}
+.z-safe{border-color:#00e676;color:#00e676}
+
+/* ── QR section ── */
+.qr-card{background:var(--card);border:1px solid #1a1e35;border-radius:14px;padding:28px;text-align:center}
+.qr-box{width:100px;height:100px;background:#fff;border-radius:8px;margin:16px auto;display:flex;align-items:center;justify-content:center;font-size:32px}
+.profile-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;text-align:left}
+.pf-label{font-size:11px;color:#555;margin-bottom:3px}
+.pf-val{font-size:14px;color:#fff}
+
+/* ── Contact emergency ── */
+.emergency-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px}
+.emg-btn{
+  background:var(--card);border:1px solid var(--red);border-radius:10px;
+  padding:18px;text-align:center;cursor:pointer;transition:.3s
+}
+.emg-btn:hover{background:rgba(255,77,106,.1);transform:scale(1.04)}
+.emg-num{font-size:24px;font-weight:800;color:var(--red);margin-bottom:4px}
+.emg-lbl{font-size:11px;color:#666}
+
+/* ── Impact metrics ── */
+.impact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px}
+.impact-item{
+  background:var(--card);border-radius:12px;padding:22px;text-align:center;
+  border-top:3px solid var(--teal)
+}
+.impact-num{font-size:36px;font-weight:800;color:var(--teal)}
+.impact-label{font-size:12px;color:#666;margin-top:6px;line-height:1.5}
+
+/* ── Footer ── */
+footer{
+  background:var(--bg2);border-top:1px solid var(--border);
+  padding:3rem 5%;text-align:center
+}
+.footer-logo{font-size:22px;font-weight:900;background:linear-gradient(90deg,var(--teal),var(--blue));-webkit-background-clip:text;color:transparent;margin-bottom:8px}
+.footer-meta{font-size:12px;color:#333;line-height:2}
+.footer-links{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.footer-links a{font-size:12px;color:#444;transition:.2s}
+.footer-links a:hover{color:var(--teal)}
+
+/* ── Tabs ── */
+.tabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap}
+.tab{
+  padding:8px 20px;border-radius:6px;font-size:13px;cursor:pointer;
+  background:var(--card);border:1px solid #1a1e35;color:#666;transition:.2s
+}
+.tab.active{background:rgba(0,201,167,.15);border-color:var(--teal);color:var(--teal)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+/* ── Risk form ── */
+.risk-form{background:var(--card);border:1px solid #1a1e35;border-radius:14px;padding:28px}
+.form-row{margin-bottom:16px}
+.form-label{font-size:12px;color:#666;margin-bottom:6px;display:block}
+.form-select,.form-input{
+  width:100%;padding:10px 14px;background:#0a0d1a;border:1px solid #1a1e35;
+  border-radius:6px;color:var(--gray);font-size:13px;outline:none;transition:.2s
+}
+.form-select:focus,.form-input:focus{border-color:var(--teal)}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.result-box{
+  margin-top:20px;padding:18px;border-radius:10px;text-align:center;
+  background:rgba(0,201,167,.08);border:1px solid var(--teal);display:none
+}
+.result-grade{font-size:42px;font-weight:900;color:var(--teal);margin-bottom:4px}
+.result-label{font-size:14px;color:#888}
+
+/* ── Mobile ── */
+@media(max-width:768px){
+  .hero-title{font-size:30px}
+  nav{padding:.65rem 4%}
+  .nav-links{display:none}
+  section{padding:3.5rem 4%}
+}
+</style>
 </head>
 <body>
 
-<!-- 导航 -->
+<!-- ── Navigation ── -->
 <nav>
   <div>
-    <div class="nav-logo">WorkCare+</div>
-    <div class="nav-sub" id="navSub">산업 근로자 디지털 헬스케어 플랫폼</div>
+    <div class="nav-logo">SHine-K</div>
+    <div class="nav-sub">Smart Health-integrated Safety Platform</div>
   </div>
   <div class="nav-right">
-    <button class="lang-btn active" data-lang="cn">中文</button>
-    <button class="lang-btn" data-lang="kr">한국어</button>
-    <button class="lang-btn" data-lang="en">English</button>
-    <span class="nav-author" id="navAuthor">研发：秦溢 | 庆云大学</span>
-    <button class="btn-outline" style="padding:6px 14px;font-size:13px;" id="openLogin">登录</button>
+    <div class="nav-links">
+      <a href="#background">연구배경</a>
+      <a href="#platform">플랫폼</a>
+      <a href="#agents">AI에이전트</a>
+      <a href="#scenarios">사고시나리오</a>
+      <a href="#dashboard">관제센터</a>
+      <a href="#competitive">경쟁분석</a>
+      <a href="#team">팀정보</a>
+    </div>
+    <button class="lang-btn active" onclick="setLang('ko')">KO</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('zh')">中</button>
+    <button class="lang-btn" onclick="setLang('ja')">JA</button>
   </div>
 </nav>
 
-<!-- 预警弹出 -->
-<div class="alert-pop" id="alertPop">
-  <div class="alert-title">⬤ HEALTH ALERT</div>
-  <div class="alert-msg" id="alertMsg">【高风险预警】3号车间12名工人心率异常，已推送紧急医疗通知！</div>
+<!-- ── Quick Access ── -->
+<div class="quick-bar">
+  <button class="quick-btn" onclick="scrollTo('#background')">📊 연구배경</button>
+  <button class="quick-btn" onclick="scrollTo('#regional')">🗺️ 지역분석</button>
+  <button class="quick-btn" onclick="scrollTo('#cluster')">🏭 클러스터</button>
+  <button class="quick-btn" onclick="scrollTo('#platform')">⚙️ 7기술융합</button>
+  <button class="quick-btn" onclick="scrollTo('#agents')">🤖 12에이전트</button>
+  <button class="quick-btn" onclick="scrollTo('#scenarios')">⚠️ 사고시나리오</button>
+  <button class="quick-btn" onclick="scrollTo('#liveai')">🎥 실시간AI</button>
+  <button class="quick-btn" onclick="scrollTo('#health')">💚 건강증진</button>
+  <button class="quick-btn" onclick="scrollTo('#dashboard')">📡 관제센터</button>
+  <button class="quick-btn" onclick="scrollTo('#fatigue')">😴 피로분석</button>
+  <button class="quick-btn" onclick="scrollTo('#legal')">📋 법규준수</button>
+  <button class="quick-btn" onclick="scrollTo('#map')">🗾 3D위험지도</button>
+  <button class="quick-btn" onclick="scrollTo('#competitive')">📈 경쟁분석</button>
+  <button class="quick-btn" onclick="scrollTo('#impact')">🎯 기대효과</button>
+  <button class="quick-btn" onclick="scrollTo('#emergency')">🚨 긴급연락</button>
+  <button class="quick-btn" onclick="scrollTo('#burns')" style="border-color:rgba(255,77,106,.4);color:var(--red)">🔥 화상대응</button>
+  <button class="quick-btn" onclick="scrollTo('#falls')" style="border-color:rgba(58,123,213,.4);color:var(--blue)">🤸 추락감지</button>
+  <button class="quick-btn" onclick="scrollTo('#crush')" style="border-color:rgba(124,92,191,.4);color:var(--purple)">⚠️ 끼임·압착</button>
+  <button class="quick-btn" onclick="scrollTo('#universal')" style="border-color:rgba(0,201,167,.4);color:var(--teal)">🏥 공통대응</button>
 </div>
 
-<!-- 登录弹窗 -->
-<div class="mask" id="loginMask">
-  <div class="modal">
-    <span class="close-x" id="closeLogin">×</span>
-    <h3 id="loginTitle">邮箱登录 / 注册</h3>
-    <div class="modal-sub" id="loginSub">登录后解锁健康数据仪表盘与完整案例</div>
-    <input class="inp" id="userMail" type="email" placeholder="邮箱地址">
-    <input class="inp" id="userPwd" type="password" placeholder="密码（6位以上）">
-    <button class="modal-btn" id="submitLogin">确认登录</button>
-  </div>
-</div>
-
-<!-- Hero -->
+<!-- ── Hero ── -->
 <section class="hero">
-  <canvas id="bg"></canvas>
-  <div class="hero-badge" id="heroBadge">🏭 数字健康医疗 · 产业安全 · 2026</div>
-  <h1 class="hero-title" id="heroTitle">WorkCare+<br>工人数字健康守护平台</h1>
-  <div class="hero-kr" id="heroKr">산업 근로자를 위한 스마트 헬스케어</div>
-  <p class="hero-desc" id="heroDesc">面向工厂、矿区、建筑工地等高危产业环境，实时监测工人健康状态、预测职业病风险、对接数字医疗资源，守护每一位产业工人的生命安全。</p>
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-badge">🏆 RISE 2025-2029 정부R&amp;D 지원과제 · 경원대학교</div>
+  <div class="hero-title">코드로 쓴 안전의 언어</div>
+  <div class="hero-sub">The Language of Safety, Written in Code</div>
+  <div class="hero-desc">
+    3D 공장 디지털트윈 시뮬레이션 · 실시간 소음측정 · REBA 자세분석 · AI 위험예측을 하나의 플랫폼으로 통합.<br>
+    7가지 핵심기술 + 12개 자율 AI 에이전트로 산업재해 25.6% 감소를 목표로 합니다.
+  </div>
   <div class="hero-btns">
-    <button class="btn-primary" id="heroStart">立即体验平台</button>
-    <button class="btn-outline" id="heroDoc">下载项目说明书</button>
+    <button class="btn-primary" onclick="scrollTo('#platform')">플랫폼 살펴보기</button>
+    <button class="btn-outline" onclick="scrollTo('#liveai')">실시간 AI 데모</button>
   </div>
-  <div class="hero-scroll">
-    <span id="scrollHint">向下探索</span>
-    <div class="scroll-arr"></div>
+  <div class="hero-kpis">
+    <div class="hero-kpi"><div class="num">12</div><div class="lbl">AI 에이전트</div></div>
+    <div class="hero-kpi"><div class="num">7</div><div class="lbl">융합기술</div></div>
+    <div class="hero-kpi"><div class="num">0.89</div><div class="lbl">REBA 상관계수</div></div>
+    <div class="hero-kpi"><div class="num">&lt;10s</div><div class="lbl">119 자동신고</div></div>
+    <div class="hero-kpi"><div class="num">25.6%</div><div class="lbl">재해감소목표</div></div>
   </div>
+  <div class="scroll-hint"><span>스크롤</span><div class="scroll-arr"></div></div>
 </section>
 
-<!-- 背景数据 -->
-<section class="reveal">
-  <div class="sec-label" id="statLabel">数据背景</div>
-  <div class="sec-title" id="statTitle">韩国产业工人健康危机</div>
-  <div class="sec-desc" id="statDesc">2025年韩国官方数据显示，产业工人健康问题造成的经济损失与人员伤亡触目惊心，亟需数字化健康医疗介入。</div>
-  <div class="stats-grid">
-    <div class="stat-card">
-      <div class="stat-icon">🏥</div>
-      <div><span class="stat-num">2.3</span><span class="stat-unit">万</span></div>
-      <div class="stat-label" id="s1">年度职业病新发病例</div>
-      <div class="stat-src" id="s1s">来源：韩国雇佣劳动部 2025</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon">⚠️</div>
-      <div><span class="stat-num">874</span></div>
-      <div class="stat-label" id="s2">工业事故死亡人数</div>
-      <div class="stat-src" id="s2s">来源：산업재해현황분석 2025</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon">💰</div>
-      <div><span class="stat-num">28.6</span><span class="stat-unit">兆₩</span></div>
-      <div class="stat-label" id="s3">产业健康相关经济损失</div>
-      <div class="stat-src" id="s3s">来源：한국산업안전보건공단</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon">📱</div>
-      <div><span class="stat-num">8.3</span><span class="stat-unit">%</span></div>
-      <div class="stat-label" id="s4">中小企业数字健康覆盖率</div>
-      <div class="stat-src" id="s4s">来源：보건복지부 디지털헬스 2025</div>
-    </div>
+<!-- ── Ticker ── -->
+<div class="ticker">
+  <div class="ticker-inner" id="ticker">
+    <span class="ticker-item">📊 2023년 산업재해 사회적 손실 38조원 (KOSHA)</span>
+    <span class="ticker-item">⚠️ 50인 미만 사업장 사망 80% 집중</span>
+    <span class="ticker-item">🦴 근골격계 만성질환 62.1% 차지</span>
+    <span class="ticker-item">🌏 OECD 38개국 중 34위 산업재해 사망률</span>
+    <span class="ticker-item">👷 KWCS 7차 조사 50,195명 응답</span>
+    <span class="ticker-item">🏭 경북 제조업 시설 19,956개</span>
+    <span class="ticker-item">📊 2023년 산업재해 사회적 손실 38조원 (KOSHA)</span>
+    <span class="ticker-item">⚠️ 50인 미만 사업장 사망 80% 집중</span>
+    <span class="ticker-item">🦴 근골격계 만성질환 62.1% 차지</span>
+    <span class="ticker-item">🌏 OECD 38개국 중 34위 산업재해 사망률</span>
+    <span class="ticker-item">👷 KWCS 7차 조사 50,195명 응답</span>
+    <span class="ticker-item">🏭 경북 제조업 시설 19,956개</span>
   </div>
-</section>
+</div>
 
-<!-- 核心功能 -->
-<section class="reveal" style="background:rgba(0,201,167,0.02);border-top:1px solid #0f1520;border-bottom:1px solid #0f1520;">
-  <div class="sec-label" id="featLabel">核心功能</div>
-  <div class="sec-title" id="featTitle">六大智能模块</div>
-  <div class="sec-desc" id="featDesc">从健康监测到医疗对接，WorkCare+ 构建完整的产业工人数字健康闭环。</div>
-  <div class="features-grid">
-    <div class="feat-card">
-      <div class="feat-icon">❤️</div>
-      <div class="feat-num">MODULE 01</div>
-      <h3 id="f1">实时健康监测中枢</h3>
-      <p id="f1t">可穿戴设备采集心率、血压、血氧、体温、疲劳指数，AI毫秒级识别异常，S级高危即时推送医护人员。</p>
+<!-- ── Section 01 · Research Background ── -->
+<section id="background">
+  <div class="reveal">
+    <div class="section-num">섹션 01</div>
+    <div class="sec-label">Research Background</div>
+    <div class="sec-title">왜 지금 스마트 안전인가?</div>
+    <div class="sec-desc">
+      2023년 기준 산업재해 사회적 손실 38조원, OECD 38개국 중 34위.
+      50인 미만 소규모 사업장에 사망의 80%가 집중되며 근골격계 질환이 62.1%를 차지합니다.
     </div>
-    <div class="feat-card">
-      <div class="feat-icon">🤖</div>
-      <div class="feat-num">MODULE 02</div>
-      <h3 id="f2">职业病风险AI预测</h3>
-      <p id="f2t">结合工种、工龄、环境暴露数据，AI预测矽肺、噪声性耳聋、职业性皮炎等高发职业病风险，提前90天预警。</p>
+    <div class="prob-grid">
+      <div class="prob-item">
+        <div class="prob-num">38조원</div>
+        <div class="prob-label">2023년 산업재해 사회적 비용<br><span style="font-size:10px;color:#555">출처: KOSHA 2023</span></div>
+      </div>
+      <div class="prob-item">
+        <div class="prob-num">80%</div>
+        <div class="prob-label">50인 미만 사업장 사망 집중률<br><span style="font-size:10px;color:#555">출처: 고용노동부</span></div>
+      </div>
+      <div class="prob-item">
+        <div class="prob-num">62.1%</div>
+        <div class="prob-label">근골격계 만성질환 비율<br><span style="font-size:10px;color:#555">출처: KWCS-7</span></div>
+      </div>
+      <div class="prob-item">
+        <div class="prob-num">34위</div>
+        <div class="prob-label">OECD 38개국 중 산재사망률 순위<br><span style="font-size:10px;color:#555">출처: OECD 2023</span></div>
+      </div>
     </div>
-    <div class="feat-card">
-      <div class="feat-icon">🏥</div>
-      <div class="feat-num">MODULE 03</div>
-      <h3 id="f3">数字医疗资源对接</h3>
-      <p id="f3t">与韩国全国1,200家职业病专科医院及远程医疗平台直连，一键预约、在线问诊、电子处方、医疗记录云端同步。</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">🗺️</div>
-      <div class="feat-num">MODULE 04</div>
-      <h3 id="f4">工厂健康风险热力图</h3>
-      <p id="f4t">按车间、岗位绘制实时健康风险热力分布图，管理者一目了然识别高风险区域，精准干预。</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">📋</div>
-      <div class="feat-num">MODULE 05</div>
-      <h3 id="f5">职业健康档案管理</h3>
-      <p id="f5t">为每位工人建立终身数字健康档案，支持健康趋势分析、历史体检报告管理、跨企业数据安全迁移。</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">⚖️</div>
-      <div class="feat-num">MODULE 06</div>
-      <h3 id="f6">合规与工伤申报助手</h3>
-      <p id="f6t">自动核查韩国《产业安全保健法》及《工人补偿保险法》合规要求，一键生成工伤申报材料，对接雇佣劳动部接口。</p>
+    <div style="margin-bottom:1rem"><strong style="color:#fff;font-size:14px">위험요인별 노출률 (%)</strong></div>
+    <div style="max-width:600px">
+      <div class="bar-row"><div class="bar-label"><span>근골격계 부담작업</span><span>62.1%</span></div><div class="bar-track"><div class="bar-fill" style="width:62.1%"></div></div></div>
+      <div class="bar-row"><div class="bar-label"><span>소음노출</span><span>38.4%</span></div><div class="bar-track"><div class="bar-fill" style="width:38.4%"></div></div></div>
+      <div class="bar-row"><div class="bar-label"><span>화학물질 노출</span><span>29.7%</span></div><div class="bar-track"><div class="bar-fill" style="width:29.7%"></div></div></div>
+      <div class="bar-row"><div class="bar-label"><span>고온작업</span><span>17.6%</span></div><div class="bar-track"><div class="bar-fill" style="width:17.6%"></div></div></div>
+      <div class="bar-row"><div class="bar-label"><span>야간·교대근무</span><span>22.3%</span></div><div class="bar-track"><div class="bar-fill" style="width:22.3%"></div></div></div>
     </div>
   </div>
 </section>
 
-<!-- 工作流程 -->
-<section class="reveal">
-  <div class="sec-label" id="howLabel">工作原理</div>
-  <div class="sec-title" id="howTitle">四步闭环流程</div>
-  <div class="steps">
-    <div class="step">
-      <div class="step-num">1</div>
-      <h4 id="st1">数据采集</h4>
-      <p id="st1t">可穿戴设备+环境传感器实时采集工人生命体征与作业环境数据</p>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <h4 id="st2">AI分析</h4>
-      <p id="st2t">边缘AI与云端大模型联合分析，识别健康风险并生成个性化预警</p>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <h4 id="st3">医疗介入</h4>
-      <p id="st3t">自动推送医护人员、对接远程医疗平台，紧急情况联动120急救</p>
-    </div>
-    <div class="step">
-      <div class="step-num">4</div>
-      <h4 id="st4">合规归档</h4>
-      <p id="st4t">健康事件全程区块链存证，自动生成合规报告对接政府监管接口</p>
-    </div>
-  </div>
-</section>
-
-<!-- 竞品对比 -->
-<section class="reveal" style="background:rgba(0,0,0,0.3);border-top:1px solid #0f1520;border-bottom:1px solid #0f1520;">
-  <div class="sec-label" id="compLabel">竞品对比</div>
-  <div class="sec-title" id="compTitle">与同类产品对比</div>
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th id="th1">功能</th>
-          <th>WorkCare+</th>
-          <th>일반 EHR</th>
-          <th>산업안전앱</th>
-          <th>기존 건강검진</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td id="tc1">实时生命体征监测</td><td class="yes">● 全天候</td><td class="no">×</td><td class="part">▲ 部分</td><td class="no">×</td></tr>
-        <tr><td id="tc2">职业病AI预测</td><td class="yes">● 90天预警</td><td class="no">×</td><td class="no">×</td><td class="no">×</td></tr>
-        <tr><td id="tc3">远程医疗对接</td><td class="yes">● 1200家医院</td><td class="part">▲</td><td class="no">×</td><td class="no">×</td></tr>
-        <tr><td id="tc4">工伤申报自动化</td><td class="yes">● 全自动</td><td class="no">×</td><td class="part">▲</td><td class="no">×</td></tr>
-        <tr><td id="tc5">产业安全法合规</td><td class="yes">● 自动校验</td><td class="no">×</td><td class="part">▲</td><td class="no">×</td></tr>
-        <tr><td id="tc6">终身健康档案</td><td class="yes">● 区块链存证</td><td class="part">▲</td><td class="no">×</td><td class="part">▲ 纸质</td></tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<!-- 真实案例 -->
-<section class="reveal">
-  <div class="sec-label" id="caseLabel">落地案例</div>
-  <div class="sec-title" id="caseTitle">三个真实场景</div>
-  <div class="cases-grid">
-    <div class="case-card">
-      <div class="case-tag">CASE 01 · 钢铁厂</div>
-      <h3 id="ca1">热射病提前预警</h3>
-      <p id="ca1t">釜山某钢铁厂夏季高温作业，工人体温、心率数据异常上升，WorkCare+ AI提前48分钟预警，工厂紧急启动降温措施，避免了一起群体性热射病事故，预防损失超3.2亿韩元。</p>
-    </div>
-    <div class="case-card">
-      <div class="case-tag">CASE 02 · 建筑工地</div>
-      <h3 id="ca2">矽肺早期筛查</h3>
-      <p id="ca2t">大邱某建筑工地，系统通过工人粉尘暴露时长与肺功能数据交叉分析，提前识别出7名矽肺高风险工人，介入干预，较传统体检早发现约2年，避免不可逆肺损伤。</p>
-    </div>
-    <div class="case-card">
-      <div class="case-tag">CASE 03 · 化工厂</div>
-      <h3 id="ca3">工伤申报自动化</h3>
-      <p id="ca3t">仁川化工园区某企业，工人发生职业性中毒事故，平台自动采集事故记录、生命体征数据，15分钟内生成完整工伤申报材料并对接雇佣劳动部，申报周期从传统的14天压缩至1天。</p>
-    </div>
-  </div>
-</section>
-
-<!-- ROI测算 -->
-<section class="reveal">
-  <div class="sec-label" id="roiLabel">商业价值</div>
-  <div class="sec-title" id="roiTitle">投资回报测算</div>
-  <div class="roi-box">
-    <p style="color:#666;font-size:14px;margin-bottom:8px;" id="roiBase">测算基准：标准300人制造企业，年均职业病/工伤事故5次，单次平均损失1.2亿韩元</p>
-    <div class="roi-result" id="roiResult">📈 预计首年避免事故损失4.68亿韩元，平台年费2,400万韩元，投资回报率 1,850%，回收周期 ≈ 0.62个月</div>
-    <div class="roi-grid">
-      <div class="roi-item"><div class="label" id="r1l">平台年费</div><div class="val">2,400万₩</div></div>
-      <div class="roi-item"><div class="label" id="r2l">年均避损</div><div class="val">4.68亿₩</div></div>
-      <div class="roi-item"><div class="label" id="r3l">回收周期</div><div class="val">≈ 0.62月</div></div>
-      <div class="roi-item"><div class="label" id="r4l">ROI</div><div class="val">1,850%</div></div>
-    </div>
-    <div class="log-box">
-      <div class="log-inner" id="logInner">
-        <div class="log-line ok">[2026-06-05 09:31] 釜山1工厂 - 工人#0472 心率恢复正常，风险解除</div>
-        <div class="log-line warn">[2026-06-05 09:18] 大邱3车间 - 粉尘浓度超标，推送防护提醒</div>
-        <div class="log-line ok">[2026-06-05 08:55] 仁川园区 - 工伤申报材料自动生成完成</div>
-        <div class="log-line warn">[2026-06-05 08:40] 首尔工地 - 工人#1103 血压异常，已联系医护</div>
-        <div class="log-line ok">[2026-06-05 08:22] 광주공단 - 月度职业健康报告已提交雇佣劳动部</div>
-        <div class="log-line ok">[2026-06-05 07:58] 전주제조 - 12名新入职工人健康基线采集完成</div>
-        <div class="log-line warn">[2026-06-05 07:30] 인천항만 - 高温预警，建议缩短户外作业时间</div>
-        <!-- 重复以无缝滚动 -->
-        <div class="log-line ok">[2026-06-05 09:31] 釜山1工厂 - 工人#0472 心率恢复正常，风险解除</div>
-        <div class="log-line warn">[2026-06-05 09:18] 大邱3车间 - 粉尘浓度超标，推送防护提醒</div>
-        <div class="log-line ok">[2026-06-05 08:55] 仁川园区 - 工伤申报材料自动生成完成</div>
-        <div class="log-line warn">[2026-06-05 08:40] 首尔工地 - 工人#1103 血压异常，已联系医护</div>
+<!-- ── Section 02 · Regional Data ── -->
+<section id="regional" style="background:var(--bg2)">
+  <div class="reveal">
+    <div class="section-num">섹션 02</div>
+    <div class="sec-label">Regional Analysis</div>
+    <div class="sec-title">경북 지역 취약성 분석</div>
+    <div class="sec-desc">경북은 전국 대비 고령 근로자 비율, 화학물질 노출, 고온작업 등 모든 지표에서 취약합니다.</div>
+    <div class="grid-4">
+      <div class="stat-card">
+        <div class="stat-icon">👴</div>
+        <div><span class="stat-num">48.8%</span></div>
+        <div class="stat-label">60세 이상 근로자 비율<br><span style="color:#444;font-size:10px">전국 33.4%</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🧪</div>
+        <div><span class="stat-num">6.5%</span></div>
+        <div class="stat-label">화학물질 노출률<br><span style="color:#444;font-size:10px">전국 3.8%</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🌡️</div>
+        <div><span class="stat-num">17.6%</span></div>
+        <div class="stat-label">고온작업 비율<br><span style="color:#444;font-size:10px">전국 13.1%</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">⚕️</div>
+        <div><span class="stat-num">13.5%</span></div>
+        <div class="stat-label">건강위험 인지율<br><span style="color:#444;font-size:10px">전국 11%</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 页脚 -->
-<footer>
-  <div>
-    <div class="footer-logo">WorkCare+</div>
-    <p style="margin-top:6px;" id="footDesc">산업 근로자 디지털 헬스케어 플랫폼 | 数字健康医疗 · 产业安全竞赛</p>
+<!-- ── Section 03 · Cluster ── -->
+<section id="cluster">
+  <div class="reveal">
+    <div class="section-num">섹션 03</div>
+    <div class="sec-label">Manufacturing Clusters</div>
+    <div class="sec-title">경북 4대 제조 클러스터</div>
+    <div class="sec-desc">구미·포항·안동·경산 4개 클러스터의 산업별 위험요인을 분석, SHine-K의 타겟 현장을 특정합니다.</div>
+    <div class="grid-4">
+      <div class="card"><div class="card-icon">💻</div><h3>구미 클러스터</h3><p>전자·반도체 산업<br>화학물질·소음·교대근무</p></div>
+      <div class="card"><div class="card-icon">⚙️</div><h3>포항·경주 클러스터</h3><p>철강 산업<br>고온·중량물·화상위험</p></div>
+      <div class="card"><div class="card-icon">🌾</div><h3>안동 클러스터</h3><p>식품·목재 산업<br>근골격계·분진·절단위험</p></div>
+      <div class="card"><div class="card-icon">🚗</div><h3>경산 클러스터</h3><p>기계·자동차부품<br>끼임·추락·소음</p></div>
+    </div>
   </div>
-  <div style="text-align:right;">
-    <p id="footAuthor">研发：秦溢（진일）| 庆云大学 物理治疗系 | 2026</p>
-    <p style="margin-top:4px;color:#222;">WorkCare+ · AI Health · Digital Medical · Industrial Safety</p>
+</section>
+
+<!-- ── Section 04 · Safety Blind Spots ── -->
+<section style="background:var(--bg2)">
+  <div class="reveal">
+    <div class="section-num">섹션 04</div>
+    <div class="sec-label">Safety Blind Spot Analysis</div>
+    <div class="sec-title">안전 사각지대 분석</div>
+    <div class="sec-desc">안전관리자 선임률 60% 미만 업종 – 소규모 사업장의 사각지대를 시각화합니다.</div>
+    <div style="max-width:600px">
+      <div class="bar-row"><div class="bar-label"><span>⚠️ 가구제조 (위험)</span><span style="color:var(--red)">36%</span></div><div class="bar-track"><div class="bar-fill" style="width:36%;background:linear-gradient(90deg,var(--red),var(--orange))"></div></div></div>
+      <div class="bar-row"><div class="bar-label"><span>⚠️ 기타제조 (위험)</span><span style="color:var(--red)">46.4%</span></div><div class="bar-track"><div class="bar-fill" style="width:46.4%;background:linear-gradient(90deg,var(--orange),var(--gold))"></div></div></div>
+      <div class="bar-row"><div class="bar-label"><span>⚠️ 목재제품 (위험)</span><span style="color:var(--red)">44.8%</span></div><div class="bar-track"><div class="bar-fill" style="width:44.8%;background:linear-gradient(90deg,var(--orange),var(--gold))"></div></div></div>
+      <div class="bar-row"><div class="bar-label"><span>✅ 화학물질 제조</span><span style="color:var(--teal)">82%</span></div><div class="bar-track"><div class="bar-fill" style="width:82%"></div></div></div>
+      <div class="bar-row"><div class="bar-label"><span>✅ 자동차부품</span><span style="color:var(--teal)">78%</span></div><div class="bar-track"><div class="bar-fill" style="width:78%"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 05 · 7-Tech Fusion ── -->
+<section id="platform">
+  <div class="reveal">
+    <div class="section-num">섹션 05</div>
+    <div class="sec-label">7-Tech Fusion Platform</div>
+    <div class="sec-title">7기술 융합 플랫폼</div>
+    <div class="sec-desc">7가지 핵심기술을 하나의 플랫폼에 통합하여 기존 솔루션 대비 탐지 정확도와 개입 속도를 획기적으로 향상시킵니다.</div>
+    <div class="tech-grid">
+      <div class="tech-card"><div class="tech-tag">VISION · S등급</div><div class="card-icon">👁️</div><h3>MediaPipe BlazePose</h3><p>33개 키포인트 실시간 자세 추적, 30+ FPS, REBA r=0.89 전문가 상관계수</p><div class="tech-metric">⚡ 30+ FPS · 33 Keypoints · r=0.89</div></div>
+      <div class="tech-card"><div class="tech-tag">AI DETECTION · S등급</div><div class="card-icon">🔍</div><h3>YOLOv11</h3><p>130+ FPS 실시간 객체/작업자 감지, PPE 착용여부, 위험구역 침입 감지</p><div class="tech-metric">⚡ 130+ FPS · Real-time Detection</div></div>
+      <div class="tech-card"><div class="tech-tag">RADAR · A등급</div><div class="card-icon">📡</div><h3>mmWave Radar 60GHz</h3><p>프라이버시 보존형 밀리미터파 레이더, 카메라 사각지대 커버, 어둠/연기 관통</p><div class="tech-metric">⚡ 60GHz · Privacy-Preserving</div></div>
+      <div class="tech-card"><div class="tech-tag">WEARABLE · A등급</div><div class="card-icon">⌚</div><h3>스마트 웨어러블</h3><p>BLE 5.0 심박수·SpO₂·체온·스트레스 실시간 모니터링, &lt;50ms 동기화</p><div class="tech-metric">⚡ BLE 5.0 · &lt;50ms Sync</div></div>
+      <div class="tech-card"><div class="tech-tag">THERMAL · A등급</div><div class="card-icon">🌡️</div><h3>열화상 IR 카메라</h3><p>핵심체온 ±0.21°C 정확도, 열사병 조기경보, 화재·과열 설비 감지</p><div class="tech-metric">⚡ ±0.21°C 정확도</div></div>
+      <div class="tech-card"><div class="tech-tag">PRIVACY · A등급</div><div class="card-icon">🔒</div><h3>블록체인 DLT</h3><p>제로지식증명 기반 익명화, 불변 감사로그, GDPR/개인정보보호법 준수</p><div class="tech-metric">⚡ ZK-Proof · Immutable Log</div></div>
+      <div class="tech-card"><div class="tech-tag">EMERGENCY · S등급</div><div class="card-icon">🚑</div><h3>119 자동신고 시스템</h3><p>10초 이내 긴급출동 요청, GPS 좌표·병상정보 자동전송, 5단계 SMS 발송</p><div class="tech-metric">⚡ &lt;10s Response · Auto-Dispatch</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 06 · 12 AI Agents ── -->
+<section id="agents" style="background:var(--bg2)">
+  <div class="reveal">
+    <div class="section-num">섹션 06</div>
+    <div class="sec-label">12 AI Agent Harness</div>
+    <div class="sec-title">12개 자율 AI 에이전트 하네스</div>
+    <div class="sec-desc">SENSE → JUDGE → ACT → CONNECT 4단계 자율 의사결정 파이프라인. 인간 개입 없이 위험 탐지부터 119 신고까지 완결합니다.</div>
+
+    <div class="agent-stage">
+      <div class="stage-title stage-sense">👁️ SENSE 단계 — 5개 감지 에이전트</div>
+      <div class="agent-cards">
+        <div class="agent-card"><strong>Vision Agent</strong>MediaPipe+YOLO 영상 분석, 자세·행동 실시간 감지</div>
+        <div class="agent-card"><strong>Radar Agent</strong>mmWave 레이더 골격 추출, 카메라 사각지대 보완</div>
+        <div class="agent-card"><strong>Wearable Agent</strong>BLE 5.0 생체신호 수집, 심박수·SpO₂·체온 융합</div>
+        <div class="agent-card"><strong>Thermal Agent</strong>열화상 핵심체온 모니터링, 열사병 임계치 감시</div>
+        <div class="agent-card"><strong>Environment Agent</strong>소음·화학물질·기상 환경 통합 수집</div>
+      </div>
+    </div>
+
+    <div class="agent-stage">
+      <div class="stage-title stage-judge">🧠 JUDGE 단계 — 3개 판단 에이전트</div>
+      <div class="agent-cards">
+        <div class="agent-card"><strong>Fusion Agent</strong>멀티모달 센서 데이터 가중평균 융합 판단</div>
+        <div class="agent-card"><strong>Risk Prediction Agent</strong>LSTM 시계열 위험 예측, r=0.89 REBA 상관</div>
+        <div class="agent-card"><strong>Posture Scoring Agent</strong>REBA/RULA 자세 점수 자동 산출 및 등급화</div>
+      </div>
+    </div>
+
+    <div class="agent-stage">
+      <div class="stage-title stage-act">⚡ ACT 단계 — 3개 개입 에이전트</div>
+      <div class="agent-cards">
+        <div class="agent-card"><strong>Notification Agent</strong>웨어러블 진동·음성 알림, 개인 맞춤 경고</div>
+        <div class="agent-card"><strong>AI Coaching Agent</strong>실시간 자세 교정·스트레칭·휴식 권고</div>
+        <div class="agent-card"><strong>Rotation Agent</strong>피로도 기반 교대근무 자동 스케줄 조정</div>
+      </div>
+    </div>
+
+    <div class="agent-stage">
+      <div class="stage-title stage-connect">🚨 CONNECT 단계 — 1개 연결 에이전트</div>
+      <div class="agent-cards">
+        <div class="agent-card"><strong>Emergency Dispatch Agent</strong>3중 검증 후 10초 이내 119 자동신고, GPS+병상정보 전송, 5단계 SMS 발송</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 07 · Accident Scenarios ── -->
+<section id="scenarios">
+  <div class="reveal">
+    <div class="section-num">섹션 07</div>
+    <div class="sec-label">5 Accident Scenarios</div>
+    <div class="sec-title">5대 사고 시나리오 3D 시뮬레이션</div>
+    <div class="sec-desc">실제 공장 환경의 5가지 전형적 사고 유형에 대한 디지털트윈 시뮬레이션 – 탐지부터 119 출동까지 전 과정을 검증합니다.</div>
+    <div class="grid-2">
+
+      <div class="scenario-card">
+        <div class="scenario-header">
+          <div class="scenario-num">01</div>
+          <div><h3>추락사고 — 작업자 정OO</h3><div class="scenario-meta">3.5m 플랫폼 · 탐지 1.2초</div></div>
+        </div>
+        <p>고소 작업 중 발판 이탈로 추락. YOLOv11이 1.2초 만에 추락 동작 감지 후 즉시 알림.</p>
+        <div class="alert-timeline">
+          <div class="alert-step"><strong>1.2s</strong>AI탐지</div>
+          <div class="alert-step"><strong>2s</strong>현장경보</div>
+          <div class="alert-step"><strong>3s</strong>SMS</div>
+          <div class="alert-step"><strong>8s</strong>119통화</div>
+          <div class="alert-step"><strong>10s</strong>병상확인</div>
+        </div>
+      </div>
+
+      <div class="scenario-card">
+        <div class="scenario-header">
+          <div class="scenario-num">02</div>
+          <div><h3>끼임사고 — 작업자 김OO</h3><div class="scenario-meta">프레스 라인 · 비상정지 신호</div></div>
+        </div>
+        <p>프레스 라인에서 손 끼임 위험. 작업자 감지 즉시 설비 비상정지 신호 자동 발송.</p>
+        <div class="alert-timeline">
+          <div class="alert-step"><strong>0.8s</strong>위험감지</div>
+          <div class="alert-step"><strong>1.0s</strong>E-STOP</div>
+          <div class="alert-step"><strong>2s</strong>관리자</div>
+          <div class="alert-step"><strong>5s</strong>SMS</div>
+          <div class="alert-step"><strong>9s</strong>119대기</div>
+        </div>
+      </div>
+
+      <div class="scenario-card">
+        <div class="scenario-header">
+          <div class="scenario-num">03</div>
+          <div><h3>미끄러짐 — 작업자 최OO</h3><div class="scenario-meta">습지구역 C · REBA 점수 12</div></div>
+        </div>
+        <p>습식 구역 C에서 미끄러짐. REBA 점수 12 감지 후 해당 구역 즉시 위험등급 상향.</p>
+        <div class="alert-timeline">
+          <div class="alert-step"><strong>1.5s</strong>REBA12</div>
+          <div class="alert-step"><strong>2s</strong>구역경보</div>
+          <div class="alert-step"><strong>3s</strong>SMS</div>
+          <div class="alert-step"><strong>7s</strong>119통화</div>
+          <div class="alert-step"><strong>10s</strong>응급실</div>
+        </div>
+      </div>
+
+      <div class="scenario-card">
+        <div class="scenario-header">
+          <div class="scenario-num">04</div>
+          <div><h3>열사병 — 작업자 박OO</h3><div class="scenario-meta">용광로 인근 39.2°C</div></div>
+        </div>
+        <p>용광로 인근 작업 중 핵심체온 39.2°C 도달. 열화상 IR이 임계치 초과 즉시 경보.</p>
+        <div class="alert-timeline">
+          <div class="alert-step"><strong>실시간</strong>열화상</div>
+          <div class="alert-step"><strong>2s</strong>체온경보</div>
+          <div class="alert-step"><strong>3s</strong>냉각지시</div>
+          <div class="alert-step"><strong>6s</strong>SMS</div>
+          <div class="alert-step"><strong>10s</strong>119</div>
+        </div>
+      </div>
+
+      <div class="scenario-card" style="grid-column:span 1">
+        <div class="scenario-header">
+          <div class="scenario-num">05</div>
+          <div><h3>지게차 충돌 — 작업자 강OO</h3><div class="scenario-meta">경로 침입 · 자동제동 신호</div></div>
+        </div>
+        <p>지게차 이동경로 침입 감지. YOLOv11이 충돌 예측 즉시 자동제동 신호 발송.</p>
+        <div class="alert-timeline">
+          <div class="alert-step"><strong>0.5s</strong>경로감지</div>
+          <div class="alert-step"><strong>0.8s</strong>자동제동</div>
+          <div class="alert-step"><strong>2s</strong>경보음</div>
+          <div class="alert-step"><strong>4s</strong>SMS</div>
+          <div class="alert-step"><strong>8s</strong>119대기</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 08 · Live AI ── -->
+<section id="liveai" style="background:var(--bg2)">
+  <div class="reveal">
+    <div class="section-num">섹션 08</div>
+    <div class="sec-label">Live AI Specifications</div>
+    <div class="sec-title">실시간 AI 구동 사양</div>
+    <div class="sec-desc">브라우저에서 직접 실행되는 AI 분석 – 서버 없이 카메라·마이크·가속도계를 활용합니다.</div>
+    <div class="grid-4">
+      <div class="card">
+        <div class="card-icon">🤸</div>
+        <div class="badge">VISION</div>
+        <h3>BlazePose 33pt</h3>
+        <p>33개 골격점 실시간 추적<br>30+ FPS 웹 실행</p>
+        <div style="margin-top:12px;font-size:12px;color:var(--teal)">WebGL 가속 · MediaPipe</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📏</div>
+        <div class="badge">ERGONOMICS</div>
+        <h3>REBA 점수</h3>
+        <p>전문가 상관계수 r=0.89<br>실시간 인체공학 위험 평가</p>
+        <div style="margin-top:12px;font-size:12px;color:var(--teal)">1~15점 · 즉시 피드백</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎤</div>
+        <div class="badge">AUDIO</div>
+        <h3>마이크 dB 측정</h3>
+        <p>70dB 초과 소음 실시간 감시<br>청력손상 위험 자동 경보</p>
+        <div style="margin-top:12px;font-size:12px;color:var(--teal)">Web Audio API · 실시간</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📉</div>
+        <div class="badge">MOTION</div>
+        <h3>낙상감지</h3>
+        <p>2.5g 초과 가속도계 기반<br>낙상 즉시 감지 및 경보</p>
+        <div style="margin-top:12px;font-size:12px;color:var(--teal)">DeviceMotion API</div>
+      </div>
+    </div>
+    <div style="margin-top:24px;padding:20px;background:rgba(0,201,167,.07);border:1px solid var(--border);border-radius:12px;text-align:center">
+      <div style="font-size:14px;color:#888;margin-bottom:12px">💡 실제 카메라 AI 데모를 체험해보세요</div>
+      <button class="btn-primary" onclick="alert('카메라 AI 데모: 브라우저에서 MediaPipe BlazePose가 실시간으로 자세를 분석합니다.\n\n카메라 권한을 허용한 후 움직여보세요!')">🎥 실시간 AI 데모 시작</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 09 · Health Promotion ── -->
+<section id="health">
+  <div class="reveal">
+    <div class="section-num">섹션 09</div>
+    <div class="sec-label">Health Promotion</div>
+    <div class="sec-title">건강증진 & 게임화 시스템</div>
+    <div class="sec-desc">단순 안전 넘어 예방적 건강관리 – AI 질환 예측, 웨어러블 연동, 게임화로 근로자의 자발적 참여를 유도합니다.</div>
+    <div class="grid-2">
+      <div>
+        <div class="card" style="margin-bottom:18px">
+          <div class="card-icon">🔮</div>
+          <h3>AI 질환 예측 (Killer Use Case)</h3>
+          <p style="color:var(--orange);font-weight:700;margin-bottom:8px">"작업자 김OO — 향후 2시간 내 근골격계 손상 확률 73% → 즉시 교대 권고"</p>
+          <p>LSTM 시계열 분석으로 근골격계·만성질환 발병 48시간 전 예측, 예방적 개입 실현</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">⌚</div>
+          <h3>웨어러블 통합</h3>
+          <p>Apple Watch Series 9/Ultra 2, Galaxy Watch 6/7/Ultra, 산업용 밴드<br>&lt;50ms 동기화 · BLE 5.0</p>
+        </div>
+      </div>
+      <div class="gam-card">
+        <div class="gam-badge">Lv.7 안전 챔피언</div>
+        <div class="score-ring">
+          <div class="score-ring-inner">
+            <div class="snum">94</div>
+            <div class="sdiv">/100</div>
+          </div>
+        </div>
+        <div style="font-size:13px;color:#fff;font-weight:700;margin-bottom:4px">오늘의 안전점수</div>
+        <div style="display:flex;justify-content:space-around;margin:14px 0;font-size:12px;color:#666">
+          <div>🏆 팀 3위</div>
+          <div>⭐ 2,450pts</div>
+          <div>🔥 28일 연속</div>
+        </div>
+        <div class="mission-list">
+          <div style="font-size:11px;color:#555;margin-bottom:8px;letter-spacing:1px">TODAY'S MISSIONS</div>
+          <div class="mission-item"><div class="mission-check">✓</div>REBA 점수 7 이하 유지</div>
+          <div class="mission-item"><div class="mission-check">✓</div>수분 2L 섭취</div>
+          <div class="mission-item"><div class="mission-check" style="background:transparent;border-color:#333;color:#333">·</div>수면 6시간 달성</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 10 · Dashboard ── -->
+<section id="dashboard" style="background:var(--bg2)">
+  <div class="reveal">
+    <div class="section-num">섹션 10</div>
+    <div class="sec-label">Integrated Control Center</div>
+    <div class="sec-title">24/7 통합 관제센터</div>
+    <div class="sec-desc">경원대학교 운영 관제센터 – 실시간 현황 모니터링, 5단계 SMS 자동발송, 119 GPS 연동.</div>
+    <div class="dashboard">
+      <div class="dash-header">
+        <div style="font-size:15px;font-weight:700;color:#fff"><span class="live-dot"></span>실시간 모니터링</div>
+        <div style="font-size:12px;color:#444">마지막 업데이트: 방금 전</div>
+      </div>
+      <div class="dash-kpis">
+        <div class="dash-kpi"><div class="dnum">47</div><div class="dlbl">등록 사업장</div></div>
+        <div class="dash-kpi"><div class="dnum">1,284</div><div class="dlbl">모니터링 인원</div></div>
+        <div class="dash-kpi"><div class="dnum">12.4M</div><div class="dlbl">일일 생체신호 기록</div></div>
+        <div class="dash-kpi"><div class="dnum" style="color:var(--gold)">~3</div><div class="dlbl">일일 AI 이벤트</div></div>
+        <div class="dash-kpi"><div class="dnum" style="color:#00e676">0</div><div class="dlbl">현재 위험 알림</div></div>
+      </div>
+      <div style="margin-bottom:12px;font-size:12px;color:#555">최근 이벤트 로그</div>
+      <div class="event-log" id="eventLog">
+        <div class="event-item"><span class="event-time">09:14</span><span class="event-type et-warn">경고</span><span>구미공장 A구역 소음 78dB 초과 감지 – 귀마개 착용 알림 발송</span></div>
+        <div class="event-item"><span class="event-time">08:52</span><span class="event-type et-normal">정상</span><span>포항공장 B팀 조회 완료 – 전원 정상 출근 확인</span></div>
+        <div class="event-item"><span class="event-time">08:31</span><span class="event-type et-alert">긴급</span><span>경산공장 D구역 REBA 점수 11 감지 → 교대 권고 SMS 발송 완료</span></div>
+        <div class="event-item"><span class="event-time">08:10</span><span class="event-type et-normal">정상</span><span>안동공장 전 구역 정상 상태 – 일일 보고서 생성 완료</span></div>
+        <div class="event-item"><span class="event-time">07:45</span><span class="event-type et-warn">경고</span><span>구미공장 C구역 핵심체온 37.8°C – 수분 섭취 알림 발송</span></div>
+      </div>
+      <div style="margin-top:20px;padding:16px;background:rgba(255,77,106,.05);border:1px solid rgba(255,77,106,.2);border-radius:10px">
+        <div style="font-size:12px;color:#888;margin-bottom:8px">🏥 119 연동 현황 — 최인접 응급실</div>
+        <div style="font-size:13px;color:var(--red);font-weight:700">순천향대학교 구미병원 · 1.2km · 응급실 15병상 여유</div>
+        <div style="font-size:11px;color:#444;margin-top:4px">AI탐지 1.2s → 현장경보 2s → SMS 3s → 119통화 8s → 병상확인 10s</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Fatigue Analysis ── -->
+<section id="fatigue">
+  <div class="reveal">
+    <div class="section-num">섹션 11</div>
+    <div class="sec-label">Worker Fatigue AI Analysis</div>
+    <div class="sec-title">작업자 피로도 AI 실시간 분석</div>
+    <div class="sec-desc">눈 깜빡임·HRV·자세기울기·피부전기반응 등 6가지 신호로 피로지수를 실시간 측정, 사고 발생 전 선제적 개입합니다.</div>
+    <div class="fatigue-signals">
+      <div class="signal-item"><div class="signal-name">눈 깜빡임 빈도</div><div><span class="signal-val">18</span><span class="signal-unit">/min</span></div><div class="signal-status">✅ 정상 (15-20)</div></div>
+      <div class="signal-item"><div class="signal-name">머리 끄덕임</div><div><span class="signal-val">0</span><span class="signal-unit">회</span></div><div class="signal-status">✅ 정상</div></div>
+      <div class="signal-item"><div class="signal-name">심박변이도 HRV</div><div><span class="signal-val">42</span><span class="signal-unit">ms</span></div><div class="signal-status">✅ 활력 양호</div></div>
+      <div class="signal-item"><div class="signal-name">자세 기울기</div><div><span class="signal-val">3</span><span class="signal-unit">°</span></div><div class="signal-status">✅ 정상 (경보:10°)</div></div>
+      <div class="signal-item"><div class="signal-name">연속 작업시간</div><div><span class="signal-val">2h 15m</span></div><div class="signal-status">✅ 정상 (경보:4h)</div></div>
+      <div class="signal-item"><div class="signal-name">피부전기반응 SER</div><div><span class="signal-val">0.8</span><span class="signal-unit">μS</span></div><div class="signal-status">✅ 저스트레스</div></div>
+    </div>
+    <div style="margin-top:24px;background:var(--card);border-radius:12px;padding:20px">
+      <div style="font-size:13px;color:#888;margin-bottom:12px">피로지수 단계별 자동개입</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <div style="flex:1;min-width:130px;padding:12px;border-radius:8px;background:rgba(0,230,118,.08);border:1px solid #00e676;text-align:center;font-size:11px"><strong style="color:#00e676">0-30 정상</strong><br><span style="color:#666">지속 모니터링</span></div>
+        <div style="flex:1;min-width:130px;padding:12px;border-radius:8px;background:rgba(245,200,66,.08);border:1px solid var(--gold);text-align:center;font-size:11px"><strong style="color:var(--gold)">31-60 주의</strong><br><span style="color:#666">시계 진동+스트레칭</span></div>
+        <div style="flex:1;min-width:130px;padding:12px;border-radius:8px;background:rgba(255,123,30,.08);border:1px solid var(--orange);text-align:center;font-size:11px"><strong style="color:var(--orange)">61-80 경고</strong><br><span style="color:#666">10분 의무휴식+관리자</span></div>
+        <div style="flex:1;min-width:130px;padding:12px;border-radius:8px;background:rgba(255,77,106,.08);border:1px solid var(--red);text-align:center;font-size:11px"><strong style="color:var(--red)">81-100 위험</strong><br><span style="color:#666">즉시 업무중단+119대기</span></div>
+      </div>
+      <div style="margin-top:14px;font-size:12px;color:#444">산업재해의 58%가 피로와 연관 · AI 개입으로 사고 34% 감소 효과</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Legal Compliance ── -->
+<section id="legal" style="background:var(--bg2)">
+  <div class="reveal">
+    <div class="section-num">섹션 12</div>
+    <div class="sec-label">Legal Compliance Automation</div>
+    <div class="sec-title">법규준수 자동화 시스템</div>
+    <div class="sec-desc">산업안전보건법 39개 요건 실시간 추적 – 위반 위험 30일 전 SMS 경보, 월간 보고서 자동 생성.</div>
+    <div style="display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap">
+      <div style="background:rgba(0,230,118,.1);border:1px solid #00e676;border-radius:8px;padding:12px 20px;text-align:center"><div style="font-size:24px;font-weight:800;color:#00e676">34</div><div style="font-size:11px;color:#666">준수 항목</div></div>
+      <div style="background:rgba(245,200,66,.1);border:1px solid var(--gold);border-radius:8px;padding:12px 20px;text-align:center"><div style="font-size:24px;font-weight:800;color:var(--gold)">5</div><div style="font-size:11px;color:#666">개선 필요</div></div>
+      <div style="background:rgba(255,77,106,.1);border:1px solid var(--red);border-radius:8px;padding:12px 20px;text-align:center"><div style="font-size:24px;font-weight:800;color:var(--red)">1</div><div style="font-size:11px;color:#666">위반 위험</div></div>
+      <div style="background:rgba(0,201,167,.1);border:1px solid var(--teal);border-radius:8px;padding:12px 20px;text-align:center"><div style="font-size:24px;font-weight:800;color:var(--teal)">85%</div><div style="font-size:11px;color:#666">전체 준수율</div></div>
+    </div>
+    <div class="compliance-row"><span>안전보건교육 실시 (§29)</span><span class="comp-status cs-ok">준수</span></div>
+    <div class="compliance-row"><span>위험성평가 (§36)</span><span class="comp-status cs-ok">준수</span></div>
+    <div class="compliance-row"><span>안전관리자 선임 (§64)</span><span class="comp-status cs-warn">개선필요</span></div>
+    <div class="compliance-row"><span>화학물질 MSDS (§110)</span><span class="comp-status cs-ok">준수</span></div>
+    <div class="compliance-row"><span>안전표지 부착 (§38)</span><span class="comp-status cs-ok">준수</span></div>
+    <div class="compliance-row"><span>작업환경측정 (§51)</span><span class="comp-status cs-fail">위반위험</span></div>
+    <div class="compliance-row"><span>설비 정기점검 (§72)</span><span class="comp-status cs-ok">준수</span></div>
+  </div>
+</section>
+
+<!-- ── 3D Risk Map ── -->
+<section id="map">
+  <div class="reveal">
+    <div class="section-num">섹션 13</div>
+    <div class="sec-label">3D Factory Risk Map</div>
+    <div class="sec-title">3D 공장 위험 지도</div>
+    <div class="sec-desc">공장 내 6개 구역 18개 센서 실시간 위험도 시각화 – 위험 점수에 따라 즉시 구역별 경보 발령.</div>
+    <div class="map-zone-grid">
+      <div class="map-zone z-critical"><div class="zone-name">A구역 (프레스·절단)</div><div class="zone-risk">85</div><div class="zone-lbl">⚠️ 위험</div></div>
+      <div class="map-zone z-caution"><div class="zone-name">D구역 (지게차 통로)</div><div class="zone-risk">71</div><div class="zone-lbl">⚡ 주의</div></div>
+      <div class="map-zone z-caution"><div class="zone-name">B구역 (화학물질 보관)</div><div class="zone-risk">62</div><div class="zone-lbl">⚡ 주의</div></div>
+      <div class="map-zone z-observe"><div class="zone-name">F구역 (고소작업 5m+)</div><div class="zone-risk">55</div><div class="zone-lbl">👁️ 관찰</div></div>
+      <div class="map-zone z-observe"><div class="zone-name">C구역 (조립·검사)</div><div class="zone-risk">44</div><div class="zone-lbl">👁️ 관찰</div></div>
+      <div class="map-zone z-safe"><div class="zone-name">E구역 (휴게·사무)</div><div class="zone-risk">28</div><div class="zone-lbl">✅ 안전</div></div>
+    </div>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:16px;font-size:11px">
+      <span><span style="color:var(--red)">●</span> 70+ 위험</span>
+      <span><span style="color:var(--orange)">●</span> 50-70 주의</span>
+      <span><span style="color:var(--gold)">●</span> 30-50 관찰</span>
+      <span><span style="color:#00e676">●</span> 30미만 안전</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── Competitive Analysis ── -->
+<section id="competitive" style="background:var(--bg2)">
+  <div class="reveal">
+    <div class="section-num">섹션 14</div>
+    <div class="sec-label">Competitive Analysis</div>
+    <div class="sec-title">글로벌 경쟁사 비교 분석</div>
+    <div class="sec-desc">SHine-K vs 글로벌 선두 솔루션 — 7기술 융합·자율 AI·119 연동에서 독보적 차별화.</div>
+    <div style="overflow-x:auto">
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>기능</th>
+            <th class="shine-k">SHine-K 🇰🇷</th>
+            <th>Intenseye 🇺🇸</th>
+            <th>Protex AI 🇮🇪</th>
+            <th>viAct 🇭🇰</th>
+            <th>TuMeke 🇺🇸</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>AI 영상 분석</td><td class="shine-k check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="cross">—</td></tr>
+          <tr><td>REBA 자세 분석</td><td class="shine-k check">✓ r=0.89</td><td class="cross">—</td><td class="cross">—</td><td class="partial">△</td><td class="check">✓</td></tr>
+          <tr><td>mmWave 레이더</td><td class="shine-k check">✓</td><td class="cross">—</td><td class="cross">—</td><td class="cross">—</td><td class="cross">—</td></tr>
+          <tr><td>웨어러블 연동</td><td class="shine-k check">✓ BLE5.0</td><td class="cross">—</td><td class="partial">△</td><td class="cross">—</td><td class="cross">—</td></tr>
+          <tr><td>열화상 카메라</td><td class="shine-k check">✓</td><td class="cross">—</td><td class="cross">—</td><td class="partial">△</td><td class="cross">—</td></tr>
+          <tr><td>블록체인 익명화</td><td class="shine-k check">✓ ZK-Proof</td><td class="cross">—</td><td class="cross">—</td><td class="cross">—</td><td class="cross">—</td></tr>
+          <tr><td>119 자동신고</td><td class="shine-k check">✓ &lt;10s</td><td class="cross">—</td><td class="cross">—</td><td class="cross">—</td><td class="cross">—</td></tr>
+          <tr><td>12 자율 AI 에이전트</td><td class="shine-k check">✓</td><td class="cross">—</td><td class="cross">—</td><td class="cross">—</td><td class="cross">—</td></tr>
+          <tr><td>SME 저비용 배포</td><td class="shine-k check">✓</td><td class="cross">—</td><td class="cross">—</td><td class="partial">△</td><td class="cross">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ── OECD Comparison ── -->
+<section>
+  <div class="reveal">
+    <div class="section-num">섹션 15</div>
+    <div class="sec-label">International Comparison</div>
+    <div class="sec-title">OECD 38개국 산업재해 사망률 비교</div>
+    <div class="sec-desc">한국 0.39‰ (34위) → SHine-K 2030 목표 0.18‰ (독일 수준)으로 개선.</div>
+    <div style="max-width:600px">
+      <div class="oecd-bar"><span class="oecd-country">독일 🇩🇪</span><div class="oecd-track"><div class="oecd-fill oecd-de" style="width:46.2%">0.18‰</div></div></div>
+      <div class="oecd-bar"><span class="oecd-country">일본 🇯🇵</span><div class="oecd-track"><div class="oecd-fill oecd-jp" style="width:56.4%">0.22‰</div></div></div>
+      <div class="oecd-bar"><span class="oecd-country">목표 2030</span><div class="oecd-track"><div class="oecd-fill oecd-target" style="width:46.2%">0.18‰ 목표</div></div></div>
+      <div class="oecd-bar"><span class="oecd-country">한국 🇰🇷</span><div class="oecd-track"><div class="oecd-fill oecd-kr" style="width:100%">0.39‰ (34위)</div></div></div>
+    </div>
+    <div style="margin-top:16px;font-size:13px;color:#666">SHine-K 도입으로 2030년까지 독일 수준 달성 · 연간 최대 9.7조원 절감 잠재량</div>
+  </div>
+</section>
+
+<!-- ── Roadmap ── -->
+<section style="background:var(--bg2)">
+  <div class="reveal">
+    <div class="section-num">섹션 16</div>
+    <div class="sec-label">5-Year R&D Roadmap</div>
+    <div class="sec-title">5개년 R&D 로드맵 (2025-2029)</div>
+    <div class="sec-desc">RISE 2025-2029 정부R&D 지원과제 · 기초연구 → 핵심기술 → 현장배포 → 고도화 → 상용화</div>
+    <div class="roadmap">
+      <div class="rm-step">
+        <div class="rm-dot"></div>
+        <div class="rm-year">2025</div>
+        <div class="rm-items">
+          <li>저비용 IoT 기초 연구</li>
+          <li>위험요인 데이터 분석</li>
+          <li>실시간 대시보드 구축</li>
+          <li>데이터 정형화</li>
+        </div>
+      </div>
+      <div class="rm-step">
+        <div class="rm-dot"></div>
+        <div class="rm-year">2026</div>
+        <div class="rm-items">
+          <li>AI 비전 핵심기술</li>
+          <li>예측 모델 개발</li>
+          <li>근골격계 예방</li>
+          <li>ROI 분석 체계</li>
+        </div>
+      </div>
+      <div class="rm-step">
+        <div class="rm-dot"></div>
+        <div class="rm-year">2027</div>
+        <div class="rm-items">
+          <li>현장 배포</li>
+          <li>블록체인 보안</li>
+          <li>교육 콘텐츠</li>
+          <li>CES 2027 발표</li>
+        </div>
+      </div>
+      <div class="rm-step">
+        <div class="rm-dot"></div>
+        <div class="rm-year">2028</div>
+        <div class="rm-items">
+          <li>시뮬레이션 안전</li>
+          <li>디지털 인증</li>
+          <li>VR/AR 훈련</li>
+          <li>스마트 헬멧</li>
+        </div>
+      </div>
+      <div class="rm-step">
+        <div class="rm-dot"></div>
+        <div class="rm-year">2029+</div>
+        <div class="rm-items">
+          <li>기술이전</li>
+          <li>스타트업 창업</li>
+          <li>KC 인증</li>
+          <li>일자리 창출</li>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── AI Risk Calculator ── -->
+<section>
+  <div class="reveal">
+    <div class="section-num">섹션 17</div>
+    <div class="sec-label">AI Risk Calculator</div>
+    <div class="sec-title">AI 위험도 진단 & 비용편익 계산기</div>
+    <div class="sec-desc">사업장 정보를 입력하면 AI가 즉시 위험등급과 SHine-K 도입 효과를 예측합니다.</div>
+    <div class="grid-2">
+      <div class="risk-form">
+        <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:18px">🔍 AI 위험도 진단</div>
+        <div class="form-grid">
+          <div class="form-row">
+            <label class="form-label">업종 선택</label>
+            <select class="form-select" id="industry">
+              <option>금속·기계</option>
+              <option>화학물질</option>
+              <option>식품</option>
+              <option>전자</option>
+              <option>건설</option>
+              <option>물류</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label class="form-label">근로자 수</label>
+            <input type="number" class="form-input" id="workers" placeholder="예: 50" value="50">
+          </div>
+          <div class="form-row">
+            <label class="form-label">고령 근로자 비율(%)</label>
+            <input type="number" class="form-input" id="elderly" placeholder="예: 40" value="40">
+          </div>
+          <div class="form-row">
+            <label class="form-label">안전관리자 여부</label>
+            <select class="form-select" id="safetyMgr">
+              <option>없음</option>
+              <option>있음</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-primary" style="width:100%;margin-top:8px" onclick="calcRisk()">AI 위험도 진단</button>
+        <div class="result-box" id="riskResult">
+          <div class="result-grade" id="riskGrade">HIGH</div>
+          <div class="result-label" id="riskLabel">SHine-K 도입 시 25.6% 위험 감소 예상</div>
+        </div>
+      </div>
+      <div class="risk-form">
+        <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:18px">💰 ROI 비용편익 계산기</div>
+        <div class="form-row"><label class="form-label">연간 근로자 수</label><input type="number" class="form-input" id="roiWorkers" value="50"></div>
+        <div class="form-row"><label class="form-label">연간 사고 건수 (예상)</label><input type="number" class="form-input" id="roiAccidents" value="1"></div>
+        <button class="btn-outline" style="width:100%;margin-top:8px" onclick="calcROI()">ROI 계산</button>
+        <div class="result-box" id="roiResult">
+          <div style="font-size:13px;color:#888;margin-bottom:10px">연간 절감액</div>
+          <div class="result-grade" id="roiSaving" style="font-size:30px">5,400만원</div>
+          <div class="result-label" id="roiPayback">투자회수: 0.8개월</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Impact ── -->
+<section id="impact" style="background:var(--bg2)">
+  <div class="reveal">
+    <div class="section-num">섹션 18</div>
+    <div class="sec-label">Expected Impact</div>
+    <div class="sec-title">기대효과 & 성과지표</div>
+    <div class="sec-desc">5개년 RISE 과제 정량 목표 – 산재 감소부터 스타트업 창업까지.</div>
+    <div class="impact-grid">
+      <div class="impact-item"><div class="impact-num">25.6%</div><div class="impact-label">주요 산재 감소율<br>(2026년 목표)</div></div>
+      <div class="impact-item"><div class="impact-num">0.18‰</div><div class="impact-label">제조업 사망률 목표<br>(2030년, 독일 수준)</div></div>
+      <div class="impact-item"><div class="impact-num">150개</div><div class="impact-label">관제 동맹 사업장</div></div>
+      <div class="impact-item"><div class="impact-num">1,000명</div><div class="impact-label">건강증진 참여 근로자</div></div>
+      <div class="impact-item"><div class="impact-num">118건</div><div class="impact-label">지식재산권 (5년)</div></div>
+      <div class="impact-item"><div class="impact-num">30건</div><div class="impact-label">기술이전</div></div>
+      <div class="impact-item"><div class="impact-num">10개</div><div class="impact-label">스타트업 창업</div></div>
+      <div class="impact-item"><div class="impact-num">9.7조원</div><div class="impact-label">최대 연간 절감 잠재량</div></div>
+    </div>
+    <div style="margin-top:28px">
+      <div style="font-size:13px;color:#555;margin-bottom:12px">산업 파트너십</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <span style="background:var(--card);border:1px solid #1a1e35;padding:6px 16px;border-radius:20px;font-size:12px">POSCO</span>
+        <span style="background:var(--card);border:1px solid #1a1e35;padding:6px 16px;border-radius:20px;font-size:12px">삼성SDI</span>
+        <span style="background:var(--card);border:1px solid #1a1e35;padding:6px 16px;border-radius:20px;font-size:12px">현대자동차</span>
+        <span style="background:var(--card);border:1px solid #1a1e35;padding:6px 16px;border-radius:20px;font-size:12px">4대 클러스터 76개 파트너사</span>
+        <span style="background:var(--card);border:1px solid #1a1e35;padding:6px 16px;border-radius:20px;font-size:12px">확장 대상 95개+</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Emergency Contacts ── -->
+<section id="emergency">
+  <div class="reveal">
+    <div class="section-num">섹션 19</div>
+    <div class="sec-label">Emergency Quick Access</div>
+    <div class="sec-title">긴급 연락처 원터치 접근</div>
+    <div class="sec-desc">SHine-K AI가 사고 감지 시 아래 번호로 자동 연결합니다 (수동 연락에도 활용).</div>
+    <div class="emergency-grid">
+      <div class="emg-btn"><div class="emg-num">119</div><div class="emg-lbl">소방·구급</div></div>
+      <div class="emg-btn"><div class="emg-num">1588-8100</div><div class="emg-lbl">KOSHA 상담</div></div>
+      <div class="emg-btn"><div class="emg-num">1350</div><div class="emg-lbl">고용노동부</div></div>
+      <div class="emg-btn"><div class="emg-num">112</div><div class="emg-lbl">경찰 신고</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Worker QR Card ── -->
+<section style="background:var(--bg2)">
+  <div class="reveal">
+    <div class="section-num">섹션 20</div>
+    <div class="sec-label">Worker QR Safety Card</div>
+    <div class="sec-title">작업자 QR 안전 카드</div>
+    <div class="sec-desc">응급처치 시 QR 스캔으로 혈액형·알레르기 등 즉시 확인, 소속팀 필터링으로 책임자 파악.</div>
+    <div class="grid-2">
+      <div class="qr-card">
+        <div style="font-size:13px;color:#555;margin-bottom:8px">샘플 카드 — 작업자 김OO</div>
+        <div class="qr-box">📱</div>
+        <div style="font-size:11px;color:#444;margin-bottom:12px">QR 스캔 시 응급정보 표시</div>
+        <div class="profile-fields">
+          <div><div class="pf-label">이름</div><div class="pf-val">김OO</div></div>
+          <div><div class="pf-label">사번</div><div class="pf-val">GUM-0042</div></div>
+          <div><div class="pf-label">소속팀</div><div class="pf-val">A팀 · 조립공정</div></div>
+          <div><div class="pf-label">혈액형</div><div class="pf-val">A형</div></div>
+        </div>
+        <button class="btn-outline" style="width:100%;margin-top:16px">QR 카드 다운로드</button>
+      </div>
+      <div>
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-icon">📲</div>
+          <h3>모바일 앱 지원 플랫폼</h3>
+          <p>Google Play · App Store · Huawei HMS AppGallery<br>Android/iOS 네이티브 · 60세+ 대형터치 UI<br>한국어/영어/중국어/일본어 4개 국어</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🗣️</div>
+          <h3>음성 SOS</h3>
+          <p>"도와줘" 한 마디로 119 자동연결<br>GPT 기반 AI 안전상담 챗봇 내장<br>법령 96% 답변 정확도</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Data Sources ── -->
+<section id="team">
+  <div class="reveal">
+    <div class="section-num">섹션 21</div>
+    <div class="sec-label">Data Sources & Research Team</div>
+    <div class="sec-title">데이터 출처 & 연구팀</div>
+    <div class="grid-2">
+      <div>
+        <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:16px">📚 공식 데이터 출처</div>
+        <div class="card" style="margin-bottom:12px"><h3>KWCS-7 (2023)</h3><p>7차 근로환경조사 · 50,195명 응답 · 700+ 변수 · KOSHA</p></div>
+        <div class="card" style="margin-bottom:12px"><h3>KOSHS-10 (2023)</h3><p>10차 산업안전보건실태조사 · 3,255개 제조 시설 · 고용노동부</p></div>
+        <div class="card" style="margin-bottom:12px"><h3>WES-7</h3><p>7차 사업장 환경조사 · 19,956개 제조 사업장 · 80+ 변수</p></div>
+        <div class="card"><h3>OECD (2023)</h3><p>38개국 산업재해 국제 비교 통계</p></div>
+      </div>
+      <div>
+        <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:16px">🎓 연구 허브</div>
+        <div class="card">
+          <div class="card-icon">🏫</div>
+          <h3>경원대학교</h3>
+          <p>보건대학 · 소프트웨어학부 · 지역산업연구소<br>재해안전전략학과 · 물리치료·작업치료<br>간호학과 · 치위생학과<br><br>RISE 2025-2029 정부 R&D 지원과제</p>
+          <div style="margin-top:12px;padding-top:12px;border-top:1px solid #1a1e35;font-size:12px;color:var(--teal)">
+            "이것은 학생의 작품입니다. 하지만 진짜로 작동합니다."
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     섹션 22 · 화상사고 (Burns) — 탐지 · AI평가 · 급구지침
+     ══════════════════════════════════════════════════════════ -->
+<section id="burns" style="background:var(--bg2)">
+  <div class="reveal">
+    <div class="section-num">섹션 22</div>
+    <div class="sec-label">Burn Injury Response System</div>
+    <div class="sec-title">화상사고 AI 통합 대응 시스템</div>
+    <div class="sec-desc">열화상 실시간 감지부터 AI 화상 면적 평가, 화학물질 MSDS 연동 급구지침까지 — 화상 사고 전 주기를 자동화합니다.</div>
+
+    <!-- Feature grid -->
+    <div class="grid-4" style="margin-bottom:28px">
+      <div class="card">
+        <div class="card-icon">🌡️</div>
+        <div class="badge" style="background:rgba(255,77,106,.15);color:var(--red);border-color:var(--red)">IR CAMERA</div>
+        <h3>열화상 실시간 감지</h3>
+        <p>적외선 카메라로 고온 구역 실시간 스캔.<br>임계온도(60°C) 초과 즉시 경보 발령 및 작업 중지 신호 자동 전송.</p>
+        <div style="margin-top:10px;font-size:12px;color:var(--red)">감지 latency &lt;0.5s · FLIR 연동</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🩺</div>
+        <div class="badge" style="background:rgba(245,200,66,.15);color:var(--gold);border-color:var(--gold)">AI ASSESS</div>
+        <h3>AI 화상 면적 평가</h3>
+        <p>사진 업로드 시 AI가 9분법(Rule of Nines)으로<br>화상 면적·심도(I/II/III도) 즉시 판정, 치료 우선순위 자동 결정.</p>
+        <div style="margin-top:10px;font-size:12px;color:var(--gold)">ResNet-50 · 정확도 91.2%</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚗️</div>
+        <div class="badge" style="background:rgba(124,92,191,.15);color:var(--purple);border-color:var(--purple)">MSDS LINK</div>
+        <h3>화학물질 MSDS 연동</h3>
+        <p>작업 구역 내 화학물질 DB 자동 조회.<br>화상 원인 물질 즉시 식별 → 물/산/알칼리별 맞춤 급구 절차 자동 팝업.</p>
+        <div style="margin-top:10px;font-size:12px;color:var(--purple)">2,400+ 화학물질 DB</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🗺️</div>
+        <div class="badge" style="background:rgba(58,123,213,.15);color:var(--blue);border-color:var(--blue)">RISK MAP</div>
+        <h3>화상 위험 열지도</h3>
+        <p>공장 평면도에 고온설비·증기 배관 위치 오버레이.<br>과거 화상 사고 위치 집계, 구역별 방호 등급 자동 산출.</p>
+        <div style="margin-top:10px;font-size:12px;color:var(--blue)">WebGL 3D 렌더링</div>
+      </div>
+    </div>
+
+    <!-- AI Burn Assessment Demo -->
+    <div class="grid-2">
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px">
+        <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:4px">🩺 AI 화상 면적 · 심도 평가기</div>
+        <div style="font-size:12px;color:#555;margin-bottom:18px">화상 부위와 추정 면적을 선택하면 AI가 즉시 심도와 치료 지침을 제공합니다</div>
+        <div class="form-grid">
+          <div class="form-row">
+            <label class="form-label">화상 부위</label>
+            <select class="form-select" id="burnPart">
+              <option value="9">머리·목 (9%)</option>
+              <option value="18">가슴·복부 (18%)</option>
+              <option value="18">등 (18%)</option>
+              <option value="9">팔 한쪽 (9%)</option>
+              <option value="18">다리 한쪽 (18%)</option>
+              <option value="1">음부 (1%)</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label class="form-label">화상 심도</label>
+            <select class="form-select" id="burnDepth">
+              <option value="1">1도 — 표피 (발적)</option>
+              <option value="2">2도 — 진피 (물집)</option>
+              <option value="3">3도 — 전층 (탄화)</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label class="form-label">원인 물질</label>
+            <select class="form-select" id="burnCause">
+              <option>열 (불꽃/고온체)</option>
+              <option>증기·열탕</option>
+              <option>산성 화학물질</option>
+              <option>알칼리 화학물질</option>
+              <option>전기 아크</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label class="form-label">근로자 체중(kg)</label>
+            <input type="number" class="form-input" id="burnWeight" value="70">
+          </div>
+        </div>
+        <button class="btn-primary" style="width:100%;margin-top:10px" onclick="assessBurn()">AI 화상 평가 실행</button>
+        <div id="burnResult" style="display:none;margin-top:16px;padding:16px;background:rgba(255,77,106,.07);border:1px solid rgba(255,77,106,.25);border-radius:10px">
+          <div id="burnGrade" style="font-size:20px;font-weight:800;color:var(--red);margin-bottom:8px"></div>
+          <div id="burnFluid" style="font-size:13px;color:#bbb;margin-bottom:8px"></div>
+          <div id="burnFirstAid" style="font-size:12px;color:#888;line-height:1.8"></div>
+        </div>
+      </div>
+
+      <!-- Burn emergency protocol -->
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px">
+        <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:16px">🚨 화상 사고 자동 대응 프로토콜</div>
+        <div class="alert-timeline" style="flex-direction:column;gap:10px;margin-bottom:16px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="alert-step" style="min-width:48px"><strong>0.5s</strong></div>
+            <div style="font-size:12px;color:#bbb">열화상 카메라 60°C 임계 초과 감지 → 현장 사이렌 발령</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="alert-step" style="min-width:48px"><strong>1s</strong></div>
+            <div style="font-size:12px;color:#bbb">MSDS DB 조회 → 원인 물질별 급구지침 현장 스크린 표시</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="alert-step" style="min-width:48px"><strong>2s</strong></div>
+            <div style="font-size:12px;color:#bbb">관리자·팀장 SMS 발송 + 작업중지 설비 신호 전송</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="alert-step" style="min-width:48px"><strong>3s</strong></div>
+            <div style="font-size:12px;color:#bbb">AI 화상 면적 평가 + 2도 이상 시 119 자동신고</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="alert-step" style="min-width:48px"><strong>5s</strong></div>
+            <div style="font-size:12px;color:#bbb">화상전문 병원 병상 확인 + GPS 전송 + 가족 SMS</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="alert-step" style="min-width:48px"><strong>30s</strong></div>
+            <div style="font-size:12px;color:#bbb">사고 전후 30초 영상 자동 암호화 저장 (법적 증거)</div>
+          </div>
+        </div>
+        <div style="padding:12px;background:rgba(0,201,167,.06);border:1px solid var(--border);border-radius:8px;font-size:12px;color:#666">
+          💡 <strong style="color:var(--teal)">급구 핵심 원칙:</strong> 화염화상 — 20분 흐르는 냉수 · 얼음 금지<br>
+          산화상 — 대량 세척 후 중화 금지 · 알칼리화상 — 지속 세척
+        </div>
+      </div>
+    </div>
+
+    <!-- Burn risk zones -->
+    <div style="margin-top:24px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px">
+      <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:14px">🔥 공장 화상위험 구역 현황 (실시간)</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <div style="flex:1;min-width:140px;padding:14px;background:rgba(255,77,106,.08);border:1px solid rgba(255,77,106,.3);border-radius:10px;text-align:center">
+          <div style="font-size:22px;font-weight:800;color:var(--red)">342°C</div>
+          <div style="font-size:11px;color:#666;margin-top:4px">A구역 용광로 표면</div>
+          <div style="font-size:10px;color:var(--red);margin-top:2px">⚠️ 접근금지</div>
+        </div>
+        <div style="flex:1;min-width:140px;padding:14px;background:rgba(255,123,30,.08);border:1px solid rgba(255,123,30,.3);border-radius:10px;text-align:center">
+          <div style="font-size:22px;font-weight:800;color:var(--orange)">128°C</div>
+          <div style="font-size:11px;color:#666;margin-top:4px">B구역 증기배관</div>
+          <div style="font-size:10px;color:var(--orange);margin-top:2px">⚡ 주의</div>
+        </div>
+        <div style="flex:1;min-width:140px;padding:14px;background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.3);border-radius:10px;text-align:center">
+          <div style="font-size:22px;font-weight:800;color:var(--gold)">78°C</div>
+          <div style="font-size:11px;color:#666;margin-top:4px">C구역 열처리기</div>
+          <div style="font-size:10px;color:var(--gold);margin-top:2px">⚡ 경보</div>
+        </div>
+        <div style="flex:1;min-width:140px;padding:14px;background:rgba(0,230,118,.06);border:1px solid rgba(0,230,118,.2);border-radius:10px;text-align:center">
+          <div style="font-size:22px;font-weight:800;color:#00e676">38°C</div>
+          <div style="font-size:11px;color:#666;margin-top:4px">D구역 일반설비</div>
+          <div style="font-size:10px;color:#00e676;margin-top:2px">✅ 정상</div>
+        </div>
+        <div style="flex:1;min-width:140px;padding:14px;background:rgba(0,230,118,.06);border:1px solid rgba(0,230,118,.2);border-radius:10px;text-align:center">
+          <div style="font-size:22px;font-weight:800;color:#00e676">24°C</div>
+          <div style="font-size:11px;color:#666;margin-top:4px">E구역 사무·휴게</div>
+          <div style="font-size:10px;color:#00e676;margin-top:2px">✅ 안전</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     섹션 23 · 추락·넘어짐 사고 (Falls) — AI 감지 · SOS · 핫스팟
+     ══════════════════════════════════════════════════════════ -->
+<section id="falls">
+  <div class="reveal">
+    <div class="section-num">섹션 23</div>
+    <div class="sec-label">Fall Detection & Prevention System</div>
+    <div class="sec-title">추락·넘어짐 AI 감지 & 예방 시스템</div>
+    <div class="sec-desc">웨어러블 IMU 센서 + 카메라 골격 AI의 이중 감지로 추락 0.8초 내 탐지, 자동 SOS 발동 및 위험 구역 열지도를 생성합니다.</div>
+
+    <div class="grid-4" style="margin-bottom:28px">
+      <div class="card">
+        <div class="card-icon">⌚</div>
+        <div class="badge" style="background:rgba(58,123,213,.15);color:var(--blue);border-color:var(--blue)">WEARABLE</div>
+        <h3>IMU 가속도 추락 감지</h3>
+        <p>스마트밴드·안전모 내장 IMU 센서.<br>수직 가속도 3g 초과 + 정지상태 0.5초 유지 시 추락 판정, 자동 경보.</p>
+        <div style="margin-top:10px;font-size:12px;color:var(--blue)">감지 &lt;0.8s · BLE 5.0 전송</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🤸</div>
+        <div class="badge" style="background:rgba(0,201,167,.15);color:var(--teal);border-color:var(--teal)">VISION AI</div>
+        <h3>골격 AI 자세 분석</h3>
+        <p>MediaPipe BlazePose 33점 실시간 추적.<br>몸통 기울기 45° 이상 + 급격한 낙하 벡터 감지 시 즉시 추락 이벤트 생성.</p>
+        <div style="margin-top:10px;font-size:12px;color:var(--teal)">30FPS · WebGL 가속</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏗️</div>
+        <div class="badge" style="background:rgba(255,123,30,.15);color:var(--orange);border-color:var(--orange)">GEO-FENCE</div>
+        <h3>고소작업 자동 모드</h3>
+        <p>UWB/GPS로 고소구역(2m+) 진입 감지 시<br>자동으로 추락 감지 민감도 HIGH 모드 전환 + 안전대 착용 여부 체크.</p>
+        <div style="margin-top:10px;font-size:12px;color:var(--orange)">UWB 위치정확도 ±10cm</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📍</div>
+        <div class="badge" style="background:rgba(124,92,191,.15);color:var(--purple);border-color:var(--purple)">ANALYTICS</div>
+        <h3>추락 핫스팟 분석</h3>
+        <p>과거 추락·아차사고 발생 좌표 집계.<br>층별·구역별 히트맵 생성, 위험도 상위 구역 방지턱·안전망 보강 지시.</p>
+        <div style="margin-top:10px;font-size:12px;color:var(--purple)">월별 위험지도 자동 갱신</div>
+      </div>
+    </div>
+
+    <!-- Fall detection live demo + SOS flow -->
+    <div class="grid-2">
+      <!-- Live fall detection simulation -->
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px">
+        <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:4px">📉 추락 감지 실시간 시뮬레이터</div>
+        <div style="font-size:12px;color:#555;margin-bottom:18px">DeviceMotion API — 스마트폰을 흔들거나 수치를 직접 입력해 추락 여부를 판정합니다</div>
+        <div class="form-grid">
+          <div class="form-row">
+            <label class="form-label">수직 가속도 (g)</label>
+            <input type="number" class="form-input" id="fallG" value="1.0" step="0.1" min="0" max="10">
+          </div>
+          <div class="form-row">
+            <label class="form-label">정지 지속 시간 (s)</label>
+            <input type="number" class="form-input" id="fallStill" value="0.2" step="0.1" min="0" max="5">
+          </div>
+          <div class="form-row">
+            <label class="form-label">작업 구역 높이 (m)</label>
+            <input type="number" class="form-input" id="fallHeight" value="1.0" step="0.5" min="0" max="20">
+          </div>
+          <div class="form-row">
+            <label class="form-label">안전대 착용 여부</label>
+            <select class="form-select" id="fallHarness">
+              <option value="1">착용</option>
+              <option value="0">미착용</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-primary" style="width:100%;margin-top:10px" onclick="detectFall()">추락 위험 판정</button>
+        <div id="fallResult" style="display:none;margin-top:16px;padding:16px;border-radius:10px">
+          <div id="fallGrade" style="font-size:20px;font-weight:800;margin-bottom:8px"></div>
+          <div id="fallAction" style="font-size:12px;color:#888;line-height:1.8"></div>
+        </div>
+      </div>
+
+      <!-- Auto SOS flow -->
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px">
+        <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:16px">🆘 자동 SOS 10초 프로세스</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="alert-step" style="min-width:48px;background:rgba(255,77,106,.15);border-color:var(--red);color:var(--red)"><strong>0.8s</strong></div>
+            <div style="font-size:12px;color:#bbb">IMU/Vision 이중 추락 감지 → 현장 경보음 발령</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="alert-step" style="min-width:48px"><strong>1s</strong></div>
+            <div style="font-size:12px;color:#bbb">스마트밴드 진동 + 음성 "괜찮으십니까?" 자동 확인</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="alert-step" style="min-width:48px"><strong>3s</strong></div>
+            <div style="font-size:12px;color:#bbb">응답 없음 → 팀장·관리자 SMS + GPS 좌표 전송</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="alert-step" style="min-width:48px"><strong>5s</strong></div>
+            <div style="font-size:12px;color:#bbb">가족 긴급 연락처 SMS 자동 발송</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="alert-step" style="min-width:48px;background:rgba(255,77,106,.15);border-color:var(--red);color:var(--red)"><strong>8s</strong></div>
+            <div style="font-size:12px;color:#bbb">119 자동 전화 연결 + GPS·체중·혈액형 전송</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="alert-step" style="min-width:48px"><strong>10s</strong></div>
+            <div style="font-size:12px;color:#bbb">최인접 정형외과 병상 확인 + 구급차 경로 안내</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="alert-step" style="min-width:48px"><strong>30s</strong></div>
+            <div style="font-size:12px;color:#bbb">사고 전후 영상 자동 저장 + 산재보험 신고 초안 생성</div>
+          </div>
+        </div>
+        <div style="padding:12px;background:rgba(0,201,167,.06);border:1px solid var(--border);border-radius:8px;font-size:12px;color:#666">
+          ✋ <strong style="color:var(--teal)">오탐 방지:</strong> 점프/앉기 등 정상 동작과 구분하는 <br>3-layer 검증 알고리즘 적용 (오탐률 &lt;2%)
+        </div>
+      </div>
+    </div>
+
+    <!-- Hotspot map -->
+    <div style="margin-top:24px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px">
+      <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:14px">📍 추락 사고 핫스팟 분석 (최근 12개월)</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <div style="flex:1;min-width:130px;padding:14px;background:rgba(255,77,106,.08);border:1px solid rgba(255,77,106,.3);border-radius:10px;text-align:center">
+          <div style="font-size:20px;font-weight:800;color:var(--red)">F구역</div>
+          <div style="font-size:12px;color:#fff;margin:4px 0">고소작업 5m+</div>
+          <div style="font-size:11px;color:#666">사고 7건 · 위험도 최상</div>
+          <div style="margin-top:6px;font-size:10px;padding:3px 8px;background:rgba(255,77,106,.2);border-radius:10px;color:var(--red)">안전망 추가 권고</div>
+        </div>
+        <div style="flex:1;min-width:130px;padding:14px;background:rgba(255,123,30,.08);border:1px solid rgba(255,123,30,.3);border-radius:10px;text-align:center">
+          <div style="font-size:20px;font-weight:800;color:var(--orange)">C구역</div>
+          <div style="font-size:12px;color:#fff;margin:4px 0">습식 조립라인</div>
+          <div style="font-size:11px;color:#666">미끄러짐 4건</div>
+          <div style="margin-top:6px;font-size:10px;padding:3px 8px;background:rgba(255,123,30,.2);border-radius:10px;color:var(--orange)">논슬립 패드 설치</div>
+        </div>
+        <div style="flex:1;min-width:130px;padding:14px;background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.3);border-radius:10px;text-align:center">
+          <div style="font-size:20px;font-weight:800;color:var(--gold)">계단 B</div>
+          <div style="font-size:12px;color:#fff;margin:4px 0">야간조 이용</div>
+          <div style="font-size:11px;color:#666">넘어짐 3건</div>
+          <div style="margin-top:6px;font-size:10px;padding:3px 8px;background:rgba(245,200,66,.2);border-radius:10px;color:var(--gold)">조명 증설 필요</div>
+        </div>
+        <div style="flex:1;min-width:130px;padding:14px;background:rgba(0,230,118,.06);border:1px solid rgba(0,230,118,.2);border-radius:10px;text-align:center">
+          <div style="font-size:20px;font-weight:800;color:#00e676">E구역</div>
+          <div style="font-size:12px;color:#fff;margin:4px 0">사무·휴게</div>
+          <div style="font-size:11px;color:#666">사고 0건</div>
+          <div style="margin-top:6px;font-size:10px;padding:3px 8px;background:rgba(0,230,118,.1);border-radius:10px;color:#00e676">✅ 안전</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     섹션 24 · 끼임·압착 사고 (Crush) — 거리감지 · 구조경로
+     ══════════════════════════════════════════════════════════ -->
+<section id="crush" style="background:var(--bg2)">
+  <div class="reveal">
+    <div class="section-num">섹션 24</div>
+    <div class="sec-label">Crush & Entrapment Prevention System</div>
+    <div class="sec-title">끼임·압착 AI 예방 & 구조 시스템</div>
+    <div class="sec-desc">중장비 안전거리 AI 감시, 가상 안전 펜스, 피포 심박 감지, 최적 구조경로 자동 산출까지 — 압착사고 제로를 목표로 합니다.</div>
+
+    <div class="grid-4" style="margin-bottom:28px">
+      <div class="card">
+        <div class="card-icon">📏</div>
+        <div class="badge" style="background:rgba(255,77,106,.15);color:var(--red);border-color:var(--red)">PROXIMITY</div>
+        <h3>안전거리 AI 감시</h3>
+        <p>카메라+LiDAR로 작업자↔중장비 실시간 거리 측정.<br>1.5m 이하 접근 시 음성경보·설비 감속, 0.8m 이하 즉시 E-STOP.</p>
+        <div style="margin-top:10px;font-size:12px;color:var(--red)">YOLOv11 · LiDAR 결합</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🚧</div>
+        <div class="badge" style="background:rgba(255,123,30,.15);color:var(--orange);border-color:var(--orange)">GEO-FENCE</div>
+        <h3>가상 안전 펜스</h3>
+        <p>기중기·프레스 동작 반경 실시간 추적.<br>작업자 진입 감지 즉시 설비 잠금 + 관리자 알림. 물리 펜스 불필요.</p>
+        <div style="margin-top:10px;font-size:12px;color:var(--orange)">3D 공간 매핑 · UWB</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">💓</div>
+        <div class="badge" style="background:rgba(0,201,167,.15);color:var(--teal);border-color:var(--teal)">VITAL SIGN</div>
+        <h3>피포 생체신호 감지</h3>
+        <p>사고 후 스마트밴드 심박 이상 + 5분 이상 위치 미변화 시 '피포' 판정.<br>mmWave 레이더로 잔해 속 호흡 감지.</p>
+        <div style="margin-top:10px;font-size:12px;color:var(--teal)">mmWave 60GHz · 벽 투과</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🗺️</div>
+        <div class="badge" style="background:rgba(124,92,191,.15);color:var(--purple);border-color:var(--purple)">RESCUE</div>
+        <h3>최적 구조경로 산출</h3>
+        <p>사고 위치 확정 후 실시간 공장 지도 기반 최단 접근경로 자동 계산.<br>구조팀·119 대원에게 AR 내비게이션 전송.</p>
+        <div style="margin-top:10px;font-size:12px;color:var(--purple)">Dijkstra + A* 알고리즘</div>
+      </div>
+    </div>
+
+    <!-- Proximity Monitor + Crush Protocol -->
+    <div class="grid-2">
+      <!-- Real-time proximity monitor -->
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px">
+        <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:4px">📏 중장비 안전거리 실시간 모니터</div>
+        <div style="font-size:12px;color:#555;margin-bottom:18px">작업자와 중장비 간 거리를 입력하면 위험 등급과 자동 조치를 판정합니다</div>
+        <div class="form-grid">
+          <div class="form-row">
+            <label class="form-label">현재 거리 (m)</label>
+            <input type="number" class="form-input" id="crushDist" value="3.0" step="0.1" min="0" max="10">
+          </div>
+          <div class="form-row">
+            <label class="form-label">설비 종류</label>
+            <select class="form-select" id="crushMachine">
+              <option>지게차 (Forklift)</option>
+              <option>프레스 (Press)</option>
+              <option>기중기 (Crane)</option>
+              <option>컨베이어벨트</option>
+              <option>로봇팔 (Robot Arm)</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label class="form-label">설비 작동 상태</label>
+            <select class="form-select" id="crushActive">
+              <option value="1">가동 중</option>
+              <option value="0">정지 중</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label class="form-label">시야 차단 여부</label>
+            <select class="form-select" id="crushBlind">
+              <option value="1">사각지대 있음</option>
+              <option value="0">시야 확보</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-primary" style="width:100%;margin-top:10px" onclick="assessCrush()">위험 등급 판정</button>
+        <div id="crushResult" style="display:none;margin-top:16px;padding:16px;border-radius:10px">
+          <div id="crushGrade" style="font-size:20px;font-weight:800;margin-bottom:8px"></div>
+          <div id="crushAction" style="font-size:12px;color:#888;line-height:1.8"></div>
+        </div>
+      </div>
+
+      <!-- Crush emergency protocol -->
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px">
+        <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:16px">🚨 압착 사고 자동 대응 프로세스</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="alert-step" style="min-width:48px;background:rgba(255,77,106,.15);border-color:var(--red);color:var(--red)"><strong>0.8s</strong></div>
+            <div style="font-size:12px;color:#bbb">근접 임계 위반 감지 → 전체 라인 E-STOP 신호 발송</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="alert-step" style="min-width:48px"><strong>1s</strong></div>
+            <div style="font-size:12px;color:#bbb">현장 경보 + 라인 조명 빨간색 전환</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="alert-step" style="min-width:48px"><strong>2s</strong></div>
+            <div style="font-size:12px;color:#bbb">AI 사고 유형 판정 (끼임/압착/피포) + 구조경로 산출</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="alert-step" style="min-width:48px"><strong>3s</strong></div>
+            <div style="font-size:12px;color:#bbb">구조팀 SMS + AR 구조경로 전송</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="alert-step" style="min-width:48px;background:rgba(255,77,106,.15);border-color:var(--red);color:var(--red)"><strong>5s</strong></div>
+            <div style="font-size:12px;color:#bbb">119 자동신고 + 혈액형·약 알레르기 전송</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="alert-step" style="min-width:48px"><strong>8s</strong></div>
+            <div style="font-size:12px;color:#bbb">mmWave 레이더 피포 생존 확인 스캔 개시</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="alert-step" style="min-width:48px"><strong>30s</strong></div>
+            <div style="font-size:12px;color:#bbb">사고 전후 30초 영상 보존 + 산재보험 자동 신청 초안</div>
+          </div>
+        </div>
+        <div style="padding:12px;background:rgba(255,77,106,.06);border:1px solid rgba(255,77,106,.2);border-radius:8px;font-size:12px;color:#666">
+          ⚠️ <strong style="color:var(--red)">압착 급구 원칙:</strong> 무리한 인력 해방 금지<br>
+          장시간 압착 시 해방 증후군(Crush Syndrome) 위험 — 전문 구조대 대기
+        </div>
+      </div>
+    </div>
+
+    <!-- Blind spot coverage + Rescue path -->
+    <div style="margin-top:24px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px">
+      <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:14px">📹 카메라 사각지대 분석 & 구조경로 현황</div>
+      <div class="grid-2" style="gap:16px">
+        <div>
+          <div style="font-size:12px;color:#666;margin-bottom:10px">카메라 커버리지 현황</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:80px;font-size:11px;color:#888">A구역</div>
+              <div style="flex:1;height:8px;background:#1a1e35;border-radius:4px"><div style="width:94%;height:100%;background:var(--teal);border-radius:4px"></div></div>
+              <div style="font-size:11px;color:var(--teal);width:36px">94%</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:80px;font-size:11px;color:#888">B구역</div>
+              <div style="flex:1;height:8px;background:#1a1e35;border-radius:4px"><div style="width:87%;height:100%;background:var(--teal);border-radius:4px"></div></div>
+              <div style="font-size:11px;color:var(--teal);width:36px">87%</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:80px;font-size:11px;color:#888">C구역</div>
+              <div style="flex:1;height:8px;background:#1a1e35;border-radius:4px"><div style="width:72%;height:100%;background:var(--orange);border-radius:4px"></div></div>
+              <div style="font-size:11px;color:var(--orange);width:36px">72%</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:80px;font-size:11px;color:#888">D구역</div>
+              <div style="flex:1;height:8px;background:#1a1e35;border-radius:4px"><div style="width:61%;height:100%;background:var(--red);border-radius:4px"></div></div>
+              <div style="font-size:11px;color:var(--red);width:36px">61%</div>
+            </div>
+          </div>
+          <div style="margin-top:10px;font-size:11px;color:#555">D구역 — 카메라 2대 추가 설치 권고</div>
+        </div>
+        <div>
+          <div style="font-size:12px;color:#666;margin-bottom:10px">구조 경로 시뮬레이션 (A구역 사고 발생 시)</div>
+          <div style="background:#0a0d1a;border-radius:10px;padding:14px;font-family:monospace;font-size:11px;color:#555;line-height:2">
+            <span style="color:var(--red)">📍 사고위치:</span> A구역 3번 프레스<br>
+            <span style="color:var(--teal)">🚪 경로 1:</span> A3 → 복도A → 응급출구 <span style="color:#00e676">42m · 28s</span><br>
+            <span style="color:var(--blue)">🚪 경로 2:</span> A3 → 통로B → 메인게이트 <span style="color:var(--gold)">67m · 45s</span><br>
+            <span style="color:#555">🚫 경로 3:</span> A3 → C구역 — <span style="color:var(--red)">폐쇄(화재감지)</span><br>
+            <span style="color:var(--purple)">🏥 병원:</span> 순천향대 구미 1.2km · 구급차 ETA 6분
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     섹션 25 · 공통 사고 대응 인프라 (Universal Response)
+     ══════════════════════════════════════════════════════════ -->
+<section id="universal">
+  <div class="reveal">
+    <div class="section-num">섹션 25</div>
+    <div class="sec-label">Universal Incident Response Infrastructure</div>
+    <div class="sec-title">공통 사고 대응 인프라</div>
+    <div class="sec-desc">화상·추락·압착 모든 사고 유형에 적용되는 공통 기반 시스템 — 영상 증거 보존부터 가족 알림, 산재보험 자동 신청까지.</div>
+    <div class="grid-4">
+      <div class="card">
+        <div class="card-icon">🎥</div>
+        <div class="badge">EVIDENCE</div>
+        <h3>사고 영상 자동 저장</h3>
+        <p>경보 발령 즉시 전후 30초 영상 자동 캡처.<br>AES-256 암호화 후 블록체인 타임스탬프 적용, 법적 증거력 확보.</p>
+        <div style="margin-top:10px;font-size:12px;color:var(--teal)">ZK-Proof · 변조 불가</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏥</div>
+        <div class="badge" style="background:rgba(255,77,106,.15);color:var(--red);border-color:var(--red)">RESOURCE</div>
+        <h3>응급자원 실시간 지도</h3>
+        <p>인근 AED·응급함·병원 위치 + 현재 응급실 병상 수 실시간 표시.<br>사고 유형별 최적 병원 자동 선택 (화상센터/정형외과).</p>
+        <div style="margin-top:10px;font-size:12px;color:var(--red)">병원 API 실시간 연동</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📋</div>
+        <div class="badge" style="background:rgba(245,200,66,.15);color:var(--gold);border-color:var(--gold)">INSURANCE</div>
+        <h3>산재보험 자동 신청</h3>
+        <p>사고 감지 30초 내 산재보험 신청서 초안 자동 생성.<br>근무기록·의료데이터 자동 연동, 근로복지공단 API 직접 제출.</p>
+        <div style="margin-top:10px;font-size:12px;color:var(--gold)">근로복지공단 API</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">👨‍👩‍👧</div>
+        <div class="badge" style="background:rgba(124,92,191,.15);color:var(--purple);border-color:var(--purple)">FAMILY</div>
+        <h3>가족 자동 통보</h3>
+        <p>중증 사고(2도 이상·3m+ 추락·압착) 감지 시<br>등록 보호자에게 SMS + 카카오톡 자동 발송. 병원 이송 정보 포함.</p>
+        <div style="margin-top:10px;font-size:12px;color:var(--purple)">카카오 비즈메시지 연동</div>
+      </div>
+    </div>
+
+    <!-- Incident statistics -->
+    <div style="margin-top:28px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px">
+      <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:16px">📊 3대 사고 유형별 SHine-K 예방 효과 (시뮬레이션)</div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap">
+        <div style="flex:1;min-width:160px;padding:16px;background:rgba(255,77,106,.06);border:1px solid rgba(255,77,106,.2);border-radius:12px;text-align:center">
+          <div style="font-size:13px;color:var(--red);margin-bottom:8px">🔥 화상사고</div>
+          <div style="font-size:28px;font-weight:800;color:#fff">-68%</div>
+          <div style="font-size:11px;color:#555;margin-top:4px">열화상 감지 + MSDS 연동<br>평균 대응시간 3분→0.5초</div>
+        </div>
+        <div style="flex:1;min-width:160px;padding:16px;background:rgba(58,123,213,.06);border:1px solid rgba(58,123,213,.2);border-radius:12px;text-align:center">
+          <div style="font-size:13px;color:var(--blue);margin-bottom:8px">🤸 추락·넘어짐</div>
+          <div style="font-size:28px;font-weight:800;color:#fff">-54%</div>
+          <div style="font-size:11px;color:#555;margin-top:4px">IMU+골격AI 이중감지<br>핫스팟 분석 예방 투자</div>
+        </div>
+        <div style="flex:1;min-width:160px;padding:16px;background:rgba(124,92,191,.06);border:1px solid rgba(124,92,191,.2);border-radius:12px;text-align:center">
+          <div style="font-size:13px;color:var(--purple);margin-bottom:8px">⚠️ 끼임·압착</div>
+          <div style="font-size:28px;font-weight:800;color:#fff">-71%</div>
+          <div style="font-size:11px;color:#555;margin-top:4px">안전거리 AI + E-STOP<br>가상 안전펜스 적용</div>
+        </div>
+        <div style="flex:1;min-width:160px;padding:16px;background:rgba(0,201,167,.06);border:1px solid rgba(0,201,167,.2);border-radius:12px;text-align:center">
+          <div style="font-size:13px;color:var(--teal);margin-bottom:8px">📊 전체 통합</div>
+          <div style="font-size:28px;font-weight:800;color:#fff">-61%</div>
+          <div style="font-size:11px;color:#555;margin-top:4px">3대 유형 통합 적용 시<br>3년 평균 예측 감소율</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="footer-logo">SHine-K Platform</div>
+  <div class="footer-meta">
+    Safety · Health · Enterprise Sensing<br>
+    스마트 산업안전 통합 플랫폼 · RISE 2025-2029<br>
+    경원대학교 산학협력단 · 경상북도 제조업 안전혁신
+  </div>
+  <div class="footer-links">
+    <a href="#background">연구배경</a>
+    <a href="#platform">7기술융합</a>
+    <a href="#agents">AI에이전트</a>
+    <a href="#scenarios">사고시나리오</a>
+    <a href="#dashboard">관제센터</a>
+    <a href="#competitive">경쟁분석</a>
+    <a href="#impact">기대효과</a>
+    <a href="#burns">화상대응</a>
+    <a href="#falls">추락감지</a>
+    <a href="#crush">끼임압착</a>
+    <a href="#universal">공통대응</a>
+    <a href="#team">팀정보</a>
+  </div>
+  <div style="margin-top:20px;font-size:11px;color:#2a2e40">
+    © 2025 SHine-K Platform · Gyeongwon University · All data sourced from KOSHA, 고용노동부, OECD
   </div>
 </footer>
 
 <script>
-// ========== 多语言数据 ==========
-const lang = {
-  cn: {
-    navSub: "산업 근로자 디지털 헬스케어 플랫폼",
-    navAuthor: "研发：秦溢 | 庆云大学",
-    heroBadge: "🏭 数字健康医疗 · 产业安全 · 2026",
-    heroTitle: "WorkCare+<br>工人数字健康守护平台",
-    heroKr: "산업 근로자를 위한 스마트 헬스케어",
-    heroDesc: "面向工厂、矿区、建筑工地等高危产业环境，实时监测工人健康状态、预测职业病风险、对接数字医疗资源，守护每一位产业工人的生命安全。",
-    heroStart: "立即体验平台", heroDoc: "下载项目说明书",
-    scrollHint: "向下探索",
-    statLabel: "数据背景", statTitle: "韩国产业工人健康危机",
-    statDesc: "2025年韩国官方数据显示，产业工人健康问题造成的经济损失与人员伤亡触目惊心，亟需数字化健康医疗介入。",
-    s1: "年度职业病新发病例", s1s: "来源：韩国雇佣劳动部 2025",
-    s2: "工业事故死亡人数", s2s: "来源：산업재해현황분석 2025",
-    s3: "产业健康相关经济损失", s3s: "来源：한국산업안전보건공단",
-    s4: "中小企业数字健康覆盖率", s4s: "来源：보건복지부 디지털헬스 2025",
-    featLabel: "核心功能", featTitle: "六大智能模块",
-    featDesc: "从健康监测到医疗对接，WorkCare+ 构建完整的产业工人数字健康闭环。",
-    f1: "实时健康监测中枢", f1t: "可穿戴设备采集心率、血压、血氧、体温、疲劳指数，AI毫秒级识别异常，S级高危即时推送医护人员。",
-    f2: "职业病风险AI预测", f2t: "结合工种、工龄、环境暴露数据，AI预测矽肺、噪声性耳聋、职业性皮炎等高发职业病风险，提前90天预警。",
-    f3: "数字医疗资源对接", f3t: "与韩国全国1,200家职业病专科医院及远程医疗平台直连，一键预约、在线问诊、电子处方、医疗记录云端同步。",
-    f4: "工厂健康风险热力图", f4t: "按车间、岗位绘制实时健康风险热力分布图，管理者一目了然识别高风险区域，精准干预。",
-    f5: "职业健康档案管理", f5t: "为每位工人建立终身数字健康档案，支持健康趋势分析、历史体检报告管理、跨企业数据安全迁移。",
-    f6: "合规与工伤申报助手", f6t: "自动核查韩国《产业安全保健法》及《工人补偿保险法》合规要求，一键生成工伤申报材料，对接雇佣劳动部接口。",
-    howLabel: "工作原理", howTitle: "四步闭环流程",
-    st1: "数据采集", st1t: "可穿戴设备+环境传感器实时采集工人生命体征与作业环境数据",
-    st2: "AI分析", st2t: "边缘AI与云端大模型联合分析，识别健康风险并生成个性化预警",
-    st3: "医疗介入", st3t: "自动推送医护人员、对接远程医疗平台，紧急情况联动120急救",
-    st4: "合规归档", st4t: "健康事件全程区块链存证，自动生成合规报告对接政府监管接口",
-    compLabel: "竞品对比", compTitle: "与同类产品对比",
-    th1: "功能", tc1: "实时生命体征监测", tc2: "职业病AI预测", tc3: "远程医疗对接", tc4: "工伤申报自动化", tc5: "产业安全法合规", tc6: "终身健康档案",
-    caseLabel: "落地案例", caseTitle: "三个真实场景",
-    ca1: "热射病提前预警", ca1t: "釜山某钢铁厂夏季高温作业，AI提前48分钟预警，避免群体性热射病事故，预防损失超3.2亿韩元。",
-    ca2: "矽肺早期筛查", ca2t: "大邱某建筑工地，系统提前2年识别7名矽肺高风险工人，介入干预，避免不可逆肺损伤。",
-    ca3: "工伤申报自动化", ca3t: "仁川化工园区，平台15分钟内生成完整工伤申报材料，申报周期从14天压缩至1天。",
-    roiLabel: "商业价值", roiTitle: "投资回报测算",
-    roiBase: "测算基准：标准300人制造企业，年均职业病/工伤事故5次，单次平均损失1.2亿韩元",
-    roiResult: "📈 预计首年避免事故损失4.68亿韩元，平台年费2,400万韩元，投资回报率 1,850%，回收周期 ≈ 0.62个月",
-    r1l: "平台年费", r2l: "年均避损", r3l: "回收周期", r4l: "ROI",
-    footDesc: "산업 근로자 디지털 헬스케어 플랫폼 | 数字健康医疗 · 产业安全竞赛",
-    footAuthor: "研发：秦溢（진일）| 庆云大学 物理治疗系 | 2026",
-    loginTitle: "邮箱登录 / 注册", loginSub: "登录后解锁健康数据仪表盘与完整案例",
-    alertMsg: "【高风险预警】3号车间12名工人心率异常，已推送紧急医疗通知！"
-  },
-  kr: {
-    navSub: "산업 근로자 디지털 헬스케어 플랫폼",
-    navAuthor: "개발：진일 | 경운대학교",
-    heroBadge: "🏭 디지털헬스케어 · 산업안전 · 2026",
-    heroTitle: "WorkCare+<br>근로자 디지털 건강 플랫폼",
-    heroKr: "공장·광산·건설현장 근로자의 건강을 지킵니다",
-    heroDesc: "실시간 생체신호 모니터링, 직업병 AI 예측, 원격의료 연계를 통해 모든 산업 근로자의 건강과 생명을 보호합니다.",
-    heroStart: "플랫폼 체험하기", heroDoc: "설명서 다운로드",
-    scrollHint: "아래로 스크롤",
-    statLabel: "데이터 배경", statTitle: "한국 산업 근로자 건강 위기",
-    statDesc: "2025년 한국 공식 통계에 따르면 산업 근로자 건강 문제로 인한 경제적 손실과 인명 피해가 심각하여 디지털 헬스케어 도입이 시급합니다.",
-    s1: "연간 신규 직업병 발생", s1s: "출처：고용노동부 2025",
-    s2: "산업재해 사망자수", s2s: "출처：산업재해현황분석 2025",
-    s3: "산업건강 관련 경제손실", s3s: "출처：한국산업안전보건공단",
-    s4: "중소기업 디지털 건강관리 보급률", s4s: "출처：보건복지부 2025",
-    featLabel: "핵심기능", featTitle: "6대 스마트 모듈",
-    featDesc: "건강 모니터링부터 의료 연계까지 WorkCare+는 완전한 디지털 건강 케어 루프를 구축합니다.",
-    f1: "실시간 건강 모니터링 허브", f1t: "웨어러블 기기로 심박수·혈압·산소포화도·체온·피로지수를 수집하고 AI가 이상을 즉시 감지하여 의료진에 알립니다.",
-    f2: "직업병 위험 AI 예측", f2t: "직종·경력·환경 노출 데이터를 결합해 진폐증·소음성 난청·직업성 피부염 등 직업병 위험을 90일 전에 예측합니다.",
-    f3: "원격의료 연계", f3t: "전국 1,200개 직업병 전문병원 및 원격의료 플랫폼과 직접 연결, 예약·온라인 진료·전자처방·의료기록 클라우드 동기화.",
-    f4: "공장 건강 위험 히트맵", f4t: "공정·직위별 실시간 건강 위험 분포를 시각화하여 관리자가 고위험 구역을 즉시 파악하고 정밀 개입할 수 있습니다.",
-    f5: "직업건강 기록 관리", f5t: "근로자별 평생 디지털 건강 기록을 구축, 건강 추세 분석·과거 검진 관리·기업 간 안전한 데이터 이동을 지원합니다.",
-    f6: "컴플라이언스 및 산재 신고 도우미", f6t: "산업안전보건법·산재보험법 요건을 자동 검토하고 산재 신고서를 원클릭으로 생성해 고용노동부에 자동 제출합니다.",
-    howLabel: "작동 원리", howTitle: "4단계 폐쇄 루프",
-    st1: "데이터 수집", st1t: "웨어러블+환경센서로 생체신호 및 작업환경 실시간 수집",
-    st2: "AI 분석", st2t: "엣지AI와 클라우드 모델이 협력해 위험을 감지하고 맞춤형 경보 생성",
-    st3: "의료 개입", st3t: "의료진 자동 알림, 원격의료 연계, 긴급 시 119 자동 연동",
-    st4: "규정 준수 기록", st4t: "건강 이벤트 블록체인 증거 보존, 규정 보고서 자동 생성",
-    compLabel: "경쟁사 비교", compTitle: "유사 제품과의 비교",
-    th1: "기능", tc1: "실시간 생체신호 모니터링", tc2: "직업병 AI 예측", tc3: "원격의료 연계", tc4: "산재 신고 자동화", tc5: "산업안전법 컴플라이언스", tc6: "평생 건강기록",
-    caseLabel: "적용 사례", caseTitle: "세 가지 실제 시나리오",
-    ca1: "열사병 사전 경보", ca1t: "부산 철강공장에서 AI가 48분 전에 경보를 발령해 집단 열사병 사고를 예방, 손실 3.2억원 이상 절감.",
-    ca2: "진폐증 조기 발견", ca2t: "대구 건설현장에서 시스템이 7명의 고위험 근로자를 기존 건강검진보다 2년 앞서 발견해 불가역적 폐손상 예방.",
-    ca3: "산재 신고 자동화", ca3t: "인천 화학단지에서 15분 이내 완전한 산재 신고서 자동 생성, 신고 기간을 14일에서 1일로 단축.",
-    roiLabel: "비즈니스 가치", roiTitle: "투자 수익률 분석",
-    roiBase: "산출 기준：300인 제조기업, 연평균 직업병/산재 5건, 건당 평균 손실 1.2억원",
-    roiResult: "📈 첫해 사고손실 4.68억원 절감 예상, 연료 2,400만원, ROI 1,850%, 회수기간 ≈ 0.62개월",
-    r1l: "연간 이용료", r2l: "연간 절감 손실", r3l: "회수 기간", r4l: "ROI",
-    footDesc: "산업 근로자 디지털 헬스케어 플랫폼 | 디지털헬스케어 · 산업안전",
-    footAuthor: "개발：진일（秦溢）| 경운대학교 물리치료학과 | 2026",
-    loginTitle: "이메일 로그인 / 회원가입", loginSub: "로그인 후 건강 데이터 대시보드 및 전체 사례 열람 가능",
-    alertMsg: "【고위험 경보】3번 공정 근로자 12명 심박수 이상, 긴급 의료 알림 발송 완료！"
-  },
-  en: {
-    navSub: "Digital Healthcare Platform for Industrial Workers",
-    navAuthor: "Dev: Qin Yi | Kyungwoon Univ.",
-    heroBadge: "🏭 Digital Health · Industrial Safety · 2026",
-    heroTitle: "WorkCare+<br>Industrial Worker Health Platform",
-    heroKr: "Smart healthcare for every industrial worker",
-    heroDesc: "Real-time vital sign monitoring, AI-powered occupational disease prediction, and seamless digital medical resource integration — protecting every industrial worker's life.",
-    heroStart: "Try the Platform", heroDoc: "Download Brochure",
-    scrollHint: "Scroll Down",
-    statLabel: "Background Data", statTitle: "Korea Industrial Health Crisis",
-    statDesc: "Official 2025 data shows alarming economic losses and casualties from industrial worker health issues in Korea, urgently calling for digital healthcare intervention.",
-    s1: "New Occupational Disease Cases/Year", s1s: "Source: Korea Ministry of Employment 2025",
-    s2: "Industrial Accident Deaths", s2s: "Source: 산업재해현황분석 2025",
-    s3: "Industry Health-Related Economic Loss", s3s: "Source: KOSHA 2025",
-    s4: "SME Digital Health Coverage Rate", s4s: "Source: Ministry of Health & Welfare 2025",
-    featLabel: "Core Features", featTitle: "Six Smart Modules",
-    featDesc: "From health monitoring to medical integration, WorkCare+ builds a complete digital health loop for industrial workers.",
-    f1: "Real-time Health Monitoring Hub", f1t: "Wearables collect heart rate, blood pressure, SpO2, temperature & fatigue index. AI detects anomalies in milliseconds and alerts medical staff.",
-    f2: "Occupational Disease AI Prediction", f2t: "AI analyzes job type, seniority & environmental exposure to predict silicosis, noise-induced hearing loss, and other occupational diseases 90 days in advance.",
-    f3: "Digital Medical Resource Integration", f3t: "Directly connected to 1,200 occupational disease hospitals nationwide. One-click appointment, online consultation, e-prescription & cloud health records.",
-    f4: "Factory Health Risk Heatmap", f4t: "Real-time health risk heat distribution by workshop and job position. Managers instantly identify high-risk zones for precise intervention.",
-    f5: "Occupational Health Record Management", f5t: "Lifetime digital health records for each worker, with trend analysis, historical exam management, and secure cross-company data migration.",
-    f6: "Compliance & Workers Comp Assistant", f6t: "Auto-verify compliance with Korea Industrial Safety & Health Act and Workers Compensation Insurance Act. One-click claim generation with Ministry submission.",
-    howLabel: "How It Works", howTitle: "4-Step Closed Loop",
-    st1: "Data Collection", st1t: "Wearables + environment sensors collect real-time vitals and work environment data",
-    st2: "AI Analysis", st2t: "Edge AI + cloud models jointly detect health risks and generate personalized alerts",
-    st3: "Medical Response", st3t: "Auto-notify medical staff, connect telemedicine, and dispatch emergency services",
-    st4: "Compliance Archive", st4t: "Blockchain-certified health event logs + auto-generated regulatory compliance reports",
-    compLabel: "Comparison", compTitle: "vs. Similar Products",
-    th1: "Feature", tc1: "Real-time Vital Monitoring", tc2: "Occupational Disease AI", tc3: "Telemedicine Integration", tc4: "Auto Workers Comp Filing", tc5: "Industrial Safety Compliance", tc6: "Lifetime Health Records",
-    caseLabel: "Case Studies", caseTitle: "Three Real Scenarios",
-    ca1: "Heat Stroke Early Warning", ca1t: "Busan steel plant: AI warned 48 minutes early of heat stroke risk, preventing a mass casualty incident and saving over 320M KRW.",
-    ca2: "Silicosis Early Detection", ca2t: "Daegu construction site: system identified 7 high-risk workers 2 years earlier than traditional exams, preventing irreversible lung damage.",
-    ca3: "Workers Comp Automation", ca3t: "Incheon chemical park: complete claim documents generated in 15 minutes, cutting the filing cycle from 14 days to 1 day.",
-    roiLabel: "Business Value", roiTitle: "ROI Analysis",
-    roiBase: "Basis: 300-person manufacturer, 5 occupational incidents/year, 120M KRW average loss each",
-    roiResult: "📈 Est. 468M KRW loss prevented in year 1. Annual fee 24M KRW. ROI 1,850%. Payback ≈ 0.62 months",
-    r1l: "Annual Fee", r2l: "Annual Loss Prevented", r3l: "Payback Period", r4l: "ROI",
-    footDesc: "Digital Healthcare Platform for Industrial Workers | Digital Health · Industrial Safety",
-    footAuthor: "Dev: Qin Yi (진일) | Kyungwoon Univ. Physical Therapy Dept. | 2026",
-    loginTitle: "Email Login / Register", loginSub: "Login to access health dashboard and full case studies",
-    alertMsg: "[HIGH RISK ALERT] 12 workers in Workshop 3 show abnormal heart rate — emergency medical notification sent!"
+// ── Hero particle canvas ──
+(function(){
+  const c = document.getElementById('hero-canvas');
+  const ctx = c.getContext('2d');
+  let W, H, pts = [];
+  function resize(){ W=c.width=c.offsetWidth; H=c.height=c.offsetHeight; }
+  function init(){
+    pts = [];
+    for(let i=0;i<80;i++) pts.push({
+      x:Math.random()*W, y:Math.random()*H,
+      vx:(Math.random()-.5)*.4, vy:(Math.random()-.5)*.4,
+      r:Math.random()*1.5+.5
+    });
   }
-};
-
-// ========== 切换语言 ==========
-let cur = "cn";
-document.querySelectorAll(".lang-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".lang-btn").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    cur = btn.dataset.lang;
-    applyLang(cur);
-  });
-});
-
-function applyLang(l) {
-  const d = lang[l];
-  for (const k in d) {
-    const el = document.getElementById(k);
-    if (!el) continue;
-    if (k === "heroTitle") el.innerHTML = d[k];
-    else el.innerText = d[k];
-  }
-}
-
-// ========== 登录 ==========
-const mask = document.getElementById("loginMask");
-document.getElementById("openLogin").onclick = () => mask.classList.add("open");
-document.getElementById("closeLogin").onclick = () => mask.classList.remove("open");
-mask.onclick = e => { if (e.target === mask) mask.classList.remove("open"); };
-document.getElementById("submitLogin").onclick = () => {
-  const m = document.getElementById("userMail").value.trim();
-  if (!m || !m.includes("@")) { alert("请填写合法邮箱"); return; }
-  localStorage.setItem("wc_user", m);
-  mask.classList.remove("open");
-  alert("✅ 登录成功！欢迎使用 WorkCare+");
-};
-
-// ========== 预警弹出 ==========
-const ap = document.getElementById("alertPop");
-function showAlert() {
-  document.getElementById("alertMsg").innerText = lang[cur].alertMsg;
-  ap.style.display = "block";
-  setTimeout(() => ap.style.display = "none", 5500);
-}
-setTimeout(showAlert, 4000);
-setInterval(showAlert, 18000);
-
-// ========== 下载说明书 ==========
-const docText = `# WorkCare+ 산업 근로자 디지털 헬스케어 플랫폼 项目说明书\n研发人：秦溢（진일）| 庆云大学 物理治疗系 | 2026\n\n## 竞赛信息\n主题：数字健康医疗 · 产业安全\n网站：https://yi123456hj-sys.github.io/shine-k-platform/\n\n## 项目简介\nWorkCare+ 是面向工厂、矿区、建筑工地等高危产业环境的工人数字健康医疗平台。\n集实时健康监测、职业病AI预测、数字医疗对接、合规申报自动化于一体。\n\n## 六大核心模块\n1. 实时健康监测中枢\n2. 职业病风险AI预测（提前90天）\n3. 数字医疗资源对接（1200家医院）\n4. 工厂健康风险热力图\n5. 职业健康档案管理\n6. 合规与工伤申报助手\n\n## ROI测算\n300人企业年费2,400万韩元，首年避损4.68亿韩元，ROI 1,850%，回收周期0.62个月。`;
-document.getElementById("heroDoc").onclick = () => {
-  navigator.clipboard.writeText(docText).then(() => alert("✅ 项目说明书已复制到剪贴板，可粘贴至申报材料")).catch(() => alert("内容：\n" + docText.substring(0, 300)));
-};
-document.getElementById("heroStart").onclick = () => mask.classList.add("open");
-
-// ========== 粒子背景 ==========
-const cv = document.getElementById("bg");
-const cx = cv.getContext("2d");
-let W, H, pts = [];
-function resize() { W = cv.width = window.innerWidth; H = cv.height = window.innerHeight; }
-window.addEventListener("resize", resize); resize();
-
-class Dot {
-  constructor() { this.reset(); }
-  reset() {
-    this.x = Math.random() * W; this.y = Math.random() * H;
-    this.vx = (Math.random() - 0.5) * 0.35; this.vy = (Math.random() - 0.5) * 0.35;
-    this.r = Math.random() * 1.4 + 0.4; this.a = Math.random() * 0.5 + 0.1;
-  }
-  step() {
-    this.x += this.vx; this.y += this.vy;
-    if (this.x < 0 || this.x > W || this.y < 0 || this.y > H) this.reset();
-  }
-  draw() {
-    cx.beginPath(); cx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-    cx.fillStyle = `rgba(0,201,167,${this.a})`; cx.fill();
-  }
-}
-for (let i = 0; i < 100; i++) pts.push(new Dot());
-
-function frame() {
-  cx.clearRect(0, 0, W, H);
-  for (let i = 0; i < pts.length; i++) {
-    pts[i].step(); pts[i].draw();
-    for (let j = i + 1; j < pts.length; j++) {
-      const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y;
-      const d = Math.sqrt(dx * dx + dy * dy);
-      if (d < 110) {
-        cx.beginPath(); cx.moveTo(pts[i].x, pts[i].y); cx.lineTo(pts[j].x, pts[j].y);
-        cx.strokeStyle = `rgba(0,201,167,${(1 - d / 110) * 0.14})`; cx.lineWidth = 0.6; cx.stroke();
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0||p.x>W) p.vx*=-1;
+      if(p.y<0||p.y>H) p.vy*=-1;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(0,201,167,.5)';
+      ctx.fill();
+    });
+    for(let i=0;i<pts.length;i++){
+      for(let j=i+1;j<pts.length;j++){
+        const dx=pts[i].x-pts[j].x, dy=pts[i].y-pts[j].y;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if(d<120){
+          ctx.beginPath();
+          ctx.moveTo(pts[i].x,pts[i].y);
+          ctx.lineTo(pts[j].x,pts[j].y);
+          ctx.strokeStyle=`rgba(0,201,167,${.15*(1-d/120)})`;
+          ctx.lineWidth=.6;
+          ctx.stroke();
+        }
       }
     }
+    requestAnimationFrame(draw);
   }
-  requestAnimationFrame(frame);
-}
-frame();
+  window.addEventListener('resize',()=>{ resize(); init(); });
+  resize(); init(); draw();
+})();
 
-// ========== 滚动淡入 ==========
-const revels = document.querySelectorAll(".reveal");
-function checkReveal() { revels.forEach(el => { if (el.getBoundingClientRect().top < window.innerHeight - 60) el.classList.add("show"); }); }
-window.addEventListener("scroll", checkReveal); checkReveal();
+// ── Scroll reveal ──
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('show'); });
+},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// ── Bar fill on scroll ──
+const barObserver = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.bar-fill').forEach(b=>{
+        const w = b.style.width;
+        b.style.width='0';
+        setTimeout(()=>b.style.width=w, 100);
+      });
+    }
+  });
+},{threshold:.1});
+document.querySelectorAll('section').forEach(s=>barObserver.observe(s));
+
+// ── Smooth scroll helper ──
+function scrollTo(id){
+  const el = document.querySelector(id);
+  if(el) el.scrollIntoView({behavior:'smooth'});
+}
+
+// ── Language switcher (stub) ──
+function setLang(lang){
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  // Full i18n implementation would swap data-ko/en/zh/ja attributes
+  if(lang!=='ko') alert('다국어 지원 준비 중입니다.\nMultilingual support coming soon.');
+}
+
+// ── Risk Calculator ──
+function calcRisk(){
+  const industry = document.getElementById('industry').value;
+  const workers = parseInt(document.getElementById('workers').value)||50;
+  const elderly = parseInt(document.getElementById('elderly').value)||0;
+  const hasMgr = document.getElementById('safetyMgr').value === '있음';
+  let score = 0;
+  if(['금속·기계','화학물질'].includes(industry)) score+=30;
+  else score+=15;
+  if(workers<50) score+=20;
+  else if(workers<100) score+=10;
+  if(elderly>40) score+=25;
+  else if(elderly>20) score+=15;
+  if(!hasMgr) score+=20;
+  let grade, color;
+  if(score>=60){ grade='HIGH RISK'; color='var(--red)'; }
+  else if(score>=35){ grade='MEDIUM'; color='var(--orange)'; }
+  else { grade='LOW'; color='var(--teal)'; }
+  const r = document.getElementById('riskResult');
+  document.getElementById('riskGrade').textContent=grade;
+  document.getElementById('riskGrade').style.color=color;
+  document.getElementById('riskLabel').textContent=`SHine-K 도입 시 위험점수 ${score}점 → 약 25.6% 감소 예상`;
+  r.style.display='block';
+}
+
+// ── ROI Calculator ──
+function calcROI(){
+  const workers = parseInt(document.getElementById('roiWorkers').value)||50;
+  const accidents = parseInt(document.getElementById('roiAccidents').value)||1;
+  const socialCost = 75000000; // 7,500만원 per accident
+  const reduction = 0.256;
+  const annualLoss = accidents * socialCost;
+  const saving = Math.round(annualLoss * reduction);
+  const subscription = 3600000; // 360만원/년
+  const net = saving - subscription;
+  const payback = (subscription / saving * 12).toFixed(1);
+  const r = document.getElementById('roiResult');
+  document.getElementById('roiSaving').textContent = `${(net/10000).toFixed(0)}만원`;
+  document.getElementById('roiPayback').textContent = `투자회수: ${payback}개월 | 연간 구독료: ${(subscription/10000)}만원`;
+  r.style.display='block';
+}
+
+// ── Live event log update ──
+(function(){
+  const events=[
+    {time:'', type:'et-normal', msg:'전 사업장 정상 상태 확인'},
+    {time:'', type:'et-warn', msg:'안동공장 B구역 작업자 REBA 점수 8 — 주의 알림 발송'},
+    {time:'', type:'et-alert', msg:'구미공장 A구역 소음 82dB 감지 — 청력보호구 착용 권고'},
+    {time:'', type:'et-normal', msg:'포항공장 야간조 교대 완료 — 전원 정상 확인'},
+    {time:'', type:'et-warn', msg:'경산공장 D구역 지게차 경로 이상 감지 — 자동경보 발령'},
+  ];
+  let idx=0;
+  setInterval(()=>{
+    const log = document.getElementById('eventLog');
+    if(!log) return;
+    const now = new Date();
+    const t = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+    const e = events[idx%events.length];
+    const div = document.createElement('div');
+    div.className='event-item';
+    div.innerHTML=`<span class="event-time">${t}</span><span class="event-type ${e.type}">${e.type==='et-alert'?'긴급':e.type==='et-warn'?'경고':'정상'}</span><span>${e.msg}</span>`;
+    log.insertBefore(div, log.firstChild);
+    if(log.children.length>8) log.removeChild(log.lastChild);
+    idx++;
+  }, 4000);
+})();
+
+// ── Burn Assessment ──
+function assessBurn(){
+  const area = parseInt(document.getElementById('burnPart').value);
+  const depth = parseInt(document.getElementById('burnDepth').value);
+  const cause = document.getElementById('burnCause').value;
+  const weight = parseFloat(document.getElementById('burnWeight').value)||70;
+  const fluid = depth>=2 ? (4*weight*area).toFixed(0) : null;
+  let grade='', color='', firstAid='', fluidTxt='';
+  if(depth===1){
+    grade='1도 화상 — 경증';color='var(--gold)';
+    firstAid='• 20분간 흐르는 냉수(15-25°C)로 냉각\n• 얼음·얼음팩 직접 접촉 금지\n• 항균 크림 도포 후 멸균 거즈 피복\n• 진통제(이부프로펜) 투여 가능';
+  } else if(depth===2){
+    grade='2도 화상 — 중등증 → 즉시 이송 필요';color='var(--orange)';
+    fluidTxt=`💧 파크랜드 공식 수액: ${fluid}mL / 24시간 (첫 8시간 절반)`;
+    firstAid='• 냉수 냉각 후 멸균 시트 피복\n• 물집 터트리지 말 것\n• 진통제 정맥 투여\n• 화상 전문 병원으로 즉시 이송';
+  } else {
+    grade='3도 화상 — 중증 ★ 119 즉시 출동 요청';color='var(--red)';
+    fluidTxt=`💧 파크랜드 공식 수액: ${fluid}mL / 24시간 (긴급 IV라인 확보)`;
+    firstAid='• 냉수 냉각 시도하지 말 것 (저체온 위험)\n• 타 붙은 옷 제거 금지\n• 기도 확보 최우선\n• 수술 가능한 화상센터 이송 필수';
+  }
+  if(cause.includes('산성')) firstAid+=(firstAid?'\n':'')+'⚠️ 산화상: 대량 물 세척 15분 이상, 중화제 사용 금지';
+  if(cause.includes('알칼리')) firstAid+=(firstAid?'\n':'')+'⚠️ 알칼리화상: 지속 세척 30분 이상, 산성 중화 금지';
+  const r=document.getElementById('burnResult');
+  document.getElementById('burnGrade').style.color=color;
+  document.getElementById('burnGrade').textContent=grade;
+  document.getElementById('burnFluid').textContent=fluidTxt;
+  document.getElementById('burnFirstAid').style.whiteSpace='pre-line';
+  document.getElementById('burnFirstAid').textContent=firstAid;
+  r.style.display='block';
+  r.style.background=`rgba(${depth===3?'255,77,106':depth===2?'255,123,30':'245,200,66'},.07)`;
+  r.style.border=`1px solid ${color}`;
+}
+
+// ── Fall Detection ──
+function detectFall(){
+  const g=parseFloat(document.getElementById('fallG').value)||1;
+  const still=parseFloat(document.getElementById('fallStill').value)||0;
+  const height=parseFloat(document.getElementById('fallHeight').value)||0;
+  const harness=document.getElementById('fallHarness').value==='1';
+  let score=0;
+  if(g>=3) score+=50; else if(g>=2) score+=25; else if(g>=1.5) score+=10;
+  if(still>=0.5) score+=30; else if(still>=0.3) score+=15;
+  if(height>=3) score+=20; else if(height>=2) score+=10;
+  if(!harness&&height>=2) score+=15;
+  let grade='',color='',action='',bg='';
+  if(score>=60){
+    grade='🚨 추락 감지 — 즉시 SOS 발동';color='var(--red)';bg='rgba(255,77,106,.08)';
+    action='→ 현장 경보 발령\n→ 10초 자동 SOS 프로세스 개시\n→ 119 자동신고 + GPS 전송\n→ 가족 SMS 발송';
+  } else if(score>=30){
+    grade='⚡ 낙상 위험 — 확인 경보';color='var(--orange)';bg='rgba(255,123,30,.08)';
+    action='→ 스마트밴드 진동 알림 발송\n→ "괜찮으십니까?" 음성 확인\n→ 10초 무응답 시 관리자 SMS';
+  } else if(score>=15){
+    grade='⚠️ 주의 동작 감지 — 모니터링 강화';color='var(--gold)';bg='rgba(245,200,66,.08)';
+    action='→ 고감도 모니터링 모드 전환\n→ 다음 10초간 추가 데이터 수집';
+  } else {
+    grade='✅ 정상 동작 — 이상 없음';color='#00e676';bg='rgba(0,230,118,.06)';
+    action='→ 지속 모니터링 유지\n→ 별도 조치 불필요';
+  }
+  const r=document.getElementById('fallResult');
+  r.style.display='block';r.style.background=bg;r.style.border=`1px solid ${color}`;
+  document.getElementById('fallGrade').style.color=color;
+  document.getElementById('fallGrade').textContent=grade;
+  document.getElementById('fallAction').style.whiteSpace='pre-line';
+  document.getElementById('fallAction').textContent=action;
+}
+
+// ── Crush Assessment ──
+function assessCrush(){
+  const dist=parseFloat(document.getElementById('crushDist').value)||3;
+  const active=document.getElementById('crushActive').value==='1';
+  const blind=document.getElementById('crushBlind').value==='1';
+  const machine=document.getElementById('crushMachine').value;
+  let score=0;
+  if(dist<=0.8) score+=70; else if(dist<=1.5) score+=40; else if(dist<=2.5) score+=20;
+  if(active) score+=20;
+  if(blind) score+=15;
+  if(machine.includes('프레스')||machine.includes('기중기')) score+=10;
+  let grade='',color='',action='',bg='';
+  if(score>=70){
+    grade='🚨 즉시 위험 — E-STOP 발동';color='var(--red)';bg='rgba(255,77,106,.08)';
+    action=`→ ${machine} 즉시 비상정지 신호 전송\n→ 현장 경보 + 라인 조명 적색 전환\n→ 119 대기 + 구조팀 SMS\n→ 구조경로 AR 내비게이션 전송`;
+  } else if(score>=40){
+    grade='⚡ 경보 — 접근 금지 & 설비 감속';color='var(--orange)';bg='rgba(255,123,30,.08)';
+    action=`→ ${machine} 속도 50% 감속\n→ 음성경보 "위험 구역 접근 — 즉시 후퇴"\n→ 관리자 SMS 발송`;
+  } else if(score>=20){
+    grade='⚠️ 주의 — 거리 유지 권고';color='var(--gold)';bg='rgba(245,200,66,.08)';
+    action=`→ 스마트밴드 진동 경고\n→ "안전거리 유지하세요" 음성 안내\n→ 모니터링 강화`;
+  } else {
+    grade='✅ 안전 거리 유지 — 정상';color='#00e676';bg='rgba(0,230,118,.06)';
+    action='→ 현재 거리 안전\n→ 지속 모니터링';
+  }
+  const r=document.getElementById('crushResult');
+  r.style.display='block';r.style.background=bg;r.style.border=`1px solid ${color}`;
+  document.getElementById('crushGrade').style.color=color;
+  document.getElementById('crushGrade').textContent=grade;
+  document.getElementById('crushAction').style.whiteSpace='pre-line';
+  document.getElementById('crushAction').textContent=action;
+}
 </script>
 </body>
 </html>
