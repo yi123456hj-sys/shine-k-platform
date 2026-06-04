@@ -5133,7 +5133,7 @@ const DATA = {
 // ============================================================
 const C = {a:'#3182F6',g:'#16C68C',r:'#F04452',p:'#8B5CF6',w:'#FF9F2D',gray:'#B0B8C1'};
 let charts = {};
-function loadChart(){ return new Promise((res, rej) => { if (window.Chart) return res(window.Chart); const s = document.createElement('script'); s.src = 'https://unpkg.com/chart.js@4.4.1/dist/chart.umd.min.js'; s.onload = () => res(window.Chart); s.onerror = rej; document.head.appendChild(s); }); }
+function loadChart(){ return new Promise((res, rej) => { if (window.Chart) return res(window.Chart); const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js'; s.onload = () => res(window.Chart); s.onerror = () => { const s2=document.createElement('script'); s2.src='https://unpkg.com/chart.js@4.4.1/dist/chart.umd.min.js'; s2.onload=()=>res(window.Chart); s2.onerror=rej; document.head.appendChild(s2); }; document.head.appendChild(s); }); }
 function buildCharts(){
   const darkMode = document.documentElement.dataset.theme === 'dark';
   Chart.defaults.color = darkMode ? '#A0AEC0' : '#4E5968';
@@ -5167,8 +5167,10 @@ function buildCharts(){
     ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.r}점`}}},scales:{r:{beginAtZero:true,min:0,max:100,ticks:{stepSize:25,callback:v=>v+'점',backdropColor:'transparent',font:{size:10}},pointLabels:{font:{size:11.5,weight:'700'}},grid:{color:darkMode?'rgba(255,255,255,.07)':'rgba(0,0,0,.06)'},angleLines:{color:darkMode?'rgba(255,255,255,.07)':'rgba(0,0,0,.06)'}}}}});
   }
 }
-const chartObs = new IntersectionObserver((es, o) => { if (es.some(e=>e.isIntersecting)) { o.disconnect(); loadChart().then(buildCharts).catch(e=>console.warn(e)); } }, {rootMargin:'200px'});
-chartObs.observe(document.getElementById('chartHazardErg'));
+const chartObs = new IntersectionObserver((es, o) => { if (es.some(e=>e.isIntersecting)) { o.disconnect(); loadChart().then(buildCharts).catch(e=>console.warn(e)); } }, {rootMargin:'300px'});
+['chartHazardErg','chartAge','chartRadar','chartIndustry'].forEach(id=>{ const el=document.getElementById(id); if(el) chartObs.observe(el); });
+// Fallback: load after 3s regardless
+setTimeout(()=>{ if(!window.Chart) loadChart().then(buildCharts).catch(()=>{}); }, 3000);
 
 // ============================================================
 // MC TABS
