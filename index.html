@@ -165,20 +165,49 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 [data-theme="dark"] .student-name{color:#E0E8F4;}
 [data-theme="dark"] .student-id{color:#6B7683;}
 @media(min-width:480px){.logo small{display:inline}}
-.nav-links{display:none;gap:24px;list-style:none}
-@media(min-width:1120px){.nav-links{display:flex}}
-.nav-links a{color:var(--ink-3);font-size:.86rem;font-weight:600;transition:color .2s;letter-spacing:-.01em}
-.nav-links a:hover{color:var(--a)}
-.nav-cta{padding:10px 20px;background:var(--a);color:#fff;border-radius:10px;font-size:.84rem;font-weight:700;transition:.2s var(--ease);letter-spacing:-.01em}
+/* ── Nav links & dropdown ── */
+.nav-links{display:none;gap:4px;list-style:none;align-items:center}
+@media(min-width:1080px){.nav-links{display:flex}}
+.nav-links>li{position:relative}
+.nav-links>li>a{display:flex;align-items:center;gap:4px;color:var(--ink-3);font-size:.84rem;font-weight:600;transition:color .2s;padding:6px 10px;border-radius:8px;white-space:nowrap}
+.nav-links>li>a:hover,.nav-links>li>a.nav-active{color:var(--a);background:rgba(49,130,246,.06)}
+.nav-links>li>a .nav-arrow{font-size:9px;transition:transform .2s;opacity:.5}
+.nav-links>li:hover>a .nav-arrow{transform:rotate(180deg);opacity:1}
+
+/* Dropdown panel */
+.drop-panel{
+  position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);
+  background:var(--card);border:1px solid var(--bdr);border-radius:16px;
+  padding:16px;min-width:520px;box-shadow:0 20px 60px rgba(0,0,0,.12);
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .2s,transform .2s,visibility .2s;
+  transform:translateX(-50%) translateY(8px);z-index:200
+}
+.nav-links>li:hover .drop-panel{opacity:1;visibility:visible;pointer-events:all;transform:translateX(-50%) translateY(0)}
+.drop-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.drop-grid.cols2{grid-template-columns:repeat(2,1fr)}
+.drop-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;transition:.15s;cursor:pointer;text-decoration:none;color:var(--ink)}
+.drop-item:hover{background:var(--bg-2)}
+.drop-icon{font-size:18px;flex-shrink:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:var(--bg-2);border-radius:8px}
+.drop-info .drop-name{font-size:12px;font-weight:700;color:var(--ink);line-height:1.3}
+.drop-info .drop-sub{font-size:10px;color:var(--ink-4);margin-top:1px;line-height:1.3}
+.drop-header{font-size:10px;font-weight:700;color:var(--ink-4);letter-spacing:.06em;text-transform:uppercase;padding:4px 12px 8px;grid-column:1/-1;border-bottom:1px solid var(--bdr);margin-bottom:4px}
+.drop-divider{grid-column:1/-1;height:1px;background:var(--bdr);margin:6px 0}
+
+.nav-cta{padding:8px 16px;background:var(--a);color:#fff;border-radius:10px;font-size:.82rem;font-weight:700;transition:.2s var(--ease);letter-spacing:-.01em;white-space:nowrap}
 .nav-cta:hover{background:var(--a-dark);transform:translateY(-1px);box-shadow:0 8px 20px rgba(49,130,246,.3)}
 .menu-toggle{display:flex;flex-direction:column;gap:4px;width:40px;height:40px;justify-content:center;align-items:center;border-radius:10px}
 .menu-toggle span{width:18px;height:2px;background:var(--ink);border-radius:2px;transition:.25s}
-@media(min-width:1120px){.menu-toggle{display:none}}
+@media(min-width:1080px){.menu-toggle{display:none}}
 
-.drawer{position:fixed;inset:0;background:var(--card);z-index:100;padding:80px 24px 24px;display:flex;flex-direction:column;gap:8px;transform:translateY(-100%);transition:transform .35s var(--ease);overflow-y:auto}
+/* ── Drawer (mobile) ── */
+.drawer{position:fixed;inset:0;background:var(--card);z-index:100;padding:72px 16px 24px;transform:translateY(-100%);transition:transform .35s var(--ease);overflow-y:auto}
 .drawer.open{transform:translateY(0)}
-.drawer a{color:var(--ink);font-size:1.05rem;font-weight:700;padding:14px 16px;border-radius:12px;transition:.2s}
-.drawer a:hover{background:var(--bg-2)}
+.drawer-cat{font-size:10px;font-weight:800;color:var(--ink-4);letter-spacing:.08em;text-transform:uppercase;padding:16px 12px 6px;border-top:1px solid var(--bdr);margin-top:4px}
+.drawer-cat:first-child{border-top:none;margin-top:0;padding-top:4px}
+.drawer-links{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:4px}
+.drawer a{color:var(--ink);font-size:.88rem;font-weight:600;padding:10px 12px;border-radius:10px;transition:.2s;display:flex;align-items:center;gap:6px}
+.drawer a:hover{background:var(--bg-2);color:var(--a)}
 
 /* ===== HERO (Toss style) ===== */
 .hero{min-height:100vh;min-height:100dvh;display:flex;align-items:center;position:relative;overflow:hidden;padding:120px 0 80px;
@@ -1193,18 +1222,89 @@ footer::before{
       <span>SHine-K<small data-i18n="logoSub"> · Insights</small></span>
     </a>
     <ul class="nav-links">
-      <li><a href="#crisis" data-i18n="navCrisis">현실</a></li>
-      <li><a href="#gyeongbuk" data-i18n="navGB">경북</a></li>
-      <li><a href="#clusters" data-i18n="navMC">클러스터</a></li>
-      <li><a href="#platform" data-i18n="navPlat">플랫폼</a></li>
-      <li><a href="#agents" data-i18n="navAgents">12 에이전트</a></li>
-      <li><a href="#scenarios" data-i18n="navScen">5대 시나리오</a></li>
-      <li><a href="#health" data-i18n="navHealth">헬스 프로모션</a></li>
-      <li><a href="#center" data-i18n="navCenter">관제센터</a></li>
-      <li><a href="#compete" data-i18n="navCompete">경쟁분석</a></li>
-      <li><a href="#team" data-i18n="navTeam">팀</a></li>
+
+      <!-- 📊 현황 분석 -->
+      <li>
+        <a href="#crisis">📊 <span data-i18n="navData">현황 분석</span> <span class="nav-arrow">▾</span></a>
+        <div class="drop-panel">
+          <div class="drop-header" data-i18n="dropDataTitle">연구 데이터 & 현황</div>
+          <div class="drop-grid cols2">
+            <a href="#crisis" class="drop-item"><div class="drop-icon">⚠️</div><div class="drop-info"><div class="drop-name" data-i18n="navCrisis">현실</div><div class="drop-sub">OECD 34위 · 38조원 손실</div></div></a>
+            <a href="#gyeongbuk" class="drop-item"><div class="drop-icon">🗺️</div><div class="drop-info"><div class="drop-name" data-i18n="navGB">경북 데이터</div><div class="drop-sub">2,924명 실측 분석</div></div></a>
+            <a href="#clusters" class="drop-item"><div class="drop-icon">🏭</div><div class="drop-info"><div class="drop-name" data-i18n="navMC">4대 클러스터</div><div class="drop-sub">구미·포항·안동·경산</div></div></a>
+            <a href="#blindspot" class="drop-item"><div class="drop-icon">🔍</div><div class="drop-info"><div class="drop-name" data-i18n="navBS">안전 사각지대</div><div class="drop-sub">23개 업종 선임율 분석</div></div></a>
+            <a href="#accident-stats" class="drop-item"><div class="drop-icon">📈</div><div class="drop-info"><div class="drop-name" data-i18n="navAccStats">사고 통계 차트</div><div class="drop-sub">사고 유형별 시각화</div></div></a>
+            <a href="#intl-compare" class="drop-item"><div class="drop-icon">🌍</div><div class="drop-info"><div class="drop-name" data-i18n="navIntl">국제 비교</div><div class="drop-sub">OECD 38개국 비교</div></div></a>
+          </div>
+        </div>
+      </li>
+
+      <!-- ⚙️ 플랫폼 -->
+      <li>
+        <a href="#platform">⚙️ <span data-i18n="navPlat">플랫폼</span> <span class="nav-arrow">▾</span></a>
+        <div class="drop-panel">
+          <div class="drop-header" data-i18n="dropPlatTitle">핵심 기술 & AI</div>
+          <div class="drop-grid">
+            <a href="#platform" class="drop-item"><div class="drop-icon">🔬</div><div class="drop-info"><div class="drop-name">7-Tech 플랫폼</div><div class="drop-sub">7가지 기술 융합</div></div></a>
+            <a href="#agents" class="drop-item"><div class="drop-icon">🤖</div><div class="drop-info"><div class="drop-name" data-i18n="navAgents">12 에이전트</div><div class="drop-sub">Sense→Judge→Act→Connect</div></div></a>
+            <a href="#liveai" class="drop-item"><div class="drop-icon">🎥</div><div class="drop-info"><div class="drop-name">Live AI 체험</div><div class="drop-sub">브라우저 실시간 데모</div></div></a>
+            <a href="#app" class="drop-item"><div class="drop-icon">📱</div><div class="drop-info"><div class="drop-name">모바일 앱</div><div class="drop-sub">음성SOS · 웨어러블</div></div></a>
+            <a href="#future-tech" class="drop-item"><div class="drop-icon">⌚</div><div class="drop-info"><div class="drop-name">미래 기술</div><div class="drop-sub">엑소스켈레톤 · 뇌파</div></div></a>
+            <a href="#predict" class="drop-item"><div class="drop-icon">🧠</div><div class="drop-info"><div class="drop-name">AI 위험 예측</div><div class="drop-sub">WASM 가속 예측엔진</div></div></a>
+          </div>
+        </div>
+      </li>
+
+      <!-- 🛡️ 안전 도구 -->
+      <li>
+        <a href="#scenarios">🛡️ <span data-i18n="navSafety">안전 도구</span> <span class="nav-arrow">▾</span></a>
+        <div class="drop-panel">
+          <div class="drop-header" data-i18n="dropSafetyTitle">사고 예방 & 대응 도구</div>
+          <div class="drop-grid">
+            <a href="#scenarios" class="drop-item"><div class="drop-icon">🚨</div><div class="drop-info"><div class="drop-name" data-i18n="navScen">5대 시나리오</div><div class="drop-sub">추락·협착·낙상 대응</div></div></a>
+            <a href="#risk-matrix" class="drop-item"><div class="drop-icon">⚠️</div><div class="drop-info"><div class="drop-name" data-i18n="navRiskMatrix">위험성 평가 매트릭스</div><div class="drop-sub">5×5 자동 등급 판정</div></div></a>
+            <a href="#five-why" class="drop-item"><div class="drop-icon">🔍</div><div class="drop-info"><div class="drop-name" data-i18n="navFiveWhy">5-Why 분석</div><div class="drop-sub">근본 원인 도출</div></div></a>
+            <a href="#cpr-guide" class="drop-item"><div class="drop-icon">🫀</div><div class="drop-info"><div class="drop-name" data-i18n="navCpr">CPR 응급처치</div><div class="drop-sub">심폐소생술 타이머</div></div></a>
+            <a href="#safety-pledge" class="drop-item"><div class="drop-icon">✍️</div><div class="drop-info"><div class="drop-name" data-i18n="navPledge">안전 서약 서명</div><div class="drop-sub">디지털 서약서</div></div></a>
+            <a href="#tbm" class="drop-item"><div class="drop-icon">✅</div><div class="drop-info"><div class="drop-name">디지털 TBM</div><div class="drop-sub">작업전 점검표</div></div></a>
+          </div>
+        </div>
+      </li>
+
+      <!-- 💚 건강 & 모니터링 -->
+      <li>
+        <a href="#health">💚 <span data-i18n="navHealth">건강·모니터링</span> <span class="nav-arrow">▾</span></a>
+        <div class="drop-panel">
+          <div class="drop-header" data-i18n="dropHealthTitle">근로자 건강 & 실시간 모니터링</div>
+          <div class="drop-grid">
+            <a href="#health" class="drop-item"><div class="drop-icon">💪</div><div class="drop-info"><div class="drop-name">헬스 프로모션</div><div class="drop-sub">만성질환 예방</div></div></a>
+            <a href="#bio-monitor" class="drop-item"><div class="drop-icon">💓</div><div class="drop-info"><div class="drop-name" data-i18n="navBio">바이오 모니터링</div><div class="drop-sub">심박·체온 실시간</div></div></a>
+            <a href="#zero-accident" class="drop-item"><div class="drop-icon">🏆</div><div class="drop-info"><div class="drop-name" data-i18n="navZA">무재해 기록판</div><div class="drop-sub">공장별 연속일수</div></div></a>
+            <a href="#fatigue" class="drop-item"><div class="drop-icon">😴</div><div class="drop-info"><div class="drop-name">피로도 AI</div><div class="drop-sub">눈·심박 분석</div></div></a>
+            <a href="#stretch" class="drop-item"><div class="drop-icon">🧘</div><div class="drop-info"><div class="drop-name" data-i18n="navStretch">스트레칭 타이머</div><div class="drop-sub">근골격계 예방</div></div></a>
+            <a href="#heat-calc" class="drop-item"><div class="drop-icon">🌡️</div><div class="drop-info"><div class="drop-name" data-i18n="navHeat">열지수 계산기</div><div class="drop-sub">온열질환 예방</div></div></a>
+          </div>
+        </div>
+      </li>
+
+      <!-- 📡 관제 & 성과 -->
+      <li>
+        <a href="#center">📡 <span data-i18n="navResults">관제·성과</span> <span class="nav-arrow">▾</span></a>
+        <div class="drop-panel">
+          <div class="drop-header" data-i18n="dropResultsTitle">관제센터 & 성과</div>
+          <div class="drop-grid cols2">
+            <a href="#center" class="drop-item"><div class="drop-icon">🖥️</div><div class="drop-info"><div class="drop-name" data-i18n="navCenter">관제센터</div><div class="drop-sub">KPI 3초 갱신</div></div></a>
+            <a href="#dashboard" class="drop-item"><div class="drop-icon">📊</div><div class="drop-info"><div class="drop-name">실시간 대시보드</div><div class="drop-sub">차트 + 예측</div></div></a>
+            <a href="#compete" class="drop-item"><div class="drop-icon">🏅</div><div class="drop-info"><div class="drop-name" data-i18n="navCompete">경쟁사 분석</div><div class="drop-sub">6개사 비교</div></div></a>
+            <a href="#roadmap" class="drop-item"><div class="drop-icon">📅</div><div class="drop-info"><div class="drop-name">5년 로드맵</div><div class="drop-sub">2025-2029</div></div></a>
+            <a href="#strategy" class="drop-item"><div class="drop-icon">🎯</div><div class="drop-info"><div class="drop-name">S/H/E 전략</div><div class="drop-sub">3축 전략 체계</div></div></a>
+            <a href="#team" class="drop-item"><div class="drop-icon">👤</div><div class="drop-info"><div class="drop-name" data-i18n="navTeam">팀 소개</div><div class="drop-sub">경운대 RISE</div></div></a>
+          </div>
+        </div>
+      </li>
+
     </ul>
-    <a href="SHineK_소개서.pdf" download class="nav-cta" style="background:#10B981;margin-right:8px">📄 소개서 PDF</a>
+    <a href="SHineK_소개서.pdf" download class="nav-cta" style="background:#10B981;margin-right:8px">📄 PDF</a>
     <a href="https://shine-k-wansuk-choi-ces2027.vercel.app" target="_blank" rel="noopener" class="nav-cta" data-i18n="navCES">CES 2027 →</a>
     <button class="menu-toggle" id="menuBtn" onclick="toggleMenu()" aria-label="메뉴 열기" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -1213,33 +1313,55 @@ footer::before{
 </nav>
 
 <div class="drawer" id="drawer">
-  <a href="#crisis" onclick="toggleMenu()" data-i18n="dCrisis">📊 현실</a>
-  <a href="#gyeongbuk" onclick="toggleMenu()" data-i18n="dGB">🗺️ 경북 데이터</a>
-  <a href="#clusters" onclick="toggleMenu()" data-i18n="dMC">🏭 4대 미니클러스터</a>
-  <a href="#blindspot" onclick="toggleMenu()" data-i18n="dBS">⚠️ 사각지대</a>
-  <a href="#platform" onclick="toggleMenu()" data-i18n="dPlat">🌐 7-Tech 플랫폼</a>
-  <a href="#agents" onclick="toggleMenu()" data-i18n="dAgents">🧠 12 에이전트</a>
-  <a href="#scenarios" onclick="toggleMenu()" data-i18n="dScen">🚨 5대 사고 시나리오</a>
-  <a href="#liveai" onclick="toggleMenu()" data-i18n="dLive">📷 Live AI</a>
-  <a href="#health" onclick="toggleMenu()" data-i18n="dHealth">💪 헬스 프로모션</a>
-  <a href="#center" onclick="toggleMenu()" data-i18n="dCenter">🖥️ 관제센터</a>
-  <a href="#app" onclick="toggleMenu()" data-i18n="dApp">📱 모바일 앱</a>
-  <a href="#risk-matrix" onclick="toggleMenu()">⚠️ 위험성 평가 매트릭스</a>
-  <a href="#five-why" onclick="toggleMenu()">🔍 5-Why 원인 분석</a>
-  <a href="#cpr-guide" onclick="toggleMenu()">🫀 CPR 응급처치 가이드</a>
-  <a href="#safety-pledge" onclick="toggleMenu()">✍️ 안전 서약 서명</a>
-  <a href="#zero-accident" onclick="toggleMenu()">🏆 무재해 기록판</a>
-  <a href="#bio-monitor" onclick="toggleMenu()">💓 작업자 바이오 패널</a>
-  <a href="#stretch" onclick="toggleMenu()">🧘 스트레칭 타이머</a>
-  <a href="#accident-stats" onclick="toggleMenu()">📊 사고 통계 차트</a>
-  <a href="#heat-calc" onclick="toggleMenu()">🌡️ 열지수 계산기</a>
-  <a href="#strategy" onclick="toggleMenu()" data-i18n="dStrat">🎯 SHine-K 전략</a>
-  <a href="#compete" onclick="toggleMenu()" data-i18n="dCompete">🏆 경쟁사 비교</a>
-  <a href="#team" onclick="toggleMenu()" data-i18n="dTeam">👤 팀 소개</a>
-  <a href="#roadmap" onclick="toggleMenu()" data-i18n="dRM">📅 5년 로드맵</a>
-  <a href="#methodology" onclick="toggleMenu()" data-i18n="dMT">📚 데이터 출처</a>
-  <a href="#factory-xr" onclick="toggleMenu()" data-i18n="dXR">🏭 3D 가상 공장 XR</a>
-  <a href="https://shine-k-wansuk-choi-ces2027.vercel.app" target="_blank" rel="noopener" data-i18n="dCES">CES 2027 메인 →</a>
+  <div class="drawer-cat">📊 현황 분석</div>
+  <div class="drawer-links">
+    <a href="#crisis" onclick="toggleMenu()">⚠️ 현실</a>
+    <a href="#gyeongbuk" onclick="toggleMenu()">🗺️ 경북 데이터</a>
+    <a href="#clusters" onclick="toggleMenu()">🏭 클러스터</a>
+    <a href="#blindspot" onclick="toggleMenu()">🔎 사각지대</a>
+    <a href="#accident-stats" onclick="toggleMenu()">📈 사고 통계</a>
+    <a href="#intl-compare" onclick="toggleMenu()">🌍 국제 비교</a>
+  </div>
+  <div class="drawer-cat">⚙️ 플랫폼 & AI</div>
+  <div class="drawer-links">
+    <a href="#platform" onclick="toggleMenu()">🔬 7-Tech 플랫폼</a>
+    <a href="#agents" onclick="toggleMenu()">🤖 12 에이전트</a>
+    <a href="#liveai" onclick="toggleMenu()">🎥 Live AI</a>
+    <a href="#app" onclick="toggleMenu()">📱 모바일 앱</a>
+    <a href="#predict" onclick="toggleMenu()">🧠 AI 위험 예측</a>
+    <a href="#future-tech" onclick="toggleMenu()">⌚ 미래 기술</a>
+  </div>
+  <div class="drawer-cat">🛡️ 안전 도구</div>
+  <div class="drawer-links">
+    <a href="#scenarios" onclick="toggleMenu()">🚨 5대 시나리오</a>
+    <a href="#risk-matrix" onclick="toggleMenu()">⚠️ 위험성 평가</a>
+    <a href="#five-why" onclick="toggleMenu()">🔍 5-Why 분석</a>
+    <a href="#cpr-guide" onclick="toggleMenu()">🫀 CPR 가이드</a>
+    <a href="#safety-pledge" onclick="toggleMenu()">✍️ 안전 서약</a>
+    <a href="#tbm" onclick="toggleMenu()">✅ 디지털 TBM</a>
+  </div>
+  <div class="drawer-cat">💚 건강 & 모니터링</div>
+  <div class="drawer-links">
+    <a href="#health" onclick="toggleMenu()">💪 헬스 프로모션</a>
+    <a href="#bio-monitor" onclick="toggleMenu()">💓 바이오 모니터링</a>
+    <a href="#zero-accident" onclick="toggleMenu()">🏆 무재해 기록판</a>
+    <a href="#fatigue" onclick="toggleMenu()">😴 피로도 AI</a>
+    <a href="#stretch" onclick="toggleMenu()">🧘 스트레칭</a>
+    <a href="#heat-calc" onclick="toggleMenu()">🌡️ 열지수 계산기</a>
+  </div>
+  <div class="drawer-cat">📡 관제 & 성과</div>
+  <div class="drawer-links">
+    <a href="#center" onclick="toggleMenu()">🖥️ 관제센터</a>
+    <a href="#dashboard" onclick="toggleMenu()">📊 대시보드</a>
+    <a href="#compete" onclick="toggleMenu()">🏅 경쟁사 분석</a>
+    <a href="#roadmap" onclick="toggleMenu()">📅 로드맵</a>
+    <a href="#strategy" onclick="toggleMenu()">🎯 전략</a>
+    <a href="#team" onclick="toggleMenu()">👤 팀 소개</a>
+  </div>
+  <div style="padding:16px 12px 0;border-top:1px solid var(--bdr);margin-top:8px;display:flex;gap:8px">
+    <a href="SHineK_소개서.pdf" download onclick="toggleMenu()" style="flex:1;text-align:center;padding:10px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);border-radius:10px;color:#10B981;font-size:12px;font-weight:700">📄 소개서 PDF</a>
+    <a href="https://shine-k-wansuk-choi-ces2027.vercel.app" target="_blank" onclick="toggleMenu()" style="flex:1;text-align:center;padding:10px;background:rgba(49,130,246,.1);border:1px solid rgba(49,130,246,.3);border-radius:10px;color:#3B82F6;font-size:12px;font-weight:700">🌐 CES 2027</a>
+  </div>
 </div>
 
 <main id="main">
