@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WorkCare+ | 산업 근로자 디지털 헬스케어 플랫폼</title>
+  <style>
+    :root {
+      --bg: #07080f;
+      --bg-card: #0e1020;
+      --teal: #00c9a7;
+      --blue: #3a7bd5;
+      --purple: #7c5cbf;
+      --gold: #f5c842;
+      --red: #ff5c6a;
+      --gray: #c8cdd8;
+      --dark: #1a1d2e;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Microsoft YaHei", "Malgun Gothic", "Segoe UI", sans-serif; }
+    body { background: var(--bg); color: var(--gray); overflow-x: hidden; }
+
+    /* 滚动淡入 */
+    .reveal { opacity: 0; transform: translateY(28px); transition: 0.7s ease; }
+    .reveal.show { opacity: 1; transform: none; }
+
+    /* 导航 */
+    nav {
+      position: sticky; top: 0; z-index: 999;
+      background: rgba(7,8,15,0.9); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,201,167,0.15);
+      padding: 0.9rem 5%; display: flex; justify-content: space-between; align-items: center;
+    }
+    .nav-logo { font-size: 22px; font-weight: 800; background: linear-gradient(90deg,var(--teal),var(--blue)); -webkit-background-clip: text; color: transparent; }
+    .nav-sub { font-size: 11px; color: #555; margin-top: 2px; }
+    .nav-right { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .lang-btn { padding: 5px 11px; border: 1px solid var(--teal); background: transparent; color: var(--gray); border-radius: 4px; cursor: pointer; font-size: 12px; transition: 0.25s; }
+    .lang-btn.active, .lang-btn:hover { background: var(--teal); color: #000; }
+    .nav-author { font-size: 12px; color: #555; }
+
+    /* Hero */
+    .hero {
+      min-height: 90vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      position: relative; overflow: hidden; text-align: center; padding: 4rem 5%;
+    }
+    canvas#bg { position: absolute; inset: 0; z-index: 0; }
+    .hero-badge {
+      z-index: 2; border: 1px solid rgba(0,201,167,0.4); background: rgba(0,201,167,0.08);
+      padding: 5px 16px; border-radius: 20px; font-size: 12px; color: var(--teal); margin-bottom: 20px; letter-spacing: 1px;
+    }
+    .hero-title {
+      z-index: 2; font-size: 54px; font-weight: 900; line-height: 1.18;
+      background: linear-gradient(135deg, #fff 0%, var(--teal) 50%, var(--blue) 100%);
+      -webkit-background-clip: text; color: transparent; margin-bottom: 14px;
+    }
+    .hero-kr { z-index: 2; font-size: 20px; color: rgba(0,201,167,0.7); margin-bottom: 18px; }
+    .hero-desc { z-index: 2; font-size: 16px; color: #aaa; max-width: 640px; line-height: 1.8; margin-bottom: 32px; }
+    .hero-btns { z-index: 2; display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+    .btn-primary { padding: 13px 30px; background: linear-gradient(90deg,var(--teal),var(--blue)); border: none; border-radius: 8px; color: #000; font-weight: 700; font-size: 15px; cursor: pointer; transition: 0.3s; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,201,167,0.4); }
+    .btn-outline { padding: 13px 30px; border: 1px solid var(--teal); background: transparent; color: var(--teal); border-radius: 8px; font-size: 15px; cursor: pointer; transition: 0.3s; }
+    .btn-outline:hover { background: rgba(0,201,167,0.12); transform: translateY(-2px); }
+    .hero-scroll { position: absolute; bottom: 28px; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 6px; color: #444; font-size: 12px; animation: bob 2s infinite; }
+    @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+    .scroll-arr { width: 18px; height: 18px; border-right: 2px solid #444; border-bottom: 2px solid #444; transform: rotate(45deg); }
+
+    /* Section */
+    section { padding: 5rem 5%; }
+    .sec-label { font-size: 12px; color: var(--teal); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+    .sec-title { font-size: 30px; font-weight: 700; color: #fff; margin-bottom: 14px; }
+    .sec-desc { font-size: 15px; color: #888; line-height: 1.9; max-width: 700px; margin-bottom: 2.5rem; }
+
+    /* Stats */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 20px; }
+    .stat-card {
+      background: var(--bg-card); border: 1px solid #1e2240; border-radius: 14px; padding: 28px 22px; text-align: center;
+      transition: 0.3s; position: relative; overflow: hidden;
+    }
+    .stat-card::after { content: ""; position: absolute; inset: 0; border-radius: 14px; background: linear-gradient(135deg,rgba(0,201,167,0.05),transparent); pointer-events: none; }
+    .stat-card:hover { transform: translateY(-6px); border-color: var(--teal); box-shadow: 0 8px 24px rgba(0,201,167,0.12); }
+    .stat-icon { font-size: 32px; margin-bottom: 12px; }
+    .stat-num { font-size: 40px; font-weight: 800; color: var(--teal); }
+    .stat-unit { font-size: 18px; color: var(--gold); font-weight: 700; }
+    .stat-label { font-size: 13px; color: #666; margin-top: 6px; }
+    .stat-src { font-size: 10px; color: #333; margin-top: 4px; }
+
+    /* Features */
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 22px; }
+    .feat-card {
+      background: var(--bg-card); border: 1px solid #1a1e35; border-radius: 14px; padding: 28px;
+      transition: 0.4s; position: relative; overflow: hidden;
+    }
+    .feat-card::before { content: ""; position: absolute; top: -100%; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom,transparent,rgba(0,201,167,0.05),transparent); transition: 0.5s; }
+    .feat-card:hover::before { top: 100%; }
+    .feat-card:hover { border-color: var(--teal); transform: translateY(-6px); box-shadow: 0 10px 28px rgba(0,0,0,0.4); }
+    .feat-num { font-size: 11px; color: var(--teal); letter-spacing: 2px; margin-bottom: 10px; }
+    .feat-card h3 { color: var(--teal); font-size: 17px; margin-bottom: 10px; line-height: 1.4; }
+    .feat-card p { color: #777; font-size: 14px; line-height: 1.8; }
+    .feat-icon { font-size: 30px; margin-bottom: 12px; }
+
+    /* How it works */
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 0; }
+    .step { padding: 32px 24px; text-align: center; position: relative; }
+    .step::after { content: "→"; position: absolute; right: -10px; top: 50%; transform: translateY(-50%); color: #222; font-size: 24px; }
+    .step:last-child::after { display: none; }
+    .step-num { width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg,var(--teal),var(--blue)); display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800; color: #000; margin: 0 auto 16px; }
+    .step h4 { color: #fff; font-size: 16px; margin-bottom: 8px; }
+    .step p { color: #666; font-size: 13px; line-height: 1.7; }
+
+    /* Compare table */
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 560px; }
+    th, td { border: 1px solid #1a1e35; padding: 13px 16px; text-align: center; font-size: 14px; }
+    th { background: #0d1025; color: var(--teal); font-size: 13px; }
+    tr:hover td { background: rgba(0,201,167,0.04); }
+    td:first-child { text-align: left; color: #aaa; }
+    .yes { color: var(--teal); font-weight: 700; }
+    .no { color: var(--red); }
+    .part { color: var(--gold); }
+
+    /* Cases */
+    .cases-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 22px; }
+    .case-card { background: var(--bg-card); border: 1px solid #1a1e35; border-radius: 14px; padding: 26px; transition: 0.3s; }
+    .case-card:hover { border-color: var(--blue); transform: translateY(-4px); }
+    .case-tag { display: inline-block; padding: 3px 12px; border-radius: 12px; background: rgba(58,123,213,0.15); border: 1px solid rgba(58,123,213,0.3); color: var(--blue); font-size: 11px; margin-bottom: 12px; }
+    .case-card h3 { color: #fff; font-size: 16px; margin-bottom: 10px; line-height: 1.4; }
+    .case-card p { color: #666; font-size: 14px; line-height: 1.8; }
+
+    /* ROI */
+    .roi-box { background: var(--bg-card); border: 1px solid #1a1e35; border-radius: 14px; padding: 32px; }
+    .roi-result { background: rgba(0,201,167,0.08); border-left: 3px solid var(--teal); border-radius: 8px; padding: 16px 20px; color: var(--teal); font-size: 17px; font-weight: 700; margin: 16px 0; }
+    .roi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 16px; margin-top: 16px; }
+    .roi-item { background: #0a0c1a; border-radius: 10px; padding: 16px; border: 1px solid #181b2e; }
+    .roi-item .label { font-size: 12px; color: #555; margin-bottom: 6px; }
+    .roi-item .val { font-size: 20px; font-weight: 700; color: var(--gold); }
+
+    /* Log */
+    .log-box { background: #060810; border: 1px solid #151830; border-radius: 10px; padding: 14px 16px; height: 140px; overflow: hidden; margin-top: 20px; }
+    .log-inner { display: flex; flex-direction: column; gap: 8px; animation: scrollUp 14s linear infinite; }
+    @keyframes scrollUp { 0%{transform:translateY(0)} 100%{transform:translateY(-50%)} }
+    .log-line { font-size: 12px; font-family: monospace; }
+    .log-line.ok { color: var(--teal); }
+    .log-line.warn { color: var(--gold); }
+    .log-line.err { color: var(--red); }
+
+    /* Alert popup */
+    .alert-pop {
+      position: fixed; right: 22px; top: 80px; padding: 16px 20px; min-width: 300px; max-width: 360px;
+      background: linear-gradient(135deg,#0d2a22,#0f3030); border: 1px solid var(--teal);
+      border-radius: 10px; color: #fff; display: none; z-index: 997;
+      box-shadow: 0 6px 24px rgba(0,201,167,0.2); animation: popIn 0.3s ease;
+    }
+    @keyframes popIn { from{opacity:0;transform:translateX(20px)} to{opacity:1;transform:none} }
+    .alert-title { font-size: 11px; color: var(--teal); margin-bottom: 5px; letter-spacing: 1px; }
+    .alert-msg { font-size: 13px; line-height: 1.6; }
+
+    /* Modal */
+    .mask { position: fixed; inset: 0; background: rgba(0,0,0,0.88); display: none; z-index: 1000; backdrop-filter: blur(6px); align-items: center; justify-content: center; }
+    .mask.open { display: flex; }
+    .modal { background: var(--bg-card); border: 1px solid #282e50; border-radius: 16px; padding: 36px; width: min(92%,440px); position: relative; animation: popIn 0.3s ease; }
+    .modal h3 { color: var(--teal); font-size: 20px; margin-bottom: 6px; }
+    .modal-sub { color: #555; font-size: 13px; margin-bottom: 20px; }
+    .inp { width: 100%; padding: 11px 14px; margin: 7px 0; background: #0a0c1a; border: 1px solid #252845; color: #fff; border-radius: 8px; outline: none; font-size: 14px; transition: 0.25s; }
+    .inp:focus { border-color: var(--teal); }
+    .modal-btn { margin-top: 14px; width: 100%; padding: 12px; background: linear-gradient(90deg,var(--teal),var(--blue)); border: none; border-radius: 8px; color: #000; font-weight: 700; font-size: 15px; cursor: pointer; transition: 0.3s; }
+    .modal-btn:hover { opacity: 0.88; }
+    .close-x { position: absolute; right: 16px; top: 14px; color: #444; font-size: 24px; cursor: pointer; transition: 0.2s; }
+    .close-x:hover { color: #fff; }
+
+    /* Footer */
+    footer { border-top: 1px solid #12152a; padding: 2.5rem 5%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+    .footer-logo { font-size: 18px; font-weight: 800; background: linear-gradient(90deg,var(--teal),var(--blue)); -webkit-background-clip: text; color: transparent; }
+    footer p { font-size: 12px; color: #333; }
+
+    @media(max-width:768px) { .hero-title{font-size:34px;} nav{flex-wrap:wrap;gap:8px;} section{padding:3rem 4%;} }
+  </style>
+</head>
+<body>
+
+<!-- 导航 -->
+<nav>
+  <div>
+    <div class="nav-logo">WorkCare+</div>
+    <div class="nav-sub" id="navSub">산업 근로자 디지털 헬스케어 플랫폼</div>
+  </div>
+  <div class="nav-right">
+    <button class="lang-btn active" data-lang="cn">中文</button>
+    <button class="lang-btn" data-lang="kr">한국어</button>
+    <button class="lang-btn" data-lang="en">English</button>
+    <span class="nav-author" id="navAuthor">研发：秦溢 | 庆云大学</span>
+    <button class="btn-outline" style="padding:6px 14px;font-size:13px;" id="openLogin">登录</button>
+  </div>
+</nav>
+
+<!-- 预警弹出 -->
+<div class="alert-pop" id="alertPop">
+  <div class="alert-title">⬤ HEALTH ALERT</div>
+  <div class="alert-msg" id="alertMsg">【高风险预警】3号车间12名工人心率异常，已推送紧急医疗通知！</div>
+</div>
+
+<!-- 登录弹窗 -->
+<div class="mask" id="loginMask">
+  <div class="modal">
+    <span class="close-x" id="closeLogin">×</span>
+    <h3 id="loginTitle">邮箱登录 / 注册</h3>
+    <div class="modal-sub" id="loginSub">登录后解锁健康数据仪表盘与完整案例</div>
+    <input class="inp" id="userMail" type="email" placeholder="邮箱地址">
+    <input class="inp" id="userPwd" type="password" placeholder="密码（6位以上）">
+    <button class="modal-btn" id="submitLogin">确认登录</button>
+  </div>
+</div>
+
+<!-- Hero -->
+<section class="hero">
+  <canvas id="bg"></canvas>
+  <div class="hero-badge" id="heroBadge">🏭 数字健康医疗 · 产业安全 · 2026</div>
+  <h1 class="hero-title" id="heroTitle">WorkCare+<br>工人数字健康守护平台</h1>
+  <div class="hero-kr" id="heroKr">산업 근로자를 위한 스마트 헬스케어</div>
+  <p class="hero-desc" id="heroDesc">面向工厂、矿区、建筑工地等高危产业环境，实时监测工人健康状态、预测职业病风险、对接数字医疗资源，守护每一位产业工人的生命安全。</p>
+  <div class="hero-btns">
+    <button class="btn-primary" id="heroStart">立即体验平台</button>
+    <button class="btn-outline" id="heroDoc">下载项目说明书</button>
+  </div>
+  <div class="hero-scroll">
+    <span id="scrollHint">向下探索</span>
+    <div class="scroll-arr"></div>
+  </div>
+</section>
+
+<!-- 背景数据 -->
+<section class="reveal">
+  <div class="sec-label" id="statLabel">数据背景</div>
+  <div class="sec-title" id="statTitle">韩国产业工人健康危机</div>
+  <div class="sec-desc" id="statDesc">2025年韩国官方数据显示，产业工人健康问题造成的经济损失与人员伤亡触目惊心，亟需数字化健康医疗介入。</div>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">🏥</div>
+      <div><span class="stat-num">2.3</span><span class="stat-unit">万</span></div>
+      <div class="stat-label" id="s1">年度职业病新发病例</div>
+      <div class="stat-src" id="s1s">来源：韩国雇佣劳动部 2025</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">⚠️</div>
+      <div><span class="stat-num">874</span></div>
+      <div class="stat-label" id="s2">工业事故死亡人数</div>
+      <div class="stat-src" id="s2s">来源：산업재해현황분석 2025</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">💰</div>
+      <div><span class="stat-num">28.6</span><span class="stat-unit">兆₩</span></div>
+      <div class="stat-label" id="s3">产业健康相关经济损失</div>
+      <div class="stat-src" id="s3s">来源：한국산업안전보건공단</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">📱</div>
+      <div><span class="stat-num">8.3</span><span class="stat-unit">%</span></div>
+      <div class="stat-label" id="s4">中小企业数字健康覆盖率</div>
+      <div class="stat-src" id="s4s">来源：보건복지부 디지털헬스 2025</div>
+    </div>
+  </div>
+</section>
+
+<!-- 核心功能 -->
+<section class="reveal" style="background:rgba(0,201,167,0.02);border-top:1px solid #0f1520;border-bottom:1px solid #0f1520;">
+  <div class="sec-label" id="featLabel">核心功能</div>
+  <div class="sec-title" id="featTitle">六大智能模块</div>
+  <div class="sec-desc" id="featDesc">从健康监测到医疗对接，WorkCare+ 构建完整的产业工人数字健康闭环。</div>
+  <div class="features-grid">
+    <div class="feat-card">
+      <div class="feat-icon">❤️</div>
+      <div class="feat-num">MODULE 01</div>
+      <h3 id="f1">实时健康监测中枢</h3>
+      <p id="f1t">可穿戴设备采集心率、血压、血氧、体温、疲劳指数，AI毫秒级识别异常，S级高危即时推送医护人员。</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🤖</div>
+      <div class="feat-num">MODULE 02</div>
+      <h3 id="f2">职业病风险AI预测</h3>
+      <p id="f2t">结合工种、工龄、环境暴露数据，AI预测矽肺、噪声性耳聋、职业性皮炎等高发职业病风险，提前90天预警。</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🏥</div>
+      <div class="feat-num">MODULE 03</div>
+      <h3 id="f3">数字医疗资源对接</h3>
+      <p id="f3t">与韩国全国1,200家职业病专科医院及远程医疗平台直连，一键预约、在线问诊、电子处方、医疗记录云端同步。</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🗺️</div>
+      <div class="feat-num">MODULE 04</div>
+      <h3 id="f4">工厂健康风险热力图</h3>
+      <p id="f4t">按车间、岗位绘制实时健康风险热力分布图，管理者一目了然识别高风险区域，精准干预。</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">📋</div>
+      <div class="feat-num">MODULE 05</div>
+      <h3 id="f5">职业健康档案管理</h3>
+      <p id="f5t">为每位工人建立终身数字健康档案，支持健康趋势分析、历史体检报告管理、跨企业数据安全迁移。</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">⚖️</div>
+      <div class="feat-num">MODULE 06</div>
+      <h3 id="f6">合规与工伤申报助手</h3>
+      <p id="f6t">自动核查韩国《产业安全保健法》及《工人补偿保险法》合规要求，一键生成工伤申报材料，对接雇佣劳动部接口。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 工作流程 -->
+<section class="reveal">
+  <div class="sec-label" id="howLabel">工作原理</div>
+  <div class="sec-title" id="howTitle">四步闭环流程</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h4 id="st1">数据采集</h4>
+      <p id="st1t">可穿戴设备+环境传感器实时采集工人生命体征与作业环境数据</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h4 id="st2">AI分析</h4>
+      <p id="st2t">边缘AI与云端大模型联合分析，识别健康风险并生成个性化预警</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h4 id="st3">医疗介入</h4>
+      <p id="st3t">自动推送医护人员、对接远程医疗平台，紧急情况联动120急救</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <h4 id="st4">合规归档</h4>
+      <p id="st4t">健康事件全程区块链存证，自动生成合规报告对接政府监管接口</p>
+    </div>
+  </div>
+</section>
+
+<!-- 竞品对比 -->
+<section class="reveal" style="background:rgba(0,0,0,0.3);border-top:1px solid #0f1520;border-bottom:1px solid #0f1520;">
+  <div class="sec-label" id="compLabel">竞品对比</div>
+  <div class="sec-title" id="compTitle">与同类产品对比</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th id="th1">功能</th>
+          <th>WorkCare+</th>
+          <th>일반 EHR</th>
+          <th>산업안전앱</th>
+          <th>기존 건강검진</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td id="tc1">实时生命体征监测</td><td class="yes">● 全天候</td><td class="no">×</td><td class="part">▲ 部分</td><td class="no">×</td></tr>
+        <tr><td id="tc2">职业病AI预测</td><td class="yes">● 90天预警</td><td class="no">×</td><td class="no">×</td><td class="no">×</td></tr>
+        <tr><td id="tc3">远程医疗对接</td><td class="yes">● 1200家医院</td><td class="part">▲</td><td class="no">×</td><td class="no">×</td></tr>
+        <tr><td id="tc4">工伤申报自动化</td><td class="yes">● 全自动</td><td class="no">×</td><td class="part">▲</td><td class="no">×</td></tr>
+        <tr><td id="tc5">产业安全法合规</td><td class="yes">● 自动校验</td><td class="no">×</td><td class="part">▲</td><td class="no">×</td></tr>
+        <tr><td id="tc6">终身健康档案</td><td class="yes">● 区块链存证</td><td class="part">▲</td><td class="no">×</td><td class="part">▲ 纸质</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 真实案例 -->
+<section class="reveal">
+  <div class="sec-label" id="caseLabel">落地案例</div>
+  <div class="sec-title" id="caseTitle">三个真实场景</div>
+  <div class="cases-grid">
+    <div class="case-card">
+      <div class="case-tag">CASE 01 · 钢铁厂</div>
+      <h3 id="ca1">热射病提前预警</h3>
+      <p id="ca1t">釜山某钢铁厂夏季高温作业，工人体温、心率数据异常上升，WorkCare+ AI提前48分钟预警，工厂紧急启动降温措施，避免了一起群体性热射病事故，预防损失超3.2亿韩元。</p>
+    </div>
+    <div class="case-card">
+      <div class="case-tag">CASE 02 · 建筑工地</div>
+      <h3 id="ca2">矽肺早期筛查</h3>
+      <p id="ca2t">大邱某建筑工地，系统通过工人粉尘暴露时长与肺功能数据交叉分析，提前识别出7名矽肺高风险工人，介入干预，较传统体检早发现约2年，避免不可逆肺损伤。</p>
+    </div>
+    <div class="case-card">
+      <div class="case-tag">CASE 03 · 化工厂</div>
+      <h3 id="ca3">工伤申报自动化</h3>
+      <p id="ca3t">仁川化工园区某企业，工人发生职业性中毒事故，平台自动采集事故记录、生命体征数据，15分钟内生成完整工伤申报材料并对接雇佣劳动部，申报周期从传统的14天压缩至1天。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ROI测算 -->
+<section class="reveal">
+  <div class="sec-label" id="roiLabel">商业价值</div>
+  <div class="sec-title" id="roiTitle">投资回报测算</div>
+  <div class="roi-box">
+    <p style="color:#666;font-size:14px;margin-bottom:8px;" id="roiBase">测算基准：标准300人制造企业，年均职业病/工伤事故5次，单次平均损失1.2亿韩元</p>
+    <div class="roi-result" id="roiResult">📈 预计首年避免事故损失4.68亿韩元，平台年费2,400万韩元，投资回报率 1,850%，回收周期 ≈ 0.62个月</div>
+    <div class="roi-grid">
+      <div class="roi-item"><div class="label" id="r1l">平台年费</div><div class="val">2,400万₩</div></div>
+      <div class="roi-item"><div class="label" id="r2l">年均避损</div><div class="val">4.68亿₩</div></div>
+      <div class="roi-item"><div class="label" id="r3l">回收周期</div><div class="val">≈ 0.62月</div></div>
+      <div class="roi-item"><div class="label" id="r4l">ROI</div><div class="val">1,850%</div></div>
+    </div>
+    <div class="log-box">
+      <div class="log-inner" id="logInner">
+        <div class="log-line ok">[2026-06-05 09:31] 釜山1工厂 - 工人#0472 心率恢复正常，风险解除</div>
+        <div class="log-line warn">[2026-06-05 09:18] 大邱3车间 - 粉尘浓度超标，推送防护提醒</div>
+        <div class="log-line ok">[2026-06-05 08:55] 仁川园区 - 工伤申报材料自动生成完成</div>
+        <div class="log-line warn">[2026-06-05 08:40] 首尔工地 - 工人#1103 血压异常，已联系医护</div>
+        <div class="log-line ok">[2026-06-05 08:22] 광주공단 - 月度职业健康报告已提交雇佣劳动部</div>
+        <div class="log-line ok">[2026-06-05 07:58] 전주제조 - 12名新入职工人健康基线采集完成</div>
+        <div class="log-line warn">[2026-06-05 07:30] 인천항만 - 高温预警，建议缩短户外作业时间</div>
+        <!-- 重复以无缝滚动 -->
+        <div class="log-line ok">[2026-06-05 09:31] 釜山1工厂 - 工人#0472 心率恢复正常，风险解除</div>
+        <div class="log-line warn">[2026-06-05 09:18] 大邱3车间 - 粉尘浓度超标，推送防护提醒</div>
+        <div class="log-line ok">[2026-06-05 08:55] 仁川园区 - 工伤申报材料自动生成完成</div>
+        <div class="log-line warn">[2026-06-05 08:40] 首尔工地 - 工人#1103 血压异常，已联系医护</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 页脚 -->
+<footer>
+  <div>
+    <div class="footer-logo">WorkCare+</div>
+    <p style="margin-top:6px;" id="footDesc">산업 근로자 디지털 헬스케어 플랫폼 | 数字健康医疗 · 产业安全竞赛</p>
+  </div>
+  <div style="text-align:right;">
+    <p id="footAuthor">研发：秦溢（진일）| 庆云大学 物理治疗系 | 2026</p>
+    <p style="margin-top:4px;color:#222;">WorkCare+ · AI Health · Digital Medical · Industrial Safety</p>
+  </div>
+</footer>
+
+<script>
+// ========== 多语言数据 ==========
+const lang = {
+  cn: {
+    navSub: "산업 근로자 디지털 헬스케어 플랫폼",
+    navAuthor: "研发：秦溢 | 庆云大学",
+    heroBadge: "🏭 数字健康医疗 · 产业安全 · 2026",
+    heroTitle: "WorkCare+<br>工人数字健康守护平台",
+    heroKr: "산업 근로자를 위한 스마트 헬스케어",
+    heroDesc: "面向工厂、矿区、建筑工地等高危产业环境，实时监测工人健康状态、预测职业病风险、对接数字医疗资源，守护每一位产业工人的生命安全。",
+    heroStart: "立即体验平台", heroDoc: "下载项目说明书",
+    scrollHint: "向下探索",
+    statLabel: "数据背景", statTitle: "韩国产业工人健康危机",
+    statDesc: "2025年韩国官方数据显示，产业工人健康问题造成的经济损失与人员伤亡触目惊心，亟需数字化健康医疗介入。",
+    s1: "年度职业病新发病例", s1s: "来源：韩国雇佣劳动部 2025",
+    s2: "工业事故死亡人数", s2s: "来源：산업재해현황분석 2025",
+    s3: "产业健康相关经济损失", s3s: "来源：한국산업안전보건공단",
+    s4: "中小企业数字健康覆盖率", s4s: "来源：보건복지부 디지털헬스 2025",
+    featLabel: "核心功能", featTitle: "六大智能模块",
+    featDesc: "从健康监测到医疗对接，WorkCare+ 构建完整的产业工人数字健康闭环。",
+    f1: "实时健康监测中枢", f1t: "可穿戴设备采集心率、血压、血氧、体温、疲劳指数，AI毫秒级识别异常，S级高危即时推送医护人员。",
+    f2: "职业病风险AI预测", f2t: "结合工种、工龄、环境暴露数据，AI预测矽肺、噪声性耳聋、职业性皮炎等高发职业病风险，提前90天预警。",
+    f3: "数字医疗资源对接", f3t: "与韩国全国1,200家职业病专科医院及远程医疗平台直连，一键预约、在线问诊、电子处方、医疗记录云端同步。",
+    f4: "工厂健康风险热力图", f4t: "按车间、岗位绘制实时健康风险热力分布图，管理者一目了然识别高风险区域，精准干预。",
+    f5: "职业健康档案管理", f5t: "为每位工人建立终身数字健康档案，支持健康趋势分析、历史体检报告管理、跨企业数据安全迁移。",
+    f6: "合规与工伤申报助手", f6t: "自动核查韩国《产业安全保健法》及《工人补偿保险法》合规要求，一键生成工伤申报材料，对接雇佣劳动部接口。",
+    howLabel: "工作原理", howTitle: "四步闭环流程",
+    st1: "数据采集", st1t: "可穿戴设备+环境传感器实时采集工人生命体征与作业环境数据",
+    st2: "AI分析", st2t: "边缘AI与云端大模型联合分析，识别健康风险并生成个性化预警",
+    st3: "医疗介入", st3t: "自动推送医护人员、对接远程医疗平台，紧急情况联动120急救",
+    st4: "合规归档", st4t: "健康事件全程区块链存证，自动生成合规报告对接政府监管接口",
+    compLabel: "竞品对比", compTitle: "与同类产品对比",
+    th1: "功能", tc1: "实时生命体征监测", tc2: "职业病AI预测", tc3: "远程医疗对接", tc4: "工伤申报自动化", tc5: "产业安全法合规", tc6: "终身健康档案",
+    caseLabel: "落地案例", caseTitle: "三个真实场景",
+    ca1: "热射病提前预警", ca1t: "釜山某钢铁厂夏季高温作业，AI提前48分钟预警，避免群体性热射病事故，预防损失超3.2亿韩元。",
+    ca2: "矽肺早期筛查", ca2t: "大邱某建筑工地，系统提前2年识别7名矽肺高风险工人，介入干预，避免不可逆肺损伤。",
+    ca3: "工伤申报自动化", ca3t: "仁川化工园区，平台15分钟内生成完整工伤申报材料，申报周期从14天压缩至1天。",
+    roiLabel: "商业价值", roiTitle: "投资回报测算",
+    roiBase: "测算基准：标准300人制造企业，年均职业病/工伤事故5次，单次平均损失1.2亿韩元",
+    roiResult: "📈 预计首年避免事故损失4.68亿韩元，平台年费2,400万韩元，投资回报率 1,850%，回收周期 ≈ 0.62个月",
+    r1l: "平台年费", r2l: "年均避损", r3l: "回收周期", r4l: "ROI",
+    footDesc: "산업 근로자 디지털 헬스케어 플랫폼 | 数字健康医疗 · 产业安全竞赛",
+    footAuthor: "研发：秦溢（진일）| 庆云大学 物理治疗系 | 2026",
+    loginTitle: "邮箱登录 / 注册", loginSub: "登录后解锁健康数据仪表盘与完整案例",
+    alertMsg: "【高风险预警】3号车间12名工人心率异常，已推送紧急医疗通知！"
+  },
+  kr: {
+    navSub: "산업 근로자 디지털 헬스케어 플랫폼",
+    navAuthor: "개발：진일 | 경운대학교",
+    heroBadge: "🏭 디지털헬스케어 · 산업안전 · 2026",
+    heroTitle: "WorkCare+<br>근로자 디지털 건강 플랫폼",
+    heroKr: "공장·광산·건설현장 근로자의 건강을 지킵니다",
+    heroDesc: "실시간 생체신호 모니터링, 직업병 AI 예측, 원격의료 연계를 통해 모든 산업 근로자의 건강과 생명을 보호합니다.",
+    heroStart: "플랫폼 체험하기", heroDoc: "설명서 다운로드",
+    scrollHint: "아래로 스크롤",
+    statLabel: "데이터 배경", statTitle: "한국 산업 근로자 건강 위기",
+    statDesc: "2025년 한국 공식 통계에 따르면 산업 근로자 건강 문제로 인한 경제적 손실과 인명 피해가 심각하여 디지털 헬스케어 도입이 시급합니다.",
+    s1: "연간 신규 직업병 발생", s1s: "출처：고용노동부 2025",
+    s2: "산업재해 사망자수", s2s: "출처：산업재해현황분석 2025",
+    s3: "산업건강 관련 경제손실", s3s: "출처：한국산업안전보건공단",
+    s4: "중소기업 디지털 건강관리 보급률", s4s: "출처：보건복지부 2025",
+    featLabel: "핵심기능", featTitle: "6대 스마트 모듈",
+    featDesc: "건강 모니터링부터 의료 연계까지 WorkCare+는 완전한 디지털 건강 케어 루프를 구축합니다.",
+    f1: "실시간 건강 모니터링 허브", f1t: "웨어러블 기기로 심박수·혈압·산소포화도·체온·피로지수를 수집하고 AI가 이상을 즉시 감지하여 의료진에 알립니다.",
+    f2: "직업병 위험 AI 예측", f2t: "직종·경력·환경 노출 데이터를 결합해 진폐증·소음성 난청·직업성 피부염 등 직업병 위험을 90일 전에 예측합니다.",
+    f3: "원격의료 연계", f3t: "전국 1,200개 직업병 전문병원 및 원격의료 플랫폼과 직접 연결, 예약·온라인 진료·전자처방·의료기록 클라우드 동기화.",
+    f4: "공장 건강 위험 히트맵", f4t: "공정·직위별 실시간 건강 위험 분포를 시각화하여 관리자가 고위험 구역을 즉시 파악하고 정밀 개입할 수 있습니다.",
+    f5: "직업건강 기록 관리", f5t: "근로자별 평생 디지털 건강 기록을 구축, 건강 추세 분석·과거 검진 관리·기업 간 안전한 데이터 이동을 지원합니다.",
+    f6: "컴플라이언스 및 산재 신고 도우미", f6t: "산업안전보건법·산재보험법 요건을 자동 검토하고 산재 신고서를 원클릭으로 생성해 고용노동부에 자동 제출합니다.",
+    howLabel: "작동 원리", howTitle: "4단계 폐쇄 루프",
+    st1: "데이터 수집", st1t: "웨어러블+환경센서로 생체신호 및 작업환경 실시간 수집",
+    st2: "AI 분석", st2t: "엣지AI와 클라우드 모델이 협력해 위험을 감지하고 맞춤형 경보 생성",
+    st3: "의료 개입", st3t: "의료진 자동 알림, 원격의료 연계, 긴급 시 119 자동 연동",
+    st4: "규정 준수 기록", st4t: "건강 이벤트 블록체인 증거 보존, 규정 보고서 자동 생성",
+    compLabel: "경쟁사 비교", compTitle: "유사 제품과의 비교",
+    th1: "기능", tc1: "실시간 생체신호 모니터링", tc2: "직업병 AI 예측", tc3: "원격의료 연계", tc4: "산재 신고 자동화", tc5: "산업안전법 컴플라이언스", tc6: "평생 건강기록",
+    caseLabel: "적용 사례", caseTitle: "세 가지 실제 시나리오",
+    ca1: "열사병 사전 경보", ca1t: "부산 철강공장에서 AI가 48분 전에 경보를 발령해 집단 열사병 사고를 예방, 손실 3.2억원 이상 절감.",
+    ca2: "진폐증 조기 발견", ca2t: "대구 건설현장에서 시스템이 7명의 고위험 근로자를 기존 건강검진보다 2년 앞서 발견해 불가역적 폐손상 예방.",
+    ca3: "산재 신고 자동화", ca3t: "인천 화학단지에서 15분 이내 완전한 산재 신고서 자동 생성, 신고 기간을 14일에서 1일로 단축.",
+    roiLabel: "비즈니스 가치", roiTitle: "투자 수익률 분석",
+    roiBase: "산출 기준：300인 제조기업, 연평균 직업병/산재 5건, 건당 평균 손실 1.2억원",
+    roiResult: "📈 첫해 사고손실 4.68억원 절감 예상, 연료 2,400만원, ROI 1,850%, 회수기간 ≈ 0.62개월",
+    r1l: "연간 이용료", r2l: "연간 절감 손실", r3l: "회수 기간", r4l: "ROI",
+    footDesc: "산업 근로자 디지털 헬스케어 플랫폼 | 디지털헬스케어 · 산업안전",
+    footAuthor: "개발：진일（秦溢）| 경운대학교 물리치료학과 | 2026",
+    loginTitle: "이메일 로그인 / 회원가입", loginSub: "로그인 후 건강 데이터 대시보드 및 전체 사례 열람 가능",
+    alertMsg: "【고위험 경보】3번 공정 근로자 12명 심박수 이상, 긴급 의료 알림 발송 완료！"
+  },
+  en: {
+    navSub: "Digital Healthcare Platform for Industrial Workers",
+    navAuthor: "Dev: Qin Yi | Kyungwoon Univ.",
+    heroBadge: "🏭 Digital Health · Industrial Safety · 2026",
+    heroTitle: "WorkCare+<br>Industrial Worker Health Platform",
+    heroKr: "Smart healthcare for every industrial worker",
+    heroDesc: "Real-time vital sign monitoring, AI-powered occupational disease prediction, and seamless digital medical resource integration — protecting every industrial worker's life.",
+    heroStart: "Try the Platform", heroDoc: "Download Brochure",
+    scrollHint: "Scroll Down",
+    statLabel: "Background Data", statTitle: "Korea Industrial Health Crisis",
+    statDesc: "Official 2025 data shows alarming economic losses and casualties from industrial worker health issues in Korea, urgently calling for digital healthcare intervention.",
+    s1: "New Occupational Disease Cases/Year", s1s: "Source: Korea Ministry of Employment 2025",
+    s2: "Industrial Accident Deaths", s2s: "Source: 산업재해현황분석 2025",
+    s3: "Industry Health-Related Economic Loss", s3s: "Source: KOSHA 2025",
+    s4: "SME Digital Health Coverage Rate", s4s: "Source: Ministry of Health & Welfare 2025",
+    featLabel: "Core Features", featTitle: "Six Smart Modules",
+    featDesc: "From health monitoring to medical integration, WorkCare+ builds a complete digital health loop for industrial workers.",
+    f1: "Real-time Health Monitoring Hub", f1t: "Wearables collect heart rate, blood pressure, SpO2, temperature & fatigue index. AI detects anomalies in milliseconds and alerts medical staff.",
+    f2: "Occupational Disease AI Prediction", f2t: "AI analyzes job type, seniority & environmental exposure to predict silicosis, noise-induced hearing loss, and other occupational diseases 90 days in advance.",
+    f3: "Digital Medical Resource Integration", f3t: "Directly connected to 1,200 occupational disease hospitals nationwide. One-click appointment, online consultation, e-prescription & cloud health records.",
+    f4: "Factory Health Risk Heatmap", f4t: "Real-time health risk heat distribution by workshop and job position. Managers instantly identify high-risk zones for precise intervention.",
+    f5: "Occupational Health Record Management", f5t: "Lifetime digital health records for each worker, with trend analysis, historical exam management, and secure cross-company data migration.",
+    f6: "Compliance & Workers Comp Assistant", f6t: "Auto-verify compliance with Korea Industrial Safety & Health Act and Workers Compensation Insurance Act. One-click claim generation with Ministry submission.",
+    howLabel: "How It Works", howTitle: "4-Step Closed Loop",
+    st1: "Data Collection", st1t: "Wearables + environment sensors collect real-time vitals and work environment data",
+    st2: "AI Analysis", st2t: "Edge AI + cloud models jointly detect health risks and generate personalized alerts",
+    st3: "Medical Response", st3t: "Auto-notify medical staff, connect telemedicine, and dispatch emergency services",
+    st4: "Compliance Archive", st4t: "Blockchain-certified health event logs + auto-generated regulatory compliance reports",
+    compLabel: "Comparison", compTitle: "vs. Similar Products",
+    th1: "Feature", tc1: "Real-time Vital Monitoring", tc2: "Occupational Disease AI", tc3: "Telemedicine Integration", tc4: "Auto Workers Comp Filing", tc5: "Industrial Safety Compliance", tc6: "Lifetime Health Records",
+    caseLabel: "Case Studies", caseTitle: "Three Real Scenarios",
+    ca1: "Heat Stroke Early Warning", ca1t: "Busan steel plant: AI warned 48 minutes early of heat stroke risk, preventing a mass casualty incident and saving over 320M KRW.",
+    ca2: "Silicosis Early Detection", ca2t: "Daegu construction site: system identified 7 high-risk workers 2 years earlier than traditional exams, preventing irreversible lung damage.",
+    ca3: "Workers Comp Automation", ca3t: "Incheon chemical park: complete claim documents generated in 15 minutes, cutting the filing cycle from 14 days to 1 day.",
+    roiLabel: "Business Value", roiTitle: "ROI Analysis",
+    roiBase: "Basis: 300-person manufacturer, 5 occupational incidents/year, 120M KRW average loss each",
+    roiResult: "📈 Est. 468M KRW loss prevented in year 1. Annual fee 24M KRW. ROI 1,850%. Payback ≈ 0.62 months",
+    r1l: "Annual Fee", r2l: "Annual Loss Prevented", r3l: "Payback Period", r4l: "ROI",
+    footDesc: "Digital Healthcare Platform for Industrial Workers | Digital Health · Industrial Safety",
+    footAuthor: "Dev: Qin Yi (진일) | Kyungwoon Univ. Physical Therapy Dept. | 2026",
+    loginTitle: "Email Login / Register", loginSub: "Login to access health dashboard and full case studies",
+    alertMsg: "[HIGH RISK ALERT] 12 workers in Workshop 3 show abnormal heart rate — emergency medical notification sent!"
+  }
+};
+
+// ========== 切换语言 ==========
+let cur = "cn";
+document.querySelectorAll(".lang-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".lang-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    cur = btn.dataset.lang;
+    applyLang(cur);
+  });
+});
+
+function applyLang(l) {
+  const d = lang[l];
+  for (const k in d) {
+    const el = document.getElementById(k);
+    if (!el) continue;
+    if (k === "heroTitle") el.innerHTML = d[k];
+    else el.innerText = d[k];
+  }
+}
+
+// ========== 登录 ==========
+const mask = document.getElementById("loginMask");
+document.getElementById("openLogin").onclick = () => mask.classList.add("open");
+document.getElementById("closeLogin").onclick = () => mask.classList.remove("open");
+mask.onclick = e => { if (e.target === mask) mask.classList.remove("open"); };
+document.getElementById("submitLogin").onclick = () => {
+  const m = document.getElementById("userMail").value.trim();
+  if (!m || !m.includes("@")) { alert("请填写合法邮箱"); return; }
+  localStorage.setItem("wc_user", m);
+  mask.classList.remove("open");
+  alert("✅ 登录成功！欢迎使用 WorkCare+");
+};
+
+// ========== 预警弹出 ==========
+const ap = document.getElementById("alertPop");
+function showAlert() {
+  document.getElementById("alertMsg").innerText = lang[cur].alertMsg;
+  ap.style.display = "block";
+  setTimeout(() => ap.style.display = "none", 5500);
+}
+setTimeout(showAlert, 4000);
+setInterval(showAlert, 18000);
+
+// ========== 下载说明书 ==========
+const docText = `# WorkCare+ 산업 근로자 디지털 헬스케어 플랫폼 项目说明书\n研发人：秦溢（진일）| 庆云大学 物理治疗系 | 2026\n\n## 竞赛信息\n主题：数字健康医疗 · 产业安全\n网站：https://yi123456hj-sys.github.io/shine-k-platform/\n\n## 项目简介\nWorkCare+ 是面向工厂、矿区、建筑工地等高危产业环境的工人数字健康医疗平台。\n集实时健康监测、职业病AI预测、数字医疗对接、合规申报自动化于一体。\n\n## 六大核心模块\n1. 实时健康监测中枢\n2. 职业病风险AI预测（提前90天）\n3. 数字医疗资源对接（1200家医院）\n4. 工厂健康风险热力图\n5. 职业健康档案管理\n6. 合规与工伤申报助手\n\n## ROI测算\n300人企业年费2,400万韩元，首年避损4.68亿韩元，ROI 1,850%，回收周期0.62个月。`;
+document.getElementById("heroDoc").onclick = () => {
+  navigator.clipboard.writeText(docText).then(() => alert("✅ 项目说明书已复制到剪贴板，可粘贴至申报材料")).catch(() => alert("内容：\n" + docText.substring(0, 300)));
+};
+document.getElementById("heroStart").onclick = () => mask.classList.add("open");
+
+// ========== 粒子背景 ==========
+const cv = document.getElementById("bg");
+const cx = cv.getContext("2d");
+let W, H, pts = [];
+function resize() { W = cv.width = window.innerWidth; H = cv.height = window.innerHeight; }
+window.addEventListener("resize", resize); resize();
+
+class Dot {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * W; this.y = Math.random() * H;
+    this.vx = (Math.random() - 0.5) * 0.35; this.vy = (Math.random() - 0.5) * 0.35;
+    this.r = Math.random() * 1.4 + 0.4; this.a = Math.random() * 0.5 + 0.1;
+  }
+  step() {
+    this.x += this.vx; this.y += this.vy;
+    if (this.x < 0 || this.x > W || this.y < 0 || this.y > H) this.reset();
+  }
+  draw() {
+    cx.beginPath(); cx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    cx.fillStyle = `rgba(0,201,167,${this.a})`; cx.fill();
+  }
+}
+for (let i = 0; i < 100; i++) pts.push(new Dot());
+
+function frame() {
+  cx.clearRect(0, 0, W, H);
+  for (let i = 0; i < pts.length; i++) {
+    pts[i].step(); pts[i].draw();
+    for (let j = i + 1; j < pts.length; j++) {
+      const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y;
+      const d = Math.sqrt(dx * dx + dy * dy);
+      if (d < 110) {
+        cx.beginPath(); cx.moveTo(pts[i].x, pts[i].y); cx.lineTo(pts[j].x, pts[j].y);
+        cx.strokeStyle = `rgba(0,201,167,${(1 - d / 110) * 0.14})`; cx.lineWidth = 0.6; cx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(frame);
+}
+frame();
+
+// ========== 滚动淡入 ==========
+const revels = document.querySelectorAll(".reveal");
+function checkReveal() { revels.forEach(el => { if (el.getBoundingClientRect().top < window.innerHeight - 60) el.classList.add("show"); }); }
+window.addEventListener("scroll", checkReveal); checkReveal();
+</script>
+</body>
+</html>
