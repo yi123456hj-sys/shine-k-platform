@@ -4575,7 +4575,7 @@ const I18N = {
   },
   zh: {
     rmLabel:"NEW · 风险评估",rmTitle1:"交互式",rmTitle2:"风险评估矩阵",rmDesc:"按发生可能性和严重程度将危险因素放置在5×5矩阵中，自动计算风险等级。",rm1:"极低",rm2:"低",rm3:"中等",rm4:"高",rm5:"极高",rmXAxis:"← 发生可能性 →",rmGreen:"可接受",rmYellow:"需注意",rmOrange:"需改善",rmRed:"立即整改",rmAddTitle:"登记危险因素",rmProbLabel:"发生可能性 (1-5)",rmSevLabel:"严重程度 (1-5)",rmAddBtn:"+ 添加到矩阵",
-    whyLabel:"NEW · 事故原因分析",whyTitle1:"5-Why",whyTitle2:"根本原因分析工具",whyDesc:"运用丰田开发的5-Why技法找出事故根本原因。重复问5次"为什么"发现结构性问题。",whyProbLabel:"🔴 发生的问题（事故/未遂事故）",whyAnalyzeBtn:"🔍 开始分析",whyResetBtn:"↺ 重置",whyResultHint:"在左侧输入问题和原因，分析结果将显示在此处",
+    whyLabel:"NEW · 事故原因分析",whyTitle1:"5-Why",whyTitle2:"根本原因分析工具",whyDesc:"运用丰田开发的5-Why技法找出事故根本原因。重复问5次'为什么'发现结构性问题。",whyProbLabel:"🔴 发生的问题（事故/未遂事故）",whyAnalyzeBtn:"🔍 开始分析",whyResetBtn:"↺ 重置",whyResultHint:"在左侧输入问题和原因，分析结果将显示在此处",
     cprLabel:"NEW · 急救指南",cprTitle1:"CPR &amp; 现场",cprTitle2:"急救互动指南",cprDesc:"心脏骤停时保持正确CPR节拍的计时器，以及4种主要伤害类型的分步急救指南。",cprTimerTitle:"🫀 CPR节拍计时器",cprTimerSub:"每分钟保持100-120次按压",cprPressCount:"按压次数",cprCycleInfo:"30次按压→2次人工呼吸为1组",cprStart:"▶ 开始",cprPause:"⏸ 暂停",cprBreathNow:"💨 现在进行2次人工呼吸！",cprNote:"⚠️ 拨打119后在等待AED期间持续CPR\n按压深度：成人5-6cm / 儿童4-5cm",firstAidTitle:"🩺 按伤害类型急救指南",faBurn:"🔥 烧伤",faFall:"🤸 坠落·骨折",faChemical:"🧪 化学物质",faCut:"🩸 割伤·出血",faSelectHint:"点击上方按钮查看急救步骤",
     pledgeLabel:"NEW · 作业前安全承诺",pledgeTitle1:"数字化",pledgeTitle2:"安全承诺书签名",pledgeDesc:"作业开始前确认安全规则并进行数字签名承诺。",pledgeDocTitle:"安全作业承诺书",pledgeItem1:"✅ 我今天作业前将佩戴防护用品。",pledgeItem2:"✅ 我将提前确认作业区域的危险因素。",pledgeItem3:"✅ 我将严格遵守规定的作业程序。",pledgeItem4:"✅ 我发现异常时将立即停止作业并报告。",pledgeItem5:"✅ 我也将一同保护同事的安全。",pledgeNameLabel:"签名人姓名",pledgeDeptLabel:"所属部门",pledgeSigLabel:"✍️ 签名（鼠标或触摸）",sigClearBtn:"🗑 清除",sigSaveBtn:"📄 保存承诺书",pledgeDone:"承诺完成！请安全作业。",
     zaLabel:"NEW · 无事故现况",zaTitle1:"各工厂",zaTitle2:"无事故记录板",zaDesc:"将实际工业现场使用的无事故记录板数字化。实时追踪各工厂连续无事故天数。",zaHistLabel:"📋 整体现况汇总",
@@ -7505,7 +7505,7 @@ window.downloadReport=function(){
 </script>
 
 <!-- QR lib from CDN -->
-<script src="https://unpkg.com/qrcode@1.5.3/build/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 
 <!-- ═══════════════ ADVANCED TECH v2 ═══════════════════════ -->
 <style>
@@ -9900,15 +9900,20 @@ function calcHeat(){
   document.getElementById('heatAdvice').style.borderLeft=`3px solid ${gradeColor}`;
 }
 
-// Re-run dynamic sections when lang changes
-const _origSetLang = window.setLang;
-window.setLang = function(lang){
-  _origSetLang(lang);
-  if(document.getElementById('tempSlider')) calcHeat();
-  // Refresh stretch list with new language
-  STRETCHES = getStretches();
-  if(!stretchRunning){ selectStretch(stretchIdx); renderStretchList(); }
-};
+// Re-run dynamic sections when lang changes — wrap AFTER all scripts loaded
+window.addEventListener('load', function(){
+  const _orig = window.setLang;
+  if(typeof _orig === 'function'){
+    window.setLang = function(lang){
+      _orig(lang);
+      if(document.getElementById('tempSlider')) calcHeat();
+      STRETCHES = getStretches();
+      if(!stretchRunning){ selectStretch(stretchIdx); renderStretchList(); }
+      if(document.getElementById('rmGrid')) renderRMGrid();
+      if(document.getElementById('whyInputs')) renderWhyInputs();
+    };
+  }
+});
 
 document.addEventListener('DOMContentLoaded',()=>{ if(document.getElementById('tempSlider')) calcHeat(); });
 </script>
