@@ -398,10 +398,102 @@ footer{
   nav{padding:.65rem 4%}
   .nav-links{display:none}
   section{padding:3.5rem 4%}
+  .nav-clock{display:none}
+  #back-top{bottom:18px;right:18px;width:38px;height:38px;font-size:15px}
 }
+
+/* ── Scroll progress bar ── */
+#scroll-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--blue),var(--purple));z-index:9999;width:0%;transition:width .08s linear}
+
+/* ── Back to top ── */
+#back-top{
+  position:fixed;bottom:28px;right:28px;z-index:800;
+  width:44px;height:44px;border-radius:50%;
+  background:linear-gradient(135deg,var(--teal),var(--blue));
+  border:none;cursor:pointer;font-size:18px;color:#000;font-weight:900;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 20px rgba(0,201,167,.4);
+  opacity:0;transform:translateY(20px);
+  transition:.35s;pointer-events:none
+}
+#back-top.visible{opacity:1;transform:none;pointer-events:all}
+#back-top:hover{transform:translateY(-4px) scale(1.08);box-shadow:0 8px 28px rgba(0,201,167,.5)}
+
+/* ── Nav clock ── */
+.nav-clock{font-size:11px;color:#555;font-family:monospace;padding:4px 10px;border:1px solid #1a1e35;border-radius:4px;white-space:nowrap;letter-spacing:.5px}
+
+/* ── Quick bar v2 ── */
+.quick-bar-hdr{
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  padding:.4rem 4%;display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;user-select:none
+}
+.quick-bar-hdr:hover .quick-toggle{color:var(--teal)}
+.quick-toggle{font-size:11px;color:#444;transition:.3s;display:flex;align-items:center;gap:5px}
+.quick-toggle svg{transition:transform .3s}
+.quick-toggle.open svg{transform:rotate(180deg)}
+.qbar-wrap{
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  padding:.65rem 4%;
+  transition:max-height .35s ease,opacity .3s,padding .3s;
+  overflow:hidden;max-height:200px;opacity:1
+}
+.qbar-wrap.hidden{max-height:0;padding:0 4%;opacity:0}
+.quick-group{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:6px}
+.quick-group:last-child{margin-bottom:0}
+.qg-label{font-size:9px;color:#333;min-width:56px;text-align:right;padding-right:4px;letter-spacing:.5px;flex-shrink:0}
+
+/* ── Checklist ── */
+.cl-item{
+  display:flex;align-items:flex-start;gap:12px;padding:12px 16px;
+  background:var(--card);border:1px solid #1a1e35;border-radius:8px;
+  margin-bottom:8px;cursor:pointer;transition:.25s;user-select:none
+}
+.cl-item:hover{border-color:rgba(0,201,167,.3)}
+.cl-item.checked{background:rgba(0,201,167,.05);border-color:var(--teal)}
+.cl-item.checked .cl-label{color:var(--teal);text-decoration:line-through;text-decoration-color:rgba(0,201,167,.4)}
+.cl-cb{
+  width:20px;height:20px;border:2px solid #2a2e40;border-radius:4px;
+  flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  font-size:11px;color:var(--teal);transition:.2s;margin-top:1px
+}
+.cl-item.checked .cl-cb{background:rgba(0,201,167,.2);border-color:var(--teal)}
+.cl-label{font-size:13px;color:#888;transition:.2s;line-height:1.5;flex:1}
+.cl-cat{font-size:10px;padding:2px 8px;border-radius:10px;flex-shrink:0;font-weight:700}
+.cl-cat.physical{background:rgba(58,123,213,.12);color:var(--blue)}
+.cl-cat.equipment{background:rgba(255,123,30,.12);color:var(--orange)}
+.cl-cat.ppe{background:rgba(124,92,191,.12);color:var(--purple)}
+.cl-cat.env{background:rgba(0,201,167,.12);color:var(--teal)}
+.cl-cat.emergency{background:rgba(255,77,106,.12);color:var(--red)}
+.cl-progress-bar{height:10px;background:#1a1e35;border-radius:5px;overflow:hidden;margin-bottom:6px}
+.cl-progress-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--blue));border-radius:5px;transition:width .5s ease}
+.cl-score-txt{font-size:12px;color:#666;margin-bottom:18px}
+.cl-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.cl-action-btn{padding:8px 20px;border-radius:6px;font-size:12px;cursor:pointer;transition:.25s;border:1px solid}
+.cl-print{background:transparent;border-color:var(--teal);color:var(--teal)}
+.cl-print:hover{background:rgba(0,201,167,.1)}
+.cl-reset{background:transparent;border-color:#333;color:#555}
+.cl-reset:hover{border-color:var(--red);color:var(--red)}
+.cl-grade-badge{display:inline-block;padding:6px 18px;border-radius:20px;font-size:13px;font-weight:700;margin-bottom:16px}
+
+/* ── Noise Calc ── */
+.noise-meter-wrap{margin:16px 0}
+.noise-gradient-bar{width:100%;height:22px;border-radius:11px;background:linear-gradient(90deg,#00e676 0%,var(--gold) 50%,var(--orange) 75%,var(--red) 100%);position:relative;overflow:visible}
+.noise-needle{position:absolute;top:-4px;width:3px;height:30px;background:#fff;border-radius:2px;transform:translateX(-50%);transition:left .6s ease;box-shadow:0 0 8px rgba(255,255,255,.6)}
+.noise-tick-labels{display:flex;justify-content:space-between;font-size:10px;color:#444;margin-top:4px}
+.noise-source-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:16px 0}
+.noise-src-btn{
+  background:var(--card);border:1px solid #1a1e35;border-radius:8px;padding:12px;
+  text-align:center;cursor:pointer;transition:.25s;font-size:12px;color:#888
+}
+.noise-src-btn:hover,.noise-src-btn.active{border-color:var(--teal);color:var(--teal);background:rgba(0,201,167,.06)}
+.noise-src-btn .src-db{font-size:20px;font-weight:800;color:var(--teal);display:block;margin-bottom:2px}
+.noise-result-panel{background:rgba(0,0,0,.3);border-radius:10px;padding:16px;margin-top:14px;border:1px solid #1a1e35}
 </style>
 </head>
 <body>
+<div id="scroll-progress"></div>
+<button id="back-top">↑</button>
 
 <!-- ── Navigation ── -->
 <nav>
@@ -423,30 +515,55 @@ footer{
     <button class="lang-btn" onclick="setLang('en')">EN</button>
     <button class="lang-btn" onclick="setLang('zh')">中</button>
     <button class="lang-btn" onclick="setLang('ja')">JA</button>
+    <div class="nav-clock" id="navClock">--:--:--</div>
   </div>
 </nav>
 
-<!-- ── Quick Access ── -->
-<div class="quick-bar">
-  <button class="quick-btn" onclick="scrollTo('#background')">📊 연구배경</button>
-  <button class="quick-btn" onclick="scrollTo('#regional')">🗺️ 지역분석</button>
-  <button class="quick-btn" onclick="scrollTo('#cluster')">🏭 클러스터</button>
-  <button class="quick-btn" onclick="scrollTo('#platform')">⚙️ 7기술융합</button>
-  <button class="quick-btn" onclick="scrollTo('#agents')">🤖 12에이전트</button>
-  <button class="quick-btn" onclick="scrollTo('#scenarios')">⚠️ 사고시나리오</button>
-  <button class="quick-btn" onclick="scrollTo('#liveai')">🎥 실시간AI</button>
-  <button class="quick-btn" onclick="scrollTo('#health')">💚 건강증진</button>
-  <button class="quick-btn" onclick="scrollTo('#dashboard')">📡 관제센터</button>
-  <button class="quick-btn" onclick="scrollTo('#fatigue')">😴 피로분석</button>
-  <button class="quick-btn" onclick="scrollTo('#legal')">📋 법규준수</button>
-  <button class="quick-btn" onclick="scrollTo('#map')">🗾 3D위험지도</button>
-  <button class="quick-btn" onclick="scrollTo('#competitive')">📈 경쟁분석</button>
-  <button class="quick-btn" onclick="scrollTo('#impact')">🎯 기대효과</button>
-  <button class="quick-btn" onclick="scrollTo('#emergency')">🚨 긴급연락</button>
-  <button class="quick-btn" onclick="scrollTo('#burns')" style="border-color:rgba(255,77,106,.4);color:var(--red)">🔥 화상대응</button>
-  <button class="quick-btn" onclick="scrollTo('#falls')" style="border-color:rgba(58,123,213,.4);color:var(--blue)">🤸 추락감지</button>
-  <button class="quick-btn" onclick="scrollTo('#crush')" style="border-color:rgba(124,92,191,.4);color:var(--purple)">⚠️ 끼임·압착</button>
-  <button class="quick-btn" onclick="scrollTo('#universal')" style="border-color:rgba(0,201,167,.4);color:var(--teal)">🏥 공통대응</button>
+<!-- ── Quick Access v2 ── -->
+<div class="quick-bar-hdr" onclick="toggleQuickBar(this)">
+  <span style="font-size:11px;color:#555;letter-spacing:1px">⚡ 빠른 이동</span>
+  <span class="quick-toggle open" id="quickToggleIcon">
+    빠른 탐색 메뉴
+    <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+  </span>
+</div>
+<div class="qbar-wrap" id="quickBarBody">
+  <div class="quick-group">
+    <span class="qg-label">데이터</span>
+    <button class="quick-btn" onclick="scrollTo('#background')">📊 연구배경</button>
+    <button class="quick-btn" onclick="scrollTo('#regional')">🗺️ 지역분석</button>
+    <button class="quick-btn" onclick="scrollTo('#cluster')">🏭 클러스터</button>
+  </div>
+  <div class="quick-group">
+    <span class="qg-label">플랫폼</span>
+    <button class="quick-btn" onclick="scrollTo('#platform')">⚙️ 7기술융합</button>
+    <button class="quick-btn" onclick="scrollTo('#agents')">🤖 12에이전트</button>
+    <button class="quick-btn" onclick="scrollTo('#liveai')">🎥 실시간AI</button>
+    <button class="quick-btn" onclick="scrollTo('#health')">💚 건강증진</button>
+  </div>
+  <div class="quick-group">
+    <span class="qg-label">관제·분석</span>
+    <button class="quick-btn" onclick="scrollTo('#dashboard')">📡 관제센터</button>
+    <button class="quick-btn" onclick="scrollTo('#fatigue')">😴 피로분석</button>
+    <button class="quick-btn" onclick="scrollTo('#map')">🗾 3D위험지도</button>
+    <button class="quick-btn" onclick="scrollTo('#legal')">📋 법규준수</button>
+  </div>
+  <div class="quick-group">
+    <span class="qg-label">사고대응</span>
+    <button class="quick-btn" onclick="scrollTo('#scenarios')">⚠️ 사고시나리오</button>
+    <button class="quick-btn" onclick="scrollTo('#burns')" style="border-color:rgba(255,77,106,.3);color:var(--red)">🔥 화상</button>
+    <button class="quick-btn" onclick="scrollTo('#falls')" style="border-color:rgba(58,123,213,.3);color:var(--blue)">🤸 추락</button>
+    <button class="quick-btn" onclick="scrollTo('#crush')" style="border-color:rgba(124,92,191,.3);color:var(--purple)">⚠️ 끼임·압착</button>
+    <button class="quick-btn" onclick="scrollTo('#universal')" style="border-color:rgba(0,201,167,.3);color:var(--teal)">🏥 공통대응</button>
+    <button class="quick-btn" onclick="scrollTo('#emergency')" style="border-color:rgba(255,77,106,.3);color:var(--red)">🚨 긴급연락</button>
+  </div>
+  <div class="quick-group">
+    <span class="qg-label">성과·도구</span>
+    <button class="quick-btn" onclick="scrollTo('#competitive')">📈 경쟁분석</button>
+    <button class="quick-btn" onclick="scrollTo('#impact')">🎯 기대효과</button>
+    <button class="quick-btn" onclick="scrollTo('#noise-calc')">🔊 소음계산기</button>
+    <button class="quick-btn" onclick="scrollTo('#checklist')">✅ 점검표</button>
+  </div>
 </div>
 
 <!-- ── Hero ── -->
@@ -1778,6 +1895,125 @@ footer{
   </div>
 </section>
 
+<!-- ── Section · Noise Exposure Calculator ── -->
+<section id="noise-calc" style="background:var(--bg2)">
+  <div class="reveal">
+    <div class="section-num">도구 01</div>
+    <div class="sec-label">Noise Exposure Tool</div>
+    <div class="sec-title">소음 노출량 계산기</div>
+    <div class="sec-desc">작업 환경별 소음원을 선택하고 노출 시간을 입력하면 일일 소음 노출량(TWA)과 청력 손상 위험도를 자동 계산합니다.</div>
+    <div class="grid-2">
+      <div class="noise-calc">
+        <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:14px">소음원 선택 (복수 가능)</div>
+        <div class="noise-source-grid">
+          <div class="noise-src-btn" onclick="toggleNoiseSrc(this,95)" data-db="95">
+            <span class="src-db">95dB</span>연삭기
+          </div>
+          <div class="noise-src-btn" onclick="toggleNoiseSrc(this,88)" data-db="88">
+            <span class="src-db">88dB</span>전동드릴
+          </div>
+          <div class="noise-src-btn" onclick="toggleNoiseSrc(this,105)" data-db="105">
+            <span class="src-db">105dB</span>금속절단기
+          </div>
+          <div class="noise-src-btn" onclick="toggleNoiseSrc(this,82)" data-db="82">
+            <span class="src-db">82dB</span>에어건
+          </div>
+          <div class="noise-src-btn" onclick="toggleNoiseSrc(this,78)" data-db="78">
+            <span class="src-db">78dB</span>공조기
+          </div>
+          <div class="noise-src-btn" onclick="toggleNoiseSrc(this,112)" data-db="112">
+            <span class="src-db">112dB</span>리벳건
+          </div>
+        </div>
+        <div class="form-row" style="margin-top:14px">
+          <label class="form-label">1일 해당 소음원 노출 시간 (시간)</label>
+          <input class="form-input" type="number" id="noiseHours" value="4" min="0.5" max="8" step="0.5" oninput="calcNoise()">
+        </div>
+        <div style="font-size:12px;color:#555;margin-bottom:8px">기준: 고용노동부 소음성 난청 예방 지침 (TWA 90dB/8h)</div>
+        <button class="btn-primary" style="width:100%" onclick="calcNoise()">노출량 계산</button>
+      </div>
+
+      <div>
+        <div class="noise-result-panel" id="noiseResultPanel">
+          <div style="font-size:12px;color:#666;margin-bottom:10px">소음 노출 지수 (Noise Dose)</div>
+          <div class="noise-meter-wrap">
+            <div class="noise-tick-labels"><span>0%</span><span>50%</span><span>100%</span><span>200%+</span></div>
+            <div class="noise-gradient-bar">
+              <div class="noise-needle" id="noiseNeedle" style="left:0%"></div>
+            </div>
+          </div>
+          <div style="text-align:center;margin:14px 0">
+            <div id="noiseDoseNum" style="font-size:42px;font-weight:900;color:var(--teal)">—</div>
+            <div style="font-size:12px;color:#555">소음 노출 지수 (%)</div>
+          </div>
+          <div id="noiseGradeBox" style="text-align:center;padding:10px;border-radius:8px;background:rgba(0,0,0,.2);margin-bottom:10px">
+            <div id="noiseGradeLabel" style="font-size:15px;font-weight:700">소음원과 시간을 입력하세요</div>
+          </div>
+          <div id="noiseAdvice" style="font-size:12px;color:#666;line-height:1.8;white-space:pre-line"></div>
+          <div style="margin-top:14px;padding-top:12px;border-top:1px solid #1a1e35">
+            <div style="font-size:11px;color:#444;margin-bottom:8px">노출 지수 기준</div>
+            <div style="display:flex;flex-direction:column;gap:5px;font-size:11px">
+              <div style="display:flex;align-items:center;gap:8px"><div style="width:10px;height:10px;border-radius:2px;background:#00e676;flex-shrink:0"></div><span style="color:#777">&lt;50% — 안전: 청력 보호구 불필요 (권장은 착용)</span></div>
+              <div style="display:flex;align-items:center;gap:8px"><div style="width:10px;height:10px;border-radius:2px;background:var(--gold);flex-shrink:0"></div><span style="color:#777">50~100% — 주의: 귀마개/귀덮개 착용 의무</span></div>
+              <div style="display:flex;align-items:center;gap:8px"><div style="width:10px;height:10px;border-radius:2px;background:var(--orange);flex-shrink:0"></div><span style="color:#777">100~200% — 위험: 즉시 노출 감소 조치</span></div>
+              <div style="display:flex;align-items:center;gap:8px"><div style="width:10px;height:10px;border-radius:2px;background:var(--red);flex-shrink:0"></div><span style="color:#777">&gt;200% — 긴급: 작업 중단 및 청력 검사 요구</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section · Daily Safety Checklist ── -->
+<section id="checklist">
+  <div class="reveal">
+    <div class="section-num">도구 02</div>
+    <div class="sec-label">Daily Safety Checklist</div>
+    <div class="sec-title">일일 안전 점검표</div>
+    <div class="sec-desc">작업 전 필수 안전 점검 항목을 확인하세요. 점검 완료 후 결과를 인쇄하거나 저장할 수 있습니다.</div>
+
+    <div class="cl-progress-bar"><div class="cl-progress-fill" id="clProgressFill" style="width:0%"></div></div>
+    <div class="cl-score-txt" id="clScoreTxt">0 / 15 항목 완료 · 0%</div>
+
+    <div class="grid-2">
+      <div>
+        <div style="font-size:12px;color:#555;margin-bottom:12px;letter-spacing:.5px">신체·건강 점검</div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-cb"></div><div class="cl-label">오늘 음주 여부 없음 (전날 포함)</div><span class="cl-cat physical">신체</span></div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-cb"></div><div class="cl-label">수면 6시간 이상 취함 (피로 없음)</div><span class="cl-cat physical">신체</span></div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-cb"></div><div class="cl-label">복용 중인 졸음 유발 약물 없음</div><span class="cl-cat physical">신체</span></div>
+
+        <div style="font-size:12px;color:#555;margin-bottom:12px;margin-top:20px;letter-spacing:.5px">PPE 착용 점검</div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-cb"></div><div class="cl-label">안전모 착용 및 턱끈 고정 확인</div><span class="cl-cat ppe">PPE</span></div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-cb"></div><div class="cl-label">안전화 착용 (찢김·파손 없음)</div><span class="cl-cat ppe">PPE</span></div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-cb"></div><div class="cl-label">작업에 맞는 장갑 착용 확인</div><span class="cl-cat ppe">PPE</span></div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-cb"></div><div class="cl-label">소음 작업 시 귀마개/귀덮개 지참</div><span class="cl-cat ppe">PPE</span></div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-cb"></div><div class="cl-label">고소 작업 시 안전벨트 점검</div><span class="cl-cat ppe">PPE</span></div>
+      </div>
+
+      <div>
+        <div style="font-size:12px;color:#555;margin-bottom:12px;letter-spacing:.5px">설비·환경 점검</div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-cb"></div><div class="cl-label">작업 구역 통로 정리·정돈 완료</div><span class="cl-cat env">환경</span></div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-cb"></div><div class="cl-label">조명 충분 (어두운 구역 없음)</div><span class="cl-cat env">환경</span></div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-cb"></div><div class="cl-label">작업 설비 이상 여부 육안 점검</div><span class="cl-cat equipment">설비</span></div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-cb"></div><div class="cl-label">안전 가드·덮개 제자리 확인</div><span class="cl-cat equipment">설비</span></div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-cb"></div><div class="cl-label">가스·유해물질 누출 냄새 없음</div><span class="cl-cat env">환경</span></div>
+
+        <div style="font-size:12px;color:#555;margin-bottom:12px;margin-top:20px;letter-spacing:.5px">비상 대비 점검</div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-cb"></div><div class="cl-label">비상구 위치 및 동선 파악</div><span class="cl-cat emergency">비상</span></div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-cb"></div><div class="cl-label">소화기 위치·충압 상태 정상</div><span class="cl-cat emergency">비상</span></div>
+      </div>
+    </div>
+
+    <div id="clGradeBadge" class="cl-grade-badge" style="display:none"></div>
+
+    <div class="cl-actions">
+      <button class="cl-action-btn cl-print" onclick="printChecklist()">🖨️ 인쇄 / PDF 저장</button>
+      <button class="cl-action-btn cl-reset" onclick="resetChecklist()">↺ 초기화</button>
+    </div>
+  </div>
+</section>
+
 <!-- ── Footer ── -->
 <footer>
   <div class="footer-logo">SHine-K Platform</div>
@@ -1876,6 +2112,12 @@ function scrollTo(id){
   const el = document.querySelector(id);
   if(el) el.scrollIntoView({behavior:'smooth'});
 }
+// ── Back to top (use native scroll, avoid name clash) ──
+document.getElementById('back-top').addEventListener('click', function(){
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+});
+document.getElementById('back-top').removeAttribute('onclick');
 
 // ── Language switcher (stub) ──
 function setLang(lang){
@@ -2049,6 +2291,151 @@ function assessCrush(){
   document.getElementById('crushGrade').textContent=grade;
   document.getElementById('crushAction').style.whiteSpace='pre-line';
   document.getElementById('crushAction').textContent=action;
+}
+
+// ── Scroll progress + back-to-top ──
+(function(){
+  const bar = document.getElementById('scroll-progress');
+  const btn = document.getElementById('back-top');
+  window.addEventListener('scroll', ()=>{
+    const h = document.documentElement;
+    const pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+    bar.style.width = pct + '%';
+    if(h.scrollTop > 400){ btn.classList.add('visible'); }
+    else { btn.classList.remove('visible'); }
+  }, {passive:true});
+})();
+
+// ── Real-time clock ──
+(function(){
+  function tick(){
+    const now = new Date();
+    const pad = n => String(n).padStart(2,'0');
+    document.getElementById('navClock').textContent =
+      `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+
+// ── Quick bar toggle ──
+function toggleQuickBar(hdr){
+  const body = document.getElementById('quickBarBody');
+  const icon = document.getElementById('quickToggleIcon');
+  body.classList.toggle('hidden');
+  icon.classList.toggle('open');
+}
+
+// ── Checklist ──
+function toggleCheck(item){
+  item.classList.toggle('checked');
+  const cb = item.querySelector('.cl-cb');
+  cb.textContent = item.classList.contains('checked') ? '✓' : '';
+  updateClProgress();
+}
+function updateClProgress(){
+  const items = document.querySelectorAll('.cl-item');
+  const checked = document.querySelectorAll('.cl-item.checked').length;
+  const pct = Math.round(checked / items.length * 100);
+  document.getElementById('clProgressFill').style.width = pct + '%';
+  document.getElementById('clScoreTxt').textContent = `${checked} / ${items.length} 항목 완료 · ${pct}%`;
+  const badge = document.getElementById('clGradeBadge');
+  if(pct === 100){
+    badge.style.display = 'inline-block';
+    badge.style.background = 'rgba(0,201,167,.15)';
+    badge.style.border = '1px solid var(--teal)';
+    badge.style.color = 'var(--teal)';
+    badge.textContent = '✅ 전항목 완료 — 안전 작업 준비 완료';
+  } else if(pct >= 80){
+    badge.style.display = 'inline-block';
+    badge.style.background = 'rgba(245,200,66,.1)';
+    badge.style.border = '1px solid var(--gold)';
+    badge.style.color = 'var(--gold)';
+    badge.textContent = `⚠️ ${100-pct}% 미완료 — 나머지 항목 점검 필요`;
+  } else if(pct > 0){
+    badge.style.display = 'inline-block';
+    badge.style.background = 'rgba(255,77,106,.08)';
+    badge.style.border = '1px solid var(--red)';
+    badge.style.color = 'var(--red)';
+    badge.textContent = `❌ ${pct}% 완료 — 작업 전 점검을 완료하세요`;
+  } else {
+    badge.style.display = 'none';
+  }
+}
+function resetChecklist(){
+  document.querySelectorAll('.cl-item').forEach(i=>{
+    i.classList.remove('checked');
+    i.querySelector('.cl-cb').textContent='';
+  });
+  updateClProgress();
+}
+function printChecklist(){
+  const items = document.querySelectorAll('.cl-item');
+  const now = new Date().toLocaleString('ko-KR');
+  let rows = '';
+  items.forEach(i=>{
+    const done = i.classList.contains('checked');
+    const lbl = i.querySelector('.cl-label').textContent;
+    const cat = i.querySelector('.cl-cat').textContent;
+    rows += `<tr><td style="padding:8px 10px;border-bottom:1px solid #eee">${done?'✅':'⬜'}</td><td style="padding:8px 10px;border-bottom:1px solid #eee;color:#333">${lbl}</td><td style="padding:8px 10px;border-bottom:1px solid #eee;color:#888;font-size:12px">${cat}</td></tr>`;
+  });
+  const checked = document.querySelectorAll('.cl-item.checked').length;
+  const win = window.open('','_blank');
+  win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>SHine-K 일일 안전 점검표</title><style>body{font-family:"Malgun Gothic",sans-serif;padding:32px;color:#222}h2{color:#007a65}table{width:100%;border-collapse:collapse}th{background:#f0faf7;padding:10px;text-align:left;font-size:13px;border-bottom:2px solid #00c9a7}.footer{margin-top:24px;font-size:12px;color:#999}</style></head><body><h2>SHine-K 일일 안전 점검표</h2><p style="font-size:13px;color:#666">출력일시: ${now} &nbsp;|&nbsp; 완료: ${checked}/${items.length}항목</p><table><thead><tr><th style="width:40px">완료</th><th>점검 항목</th><th style="width:80px">분류</th></tr></thead><tbody>${rows}</tbody></table><div class="footer">© SHine-K Platform · RISE 2025-2029 · 경원대학교</div></body></html>`);
+  win.document.close();
+  win.print();
+}
+
+// ── Noise Calculator ──
+let noiseSources = [];
+function toggleNoiseSrc(el, db){
+  el.classList.toggle('active');
+  if(el.classList.contains('active')){
+    if(!noiseSources.includes(db)) noiseSources.push(db);
+  } else {
+    noiseSources = noiseSources.filter(d => d !== db);
+  }
+  calcNoise();
+}
+function calcNoise(){
+  const hours = parseFloat(document.getElementById('noiseHours').value)||4;
+  if(noiseSources.length === 0){
+    document.getElementById('noiseDoseNum').textContent = '—';
+    document.getElementById('noiseGradeLabel').textContent = '소음원을 선택하세요';
+    document.getElementById('noiseAdvice').textContent = '';
+    document.getElementById('noiseNeedle').style.left = '0%';
+    return;
+  }
+  // Combined SPL (energy sum)
+  const totalPa2 = noiseSources.reduce((s, db) => s + Math.pow(10, db/10), 0);
+  const combinedDb = 10 * Math.log10(totalPa2);
+  // Permitted hours at this level (NIOSH: 85dB/8h, doubles every 3dB)
+  const permittedHours = 8 / Math.pow(2, (combinedDb - 90) / 5);
+  const dose = Math.round((hours / permittedHours) * 100);
+  document.getElementById('noiseDoseNum').textContent = dose + '%';
+
+  const needleLeft = Math.min(dose / 2, 100); // map 200%→100% of bar
+  document.getElementById('noiseNeedle').style.left = needleLeft + '%';
+
+  let grade, color, advice;
+  if(dose < 50){
+    grade = '✅ 안전 구간'; color = '#00e676';
+    advice = '현재 노출 수준은 허용 기준 이하입니다.\n· 청력 보호구 착용을 권장합니다.\n· 정기 청력 검사(연 1회) 유지';
+  } else if(dose < 100){
+    grade = '⚠️ 주의 구간 — 청력 보호구 의무'; color = 'var(--gold)';
+    advice = '소음 노출이 허용 기준에 근접합니다.\n· 귀마개(NRR 29 이상) 또는 귀덮개 착용 필수\n· 연속 노출 시간을 분산하세요\n· 소음원 차폐·격리 검토';
+  } else if(dose < 200){
+    grade = '🔴 위험 구간 — 즉시 조치 필요'; color = 'var(--orange)';
+    advice = '허용 기준 초과! 즉각적인 저감 조치가 필요합니다.\n· 이중 청력 보호 (귀마개+귀덮개) 착용\n· 노출 시간 단축 또는 소음원 교체\n· 청력 검사 즉시 실시\n· 방음 부스·차폐 설치 의무화';
+  } else {
+    grade = '🚨 긴급 — 작업 중단 권고'; color = 'var(--red)';
+    advice = '허용 기준 2배 초과! 즉각 작업 중단이 필요합니다.\n· 해당 작업 즉시 중단 후 소음 측정 전문가 투입\n· 작업자 전원 청력 검사 실시\n· 산업안전보건법 제512조에 따른 특수건강진단 의무\n· 관할 노동청 보고 검토';
+  }
+  document.getElementById('noiseGradeLabel').style.color = color;
+  document.getElementById('noiseGradeLabel').textContent = grade;
+  document.getElementById('noiseGradeBox').style.background = `${color.includes('var')? 'rgba(255,100,30,.07)' : 'rgba(0,230,118,.06)'}`;
+  document.getElementById('noiseAdvice').textContent = advice;
+  document.getElementById('noiseAdvice').style.color = '#888';
 }
 </script>
 </body>
