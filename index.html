@@ -1224,6 +1224,8 @@ footer::before{
   <a href="#health" onclick="toggleMenu()" data-i18n="dHealth">💪 헬스 프로모션</a>
   <a href="#center" onclick="toggleMenu()" data-i18n="dCenter">🖥️ 관제센터</a>
   <a href="#app" onclick="toggleMenu()" data-i18n="dApp">📱 모바일 앱</a>
+  <a href="#risk-matrix" onclick="toggleMenu()">⚠️ 위험성 평가 매트릭스</a>
+  <a href="#five-why" onclick="toggleMenu()">🔍 5-Why 원인 분석</a>
   <a href="#cpr-guide" onclick="toggleMenu()">🫀 CPR 응급처치 가이드</a>
   <a href="#safety-pledge" onclick="toggleMenu()">✍️ 안전 서약 서명</a>
   <a href="#zero-accident" onclick="toggleMenu()">🏆 무재해 기록판</a>
@@ -4181,6 +4183,88 @@ document.querySelectorAll('.fzone').forEach(zone=>{
   </div>
 </section>
 
+<!-- ============== NEW-F. 위험성 평가 매트릭스 ============== -->
+<section id="risk-matrix" style="background:var(--bg-2)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label" data-i18n="rmLabel">NEW · 위험성 평가</span>
+      <h2 class="sec-title"><span data-i18n="rmTitle1">인터랙티브</span> <span class="accent" data-i18n="rmTitle2">위험성 평가 매트릭스</span></h2>
+      <p class="sec-desc" data-i18n="rmDesc">발생 가능성과 심각도를 기준으로 위험 요인을 5×5 매트릭스에 배치하세요. 클릭하면 위험 등급이 자동 계산됩니다.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start">
+      <!-- Matrix -->
+      <div>
+        <div style="display:flex;align-items:center;margin-bottom:8px">
+          <div style="width:32px"></div>
+          <div style="flex:1;display:grid;grid-template-columns:repeat(5,1fr);gap:4px;text-align:center">
+            <div style="font-size:10px;color:var(--txt-2)" data-i18n="rm1">매우낮음</div>
+            <div style="font-size:10px;color:var(--txt-2)" data-i18n="rm2">낮음</div>
+            <div style="font-size:10px;color:var(--txt-2)" data-i18n="rm3">보통</div>
+            <div style="font-size:10px;color:var(--txt-2)" data-i18n="rm4">높음</div>
+            <div style="font-size:10px;color:var(--txt-2)" data-i18n="rm5">매우높음</div>
+          </div>
+        </div>
+        <div style="font-size:10px;color:var(--txt-2);text-align:center;margin-bottom:4px" data-i18n="rmXAxis">← 발생 가능성 →</div>
+        <div id="rmGrid" style="display:flex;gap:4px;align-items:stretch"></div>
+        <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
+          <div style="display:flex;align-items:center;gap:5px;font-size:11px"><div style="width:12px;height:12px;border-radius:2px;background:#10B981"></div><span data-i18n="rmGreen">수용 가능</span></div>
+          <div style="display:flex;align-items:center;gap:5px;font-size:11px"><div style="width:12px;height:12px;border-radius:2px;background:#EAB308"></div><span data-i18n="rmYellow">주의 필요</span></div>
+          <div style="display:flex;align-items:center;gap:5px;font-size:11px"><div style="width:12px;height:12px;border-radius:2px;background:#F97316"></div><span data-i18n="rmOrange">개선 필요</span></div>
+          <div style="display:flex;align-items:center;gap:5px;font-size:11px"><div style="width:12px;height:12px;border-radius:2px;background:#EF4444"></div><span data-i18n="rmRed">즉시 조치</span></div>
+        </div>
+      </div>
+      <!-- Add risk + list -->
+      <div>
+        <div style="font-size:13px;font-weight:700;color:var(--txt);margin-bottom:12px" data-i18n="rmAddTitle">위험 요인 등록</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
+          <input id="rmRiskName" placeholder="위험 요인명 (예: 지게차 충돌)" style="padding:10px 14px;background:var(--bg);border:1px solid var(--bdr);border-radius:8px;color:var(--txt);font-size:13px;outline:none" data-i18n-placeholder="rmRiskPlaceholder">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div>
+              <div style="font-size:11px;color:var(--txt-2);margin-bottom:4px" data-i18n="rmProbLabel">발생 가능성 (1-5)</div>
+              <input id="rmProb" type="range" min="1" max="5" value="3" style="width:100%;accent-color:var(--a)" oninput="document.getElementById('rmProbVal').textContent=this.value">
+              <span id="rmProbVal" style="font-size:12px;color:var(--a);font-weight:700">3</span>
+            </div>
+            <div>
+              <div style="font-size:11px;color:var(--txt-2);margin-bottom:4px" data-i18n="rmSevLabel">심각도 (1-5)</div>
+              <input id="rmSev" type="range" min="1" max="5" value="3" style="width:100%;accent-color:var(--a)" oninput="document.getElementById('rmSevVal').textContent=this.value">
+              <span id="rmSevVal" style="font-size:12px;color:var(--a);font-weight:700">3</span>
+            </div>
+          </div>
+          <button onclick="addRiskItem()" style="padding:10px;background:var(--a);border:none;border-radius:8px;color:#fff;font-size:13px;font-weight:700;cursor:pointer" data-i18n="rmAddBtn">+ 매트릭스에 추가</button>
+        </div>
+        <div id="rmList" style="display:flex;flex-direction:column;gap:8px;max-height:260px;overflow-y:auto"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== NEW-G. 5-Why 근본 원인 분석 ============== -->
+<section id="five-why" style="background:var(--bg-1)">
+  <div class="container">
+    <div class="sec-header aos">
+      <span class="sec-label" data-i18n="whyLabel">NEW · 사고 원인 분석</span>
+      <h2 class="sec-title"><span data-i18n="whyTitle1">5-Why</span> <span class="accent" data-i18n="whyTitle2">근본 원인 분석 도구</span></h2>
+      <p class="sec-desc" data-i18n="whyDesc">도요타에서 개발한 5-Why 기법으로 사고의 근본 원인을 찾아냅니다. "왜?"를 5번 반복해 표면적 원인 뒤에 숨은 구조적 문제를 발견합니다.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start">
+      <div>
+        <div style="margin-bottom:16px">
+          <div style="font-size:12px;color:var(--txt-2);margin-bottom:6px;font-weight:600" data-i18n="whyProbLabel">🔴 발생한 문제 (사고/아차사고)</div>
+          <textarea id="whyProblem" rows="2" placeholder="예: 작업자가 프레스 기계에 손이 끼였다" style="width:100%;padding:10px 14px;background:var(--bg-2);border:1px solid var(--bdr);border-radius:8px;color:var(--txt);font-size:13px;outline:none;resize:none;line-height:1.6"></textarea>
+        </div>
+        <div id="whyInputs" style="display:flex;flex-direction:column;gap:10px"></div>
+        <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
+          <button onclick="analyzeWhy()" style="padding:10px 24px;background:var(--a);border:none;border-radius:8px;color:#fff;font-size:13px;font-weight:700;cursor:pointer" data-i18n="whyAnalyzeBtn">🔍 분석 시작</button>
+          <button onclick="resetWhy()" style="padding:10px 18px;background:var(--bg-2);border:1px solid var(--bdr);border-radius:8px;color:var(--txt-2);font-size:13px;cursor:pointer" data-i18n="whyResetBtn">↺ 초기화</button>
+        </div>
+      </div>
+      <div id="whyResult" style="background:var(--bg-2);border:1px solid var(--bdr);border-radius:16px;padding:24px;min-height:320px">
+        <div style="text-align:center;color:var(--txt-2);font-size:13px;padding:40px 0" data-i18n="whyResultHint">왼쪽에 문제와 원인을 입력하면<br>분석 결과가 여기에 표시됩니다</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CTA -->
 <section class="cta">
   <div class="container">
@@ -4286,6 +4370,8 @@ if ('serviceWorker' in navigator) {
 // ============================================================
 const I18N = {
   ko: {
+    rmLabel:"NEW · 위험성 평가",rmTitle1:"인터랙티브",rmTitle2:"위험성 평가 매트릭스",rmDesc:"발생 가능성과 심각도로 위험 요인을 5×5 매트릭스에 배치. 클릭하면 위험 등급이 자동 계산됩니다.",rm1:"매우낮음",rm2:"낮음",rm3:"보통",rm4:"높음",rm5:"매우높음",rmXAxis:"← 발생 가능성 →",rmGreen:"수용 가능",rmYellow:"주의 필요",rmOrange:"개선 필요",rmRed:"즉시 조치",rmAddTitle:"위험 요인 등록",rmProbLabel:"발생 가능성 (1-5)",rmSevLabel:"심각도 (1-5)",rmAddBtn:"+ 매트릭스에 추가",
+    whyLabel:"NEW · 사고 원인 분석",whyTitle1:"5-Why",whyTitle2:"근본 원인 분석 도구",whyDesc:"도요타에서 개발한 5-Why 기법으로 사고의 근본 원인을 찾아냅니다. '왜?'를 5번 반복해 구조적 문제를 발견합니다.",whyProbLabel:"🔴 발생한 문제 (사고/아차사고)",whyAnalyzeBtn:"🔍 분석 시작",whyResetBtn:"↺ 초기화",whyResultHint:"왼쪽에 문제와 원인을 입력하면 분석 결과가 표시됩니다",
     cprLabel:"NEW · 응급처치 가이드",cprTitle1:"CPR &amp; 현장",cprTitle2:"응급처치 인터랙티브 가이드",cprDesc:"심정지 발생 시 정확한 CPR 박자를 유지하는 타이머와 4가지 주요 부상 유형별 단계별 응급처치 가이드입니다.",cprTimerTitle:"🫀 CPR 박자 타이머",cprTimerSub:"분당 100-120회 압박 유지",cprPressCount:"압박 횟수",cprCycleInfo:"30회 압박 → 2회 인공호흡 1세트",cprStart:"▶ 시작",cprPause:"⏸ 일시정지",cprBreathNow:"💨 지금 인공호흡 2회!",cprNote:"⚠️ 119 신고 후 AED 가져오는 동안 CPR 지속\n가슴 압박 깊이: 성인 5-6cm / 소아 4-5cm",firstAidTitle:"🩺 부상 유형별 처치 가이드",faBurn:"🔥 화상",faFall:"🤸 추락·골절",faChemical:"🧪 화학물질",faCut:"🩸 절단·출혈",faSelectHint:"위 버튼을 눌러 응급처치 가이드를 확인하세요",
     pledgeLabel:"NEW · 작업 전 안전 서약",pledgeTitle1:"디지털",pledgeTitle2:"안전 서약서 서명",pledgeDesc:"작업 시작 전 안전 수칙을 확인하고 디지털 서명으로 서약합니다.",pledgeDocTitle:"안전 작업 서약서",pledgeItem1:"✅ 나는 오늘 작업 전 보호구를 착용한다.",pledgeItem2:"✅ 나는 작업 구역의 위험 요인을 사전에 확인한다.",pledgeItem3:"✅ 나는 정해진 작업 절차를 반드시 준수한다.",pledgeItem4:"✅ 나는 이상 발견 시 즉시 작업을 중단하고 보고한다.",pledgeItem5:"✅ 나는 동료 근로자의 안전도 함께 지킨다.",pledgeNameLabel:"서명인 이름",pledgeDeptLabel:"소속 / 부서",pledgeSigLabel:"✍️ 서명 (마우스 또는 터치로 서명)",sigClearBtn:"🗑 지우기",sigSaveBtn:"📄 서약서 저장",pledgeDone:"서약 완료! 안전하게 작업하세요.",
     zaLabel:"NEW · 무재해 현황",zaTitle1:"공장별",zaTitle2:"무재해 기록판",zaDesc:"실제 산업 현장에서 사용하는 무재해 기록판을 디지털화했습니다. 공장별 연속 무재해 일수를 실시간으로 추적합니다.",zaHistLabel:"📋 전체 현황 요약",
@@ -4386,6 +4472,8 @@ const I18N = {
     mw4Title:"S급 최신 웹 기술 통합",mw4Desc:"WebGPU 8000 파티클 GPU 연산 · TF.js MoveNet 실시간 17관절 자세인식 · WebAssembly 이진 모듈 · WebXR AR 세션 · BroadcastChannel 멀티탭 동기화 · CSS Houdini Paint Worklet.",mw4Src:"대부분 웹사이트에 없는 최신 브라우저 API"
   },
   en: {
+    rmLabel:"NEW · Risk Assessment",rmTitle1:"Interactive",rmTitle2:"Risk Assessment Matrix",rmDesc:"Place hazards on a 5×5 matrix by likelihood and severity. Risk grade is calculated automatically.",rm1:"Very Low",rm2:"Low",rm3:"Medium",rm4:"High",rm5:"Very High",rmXAxis:"← Likelihood →",rmGreen:"Acceptable",rmYellow:"Caution",rmOrange:"Improvement",rmRed:"Immediate Action",rmAddTitle:"Register Hazard",rmProbLabel:"Likelihood (1-5)",rmSevLabel:"Severity (1-5)",rmAddBtn:"+ Add to Matrix",
+    whyLabel:"NEW · Accident Root Cause",whyTitle1:"5-Why",whyTitle2:"Root Cause Analysis Tool",whyDesc:"Toyota's 5-Why technique to find the root cause of accidents. Ask 'why?' 5 times to uncover structural problems.",whyProbLabel:"🔴 The Problem (accident/near-miss)",whyAnalyzeBtn:"🔍 Analyze",whyResetBtn:"↺ Reset",whyResultHint:"Enter the problem and causes on the left to see analysis results",
     cprLabel:"NEW · First Aid Guide",cprTitle1:"CPR &amp; Workplace",cprTitle2:"Interactive First Aid Guide",cprDesc:"A CPR beat timer to maintain correct compression rhythm during cardiac arrest, plus step-by-step first aid for 4 major injury types.",cprTimerTitle:"🫀 CPR Beat Timer",cprTimerSub:"Maintain 100-120 compressions/min",cprPressCount:"Compressions",cprCycleInfo:"30 compressions → 2 rescue breaths = 1 cycle",cprStart:"▶ Start",cprPause:"⏸ Pause",cprBreathNow:"💨 Give 2 rescue breaths now!",cprNote:"⚠️ Keep CPR going while someone gets AED\nCompression depth: Adult 5-6cm / Child 4-5cm",firstAidTitle:"🩺 First Aid by Injury Type",faBurn:"🔥 Burns",faFall:"🤸 Fall/Fracture",faChemical:"🧪 Chemical",faCut:"🩸 Cut/Bleeding",faSelectHint:"Press a button above to view first aid steps",
     pledgeLabel:"NEW · Pre-Work Safety Pledge",pledgeTitle1:"Digital",pledgeTitle2:"Safety Pledge Signature",pledgeDesc:"Review safety rules and sign a digital pledge before starting work.",pledgeDocTitle:"Safety Work Pledge",pledgeItem1:"✅ I will wear PPE (helmet, safety shoes, gloves) today.",pledgeItem2:"✅ I will check hazards in my work area in advance.",pledgeItem3:"✅ I will strictly follow established work procedures.",pledgeItem4:"✅ I will stop work immediately and report any abnormality.",pledgeItem5:"✅ I will also protect the safety of my fellow workers.",pledgeNameLabel:"Signatory Name",pledgeDeptLabel:"Department",pledgeSigLabel:"✍️ Sign here (mouse or touch)",sigClearBtn:"🗑 Clear",sigSaveBtn:"📄 Save Pledge",pledgeDone:"Pledge complete! Work safely.",
     zaLabel:"NEW · Zero Accident Status",zaTitle1:"Factory",zaTitle2:"Zero Accident Board",zaDesc:"A digital version of the zero-accident boards used in real industrial sites. Tracks consecutive accident-free days per factory in real time.",zaHistLabel:"📋 Overall Summary",
@@ -4486,6 +4574,8 @@ const I18N = {
     mw4Title:"S-Grade Cutting-Edge Web Stack",mw4Desc:"WebGPU 8000-particle GPU compute · TF.js MoveNet 17-joint real-time pose · WebAssembly binary module · WebXR AR session · BroadcastChannel multi-tab sync · CSS Houdini Paint Worklet.",mw4Src:"Browser APIs rarely seen on other sites"
   },
   zh: {
+    rmLabel:"NEW · 风险评估",rmTitle1:"交互式",rmTitle2:"风险评估矩阵",rmDesc:"按发生可能性和严重程度将危险因素放置在5×5矩阵中，自动计算风险等级。",rm1:"极低",rm2:"低",rm3:"中等",rm4:"高",rm5:"极高",rmXAxis:"← 发生可能性 →",rmGreen:"可接受",rmYellow:"需注意",rmOrange:"需改善",rmRed:"立即整改",rmAddTitle:"登记危险因素",rmProbLabel:"发生可能性 (1-5)",rmSevLabel:"严重程度 (1-5)",rmAddBtn:"+ 添加到矩阵",
+    whyLabel:"NEW · 事故原因分析",whyTitle1:"5-Why",whyTitle2:"根本原因分析工具",whyDesc:"运用丰田开发的5-Why技法找出事故根本原因。重复问5次"为什么"发现结构性问题。",whyProbLabel:"🔴 发生的问题（事故/未遂事故）",whyAnalyzeBtn:"🔍 开始分析",whyResetBtn:"↺ 重置",whyResultHint:"在左侧输入问题和原因，分析结果将显示在此处",
     cprLabel:"NEW · 急救指南",cprTitle1:"CPR &amp; 现场",cprTitle2:"急救互动指南",cprDesc:"心脏骤停时保持正确CPR节拍的计时器，以及4种主要伤害类型的分步急救指南。",cprTimerTitle:"🫀 CPR节拍计时器",cprTimerSub:"每分钟保持100-120次按压",cprPressCount:"按压次数",cprCycleInfo:"30次按压→2次人工呼吸为1组",cprStart:"▶ 开始",cprPause:"⏸ 暂停",cprBreathNow:"💨 现在进行2次人工呼吸！",cprNote:"⚠️ 拨打119后在等待AED期间持续CPR\n按压深度：成人5-6cm / 儿童4-5cm",firstAidTitle:"🩺 按伤害类型急救指南",faBurn:"🔥 烧伤",faFall:"🤸 坠落·骨折",faChemical:"🧪 化学物质",faCut:"🩸 割伤·出血",faSelectHint:"点击上方按钮查看急救步骤",
     pledgeLabel:"NEW · 作业前安全承诺",pledgeTitle1:"数字化",pledgeTitle2:"安全承诺书签名",pledgeDesc:"作业开始前确认安全规则并进行数字签名承诺。",pledgeDocTitle:"安全作业承诺书",pledgeItem1:"✅ 我今天作业前将佩戴防护用品。",pledgeItem2:"✅ 我将提前确认作业区域的危险因素。",pledgeItem3:"✅ 我将严格遵守规定的作业程序。",pledgeItem4:"✅ 我发现异常时将立即停止作业并报告。",pledgeItem5:"✅ 我也将一同保护同事的安全。",pledgeNameLabel:"签名人姓名",pledgeDeptLabel:"所属部门",pledgeSigLabel:"✍️ 签名（鼠标或触摸）",sigClearBtn:"🗑 清除",sigSaveBtn:"📄 保存承诺书",pledgeDone:"承诺完成！请安全作业。",
     zaLabel:"NEW · 无事故现况",zaTitle1:"各工厂",zaTitle2:"无事故记录板",zaDesc:"将实际工业现场使用的无事故记录板数字化。实时追踪各工厂连续无事故天数。",zaHistLabel:"📋 整体现况汇总",
@@ -4586,6 +4676,8 @@ const I18N = {
     mw4Title:"S级前沿Web技术集成",mw4Desc:"WebGPU 8000粒子GPU运算 · TF.js MoveNet实时17关节姿态识别 · WebAssembly二进制模块 · WebXR AR会话 · BroadcastChannel多标签同步 · CSS Houdini Paint Worklet。",mw4Src:"大多数网站上没有的最新浏览器API"
   },
   ja: {
+    rmLabel:"NEW · リスクアセスメント",rmTitle1:"インタラクティブ",rmTitle2:"リスクアセスメントマトリクス",rmDesc:"発生可能性と重篤度で危険要因を5×5マトリクスに配置。クリックでリスク等級が自動計算されます。",rm1:"極低",rm2:"低",rm3:"中程度",rm4:"高",rm5:"極高",rmXAxis:"← 発生可能性 →",rmGreen:"許容可能",rmYellow:"要注意",rmOrange:"要改善",rmRed:"即時措置",rmAddTitle:"危険要因登録",rmProbLabel:"発生可能性 (1-5)",rmSevLabel:"重篤度 (1-5)",rmAddBtn:"+ マトリクスに追加",
+    whyLabel:"NEW · 事故原因分析",whyTitle1:"5-Why",whyTitle2:"根本原因分析ツール",whyDesc:"トヨタが開発した5-Why手法で事故の根本原因を探ります。「なぜ？」を5回繰り返して構造的問題を発見します。",whyProbLabel:"🔴 発生した問題（事故/ヒヤリハット）",whyAnalyzeBtn:"🔍 分析開始",whyResetBtn:"↺ リセット",whyResultHint:"左側に問題と原因を入力すると分析結果が表示されます",
     cprLabel:"NEW · 応急処置ガイド",cprTitle1:"CPR &amp; 現場",cprTitle2:"応急処置インタラクティブガイド",cprDesc:"心停止時に正確なCPRリズムを維持するタイマーと、4つの主要な傷害タイプ別ステップガイドです。",cprTimerTitle:"🫀 CPRリズムタイマー",cprTimerSub:"毎分100-120回の胸骨圧迫を維持",cprPressCount:"圧迫回数",cprCycleInfo:"30回圧迫→2回人工呼吸 = 1セット",cprStart:"▶ 開始",cprPause:"⏸ 一時停止",cprBreathNow:"💨 人工呼吸2回！",cprNote:"⚠️ 119番通報後AED取得中もCPRを継続\n圧迫深度：成人5-6cm / 小児4-5cm",firstAidTitle:"🩺 傷害タイプ別処置ガイド",faBurn:"🔥 熱傷",faFall:"🤸 転落・骨折",faChemical:"🧪 化学物質",faCut:"🩸 切創・出血",faSelectHint:"上のボタンを押して応急処置ガイドを確認",
     pledgeLabel:"NEW · 作業前安全誓約",pledgeTitle1:"デジタル",pledgeTitle2:"安全誓約書署名",pledgeDesc:"作業開始前に安全ルールを確認し、デジタル署名で誓約します。",pledgeDocTitle:"安全作業誓約書",pledgeItem1:"✅ 本日の作業前に保護具を着用する。",pledgeItem2:"✅ 作業区域の危険要因を事前に確認する。",pledgeItem3:"✅ 定められた作業手順を必ず遵守する。",pledgeItem4:"✅ 異常発見時は即座に作業を中断し報告する。",pledgeItem5:"✅ 同僚作業者の安全も共に守る。",pledgeNameLabel:"署名者氏名",pledgeDeptLabel:"所属部署",pledgeSigLabel:"✍️ 署名（マウスまたはタッチ）",sigClearBtn:"🗑 クリア",sigSaveBtn:"📄 誓約書保存",pledgeDone:"誓約完了！安全に作業してください。",
     zaLabel:"NEW · 無災害状況",zaTitle1:"工場別",zaTitle2:"無災害記録板",zaDesc:"実際の産業現場で使用する無災害記録板をデジタル化しました。工場別の連続無災害日数をリアルタイムで追跡します。",zaHistLabel:"📋 全体状況サマリー",
@@ -9050,6 +9142,152 @@ document.getElementById('pwaInstallBtn').addEventListener('click',()=>{
 </script>
 
 <script>
+/* ══ NEW-F: 위험성 평가 매트릭스 ════════════════════════════ */
+const RM_COLORS=[[0,'#10B981'],[0,'#10B981'],[0,'#10B981'],[0,'#EAB308'],[0,'#EAB308'],
+  [0,'#10B981'],[0,'#10B981'],[0,'#EAB308'],[0,'#EAB308'],[0,'#F97316'],
+  [0,'#10B981'],[0,'#EAB308'],[0,'#EAB308'],[0,'#F97316'],[0,'#F97316'],
+  [0,'#EAB308'],[0,'#EAB308'],[0,'#F97316'],[0,'#EF4444'],[0,'#EF4444'],
+  [0,'#EAB308'],[0,'#F97316'],[0,'#EF4444'],[0,'#EF4444'],[0,'#EF4444']];
+let rmRisks=[];
+
+function rmCellColor(sev,prob){
+  const score=sev*prob;
+  return score<=4?'#10B981':score<=8?'#EAB308':score<=12?'#F97316':'#EF4444';
+}
+function rmCellLabel(sev,prob){
+  const score=sev*prob;
+  const lang=(document.documentElement.lang||'ko').slice(0,2);
+  const labels={ko:['수용','주의','개선','즉시조치'],en:['OK','Caution','Improve','Action'],zh:['可接受','注意','改善','立即整改'],ja:['許容','注意','改善','即時措置']};
+  const L=labels[lang]||labels.ko;
+  return score<=4?L[0]:score<=8?L[1]:score<=12?L[2]:L[3];
+}
+
+function renderRMGrid(){
+  const el=document.getElementById('rmGrid'); if(!el) return;
+  // Y axis labels (severity)
+  const lang=(document.documentElement.lang||'ko').slice(0,2);
+  const sevLabels={ko:['치명','중대','보통','경미','미미'],en:['Fatal','Major','Moderate','Minor','Negligible'],zh:['灾难性','重大','中等','轻微','可忽略'],ja:['致命的','重大','中程度','軽微','無視可']};
+  const L=sevLabels[lang]||sevLabels.ko;
+  let html='<div style="display:flex;flex-direction:column;gap:4px;justify-content:space-between;padding:2px 0">';
+  L.forEach(l=>html+=`<div style="font-size:9px;color:var(--txt-2);width:28px;text-align:right;line-height:1.1">${l}</div>`);
+  html+='</div><div style="flex:1;display:flex;flex-direction:column;gap:4px">';
+  for(let s=5;s>=1;s--){
+    html+='<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px">';
+    for(let p=1;p<=5;p++){
+      const c=rmCellColor(s,p);
+      const risks=rmRisks.filter(r=>r.sev===s&&r.prob===p);
+      const dot=risks.length?`<div style="position:absolute;top:3px;right:3px;background:#fff;border-radius:50%;width:14px;height:14px;font-size:9px;font-weight:700;color:${c};display:flex;align-items:center;justify-content:center">${risks.length}</div>`:'';
+      html+=`<div style="background:${c}22;border:1px solid ${c}55;border-radius:6px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;transition:.2s;font-size:9px;color:${c};font-weight:600" onclick="rmCellClick(${s},${p})" title="${risks.map(r=>r.name).join(', ')||`위험도 ${s*p}`}">${s*p}${dot}</div>`;
+    }
+    html+='</div>';
+  }
+  html+='</div>';
+  el.innerHTML=html;
+  renderRMList();
+}
+
+function rmCellClick(s,p){
+  const name=document.getElementById('rmRiskName')?.value?.trim();
+  if(!name) return;
+  addRiskItem(name,s,p);
+}
+
+function addRiskItem(name,s,p){
+  const n=name||document.getElementById('rmRiskName')?.value?.trim()||'위험 요인';
+  const sv=s||parseInt(document.getElementById('rmSev')?.value)||3;
+  const pb=p||parseInt(document.getElementById('rmProb')?.value)||3;
+  rmRisks.push({name:n,sev:sv,prob:pb,id:Date.now()});
+  if(document.getElementById('rmRiskName')) document.getElementById('rmRiskName').value='';
+  renderRMGrid();
+}
+
+function renderRMList(){
+  const el=document.getElementById('rmList'); if(!el) return;
+  if(!rmRisks.length){el.innerHTML='<div style="font-size:12px;color:var(--txt-2);text-align:center;padding:16px">등록된 위험 요인이 없습니다</div>';return;}
+  el.innerHTML=rmRisks.map(r=>{
+    const c=rmCellColor(r.sev,r.prob);
+    const score=r.sev*r.prob;
+    return `<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border:1px solid ${c}44;border-left:3px solid ${c};border-radius:8px">
+      <div style="flex:1">
+        <div style="font-size:13px;color:var(--txt);font-weight:600">${r.name}</div>
+        <div style="font-size:11px;color:var(--txt-2);margin-top:2px">가능성 ${r.prob} × 심각도 ${r.sev} = <strong style="color:${c}">${score}점 · ${rmCellLabel(r.sev,r.prob)}</strong></div>
+      </div>
+      <button onclick="rmRisks=rmRisks.filter(x=>x.id!=${r.id});renderRMGrid()" style="background:transparent;border:none;color:var(--txt-2);cursor:pointer;font-size:16px">×</button>
+    </div>`;
+  }).join('');
+}
+
+document.addEventListener('DOMContentLoaded',()=>{ if(document.getElementById('rmGrid')) renderRMGrid(); });
+
+
+/* ══ NEW-G: 5-Why 분석 ══════════════════════════════════════ */
+const WHY_PLACEHOLDER={
+  ko:['왜 그 문제가 발생했나요?','왜 그런 상황이 만들어졌나요?','왜 그 원인이 존재했나요?','왜 그 조건이 허용되었나요?','왜 그 근본 문제가 해결되지 않았나요?'],
+  en:['Why did this problem occur?','Why was that situation created?','Why did that cause exist?','Why was that condition allowed?','Why was the root issue not resolved?'],
+  zh:['为什么会发生这个问题？','为什么会出现这种情况？','为什么存在这个原因？','为什么允许这种情况存在？','为什么这个根本问题没有得到解决？'],
+  ja:['なぜその問題が発生しましたか？','なぜその状況が生まれましたか？','なぜその原因が存在しましたか？','なぜその条件が許容されましたか？','なぜ根本問題が解決されなかったのですか？'],
+};
+
+function renderWhyInputs(){
+  const lang=(document.documentElement.lang||'ko').slice(0,2);
+  const ph=WHY_PLACEHOLDER[lang]||WHY_PLACEHOLDER.ko;
+  const el=document.getElementById('whyInputs'); if(!el) return;
+  el.innerHTML=ph.map((p,i)=>`
+    <div style="display:flex;gap:8px;align-items:flex-start">
+      <div style="min-width:28px;height:28px;border-radius:50%;background:${['#EF4444','#F97316','#EAB308','#10B981','#3B82F6'][i]}22;border:2px solid ${['#EF4444','#F97316','#EAB308','#10B981','#3B82F6'][i]};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:${['#EF4444','#F97316','#EAB308','#10B981','#3B82F6'][i]};margin-top:6px">${i+1}</div>
+      <div style="flex:1">
+        <div style="font-size:11px;color:var(--txt-2);margin-bottom:4px">Why ${i+1}</div>
+        <input id="why${i+1}" placeholder="${p}" style="width:100%;padding:9px 12px;background:var(--bg-2);border:1px solid var(--bdr);border-radius:8px;color:var(--txt);font-size:13px;outline:none">
+      </div>
+    </div>`).join('');
+}
+
+function analyzeWhy(){
+  const problem=document.getElementById('whyProblem')?.value?.trim();
+  const whys=[1,2,3,4,5].map(i=>document.getElementById(`why${i}`)?.value?.trim()).filter(Boolean);
+  const el=document.getElementById('whyResult'); if(!el) return;
+  const lang=(document.documentElement.lang||'ko').slice(0,2);
+  const colors=['#EF4444','#F97316','#EAB308','#10B981','#3B82F6'];
+  const labels={ko:['문제','1차 원인','2차 원인','3차 원인','4차 원인','근본 원인'],en:['Problem','Cause 1','Cause 2','Cause 3','Cause 4','Root Cause'],zh:['问题','原因1','原因2','原因3','原因4','根本原因'],ja:['問題','原因1','原因2','原因3','原因4','根本原因']};
+  const L=labels[lang]||labels.ko;
+  const actionLabel={ko:'🛠 권고 조치',en:'🛠 Recommended Action',zh:'🛠 建议措施',ja:'🛠 推奨措置'}[lang]||'🛠 권고 조치';
+  const rootLabel={ko:'근본 원인이 발견되었습니다',en:'Root Cause Identified',zh:'找到根本原因',ja:'根本原因が特定されました'}[lang]||'근본 원인 발견';
+  if(!problem){el.innerHTML='<div style="color:#EF4444;font-size:13px;padding:16px">문제를 먼저 입력하세요</div>';return;}
+  const root=whys[whys.length-1]||problem;
+  let html=`<div style="font-size:13px;font-weight:700;color:var(--txt);margin-bottom:16px">📊 5-Why 분석 결과</div>`;
+  // Chain
+  const chain=[{text:problem,label:L[0],color:'#EF4444'},...whys.map((w,i)=>({text:w,label:L[i+1]||`Why ${i+1}`,color:colors[i]}))];
+  chain.forEach((item,i)=>{
+    html+=`<div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:8px">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:0">
+        <div style="width:10px;height:10px;border-radius:50%;background:${item.color};flex-shrink:0;margin-top:4px"></div>
+        ${i<chain.length-1?`<div style="width:2px;flex:1;background:${item.color}44;min-height:16px"></div>`:''}
+      </div>
+      <div style="flex:1;padding:8px 12px;background:${item.color}10;border:1px solid ${item.color}33;border-radius:8px">
+        <div style="font-size:10px;color:${item.color};font-weight:700;margin-bottom:2px">${item.label}</div>
+        <div style="font-size:12px;color:var(--txt)">${item.text}</div>
+      </div>
+    </div>`;
+  });
+  // Root cause callout
+  html+=`<div style="margin-top:12px;padding:14px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);border-radius:10px">
+    <div style="font-size:12px;font-weight:700;color:#3B82F6;margin-bottom:4px">✅ ${rootLabel}</div>
+    <div style="font-size:13px;color:var(--txt)">${root}</div>
+  </div>
+  <div style="margin-top:10px;padding:12px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25);border-radius:10px;font-size:12px;color:var(--txt-2)">
+    <strong style="color:#10B981">${actionLabel}:</strong> 위 근본 원인을 제거하는 절차·교육·설비 개선을 우선 실시하세요.
+  </div>`;
+  el.innerHTML=html;
+}
+
+function resetWhy(){
+  document.getElementById('whyProblem').value='';
+  [1,2,3,4,5].forEach(i=>{const el=document.getElementById(`why${i}`);if(el)el.value='';});
+  document.getElementById('whyResult').innerHTML='<div style="text-align:center;color:var(--txt-2);font-size:13px;padding:40px 0">왼쪽에 문제와 원인을 입력하면<br>분석 결과가 여기에 표시됩니다</div>';
+}
+
+document.addEventListener('DOMContentLoaded',()=>{ if(document.getElementById('whyInputs')) renderWhyInputs(); });
+
 /* ══ NEW-D: CPR 타이머 & 응급처치 ══════════════════════════ */
 let cprRunning=false, cprInterval=null, cprPresses=0, cprSetCount=0;
 const CPR_BPM=110, CPR_INTERVAL=Math.round(60000/CPR_BPM);
